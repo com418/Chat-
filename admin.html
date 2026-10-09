@@ -5,170 +5,164 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChatWave Admin Panel</title>
-  <meta name="theme-color" content="#080d18">
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: #080d18;
-      color: #edf3ff;
       font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #eef2ff;
     }
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-    .wrap { max-width: 1100px; margin: auto; padding: 22px; }
-    .brand { font-size: 25px; font-weight: 800; margin-bottom: 28px; }
-    .brand span { color: #4c8dff; }
-    .muted { color: #8e9bb4; }
+    .container { max-width: 1100px; margin: auto; padding: 24px; }
+    .brand { color: #36d6a5; font-size: 27px; font-weight: 800; }
+    .muted { color: #9aa8bf; }
     .panel {
-      background: #111a2b;
-      border: 1px solid #24324a;
-      border-radius: 16px;
+      background: #141e30;
+      border: 1px solid #26344a;
+      border-radius: 14px;
       padding: 22px;
-      margin-bottom: 20px;
+      margin-top: 20px;
     }
-    h1 { font-size: 27px; margin: 0 0 8px; }
-    h2 { font-size: 19px; margin-top: 0; }
-    label { display: block; margin: 15px 0 7px; color: #b9c7df; }
-    input {
+    input, button {
       width: 100%;
       padding: 13px;
-      color: white;
-      background: #080f1e;
-      border: 1px solid #31415c;
       border-radius: 9px;
-      outline: none;
+      font-size: 15px;
+      margin-top: 10px;
     }
-    input:focus { border-color: #4c8dff; }
-    .btn {
+    input {
+      color: white;
+      background: #0b1220;
+      border: 1px solid #34445e;
+    }
+    button {
       border: 0;
-      border-radius: 9px;
-      padding: 12px 16px;
-      background: #3478f6;
-      color: white;
-      font-weight: 700;
+      cursor: pointer;
+      font-weight: bold;
+      background: #36d6a5;
+      color: #071a16;
     }
-    .btn:disabled { opacity: .5; cursor: wait; }
-    .secondary { background: #25344c; }
-    .danger { background: #7f2936; }
-    .full { width: 100%; margin-top: 18px; }
+    button.secondary {
+      background: #26344a;
+      color: white;
+      width: auto;
+      padding: 10px 15px;
+    }
     .hidden { display: none !important; }
-    .message { margin-top: 15px; line-height: 1.5; overflow-wrap: anywhere; }
     .stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 13px;
-      margin: 22px 0;
+      gap: 14px;
+      margin-top: 20px;
     }
     .stat {
-      padding: 19px;
-      background: #111a2b;
-      border: 1px solid #24324a;
-      border-radius: 14px;
+      background: #141e30;
+      border: 1px solid #26344a;
+      border-radius: 12px;
+      padding: 20px;
     }
-    .stat strong { display: block; font-size: 27px; margin-top: 10px; }
-    .toolbar { display: flex; gap: 10px; margin: 15px 0; }
-    .toolbar input { flex: 1; min-width: 0; }
+    .number { font-size: 30px; font-weight: bold; margin-top: 10px; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
     .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
     th, td {
       text-align: left;
       padding: 13px 10px;
-      border-bottom: 1px solid #25334a;
-      font-size: 13px;
+      border-bottom: 1px solid #26344a;
+      font-size: 14px;
     }
-    th { color: #9fb0cc; }
-    .pill {
-      display: inline-block;
-      background: #1c3b32;
-      color: #7ce4b4;
-      padding: 5px 9px;
-      border-radius: 20px;
-    }
-    .warning {
-      background: #34291a;
-      color: #ffd38b;
-      padding: 13px;
-      border-radius: 10px;
-      line-height: 1.5;
-      margin-top: 15px;
-    }
-    @media(max-width: 600px) {
-      .wrap { padding: 15px; }
+    th { color: #9aa8bf; }
+    #message { color: #ffd18a; white-space: pre-wrap; margin-top: 14px; }
+    @media(max-width:650px) {
+      .container { padding: 15px; }
       .stats { grid-template-columns: 1fr; }
-      .toolbar { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <div class="brand">Chat<span>Wave</span> <span style="color:#8e9bb4;font-size:13px">ADMIN</span></div>
+  <div class="container">
+    <div class="brand">ChatWave <span class="muted">Admin</span></div>
+    <p class="muted">Administration dashboard</p>
 
-    <section id="loginView" class="panel">
-      <h1>Admin sign in</h1>
+    <section id="loginPanel" class="panel">
+      <h2>Admin sign in</h2>
       <p class="muted">Sign in with your authorized administrator account.</p>
       <form id="loginForm">
-        <label for="email">Administrator email</label>
-        <input id="email" type="email" autocomplete="username" required>
-        <label for="password">Password</label>
-        <input id="password" type="password" autocomplete="current-password" required>
-        <button class="btn full" id="loginBtn" type="submit">Sign in</button>
+        <input id="email" type="email" placeholder="Admin email" required>
+        <input id="password" type="password" placeholder="Password" required>
+        <button type="submit">Sign in</button>
       </form>
-      <div id="loginMessage" class="message" role="status"></div>
-      <div class="warning">
-        Signing in alone does not grant administrator access. Firebase must authorize your account.
-      </div>
+      <div id="loginMessage" role="status"></div>
     </section>
 
-    <section id="dashboardView" class="hidden">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+    <section id="dashboard" class="hidden">
+      <div class="topbar">
         <div>
-          <h1>Dashboard</h1>
-          <p class="muted">ChatWave platform overview</p>
+          <h2>Dashboard</h2>
+          <div id="signedInAs" class="muted"></div>
         </div>
-        <button id="logoutBtn" class="btn secondary">Sign out</button>
+        <div>
+          <button id="refreshBtn" class="secondary">Refresh</button>
+          <button id="logoutBtn" class="secondary">Sign out</button>
+        </div>
       </div>
 
       <div class="stats">
-        <div class="stat"><span class="muted">Total users</span><strong id="totalUsers">—</strong></div>
-        <div class="stat"><span class="muted">Verified emails</span><strong id="verifiedUsers">—</strong></div>
-        <div class="stat"><span class="muted">Pending verification</span><strong id="pendingUsers">—</strong></div>
+        <div class="stat">
+          <div class="muted">Registered users loaded</div>
+          <div id="totalUsers" class="number">—</div>
+        </div>
+        <div class="stat">
+          <div class="muted">Verified profiles</div>
+          <div id="verifiedUsers" class="number">—</div>
+        </div>
+        <div class="stat">
+          <div class="muted">Pending profiles</div>
+          <div id="pendingUsers" class="number">—</div>
+        </div>
       </div>
 
-      <section class="panel">
-        <h2>Registered users</h2>
-        <p class="muted">User information stored in your Firestore database.</p>
-        <div class="toolbar">
-          <input id="searchInput" type="search" placeholder="Search name or email">
-          <button id="refreshBtn" class="btn secondary">Refresh</button>
-        </div>
-        <div id="userMessage" class="message muted" role="status">Loading users…</div>
+      <div class="panel">
+        <h2>User management</h2>
+        <input id="search" type="search" placeholder="Search by name or email">
+        <div id="message" role="status"></div>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>Name</th><th>Email</th><th>Email verified</th><th>Account status</th></tr>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Account status</th>
+                <th>Email verified</th>
+              </tr>
             </thead>
-            <tbody id="usersBody"></tbody>
+            <tbody id="userRows">
+              <tr><td colspan="4">Sign in to load users.</td></tr>
+            </tbody>
           </table>
         </div>
-      </section>
+      </div>
     </section>
-  </main>
+  </div>
 
   <script type="module">
     import { initializeApp } from
       "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import {
-      getAuth, signInWithEmailAndPassword, onAuthStateChanged,
-      signOut, reload
+      getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
     } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
     import {
-      getFirestore, collection, getDocs, doc, getDoc, query, limit
+      getFirestore, doc, getDoc, collection, getDocs, limit, query
     } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-    // Your existing Firebase project configuration.
     const firebaseConfig = {
-      apiKey: "AIzaSyDntET4DqTUk5qnD6hoBLcGBvq2Ty4uJvA",
+      apiKey: "AIzaSyDntETD4TqUk5qnD6hoBLcGBvq2Ty4uJvA",
       authDomain: "chat-app-fe0df.firebaseapp.com",
       projectId: "chat-app-fe0df",
       storageBucket: "chat-app-fe0df.firebasestorage.app",
@@ -181,149 +175,133 @@
     const db = getFirestore(app);
 
     const $ = id => document.getElementById(id);
-    let allUsers = [];
+    let users = [];
 
-    function showMessage(id, message) {
-      $(id).textContent = message;
+    function showMessage(message) {
+      $("message").textContent = message;
     }
 
-    function friendlyError(error) {
-      const errors = {
+    function safeError(error) {
+      const messages = {
+        "auth/api-key-not-valid": "Firebase rejected the API key.",
         "auth/invalid-credential": "Email or password is incorrect.",
-        "auth/invalid-email": "Enter a valid email address.",
         "auth/too-many-requests": "Too many attempts. Try again later.",
-        "auth/network-request-failed": "Network error. Check your internet.",
-        "permission-denied": "Firebase denied access. Check your admin authorization and Firestore rules."
+        "permission-denied": "Firestore denied access. Check your security rules."
       };
-      return errors[error.code] || error.message || "Something went wrong.";
-    }
-
-    async function checkAdmin(user) {
-      // Admin status must be granted securely in Firebase, not by this page.
-      const token = await user.getIdTokenResult(true);
-      if (token.claims.admin === true) return true;
-
-      // Also support a server-managed role document.
-      // Firestore rules must ensure users cannot edit their own role.
-      const roleDoc = await getDoc(doc(db, "admins", user.uid));
-      return roleDoc.exists() && roleDoc.data().active === true;
+      return messages[error.code] ||
+        error.message ||
+        "Something went wrong. Check your Firebase setup.";
     }
 
     $("loginForm").addEventListener("submit", async event => {
       event.preventDefault();
-      const btn = $("loginBtn");
-      btn.disabled = true;
-      showMessage("loginMessage", "Signing in…");
-
+      $("loginMessage").textContent = "Signing in…";
       try {
-        const credential = await signInWithEmailAndPassword(
+        await signInWithEmailAndPassword(
           auth, $("email").value.trim(), $("password").value
         );
-        await credential.user.getIdToken(true);
-
-        if (!await checkAdmin(credential.user)) {
-          await signOut(auth);
-          throw new Error("This account is not authorized as an administrator yet.");
-        }
-        showMessage("loginMessage", "");
+        $("loginMessage").textContent = "";
       } catch (error) {
-        showMessage("loginMessage", friendlyError(error));
-      } finally {
-        btn.disabled = false;
+        $("loginMessage").textContent = safeError(error);
       }
     });
 
-    onAuthStateChanged(auth, async user => {
-      if (!user) {
-        $("loginView").classList.remove("hidden");
-        $("dashboardView").classList.add("hidden");
-        return;
-      }
+    async function isAdmin(user) {
+      const token = await user.getIdTokenResult(true);
+      if (token.claims.admin === true) return true;
 
-      try {
-        if (!await checkAdmin(user)) {
-          await signOut(auth);
-          showMessage("loginMessage", "Access denied. An administrator must authorize your account in Firebase first.");
-          return;
-        }
-        $("loginView").classList.add("hidden");
-        $("dashboardView").classList.remove("hidden");
-        await loadUsers();
-      } catch (error) {
-        await signOut(auth);
-        showMessage("loginMessage", friendlyError(error));
-      }
-    });
+      const adminDoc = await getDoc(doc(db, "admins", user.uid));
+      return adminDoc.exists() && adminDoc.data().active === true;
+    }
 
     async function loadUsers() {
-      showMessage("userMessage", "Loading users…");
-      $("refreshBtn").disabled = true;
+      showMessage("Loading user profiles…");
+      $("userRows").replaceChildren();
+
       try {
-        // Read-only in this first version. Limit protects against huge reads.
-        const snapshot = await getDocs(query(collection(db, "users"), limit(200)));
-        allUsers = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
+        const result = await getDocs(
+          query(collection(db, "users"), limit(200))
+        );
+
+        users = result.docs.map(snapshot => ({
+          id: snapshot.id,
+          ...snapshot.data()
+        }));
+
+        $("totalUsers").textContent = users.length;
+        $("verifiedUsers").textContent =
+          users.filter(user => user.emailVerified === true).length;
+        $("pendingUsers").textContent =
+          users.filter(user => user.accountStatus === "pending").length;
+
         renderUsers();
-        showMessage("userMessage", `Showing ${allUsers.length} users (maximum 200 per load).`);
+        showMessage(users.length === 200
+          ? "Showing up to 200 profiles."
+          : "Profiles loaded.");
       } catch (error) {
-        showMessage("userMessage", friendlyError(error));
-      } finally {
-        $("refreshBtn").disabled = false;
+        showMessage(safeError(error));
       }
     }
 
     function renderUsers() {
-      const term = $("searchInput").value.trim().toLowerCase();
-      const filtered = allUsers.filter(user =>
+      const term = $("search").value.trim().toLowerCase();
+      const filtered = users.filter(user =>
         String(user.name || "").toLowerCase().includes(term) ||
         String(user.email || "").toLowerCase().includes(term)
       );
 
-      $("totalUsers").textContent = allUsers.length;
-      $("verifiedUsers").textContent =
-        allUsers.filter(user => user.emailVerified === true).length;
-      $("pendingUsers").textContent =
-        allUsers.filter(user => user.emailVerified !== true).length;
-
-      $("usersBody").replaceChildren();
+      const tbody = $("userRows");
+      tbody.replaceChildren();
 
       if (!filtered.length) {
-        const row = document.createElement("tr");
-        const cell = document.createElement("td");
+        const row = tbody.insertRow();
+        const cell = row.insertCell();
         cell.colSpan = 4;
-        cell.textContent = "No users found.";
-        row.appendChild(cell);
-        $("usersBody").appendChild(row);
+        cell.textContent = "No matching profiles found.";
         return;
       }
 
       for (const user of filtered) {
-        const row = document.createElement("tr");
-        const values = [
-          user.name || "Unnamed",
-          user.email || "No email",
-          user.emailVerified === true ? "Verified" : "Not verified",
-          user.accountStatus || "active"
-        ];
-
-        values.forEach((value, index) => {
-          const cell = document.createElement("td");
-          if (index === 2) {
-            const pill = document.createElement("span");
-            pill.className = "pill";
-            pill.textContent = value;
-            cell.appendChild(pill);
-          } else {
-            cell.textContent = String(value);
-          }
-          row.appendChild(cell);
+        const row = tbody.insertRow();
+        [
+          user.name || "—",
+          user.email || "—",
+          user.accountStatus || "unknown",
+          user.emailVerified === true ? "Yes" : "No"
+        ].forEach(value => {
+          const cell = row.insertCell();
+          cell.textContent = String(value);
         });
-        $("usersBody").appendChild(row);
       }
     }
 
-    $("searchInput").addEventListener("input", renderUsers);
+    $("search").addEventListener("input", renderUsers);
     $("refreshBtn").addEventListener("click", loadUsers);
     $("logoutBtn").addEventListener("click", () => signOut(auth));
+
+    onAuthStateChanged(auth, async user => {
+      $("loginPanel").classList.toggle("hidden", !!user);
+      $("dashboard").classList.add("hidden");
+      users = [];
+
+      if (!user) return;
+
+      try {
+        if (!await isAdmin(user)) {
+          await signOut(auth);
+          $("loginPanel").classList.remove("hidden");
+          $("loginMessage").textContent =
+            "This account is not authorized as an administrator yet.";
+          return;
+        }
+
+        $("signedInAs").textContent = user.email || "Administrator";
+        $("dashboard").classList.remove("hidden");
+        await loadUsers();
+      } catch (error) {
+        showMessage(safeError(error));
+      }
+    });
   </script>
 </body>
 </html>
