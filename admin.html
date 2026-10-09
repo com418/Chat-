@@ -1,306 +1,630 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChatWave Admin Panel</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b1220;
-      color: #eef2ff;
-    }
-    .container { max-width: 1100px; margin: auto; padding: 24px; }
-    .brand { color: #36d6a5; font-size: 27px; font-weight: 800; }
-    .muted { color: #9aa8bf; }
-    .panel {
-      background: #141e30;
-      border: 1px solid #26344a;
-      border-radius: 14px;
-      padding: 22px;
-      margin-top: 20px;
-    }
-    input, button {
-      width: 100%;
-      padding: 13px;
-      border-radius: 9px;
-      font-size: 15px;
-      margin-top: 10px;
-    }
-    input {
-      color: white;
-      background: #0b1220;
-      border: 1px solid #34445e;
-    }
-    button {
-      border: 0;
-      cursor: pointer;
-      font-weight: bold;
-      background: #36d6a5;
-      color: #071a16;
-    }
-    button.secondary {
-      background: #26344a;
-      color: white;
-      width: auto;
-      padding: 10px 15px;
-    }
-    .hidden { display: none !important; }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 20px;
-    }
-    .stat {
-      background: #141e30;
-      border: 1px solid #26344a;
-      border-radius: 12px;
-      padding: 20px;
-    }
-    .number { font-size: 30px; font-weight: bold; margin-top: 10px; }
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-    th, td {
-      text-align: left;
-      padding: 13px 10px;
-      border-bottom: 1px solid #26344a;
-      font-size: 14px;
-    }
-    th { color: #9aa8bf; }
-    #message { color: #ffd18a; white-space: pre-wrap; margin-top: 14px; }
-    @media(max-width:650px) {
-      .container { padding: 15px; }
-      .stats { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#061322">
+<title>ChatWave Admin Panel</title>
+
+<style>
+:root {
+  --bg:#061322;
+  --sidebar:#071625;
+  --panel:#0c2035;
+  --panel2:#102740;
+  --border:#193650;
+  --text:#edf5ff;
+  --muted:#8fa9c8;
+  --green:#00d5a0;
+  --blue:#168fff;
+  --yellow:#ffbf19;
+  --red:#ff426b;
+  --purple:#a65bff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+svg{display:block}
+.app{min-height:100vh}
+.topbar{height:68px;border-bottom:1px solid var(--border);
+display:flex;align-items:center;justify-content:space-between;
+padding:0 24px;gap:15px;background:#071625}
+.brand{display:flex;align-items:center;gap:12px;font-size:26px;font-weight:800}
+.logo{width:43px;height:43px;background:linear-gradient(145deg,#00e4ad,#00a987);
+border-radius:50%;display:grid;place-items:center;color:white}
+.brand span{color:var(--green)}
+.topright{display:flex;align-items:center;gap:10px;color:#b9cde6;font-size:13px}
+.online{width:8px;height:8px;background:var(--green);border-radius:50%}
+.avatar{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;
+background:#078dcb;color:white;font-weight:700;margin-left:10px}
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:calc(100vh - 68px)}
+.sidebar{background:var(--sidebar);border-right:1px solid var(--border);
+padding:18px 13px;display:flex;flex-direction:column;gap:7px}
+.nav{width:100%;display:flex;align-items:center;gap:13px;padding:13px 15px;
+border:0;border-radius:9px;background:transparent;color:#bdd0e8;text-align:left}
+.nav svg{width:21px;height:21px;flex-shrink:0}
+.nav:hover{background:#10283c}
+.nav.active{background:linear-gradient(100deg,#009d79,#008f70);color:white}
+.sidebar-bottom{margin-top:auto}
+.main{padding:25px 22px;min-width:0}
+.pagehead{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:23px}
+h1{font-size:29px;margin:0 0 5px}
+h2{font-size:16px;margin:0}
+.sub{color:var(--muted);font-size:14px}
+.date{text-align:right;color:#c4d5eb;font-size:14px;line-height:1.8}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.card{background:linear-gradient(140deg,#102740,#0a1c30);
+border:1px solid var(--border);border-radius:13px}
+.stat{padding:19px;min-height:139px}
+.stathead{display:flex;align-items:center;gap:12px;color:#c5d6ed;font-size:13px}
+.stat-icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center}
+.stat-icon svg{width:25px;height:25px}
+.green{color:var(--green);background:#063d3b}
+.blue{color:#fff;background:#087ee9;border-radius:50%}
+.yellow{color:#fff;background:#dca500}
+.purple{color:white;background:#8742e8;border-radius:50%}
+.big{font-size:29px;font-weight:750;margin:10px 0 7px}
+.change{font-size:12px;color:var(--muted)}
+.good{color:var(--green)}
+.charts{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;margin-top:20px}
+.chartcard{padding:18px;min-width:0}
+.cardtitle{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.cardtitle svg{width:21px;height:21px;color:#52dfff}
+.chartarea{height:190px;width:100%}
+.chartarea svg{width:100%;height:100%}
+.status-layout{display:flex;align-items:center;justify-content:space-around;gap:15px;flex-wrap:wrap}
+.donut{width:175px;height:175px;flex-shrink:0}
+.legend{display:grid;gap:16px;flex:1;min-width:150px}
+.legendrow{display:grid;grid-template-columns:12px 1fr auto;gap:9px;
+align-items:center;font-size:13px;color:#c9d8ed}
+.dot{width:10px;height:10px;border-radius:50%}
+.management{margin-top:20px;padding:18px}
+.management-head{display:flex;justify-content:space-between;align-items:center;
+gap:12px;flex-wrap:wrap;margin-bottom:15px}
+.tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.search{background:#091b2d;border:1px solid var(--border);border-radius:9px;
+padding:11px 13px;color:white;width:240px;max-width:100%;outline:none}
+.search:focus,input:focus{border-color:var(--green)}
+.btn{border:1px solid var(--border);border-radius:9px;padding:10px 14px;
+background:#102740;color:#d8e7fa}
+.btn.primary{background:var(--green);color:#04251c;border-color:var(--green);font-weight:700}
+.btn svg{width:17px;height:17px;display:inline-block;vertical-align:middle;margin-right:6px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:690px}
+thead{background:#112941}
+th{font-size:12px;color:#9fb8d6;text-align:left;font-weight:600}
+th,td{padding:13px 10px;border-bottom:1px solid #172f46}
+td{font-size:13px;color:#d4e1f1}
+tbody tr:hover{background:#10263a}
+.person{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.person-icon{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+color:white;font-size:11px;font-weight:700;background:#8742e8}
+.email{white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:20px;
+padding:5px 9px;font-size:11px;font-weight:700;white-space:nowrap}
+.pill.active{background:#034238;color:#00e5ad}
+.pill.pending{background:#423516;color:#ffca28}
+.pill.suspended,.pill.banned{background:#421c30;color:#ff6686}
+.pill.unknown{background:#24384c;color:#b7c9dc}
+.actions{display:flex;gap:7px}
+.iconbtn{width:34px;height:32px;display:grid;place-items:center;
+background:#102a43;border:1px solid #203c56;color:#b8d3f4;border-radius:8px}
+.iconbtn svg{width:17px;height:17px}
+.foot{display:flex;justify-content:space-between;align-items:center;
+gap:12px;flex-wrap:wrap;padding-top:15px;color:var(--muted);font-size:12px}
+.pages{display:flex;gap:5px}
+.pages button{border:0;border-radius:7px;padding:8px 11px;background:#102740;color:#d8e7fa}
+.pages button.selected{background:var(--green);color:#03231b}
+.notice{padding:12px;margin:12px 0;border-radius:8px;background:#162b3c;color:#cde1f8;
+font-size:13px;overflow-wrap:anywhere}
+.notice.error{background:#3a1d2b;color:#ffb4c3}
+.loginbox{max-width:420px;margin:65px auto;padding:26px}
+.loginbox h2{font-size:23px;margin-bottom:8px}
+.loginbox input{display:block;width:100%;padding:13px;margin-top:12px;
+border:1px solid var(--border);border-radius:9px;background:#071625;color:white}
+.loginbox button{width:100%;margin-top:15px}
+.mobile-menu{display:none}
+.empty{text-align:center;color:var(--muted);padding:28px}
+@media(max-width:1100px){
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .charts{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+ .topbar{padding:0 13px;height:61px}
+ .brand{font-size:21px;gap:8px}.logo{width:37px;height:37px}
+ .topright{font-size:0}.avatar{width:32px;height:32px}
+ .layout{grid-template-columns:1fr}
+ .sidebar{display:flex;flex-direction:row;overflow-x:auto;padding:8px;gap:5px;
+ border-right:0;border-bottom:1px solid var(--border)}
+ .nav{width:auto;flex-shrink:0;padding:10px 12px;font-size:12px;gap:7px}
+ .nav svg{width:18px;height:18px}
+ .sidebar-bottom{margin-top:0}
+ .main{padding:19px 12px}
+ .pagehead{align-items:flex-start}
+ h1{font-size:25px}.date{font-size:11px}
+ .stats{gap:9px}
+ .stat{padding:12px;min-height:125px}
+ .stathead{display:block;font-size:11px}
+ .stat-icon{width:35px;height:35px;margin-bottom:9px}
+ .stat-icon svg{width:20px;height:20px}
+ .big{font-size:25px}
+ .change{font-size:10px}
+ .chartcard,.management{padding:13px}
+ .management-head{align-items:flex-start}
+ .tools{width:100%}.search{width:100%;flex:1}
+ .status-layout{justify-content:center}
+ .legend{min-width:135px}
+ .donut{width:145px;height:145px}
+ .chartarea{height:165px}
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="brand">ChatWave <span class="muted">Admin</span></div>
-    <p class="muted">Administration dashboard</p>
-
-    <section id="loginPanel" class="panel">
-      <h2>Admin sign in</h2>
-      <p class="muted">Sign in with your authorized administrator account.</p>
-      <form id="loginForm">
-        <input id="email" type="email" placeholder="Admin email" required>
-        <input id="password" type="password" placeholder="Password" required>
-        <button type="submit">Sign in</button>
-      </form>
-      <div id="loginMessage" role="status"></div>
-    </section>
-
-    <section id="dashboard" class="hidden">
-      <div class="topbar">
-        <div>
-          <h2>Dashboard</h2>
-          <div id="signedInAs" class="muted"></div>
-        </div>
-        <div>
-          <button id="refreshBtn" class="secondary">Refresh</button>
-          <button id="logoutBtn" class="secondary">Sign out</button>
-        </div>
-      </div>
-
-      <div class="stats">
-        <div class="stat">
-          <div class="muted">Registered users loaded</div>
-          <div id="totalUsers" class="number">—</div>
-        </div>
-        <div class="stat">
-          <div class="muted">Verified profiles</div>
-          <div id="verifiedUsers" class="number">—</div>
-        </div>
-        <div class="stat">
-          <div class="muted">Pending profiles</div>
-          <div id="pendingUsers" class="number">—</div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <h2>User management</h2>
-        <input id="search" type="search" placeholder="Search by name or email">
-        <div id="message" role="status"></div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Account status</th>
-                <th>Email verified</th>
-              </tr>
-            </thead>
-            <tbody id="userRows">
-              <tr><td colspan="4">Sign in to load users.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+<div class="app">
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">
+      <svg viewBox="0 0 32 32" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 18l5-7 5 12 5-15 4 10 5-5"/>
+      </svg>
+    </div>
+    <div>Chat<span>Wave</span></div>
+    <div style="height:30px;border-left:1px solid #29445f;margin-left:5px"></div>
+    <div style="font-size:16px;font-weight:500;color:#b8cde7">Admin Panel</div>
   </div>
+  <div class="topright"><span class="online"></span><span id="adminLabel">Admin panel</span><div class="avatar">A</div></div>
+</header>
 
-  <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import {
-      getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
-    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import {
-      getFirestore, doc, getDoc, collection, getDocs, limit, query
-    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+<div id="loginPanel" class="card loginbox">
+  <h2>Admin sign in</h2>
+  <p class="sub">Sign in with your authorized administrator account.</p>
+  <form id="loginForm">
+    <input id="email" type="email" placeholder="Admin email" autocomplete="username" required>
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" required>
+    <button class="btn primary" type="submit">Sign in</button>
+  </form>
+  <div id="loginMessage" class="notice hidden"></div>
+</div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDntETD4TqUk5qnD6hoBLcGBvq2Ty4uJvA",
-      authDomain: "chat-app-fe0df.firebaseapp.com",
-      projectId: "chat-app-fe0df",
-      storageBucket: "chat-app-fe0df.firebasestorage.app",
-      messagingSenderId: "255781243837",
-      appId: "1:255781243837:web:7154aa4a0a28e773f8e0d4"
-    };
+<div id="adminApp" class="layout hidden">
+  <aside class="sidebar">
+    <button class="nav active" data-page="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 10 9-7 9 7"/><path d="M5 9v12h14V9M9 21v-8h6v8"/></svg>Dashboard
+    </button>
+    <button class="nav" data-page="users">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2 20v-2a7 7 0 0 1 14 0v2M16 5a3.5 3.5 0 0 1 0 7M18 14a5 5 0 0 1 4 5"/></svg>Users
+    </button>
+    <button class="nav" data-page="messages">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v13H9l-5 4z"/><path d="M8 9h8M8 13h5"/></svg>Messages
+    </button>
+    <button class="nav" data-page="support">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 13v-2a8 8 0 0 1 16 0v2"/><rect x="2" y="12" width="5" height="7" rx="2"/><rect x="17" y="12" width="5" height="7" rx="2"/><path d="M19 19a4 4 0 0 1-4 3h-3"/></svg>Support
+    </button>
+    <button class="nav" data-page="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="m19 13.5 2 1.5-2 3-2.4-.8-1.6 1v2.3h-4v-2.3l-1.6-1L7 18l-2-3 2-1.5v-2L5 10l2-3 2.4.8 1.6-1V4h4v2.8l1.6 1L19 7l2 3-2 1.5z"/></svg>Settings
+    </button>
+    <div class="sidebar-bottom">
+      <button id="logoutBtn" class="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-8"/></svg>Sign Out
+      </button>
+    </div>
+  </aside>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  <main class="main">
+    <div class="pagehead">
+      <div>
+        <h1 id="pageTitle">Dashboard</h1>
+        <div id="pageSubtitle" class="sub">Overview of your ChatWave platform</div>
+      </div>
+      <div class="date" id="currentDate"></div>
+    </div>
 
-    const $ = id => document.getElementById(id);
-    let users = [];
+    <div id="pageNotice" class="notice hidden"></div>
 
-    function showMessage(message) {
-      $("message").textContent = message;
-    }
+    <section id="dashboardPage">
+      <div class="stats">
+        <div class="card stat">
+          <div class="stathead"><div class="stat-icon green">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/><path d="M1 21v-2a8 8 0 0 1 16 0v2zM16 15a6 6 0 0 1 7 6h-4a8 8 0 0 0-3-6z"/></svg>
+          </div>Total Users</div>
+          <div class="big" id="totalUsers">—</div>
+          <div class="change" id="userNote">Registered profiles loaded</div>
+        </div>
+        <div class="card stat">
+          <div class="stathead"><div class="stat-icon blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5L20 6"/></svg>
+          </div>Verified Profiles</div>
+          <div class="big" id="verifiedUsers">—</div>
+          <div class="change">Based on profile records</div>
+        </div>
+        <div class="card stat">
+          <div class="stathead"><div class="stat-icon yellow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
+          </div>Pending Profiles</div>
+          <div class="big" id="pendingUsers">—</div>
+          <div class="change">Status marked pending</div>
+        </div>
+        <div class="card stat">
+          <div class="stathead"><div class="stat-icon purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg>
+          </div>Total Messages</div>
+          <div class="big" id="totalMessages">—</div>
+          <div class="change">From the messages collection</div>
+        </div>
+      </div>
 
-    function safeError(error) {
-      const messages = {
-        "auth/api-key-not-valid": "Firebase rejected the API key.",
-        "auth/invalid-credential": "Email or password is incorrect.",
-        "auth/too-many-requests": "Too many attempts. Try again later.",
-        "permission-denied": "Firestore denied access. Check your security rules."
-      };
-      return messages[error.code] ||
-        error.message ||
-        "Something went wrong. Check your Firebase setup.";
-    }
+      <div class="charts">
+        <div class="card chartcard">
+          <div class="cardtitle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 17 7-7 4 4 7-9"/><path d="M15 5h6v6"/></svg>
+            <h2>User Overview</h2>
+          </div>
+          <div class="chartarea" id="growthChart"></div>
+          <div class="change" id="growthNote">Chart based on available profile creation dates.</div>
+        </div>
+        <div class="card chartcard">
+          <div class="cardtitle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v10l8 4"/></svg>
+            <h2>Account Status</h2>
+          </div>
+          <div class="status-layout">
+            <div id="statusDonut"></div>
+            <div class="legend" id="statusLegend"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    $("loginForm").addEventListener("submit", async event => {
-      event.preventDefault();
-      $("loginMessage").textContent = "Signing in…";
-      try {
-        await signInWithEmailAndPassword(
-          auth, $("email").value.trim(), $("password").value
-        );
-        $("loginMessage").textContent = "";
-      } catch (error) {
-        $("loginMessage").textContent = safeError(error);
-      }
+    <section id="usersPage" class="card management hidden">
+      <div class="management-head">
+        <div class="cardtitle" style="margin:0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2 21v-2a7 7 0 0 1 14 0v2M17 11a3 3 0 1 0 0-6M18 15a5 5 0 0 1 4 5"/></svg>
+          <h2>User Management</h2>
+        </div>
+        <div class="tools">
+          <input id="search" class="search" type="search" placeholder="Search name or email...">
+          <button id="refreshBtn" class="btn primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9a7 7 0 0 1 11.5-2L20 12M4 12l2.9 5a7 7 0 0 0 11.5-2"/></svg>Refresh
+          </button>
+        </div>
+      </div>
+      <div id="usersMessage" class="notice hidden"></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr>
+            <th>Name</th><th>Email</th><th>Account Status</th>
+            <th>Email Verified</th><th>Joined</th>
+          </tr></thead>
+          <tbody id="userRows"><tr><td colspan="5" class="empty">Loading users…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="foot"><span id="resultCount">0 users</span><span id="loadLimitNote"></span></div>
+    </section>
+
+    <section id="messagesPage" class="card management hidden">
+      <h2>Messages</h2>
+      <p class="sub">Message administration</p>
+      <div class="notice">The message collection will be displayed here when your messaging feature is connected to Firestore. This panel does not create sample messages.</div>
+    </section>
+    <section id="supportPage" class="card management hidden">
+      <h2>Support</h2>
+      <p class="sub">Support tools</p>
+      <div class="notice">Support management is ready for a future connection to your support requests collection.</div>
+    </section>
+    <section id="settingsPage" class="card management hidden">
+      <h2>Settings</h2>
+      <p class="sub">Administrator account</p>
+      <div id="settingsEmail"></div>
+      <div class="notice">Your administrator access is checked against your Firebase admin record.</div>
+    </section>
+  </main>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, collection, getDocs, query, limit
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDntETD4TqUk5qnD6hoBLcGBvq2Ty4uJvA",
+  authDomain: "chat-app-fe0df.firebaseapp.com",
+  projectId: "chat-app-fe0df",
+  storageBucket: "chat-app-fe0df.firebasestorage.app",
+  messagingSenderId: "255781243837",
+  appId: "1:255781243837:web:7154aa4a0a28e773f8e0d4"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+
+let allUsers = [];
+let allMessages = [];
+let currentUser = null;
+
+$("currentDate").textContent = new Date().toLocaleDateString("en-US", {
+  month:"short", day:"numeric", year:"numeric"
+});
+
+function friendlyError(error) {
+  const map = {
+    "auth/api-key-not-valid": "Firebase rejected the API key.",
+    "auth/invalid-credential": "The email or password is incorrect.",
+    "auth/too-many-requests": "Too many attempts. Please try again later.",
+    "permission-denied": "Firestore denied access. Check your database security rules.",
+    "unavailable": "Firebase is temporarily unavailable. Try again."
+  };
+  return map[error.code] || error.message || "An unexpected error occurred.";
+}
+
+function showLoginMessage(text, isError = true) {
+  $("loginMessage").textContent = text;
+  $("loginMessage").classList.remove("hidden");
+  $("loginMessage").classList.toggle("error", isError);
+}
+
+function showPage(name) {
+  const titles = {
+    dashboard:["Dashboard","Overview of your ChatWave platform"],
+    users:["Users","Manage registered user profiles"],
+    messages:["Messages","Messaging administration"],
+    support:["Support","Support tools"],
+    settings:["Settings","Administrator settings"]
+  };
+  $("pageTitle").textContent = titles[name][0];
+  $("pageSubtitle").textContent = titles[name][1];
+
+  for (const page of ["dashboard","users","messages","support","settings"]) {
+    $(page + "Page").classList.toggle("hidden", page !== name);
+  }
+  document.querySelectorAll(".nav[data-page]").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === name);
+  });
+  if (name === "users") renderUsers();
+}
+
+document.querySelectorAll(".nav[data-page]").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  $("loginMessage").classList.add("hidden");
+  try {
+    await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
+  } catch (error) {
+    showLoginMessage(friendlyError(error));
+  }
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  await signOut(auth);
+});
+
+async function isAdmin(user) {
+  const token = await user.getIdTokenResult(true);
+  if (token.claims.admin === true) return true;
+  const adminSnap = await getDoc(doc(db, "admins", user.uid));
+  return adminSnap.exists() && adminSnap.data().active === true;
+}
+
+function formatDate(value) {
+  if (!value) return "—";
+  let date = value.toDate ? value.toDate() : new Date(value);
+  return Number.isNaN(date.getTime()) ? "—" : date.toLocaleDateString("en-US", {
+    month:"short", day:"numeric", year:"numeric"
+  });
+}
+
+function accountStatus(user) {
+  const status = String(user.accountStatus || "unknown").toLowerCase();
+  const allowed = ["active","pending","suspended","banned"];
+  return allowed.includes(status) ? status : "unknown";
+}
+
+function svgGrowthChart(users) {
+  // Historical daily data is derived from saved profile timestamps.
+  const now = new Date();
+  const days = [];
+  for (let i=6; i>=0; i--) {
+    const date = new Date(now);
+    date.setDate(now.getDate()-i);
+    days.push(date);
+  }
+  const counts = days.map(day => allUsers.filter(user => {
+    const value = user.createdAt;
+    if (!value) return false;
+    const d = value.toDate ? value.toDate() : new Date(value);
+    return !Number.isNaN(d.getTime()) && d.toDateString() === day.toDateString();
+  }).length);
+
+  let cumulative = 0;
+  const series = counts.map(count => cumulative += count);
+  const max = Math.max(1, ...series);
+  const w=600, h=180, left=35, right=10, top=10, bottom=30;
+  const chartH=h-top-bottom, chartW=w-left-right;
+  const points = series.map((v,i) => ({
+    x:left+i*(chartW/6),
+    y:top+chartH-(v/max)*chartH
+  }));
+  const path=points.map((p,i)=>(i?"L":"M")+p.x.toFixed(1)+" "+p.y.toFixed(1)).join(" ");
+  const area=path+` L ${points[6].x} ${top+chartH} L ${points[0].x} ${top+chartH} Z`;
+  const grid=[0,1,2,3].map(i=>{
+    const y=top+i*chartH/3;
+    return `<line x1="${left}" y1="${y}" x2="${w-right}" y2="${y}" stroke="#193650" stroke-width="1"/>`;
+  }).join("");
+  const labels=days.map((d,i)=>{
+    const x=left+i*(chartW/6);
+    return `<text x="${x}" y="${h-8}" fill="#91a9c7" font-size="11" text-anchor="middle">${d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</text>`;
+  }).join("");
+  const dots=points.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="#00d5a0"/>`).join("");
+  $("growthChart").innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Profile creation chart">
+    <defs><linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00d5a0" stop-opacity=".32"/>
+      <stop offset="100%" stop-color="#00d5a0" stop-opacity="0"/>
+    </linearGradient></defs>
+    ${grid}<path d="${area}" fill="url(#growthFill)"/>
+    <path d="${path}" fill="none" stroke="#00d5a0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    ${dots}${labels}
+  </svg>`;
+  $("growthNote").textContent = counts.some(n=>n>0)
+    ? "Profiles created over the last 7 days, based on createdAt."
+    : "No profile creation dates found for the last 7 days yet.";
+}
+
+function renderStatus() {
+  const statuses = {active:0,pending:0,suspended:0,banned:0,unknown:0};
+  allUsers.forEach(user=>statuses[accountStatus(user)]++);
+  const total=allUsers.length;
+  const colors={active:"#00d5a0",pending:"#ffbf19",suspended:"#ff426b",banned:"#a65bff",unknown:"#627b94"};
+  let offset=0;
+  const circumference=2*Math.PI*70;
+  const slices=Object.entries(statuses).filter(([,n])=>n>0).map(([key,n])=>{
+    const length=total ? n/total*circumference : 0;
+    const item=`<circle cx="90" cy="90" r="70" fill="none" stroke="${colors[key]}" stroke-width="25"
+      stroke-dasharray="${length} ${circumference-length}" stroke-dashoffset="${-offset}"
+      transform="rotate(-90 90 90)"/>`;
+    offset+=length;
+    return item;
+  }).join("");
+  $("statusDonut").innerHTML=`<svg class="donut" viewBox="0 0 180 180" role="img" aria-label="Account status chart">
+    <circle cx="90" cy="90" r="70" fill="none" stroke="#193650" stroke-width="25"/>
+    ${slices}
+    <text x="90" y="85" fill="#edf5ff" font-size="27" font-weight="700" text-anchor="middle">${total}</text>
+    <text x="90" y="105" fill="#a8c0dc" font-size="12" text-anchor="middle">Profiles</text>
+  </svg>`;
+  $("statusLegend").innerHTML=Object.entries(statuses).filter(([,n])=>n>0).map(([key,n])=>
+    `<div class="legendrow"><span class="dot" style="background:${colors[key]}"></span>
+    <span>${key[0].toUpperCase()+key.slice(1)}</span><span>${n}</span></div>`
+  ).join("") || '<div class="sub">No user profiles found.</div>';
+}
+
+function renderUsers() {
+  const term=$("search").value.trim().toLowerCase();
+  const filtered=allUsers.filter(user=>
+    String(user.name||"").toLowerCase().includes(term) ||
+    String(user.email||"").toLowerCase().includes(term)
+  );
+  const tbody=$("userRows");
+  tbody.replaceChildren();
+
+  if (!filtered.length) {
+    const tr=document.createElement("tr");
+    const td=document.createElement("td");
+    td.colSpan=5;
+    td.className="empty";
+    td.textContent=allUsers.length ? "No matching users found." : "No user profiles found in the users collection.";
+    tr.appendChild(td); tbody.appendChild(tr);
+  } else {
+    filtered.forEach(user=>{
+      const tr=document.createElement("tr");
+      const name=document.createElement("td");
+      const person=document.createElement("div"); person.className="person";
+      const badge=document.createElement("div"); badge.className="person-icon";
+      badge.textContent=String(user.name||user.email||"?").split(/\s+/).map(s=>s[0]||"").join("").slice(0,2).toUpperCase();
+      const label=document.createElement("span"); label.textContent=user.name||"Unnamed user";
+      person.append(badge,label); name.appendChild(person); tr.appendChild(name);
+
+      const email=document.createElement("td"); email.className="email";
+      email.textContent=user.email||"—"; tr.appendChild(email);
+
+      const statusCell=document.createElement("td");
+      const pill=document.createElement("span"); const status=accountStatus(user);
+      pill.className="pill "+(["active","pending","suspended","banned"].includes(status)?status:"unknown");
+      pill.textContent=status[0].toUpperCase()+status.slice(1);
+      statusCell.appendChild(pill); tr.appendChild(statusCell);
+
+      const verified=document.createElement("td");
+      const isVerified=user.emailVerified===true;
+      const verifyPill=document.createElement("span");
+      verifyPill.className="pill "+(isVerified?"active":"suspended");
+      verifyPill.textContent=isVerified?"✓ Yes":"✕ No";
+      verified.appendChild(verifyPill); tr.appendChild(verified);
+
+      const joined=document.createElement("td"); joined.textContent=formatDate(user.createdAt);
+      tr.appendChild(joined);
+      tbody.appendChild(tr);
     });
+  }
+  $("resultCount").textContent=`Showing ${filtered.length} of ${allUsers.length} loaded profiles`;
+  $("loadLimitNote").textContent=allUsers.length>=500?"Showing up to 500 profiles.":"";
+}
 
-    async function isAdmin(user) {
-      const token = await user.getIdTokenResult(true);
-      if (token.claims.admin === true) return true;
+$("search").addEventListener("input",renderUsers);
 
-      const adminDoc = await getDoc(doc(db, "admins", user.uid));
-      return adminDoc.exists() && adminDoc.data().active === true;
+async function loadData() {
+  $("usersMessage").classList.add("hidden");
+  $("userRows").innerHTML='<tr><td colspan="5" class="empty">Loading users…</td></tr>';
+  $("refreshBtn").disabled=true;
+  $("refreshBtn").textContent="Loading…";
+  allUsers=[]; allMessages=[];
+
+  try {
+    const snapshot=await getDocs(query(collection(db,"users"),limit(500)));
+    allUsers=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+    $("totalUsers").textContent=allUsers.length;
+    $("verifiedUsers").textContent=allUsers.filter(u=>u.emailVerified===true).length;
+    $("pendingUsers").textContent=allUsers.filter(u=>accountStatus(u)==="pending").length;
+    $("userNote").textContent="Profiles loaded from Firestore";
+    svgGrowthChart(allUsers);
+    renderStatus();
+    renderUsers();
+  } catch(error) {
+    $("totalUsers").textContent="—";
+    $("verifiedUsers").textContent="—";
+    $("pendingUsers").textContent="—";
+    $("usersMessage").textContent="Could not load user profiles: "+friendlyError(error);
+    $("usersMessage").classList.remove("hidden");
+    $("userRows").innerHTML='<tr><td colspan="5" class="empty">Unable to load profiles. Check Firestore permissions.</td></tr>';
+  }
+
+  try {
+    const snapshot=await getDocs(query(collection(db,"messages"),limit(500)));
+    allMessages=snapshot.docs;
+    $("totalMessages").textContent=allMessages.length>=500?"500+":allMessages.length;
+  } catch(error) {
+    $("totalMessages").textContent="—";
+  }
+  $("refreshBtn").disabled=false;
+  $("refreshBtn").innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9a7 7 0 0 1 11.5-2L20 12M4 12l2.9 5a7 7 0 0 0 11.5-2"/></svg>Refresh';
+}
+
+$("refreshBtn").addEventListener("click",loadData);
+
+onAuthStateChanged(auth,async user=>{
+  currentUser=user;
+  $("adminApp").classList.add("hidden");
+  $("loginPanel").classList.toggle("hidden",!!user);
+
+  if(!user) return;
+
+  try {
+    if(!(await isAdmin(user))) {
+      await signOut(auth);
+      showLoginMessage("This account is not authorized as an administrator yet.");
+      return;
     }
-
-    async function loadUsers() {
-      showMessage("Loading user profiles…");
-      $("userRows").replaceChildren();
-
-      try {
-        const result = await getDocs(
-          query(collection(db, "users"), limit(200))
-        );
-
-        users = result.docs.map(snapshot => ({
-          id: snapshot.id,
-          ...snapshot.data()
-        }));
-
-        $("totalUsers").textContent = users.length;
-        $("verifiedUsers").textContent =
-          users.filter(user => user.emailVerified === true).length;
-        $("pendingUsers").textContent =
-          users.filter(user => user.accountStatus === "pending").length;
-
-        renderUsers();
-        showMessage(users.length === 200
-          ? "Showing up to 200 profiles."
-          : "Profiles loaded.");
-      } catch (error) {
-        showMessage(safeError(error));
-      }
-    }
-
-    function renderUsers() {
-      const term = $("search").value.trim().toLowerCase();
-      const filtered = users.filter(user =>
-        String(user.name || "").toLowerCase().includes(term) ||
-        String(user.email || "").toLowerCase().includes(term)
-      );
-
-      const tbody = $("userRows");
-      tbody.replaceChildren();
-
-      if (!filtered.length) {
-        const row = tbody.insertRow();
-        const cell = row.insertCell();
-        cell.colSpan = 4;
-        cell.textContent = "No matching profiles found.";
-        return;
-      }
-
-      for (const user of filtered) {
-        const row = tbody.insertRow();
-        [
-          user.name || "—",
-          user.email || "—",
-          user.accountStatus || "unknown",
-          user.emailVerified === true ? "Yes" : "No"
-        ].forEach(value => {
-          const cell = row.insertCell();
-          cell.textContent = String(value);
-        });
-      }
-    }
-
-    $("search").addEventListener("input", renderUsers);
-    $("refreshBtn").addEventListener("click", loadUsers);
-    $("logoutBtn").addEventListener("click", () => signOut(auth));
-
-    onAuthStateChanged(auth, async user => {
-      $("loginPanel").classList.toggle("hidden", !!user);
-      $("dashboard").classList.add("hidden");
-      users = [];
-
-      if (!user) return;
-
-      try {
-        if (!await isAdmin(user)) {
-          await signOut(auth);
-          $("loginPanel").classList.remove("hidden");
-          $("loginMessage").textContent =
-            "This account is not authorized as an administrator yet.";
-          return;
-        }
-
-        $("signedInAs").textContent = user.email || "Administrator";
-        $("dashboard").classList.remove("hidden");
-        await loadUsers();
-      } catch (error) {
-        showMessage(safeError(error));
-      }
-    });
-  </script>
+    $("loginMessage").classList.add("hidden");
+    $("adminApp").classList.remove("hidden");
+    $("adminLabel").textContent="Logged in as "+(user.email||"admin");
+    $("settingsEmail").textContent=user.email||"Administrator";
+    showPage("dashboard");
+    await loadData();
+  } catch(error) {
+    showLoginMessage("Could not verify administrator access: "+friendlyError(error));
+  }
+});
+</script>
 </body>
 </html>
