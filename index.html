@@ -7,93 +7,77 @@
 <title>ChatWave — Connect. Chat. Share.</title>
 <style>
 :root {
-  color-scheme: dark;
+  color-scheme:dark;
   --bg:#050b15;
   --panel:rgba(13,27,47,.84);
-  --panel2:#0c1a2d;
-  --line:rgba(112,160,225,.20);
+  --line:rgba(112,160,225,.2);
   --blue:#087cff;
   --cyan:#13d5f5;
   --text:#f2f7ff;
   --muted:#91a7c4;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 }
 *{box-sizing:border-box}
 body{
-  margin:0;min-height:100vh;color:var(--text);
-  background:
-    radial-gradient(ellipse at 5% 0%,#102f60 0,transparent 42%),
-    radial-gradient(ellipse at 95% 65%,#062f43 0,transparent 36%),
-    var(--bg);
+ margin:0;min-height:100vh;color:var(--text);
+ background:radial-gradient(ellipse at 5% 0%,#102f60,transparent 42%),
+ radial-gradient(ellipse at 95% 65%,#062f43,transparent 36%),var(--bg)
 }
 button,input{font:inherit}
-button{cursor:pointer;transition:transform .16s,border-color .16s,background .16s}
-button:hover{border-color:#168bff}
-button:active{transform:scale(.98)}
+button{cursor:pointer}
 button:disabled{opacity:.5;cursor:not-allowed}
 input{
-  width:100%;min-width:0;color:var(--text);
-  background:#071426;border:1px solid #263c5a;
-  border-radius:13px;padding:14px;outline:none;
+ width:100%;min-width:0;color:var(--text);background:#071426;
+ border:1px solid #263c5a;border-radius:13px;padding:14px;outline:none
 }
-input:focus{border-color:#168bff;box-shadow:0 0 0 3px #087cff20}
-button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offset:2px}
+input:focus{border-color:var(--blue)}
+button:focus-visible,input:focus-visible{outline:2px solid #20baff}
 .hidden{display:none!important}
 .muted{color:var(--muted)}
 .small{font-size:12px;line-height:1.6}
 .glass{
-  background:var(--panel);
-  border:1px solid var(--line);
-  backdrop-filter:blur(25px);
-  -webkit-backdrop-filter:blur(25px);
-  box-shadow:0 24px 70px #0004;
+ background:var(--panel);border:1px solid var(--line);
+ backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);
+ box-shadow:0 24px 70px #0004
 }
 .logo{
-  width:57px;height:57px;display:grid;place-items:center;
-  border-radius:18px;
-  background:linear-gradient(140deg,#087cff,#08d9ef);
-  box-shadow:0 10px 32px #087cff40;
+ width:57px;height:57px;display:grid;place-items:center;border-radius:18px;
+ background:linear-gradient(140deg,#087cff,#08d9ef);box-shadow:0 10px 32px #087cff40
 }
 .logo svg{width:39px;height:39px}
 .brand{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:850;letter-spacing:-.6px}
 .brand-name span{color:#16b8ff}
 #authScreen{
-  min-height:100vh;display:grid;grid-template-columns:1fr 440px;
-  align-items:center;gap:6vw;max-width:1320px;margin:auto;padding:45px;
+ min-height:100vh;display:grid;grid-template-columns:1fr 440px;
+ align-items:center;gap:6vw;max-width:1320px;margin:auto;padding:45px
 }
-.hero{padding:15px 0}
 .hero h1{font-size:clamp(42px,6vw,76px);line-height:1.02;letter-spacing:-3px;margin:30px 0 16px}
 .gradient-text{background:linear-gradient(90deg,#fff,#20a5ff,#1de0e8);color:transparent;background-clip:text}
 .hero-copy{font-size:17px;line-height:1.8;max-width:480px;color:#a9bdd7}
 .features{display:grid;gap:22px;margin-top:35px}
 .feature{display:flex;gap:15px;align-items:center}
 .feature-icon{
-  width:48px;height:48px;flex-shrink:0;display:grid;place-items:center;
-  border-radius:15px;background:#087cff18;border:1px solid #168bff45;
-  color:#45c8ff;font-size:22px
+ width:48px;height:48px;flex-shrink:0;display:grid;place-items:center;
+ border-radius:15px;background:#087cff18;border:1px solid #168bff45;color:#45c8ff;font-size:22px
 }
 .feature strong{display:block;margin-bottom:5px}
 .auth-card{border-radius:27px;padding:30px}
 .auth-heading{text-align:center;margin-bottom:24px}
 .auth-heading .logo{margin:0 auto 17px}
-.auth-heading h2{font-size:29px;margin:0 0 9px;letter-spacing:-1px}
-.auth-heading p{margin:0;color:var(--muted);font-size:14px}
+.auth-heading h2{font-size:29px;margin:0 0 9px}
+.auth-heading p{color:var(--muted);font-size:14px}
 .field{display:grid;gap:8px;margin:15px 0}
 .field label{font-size:12px;font-weight:700;color:#b5c8e0}
 .password-wrap{position:relative}
 .password-wrap input{padding-right:65px}
-.show-password{
-  position:absolute;right:8px;top:7px;padding:7px 9px;
-  color:#8eb8e8;background:transparent;border:0;font-size:12px
-}
+.show-password{position:absolute;right:8px;top:7px;padding:7px 9px;color:#8eb8e8;background:transparent;border:0;font-size:12px}
 .btn{
-  display:flex;justify-content:center;align-items:center;gap:10px;
-  width:100%;padding:14px;border-radius:13px;font-weight:750;
-  border:1px solid transparent;margin-top:11px
+ display:flex;justify-content:center;align-items:center;gap:10px;width:100%;
+ padding:14px;border-radius:13px;font-weight:750;border:1px solid transparent;margin-top:11px
 }
-.btn-primary{color:white;background:linear-gradient(105deg,#087cff,#0963ed);box-shadow:0 8px 25px #087cff27}
+.btn-primary{color:white;background:linear-gradient(105deg,#087cff,#0963ed)}
 .btn-secondary{color:#e8f4ff;background:#ffffff06;border-color:#294364}
-.btn-google{color:#101b2c;background:#f5f8ff;border-color:#fff}
+.btn-google{color:#101b2c;background:#f5f8ff}
 .btn-link{border:0;background:transparent;color:#27aaff;padding:12px}
 .divider{display:flex;gap:12px;align-items:center;color:#7f96b6;font-size:12px;margin:21px 0}
 .divider:before,.divider:after{content:"";height:1px;background:var(--line);flex:1}
@@ -102,9 +86,8 @@ button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offse
 .safe{text-align:center;border-top:1px solid var(--line);padding-top:18px;margin-top:17px}
 #appScreen{padding:16px;min-height:100vh}
 .topbar{
-  max-width:1600px;margin:0 auto 15px;padding:13px 17px;
-  border-radius:19px;display:flex;justify-content:space-between;
-  align-items:center;gap:12px
+ max-width:1600px;margin:0 auto 15px;padding:13px 17px;border-radius:19px;
+ display:flex;justify-content:space-between;align-items:center;gap:12px
 }
 .topbar .logo{width:41px;height:41px;border-radius:13px}
 .topbar .logo svg{width:29px;height:29px}
@@ -112,9 +95,8 @@ button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offse
 .user-label{font-size:12px;color:#a9bdd7;max-width:180px;overflow-wrap:anywhere}
 .btn-small{padding:10px 13px;border-radius:11px;background:#10233b;border:1px solid #294364;color:#edf6ff;font-size:12px;font-weight:700}
 .app-layout{
-  max-width:1600px;margin:auto;display:grid;
-  grid-template-columns:275px minmax(0,1fr) 255px;gap:14px;
-  min-height:calc(100vh - 100px)
+ max-width:1600px;margin:auto;display:grid;grid-template-columns:275px minmax(0,1fr) 255px;
+ gap:14px;min-height:calc(100vh - 100px)
 }
 .sidebar,.chat,.right-panel{border-radius:20px;overflow:hidden;min-width:0}
 .sidebar,.right-panel{padding:16px}
@@ -122,14 +104,13 @@ button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offse
 .search{margin-bottom:13px}
 #contacts{display:grid;gap:5px}
 .contact{
-  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
-  background:transparent;border:1px solid transparent;padding:10px;border-radius:13px;color:var(--text)
+ display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;
+ border:1px solid transparent;padding:10px;border-radius:13px;color:var(--text)
 }
 .contact:hover,.contact.selected{background:#1678ff18;border-color:#1678ff35}
 .avatar{
-  flex-shrink:0;width:39px;height:39px;border-radius:14px;
-  display:grid;place-items:center;font-weight:800;
-  background:linear-gradient(140deg,#087cff,#12c6dc);color:white
+ flex-shrink:0;width:39px;height:39px;border-radius:14px;display:grid;place-items:center;
+ font-weight:800;background:linear-gradient(140deg,#087cff,#12c6dc);color:white
 }
 .contact-name{font-size:13px;font-weight:750;overflow-wrap:anywhere}
 .contact-email{font-size:10px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
@@ -140,18 +121,18 @@ button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offse
 #messages{padding:18px;display:flex;flex:1;flex-direction:column;gap:11px;overflow-y:auto;min-height:350px}
 .empty{margin:auto;text-align:center;color:var(--muted);font-size:13px;line-height:1.8;max-width:300px;padding:25px}
 .bubble{
-  align-self:flex-start;max-width:80%;padding:11px 14px;
-  background:#13243b;border:1px solid #263d5b;border-radius:16px 16px 16px 5px;
-  font-size:14px;line-height:1.6;overflow-wrap:anywhere;white-space:pre-wrap
+ align-self:flex-start;max-width:80%;padding:11px 14px;background:#13243b;
+ border:1px solid #263d5b;border-radius:16px 16px 16px 5px;
+ font-size:14px;line-height:1.6;overflow-wrap:anywhere;white-space:pre-wrap
 }
-.bubble.mine{align-self:flex-end;background:linear-gradient(120deg,#086eea,#087cff);border-color:#248cff;border-radius:16px 16px 5px 16px}
+.bubble.mine{align-self:flex-end;background:linear-gradient(120deg,#086eea,#087cff);border-radius:16px 16px 5px 16px}
 .bubble small{display:block;font-size:10px;opacity:.75;margin-top:5px}
 .composer{display:flex;gap:9px;padding:13px;border-top:1px solid var(--line)}
 .composer input{flex:1}
 .send{border:0;background:linear-gradient(130deg,#087cff,#05b8ec);color:white;border-radius:13px;padding:0 18px;font-weight:800}
 .info-card{padding:15px;border:1px solid var(--line);background:#07142680;border-radius:15px;margin-bottom:13px}
 .info-card h3{font-size:13px;margin:0 0 13px}
-.info-line{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:8px 0;border-bottom:1px solid #ffffff0b}
+.info-line{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:8px 0;border-bottom:1px solid #ffffff0b;overflow-wrap:anywhere}
 .info-line:last-child{border-bottom:0}
 #adminPanel{max-width:1600px;margin:15px auto;padding:20px;border-radius:20px}
 #adminUsers{overflow-wrap:anywhere;font-size:12px}
@@ -164,10 +145,9 @@ button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offse
 }
 @media(max-width:700px){
  #authScreen{grid-template-columns:1fr;padding:19px;gap:20px;align-content:center}
- .hero{padding:5px 0}
  .hero h1{font-size:43px;letter-spacing:-2px;margin:22px 0 10px}
  .hero-copy{font-size:14px;line-height:1.6}
- .features{grid-template-columns:1fr;gap:12px;margin-top:20px}
+ .features{gap:12px;margin-top:20px}
  .feature-icon{width:39px;height:39px}
  .auth-card{padding:22px;border-radius:22px}
  .auth-heading h2{font-size:25px}
@@ -187,16 +167,10 @@ button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offse
 </style>
 </head>
 <body>
-
 <section id="authScreen">
   <div class="hero">
     <div class="brand">
-      <div class="logo">
-        <svg viewBox="0 0 48 48" fill="none" aria-label="ChatWave logo">
-          <path d="M7 31 18 15 26 27 39 10" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M7 31 18 15 26 27 39 10" stroke="#b7f7ff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
-        </svg>
-      </div>
+      <div class="logo"><svg viewBox="0 0 48 48" fill="none"><path d="M7 31 18 15 26 27 39 10" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="brand-name">Chat<span>Wave</span></div>
     </div>
     <h1>Real People.<br><span class="gradient-text">Real Conversations.</span></h1>
@@ -210,30 +184,15 @@ button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offse
 
   <div class="auth-card glass">
     <div class="auth-heading">
-      <div class="logo">
-        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-          <path d="M7 31 18 15 26 27 39 10" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
+      <div class="logo"><svg viewBox="0 0 48 48" fill="none"><path d="M7 31 18 15 26 27 39 10" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h2 id="authTitle">Welcome Back</h2>
       <p id="authSubtitle">Sign in to your ChatWave account</p>
     </div>
-
     <form id="authForm">
-      <div class="field">
-        <label for="email">EMAIL ADDRESS</label>
-        <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label for="password">PASSWORD</label>
-        <div class="password-wrap">
-          <input id="password" type="password" placeholder="Enter your password" minlength="6" autocomplete="current-password" required>
-          <button class="show-password" type="button" id="togglePassword">Show</button>
-        </div>
-      </div>
+      <div class="field"><label for="email">EMAIL ADDRESS</label><input id="email" type="email" placeholder="you@example.com" autocomplete="email" required></div>
+      <div class="field"><label for="password">PASSWORD</label><div class="password-wrap"><input id="password" type="password" placeholder="Enter your password" minlength="6" autocomplete="current-password" required><button class="show-password" type="button" id="togglePassword">Show</button></div></div>
       <button class="btn btn-primary" id="loginBtn" type="submit">↪ &nbsp; Sign In</button>
     </form>
-
     <button class="btn btn-google" id="googleBtn" type="button"><span style="font-size:19px;font-weight:900">G</span> Continue with Google</button>
     <button class="btn btn-secondary" id="registerBtn" type="button">＋ &nbsp; Create Account</button>
     <button class="btn btn-link" id="resetBtn" type="button">Forgot password?</button>
@@ -244,83 +203,46 @@ button:focus-visible,input:focus-visible{outline:2px solid #20baff;outline-offse
 
 <section id="appScreen" class="hidden">
   <header class="topbar glass">
-    <div class="brand">
-      <div class="logo"><svg viewBox="0 0 48 48" fill="none"><path d="M7 31 18 15 26 27 39 10" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="brand-name">Chat<span>Wave</span></div>
-    </div>
-    <div class="top-actions">
-      <span id="userLabel" class="user-label"></span>
-      <button id="adminBtn" class="btn-small hidden" type="button">Admin</button>
-      <button id="logoutBtn" class="btn-small" type="button">Sign Out</button>
-    </div>
+    <div class="brand"><div class="logo"><svg viewBox="0 0 48 48" fill="none"><path d="M7 31 18 15 26 27 39 10" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="brand-name">Chat<span>Wave</span></div></div>
+    <div class="top-actions"><span id="userLabel" class="user-label"></span><button id="adminBtn" class="btn-small hidden" type="button">Admin</button><button id="logoutBtn" class="btn-small" type="button">Sign Out</button></div>
   </header>
-
   <main class="app-layout">
-    <aside class="sidebar glass">
-      <div class="section-title">People</div>
-      <input id="contactSearch" class="search" type="search" placeholder="Search by name or email">
-      <div id="contacts"><p class="small muted">Sign in to load users.</p></div>
-    </aside>
-
+    <aside class="sidebar glass"><div class="section-title">People</div><input id="contactSearch" class="search" type="search" placeholder="Search by name or email"><div id="contacts"><p class="small muted">Sign in to load users.</p></div></aside>
     <section class="chat glass">
-      <div class="chat-head">
-        <div class="avatar" id="chatAvatar">CW</div>
-        <div><h3 id="chatTitle">Your messages</h3><p id="chatSubtitle">Choose someone to start chatting</p></div>
-      </div>
+      <div class="chat-head"><div class="avatar" id="chatAvatar">CW</div><div><h3 id="chatTitle">Your messages</h3><p id="chatSubtitle">Choose someone to start chatting</p></div></div>
       <div id="messages"><div class="empty">Choose someone from the People list to start a conversation.</div></div>
-      <form class="composer" id="messageForm">
-        <input id="messageInput" maxlength="4000" placeholder="Write a message…" autocomplete="off" disabled>
-        <button id="sendBtn" class="send" type="submit" disabled>Send ↗</button>
-      </form>
+      <form class="composer" id="messageForm"><input id="messageInput" maxlength="4000" placeholder="Write a message…" autocomplete="off" disabled><button id="sendBtn" class="send" type="submit" disabled>Send ↗</button></form>
     </section>
-
     <aside class="right-panel glass">
-      <div class="info-card">
-        <h3>◈ &nbsp; Your Account</h3>
-        <div class="info-line"><span class="muted">Name</span><strong id="profileName">—</strong></div>
-        <div class="info-line"><span class="muted">Email</span><span id="profileEmail">—</span></div>
-        <div class="info-line"><span class="muted">Role</span><span id="profileRole">User</span></div>
-        <div class="info-line"><span class="muted">Status</span><span>● Active</span></div>
-      </div>
-      <div class="info-card">
-        <h3>ChatWave</h3>
-        <p class="small muted">Choose a registered user to send a message. Both accounts need internet access.</p>
-        <p class="small muted">Messages use Firebase and are not end-to-end encrypted by this version.</p>
-      </div>
+      <div class="info-card"><h3>◈ &nbsp; Your Account</h3><div class="info-line"><span class="muted">Name</span><strong id="profileName">—</strong></div><div class="info-line"><span class="muted">Email</span><span id="profileEmail">—</span></div><div class="info-line"><span class="muted">Role</span><span id="profileRole">User</span></div><div class="info-line"><span class="muted">Status</span><span>● Active</span></div></div>
+      <div class="info-card"><h3>ChatWave</h3><p class="small muted">Choose a registered user to send a message. Both accounts need internet access.</p><p class="small muted">Messages are not end-to-end encrypted in this version.</p></div>
     </aside>
   </main>
-
-  <section id="adminPanel" class="glass hidden">
-    <h3>Admin Panel</h3>
-    <p class="small muted">User list. Assign administrator access manually in Firebase Console.</p>
-    <button class="btn-small" id="refreshUsers" type="button">Refresh users</button>
-    <div id="adminStatus" class="small muted"></div>
-    <div id="adminUsers"></div>
-  </section>
+  <section id="adminPanel" class="glass hidden"><h3>Admin Panel</h3><p class="small muted">User list. Admin role must be assigned securely in Firebase.</p><button class="btn-small" id="refreshUsers" type="button">Refresh users</button><div id="adminStatus" class="small muted"></div><div id="adminUsers"></div></section>
   <div id="appStatus" role="status" aria-live="polite"></div>
 </section>
 
 <script type="module">
-const authStatus = document.getElementById("authStatus");
-const appStatus = document.getElementById("appStatus");
-function setAuthStatus(text, bad=true) {
-  authStatus.textContent = text;
+const $ = id => document.getElementById(id);
+const authStatus = $("authStatus");
+const appStatus = $("appStatus");
+let auth, db, currentUser = null, profile = null, selectedUser = null;
+let stopMessages = null, allUsers = [], authReady = false;
+
+function setAuthStatus(message, bad = true) {
+  authStatus.textContent = message;
   authStatus.className = bad ? "error" : "success";
 }
-function setAppStatus(text) { appStatus.textContent = text; }
+function setAppStatus(message) { appStatus.textContent = message; }
 
-document.getElementById("togglePassword").addEventListener("click", () => {
-  const p = document.getElementById("password");
+$("togglePassword").addEventListener("click", () => {
+  const p = $("password");
   p.type = p.type === "password" ? "text" : "password";
-  document.getElementById("togglePassword").textContent = p.type === "password" ? "Show" : "Hide";
+  $("togglePassword").textContent = p.type === "password" ? "Show" : "Hide";
 });
 
-let auth, db, currentUser=null, profile=null, selectedUser=null;
-let stopMessages=null, allUsers=[];
-
-const $ = id => document.getElementById(id);
 const firebaseConfig = {
-  apiKey: "AIzaSyDntETD4TqUk5qnD6hoBLcGBvq2Ty4uJvA",
+  apiKey: "AIzaSyDntET4TqUk5qnD6hoBLcGBvq2Ty4uJvA",
   authDomain: "chat-app-fe0df.firebaseapp.com",
   projectId: "chat-app-fe0df",
   storageBucket: "chat-app-fe0df.firebasestorage.app",
@@ -334,6 +256,7 @@ try {
     import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js"),
     import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js")
   ]);
+
   const app = appSDK.initializeApp(firebaseConfig);
   auth = authSDK.getAuth(app);
   db = storeSDK.getFirestore(app);
@@ -344,6 +267,7 @@ try {
     GoogleAuthProvider, signInWithPopup, signOut, sendPasswordResetEmail,
     updateProfile
   } = authSDK;
+
   const {
     doc, getDoc, setDoc, collection, query, limit, getDocs,
     addDoc, onSnapshot, orderBy, serverTimestamp
@@ -352,273 +276,338 @@ try {
   await setPersistence(auth, browserLocalPersistence);
 
   function friendlyError(e) {
-    const code=e?.code || "";
-    const known={
-      "auth/api-key-not-valid":"Firebase rejected the API key. Check the exact key in Firebase Project Settings and Google Cloud Credentials.",
-      "auth/invalid-api-key":"The API key is invalid. Confirm the Web app configuration.",
-      "auth/unauthorized-domain":"This website domain is not in Firebase Authentication's Authorized domains list.",
-      "auth/operation-not-allowed":"This sign-in provider is not enabled in Firebase Authentication.",
-      "auth/invalid-credential":"The email or password is incorrect.",
-      "auth/email-already-in-use":"An account already uses this email. Try signing in.",
-      "auth/weak-password":"Use a password of at least 6 characters.",
-      "auth/invalid-email":"Enter a valid email address.",
-      "auth/popup-blocked":"The Google sign-in popup was blocked.",
-      "auth/popup-closed-by-user":"Google sign-in was closed before it finished.",
-      "auth/network-request-failed":"Network error. Check your internet connection.",
-      "permission-denied":"Firestore denied the request. Check the Firestore security rules.",
-      "failed-precondition":"A Firestore index or database setup may be missing."
+    const code = e?.code || "";
+    const message = e?.message || "";
+    if (code.includes("permission-denied") || message.includes("Missing or insufficient permissions")) {
+      return "Firestore permission denied. Check that the published rules match the users, conversations, and messages used by this code.";
+    }
+    const known = {
+      "auth/api-key-not-valid": "Firebase rejected the API key. Check Firebase Project Settings.",
+      "auth/invalid-api-key": "The Firebase API key is invalid.",
+      "auth/unauthorized-domain": "Add com418.github.io to Firebase Authentication > Settings > Authorized domains.",
+      "auth/operation-not-allowed": "Enable this sign-in provider in Firebase Authentication.",
+      "auth/invalid-credential": "The email or password is incorrect.",
+      "auth/email-already-in-use": "An account already uses this email. Try signing in.",
+      "auth/weak-password": "Use a password of at least 6 characters.",
+      "auth/invalid-email": "Enter a valid email address.",
+      "auth/popup-blocked": "The Google sign-in popup was blocked.",
+      "auth/popup-closed-by-user": "Google sign-in was closed before it finished.",
+      "auth/network-request-failed": "Network error. Check your internet connection.",
+      "failed-precondition": "A Firestore index or database setup may be missing."
     };
-    return known[code] || `${code || "Error"}: ${e?.message || "Please try again."}`;
+    return known[code] || `${code || "Error"}: ${message || "Please try again."}`;
   }
+
   function report(e) {
-    console.error("ChatWave error:",e);
-    setAuthStatus(friendlyError(e));
-    setAppStatus(friendlyError(e));
+    console.error("ChatWave error:", e);
+    const msg = friendlyError(e);
+    setAuthStatus(msg);
+    setAppStatus(msg);
   }
 
   async function ensureProfile(user) {
-    const ref=doc(db,"users",user.uid);
-    const snap=await getDoc(ref);
-    if(!snap.exists()) {
-      await setDoc(ref,{
-        uid:user.uid,
-        name:user.displayName || user.email?.split("@")[0] || "ChatWave user",
-        email:user.email || "",
-        role:"user",
-        accountStatus:"active",
-        createdAt:serverTimestamp()
-      });
-    } else if(snap.data().accountStatus === "suspended") {
+    const ref = doc(db, "users", user.uid);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+      const newProfile = {
+        uid: user.uid,
+        name: user.displayName || user.email?.split("@")[0] || "ChatWave user",
+        email: user.email || "",
+        role: "user",
+        accountStatus: "active",
+        createdAt: serverTimestamp()
+      };
+      await setDoc(ref, newProfile);
+      const created = await getDoc(ref);
+      if (!created.exists()) throw new Error("Profile could not be verified after creation.");
+      return created.data();
+    }
+
+    const data = snap.data();
+    if (data.accountStatus === "suspended") {
       await signOut(auth);
       throw new Error("This account is suspended.");
     }
-    const fresh=await getDoc(ref);
-    return fresh.data();
+    return data;
+  }
+
+  function showAuth() {
+    $("appScreen").classList.add("hidden");
+    $("authScreen").classList.remove("hidden");
   }
 
   function showApp() {
     $("authScreen").classList.add("hidden");
     $("appScreen").classList.remove("hidden");
-    $("userLabel").textContent=currentUser.email || "Signed in";
-    $("profileName").textContent=profile.name || currentUser.displayName || "ChatWave user";
-    $("profileEmail").textContent=currentUser.email || "—";
-    $("profileRole").textContent=profile.role || "User";
-    $("adminBtn").classList.toggle("hidden",profile.role !== "admin");
+    $("userLabel").textContent = currentUser.email || "Signed in";
+    $("profileName").textContent = profile?.name || currentUser.displayName || "ChatWave user";
+    $("profileEmail").textContent = currentUser.email || "—";
+    $("profileRole").textContent = profile?.role === "admin" ? "Admin" : "User";
+    $("adminBtn").classList.toggle("hidden", profile?.role !== "admin");
     $("adminPanel").classList.add("hidden");
     loadContacts();
   }
 
-  onAuthStateChanged(auth,async user=>{
-    currentUser=user;
-    if(stopMessages){stopMessages();stopMessages=null;}
-    if(!user){
-      profile=null;
-      $("appScreen").classList.add("hidden");
-      $("authScreen").classList.remove("hidden");
+  onAuthStateChanged(auth, async user => {
+    currentUser = user;
+    authReady = true;
+    if (stopMessages) { stopMessages(); stopMessages = null; }
+
+    if (!user) {
+      profile = null;
+      selectedUser = null;
+      showAuth();
       return;
     }
+
     try {
-      profile=await ensureProfile(user);
+      profile = await ensureProfile(user);
       showApp();
-    } catch(e) { report(e); }
+    } catch (e) {
+      report(e);
+      // Keep the sign-in screen visible if profile creation/access fails.
+      showAuth();
+    }
   });
 
-  $("authForm").addEventListener("submit",async e=>{
+  $("authForm").addEventListener("submit", async e => {
     e.preventDefault();
-    $("loginBtn").disabled=true;
-    setAuthStatus("Signing in…",false);
+    $("loginBtn").disabled = true;
+    setAuthStatus("Signing in…", false);
     try {
-      await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);
-      setAuthStatus("Signed in successfully.",false);
-    } catch(err) { report(err); }
-    finally {$("loginBtn").disabled=false;}
+      await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
+      setAuthStatus("Signed in successfully.", false);
+    } catch (err) { report(err); }
+    finally { $("loginBtn").disabled = false; }
   });
 
-  $("registerBtn").addEventListener("click",async()=>{
-    const email=$("email").value.trim(), password=$("password").value;
-    if(!email || password.length<6){
+  $("registerBtn").addEventListener("click", async () => {
+    const email = $("email").value.trim();
+    const password = $("password").value;
+    if (!email || password.length < 6) {
       setAuthStatus("Enter a valid email and a password of at least 6 characters.");
       return;
     }
-    $("registerBtn").disabled=true;
-    setAuthStatus("Creating your account…",false);
+
+    $("registerBtn").disabled = true;
+    setAuthStatus("Creating your account…", false);
+
     try {
-      const cred=await createUserWithEmailAndPassword(auth,email,password);
-      await updateProfile(cred.user,{displayName:email.split("@")[0]});
-      profile=await ensureProfile(cred.user);
-      setAuthStatus("Account created successfully.",false);
-    } catch(err) { report(err); }
-    finally {$("registerBtn").disabled=false;}
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(cred.user, { displayName: email.split("@")[0] });
+      profile = await ensureProfile(cred.user);
+      showApp();
+      setAuthStatus("Account created successfully.", false);
+    } catch (err) {
+      report(err);
+    } finally {
+      $("registerBtn").disabled = false;
+    }
   });
 
-  $("googleBtn").addEventListener("click",async()=>{
+  $("googleBtn").addEventListener("click", async () => {
+    $("googleBtn").disabled = true;
     try {
-      await signInWithPopup(auth,new GoogleAuthProvider());
-    } catch(err) { report(err); }
+      await signInWithPopup(auth, new GoogleAuthProvider());
+    } catch (err) { report(err); }
+    finally { $("googleBtn").disabled = false; }
   });
 
-  $("resetBtn").addEventListener("click",async()=>{
-    const email=$("email").value.trim();
-    if(!email){setAuthStatus("Enter your email address first.");return;}
+  $("resetBtn").addEventListener("click", async () => {
+    const email = $("email").value.trim();
+    if (!email) { setAuthStatus("Enter your email address first."); return; }
     try {
-      await sendPasswordResetEmail(auth,email);
-      setAuthStatus("Password reset email sent. Check your inbox.",false);
-    } catch(err) { report(err); }
+      await sendPasswordResetEmail(auth, email);
+      setAuthStatus("Password reset email sent. Check your inbox.", false);
+    } catch (err) { report(err); }
   });
 
-  $("logoutBtn").addEventListener("click",async()=>{
+  $("logoutBtn").addEventListener("click", async () => {
     try {
-      if(stopMessages){stopMessages();stopMessages=null;}
+      if (stopMessages) { stopMessages(); stopMessages = null; }
       await signOut(auth);
       setAppStatus("Signed out.");
-    } catch(err) { report(err); }
+    } catch (err) { report(err); }
   });
 
-  function conversationId(a,b){return [a,b].sort().join("_");}
+  function conversationId(a, b) {
+    return [a, b].sort().join("_");
+  }
 
   async function loadContacts() {
-    $("contacts").innerHTML='<p class="small muted">Loading users…</p>';
+    $("contacts").innerHTML = '<p class="small muted">Loading users…</p>';
     try {
-      const snap=await getDocs(query(collection(db,"users"),limit(200)));
-      allUsers=snap.docs.map(d=>({id:d.id,...d.data()}))
-        .filter(u=>u.uid!==currentUser.uid && u.accountStatus!=="suspended");
+      const snap = await getDocs(query(collection(db, "users"), limit(200)));
+      allUsers = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        .filter(u => u.uid !== currentUser.uid && u.accountStatus !== "suspended");
       renderContacts();
-    } catch(err) {
-      $("contacts").innerHTML='<p class="small muted">Could not load users. Check Firestore rules.</p>';
+    } catch (err) {
+      $("contacts").innerHTML = '<p class="small muted">Could not load users. Check Firestore rules.</p>';
       setAppStatus(friendlyError(err));
     }
   }
 
   function renderContacts() {
-    const term=$("contactSearch").value.trim().toLowerCase();
-    const matches=allUsers.filter(u=>
-      (u.name||"").toLowerCase().includes(term) ||
-      (u.email||"").toLowerCase().includes(term)
+    const term = $("contactSearch").value.trim().toLowerCase();
+    const matches = allUsers.filter(u =>
+      (u.name || "").toLowerCase().includes(term) ||
+      (u.email || "").toLowerCase().includes(term)
     );
-    const list=$("contacts");
+    const list = $("contacts");
     list.replaceChildren();
-    if(!matches.length){
-      const p=document.createElement("p");
-      p.className="small muted";
-      p.textContent=term?"No matching users.":"No other users yet. Create a second account to test.";
-      list.append(p);return;
+
+    if (!matches.length) {
+      const p = document.createElement("p");
+      p.className = "small muted";
+      p.textContent = term ? "No matching users." : "No other users yet. Create a second account to test.";
+      list.append(p);
+      return;
     }
-    for(const u of matches){
-      const b=document.createElement("button");
-      b.type="button";
-      b.className="contact"+(selectedUser?.uid===u.uid?" selected":"");
-      const avatar=document.createElement("span");
-      avatar.className="avatar";
-      avatar.textContent=(u.name||u.email||"?").slice(0,1).toUpperCase();
-      const info=document.createElement("span");
-      const name=document.createElement("div");
-      name.className="contact-name";name.textContent=u.name||"ChatWave user";
-      const email=document.createElement("div");
-      email.className="contact-email";email.textContent=u.email||"";
-      info.append(name,email);b.append(avatar,info);
-      b.addEventListener("click",()=>openConversation(u));
+
+    for (const u of matches) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "contact" + (selectedUser?.uid === u.uid ? " selected" : "");
+      const avatar = document.createElement("span");
+      avatar.className = "avatar";
+      avatar.textContent = (u.name || u.email || "?").slice(0, 1).toUpperCase();
+      const info = document.createElement("span");
+      const name = document.createElement("div");
+      name.className = "contact-name";
+      name.textContent = u.name || "ChatWave user";
+      const email = document.createElement("div");
+      email.className = "contact-email";
+      email.textContent = u.email || "";
+      info.append(name, email);
+      b.append(avatar, info);
+      b.addEventListener("click", () => openConversation(u));
       list.append(b);
     }
   }
-  $("contactSearch").addEventListener("input",renderContacts);
+
+  $("contactSearch").addEventListener("input", renderContacts);
 
   async function openConversation(user) {
-    selectedUser=user;
-    $("chatTitle").textContent=user.name||user.email||"Conversation";
-    $("chatSubtitle").textContent=user.email||"ChatWave user";
-    $("chatAvatar").textContent=(user.name||user.email||"?").slice(0,1).toUpperCase();
-    $("messageInput").disabled=false;$("sendBtn").disabled=false;
+    selectedUser = user;
+    $("chatTitle").textContent = user.name || user.email || "Conversation";
+    $("chatSubtitle").textContent = user.email || "ChatWave user";
+    $("chatAvatar").textContent = (user.name || user.email || "?").slice(0, 1).toUpperCase();
+    $("messageInput").disabled = false;
+    $("sendBtn").disabled = false;
     renderContacts();
-    if(stopMessages){stopMessages();stopMessages=null;}
-    $("messages").innerHTML='<div class="empty">Loading conversation…</div>';
-    const id=conversationId(currentUser.uid,user.uid);
-    try {
-      await setDoc(doc(db,"conversations",id),{
-        participants:[currentUser.uid,user.uid].sort(),
-        participantNames:{
-          [currentUser.uid]:profile.name||currentUser.email,
-          [user.uid]:user.name||user.email
-        },
-        updatedAt:serverTimestamp()
-      },{merge:true});
 
-      stopMessages=onSnapshot(
-        query(collection(db,"conversations",id,"messages"),orderBy("createdAt","asc"),limit(300)),
-        snap=>{
-          const box=$("messages");box.replaceChildren();
-          if(snap.empty){
-            const empty=document.createElement("div");
-            empty.className="empty";empty.textContent="Say hello and start your conversation.";
-            box.append(empty);return;
+    if (stopMessages) { stopMessages(); stopMessages = null; }
+    $("messages").innerHTML = '<div class="empty">Loading conversation…</div>';
+
+    const id = conversationId(currentUser.uid, user.uid);
+    const ref = doc(db, "conversations", id);
+
+    try {
+      const existing = await getDoc(ref);
+      if (!existing.exists()) {
+        await setDoc(ref, {
+          participants: [currentUser.uid, user.uid].sort(),
+          participantNames: {
+            [currentUser.uid]: profile.name || currentUser.email,
+            [user.uid]: user.name || user.email
+          },
+          updatedAt: serverTimestamp()
+        });
+      }
+
+      stopMessages = onSnapshot(
+        query(collection(db, "conversations", id, "messages"), orderBy("createdAt", "asc"), limit(300)),
+        snap => {
+          const box = $("messages");
+          box.replaceChildren();
+          if (snap.empty) {
+            const empty = document.createElement("div");
+            empty.className = "empty";
+            empty.textContent = "Say hello and start your conversation.";
+            box.append(empty);
+            return;
           }
-          snap.forEach(d=>{
-            const m=d.data();
-            const bubble=document.createElement("div");
-            bubble.className="bubble"+(m.senderId===currentUser.uid?" mine":"");
-            const body=document.createElement("div");
-            body.textContent=m.text||"";
-            const meta=document.createElement("small");
-            meta.textContent=m.senderId===currentUser.uid?"You":(user.name||user.email||"User");
-            bubble.append(body,meta);box.append(bubble);
+          snap.forEach(d => {
+            const m = d.data();
+            const bubble = document.createElement("div");
+            bubble.className = "bubble" + (m.senderId === currentUser.uid ? " mine" : "");
+            const body = document.createElement("div");
+            body.textContent = m.text || "";
+            const meta = document.createElement("small");
+            meta.textContent = m.senderId === currentUser.uid ? "You" : (user.name || user.email || "User");
+            bubble.append(body, meta);
+            box.append(bubble);
           });
-          box.scrollTop=box.scrollHeight;
-        },err=>setAppStatus(friendlyError(err))
+          box.scrollTop = box.scrollHeight;
+        },
+        err => setAppStatus(friendlyError(err))
       );
-    } catch(err) { setAppStatus(friendlyError(err)); }
+    } catch (err) {
+      setAppStatus(friendlyError(err));
+    }
   }
 
-  $("messageForm").addEventListener("submit",async e=>{
+  $("messageForm").addEventListener("submit", async e => {
     e.preventDefault();
-    const text=$("messageInput").value.trim();
-    if(!text||!currentUser||!selectedUser)return;
-    $("sendBtn").disabled=true;
+    const text = $("messageInput").value.trim();
+    if (!text || !currentUser || !selectedUser) return;
+
+    $("sendBtn").disabled = true;
     try {
-      const id=conversationId(currentUser.uid,selectedUser.uid);
-      await addDoc(collection(db,"conversations",id,"messages"),{
-        text,senderId:currentUser.uid,createdAt:serverTimestamp()
+      const id = conversationId(currentUser.uid, selectedUser.uid);
+      await addDoc(collection(db, "conversations", id, "messages"), {
+        text,
+        senderId: currentUser.uid,
+        createdAt: serverTimestamp()
       });
-      await setDoc(doc(db,"conversations",id),{
-        lastMessage:text,updatedAt:serverTimestamp()
-      },{merge:true});
-      $("messageInput").value="";
+      await setDoc(doc(db, "conversations", id), {
+        lastMessage: text,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+      $("messageInput").value = "";
       setAppStatus("Message sent.");
-    } catch(err) { setAppStatus(friendlyError(err)); }
-    finally {$("sendBtn").disabled=false;}
+    } catch (err) {
+      setAppStatus(friendlyError(err));
+    } finally {
+      $("sendBtn").disabled = false;
+    }
   });
 
   async function loadAdminUsers() {
-    if(profile?.role!=="admin")return;
-    $("adminStatus").textContent="Loading users…";
+    if (profile?.role !== "admin") return;
+    $("adminStatus").textContent = "Loading users…";
     $("adminUsers").replaceChildren();
+
     try {
-      const snap=await getDocs(query(collection(db,"users"),limit(200)));
-      snap.forEach(d=>{
-        const u=d.data();
-        const row=document.createElement("div");
-        row.className="admin-user";
-        row.textContent=`${u.name||"User"} — ${u.email||""} — ${u.role||"user"} — ${u.accountStatus||"unknown"}`;
+      const snap = await getDocs(query(collection(db, "users"), limit(200)));
+      snap.forEach(d => {
+        const u = d.data();
+        const row = document.createElement("div");
+        row.className = "admin-user";
+        row.textContent = `${u.name || "User"} — ${u.email || ""} — ${u.role || "user"} — ${u.accountStatus || "unknown"}`;
         $("adminUsers").append(row);
       });
-      $("adminStatus").textContent=`${snap.size} user profiles loaded.`;
-    } catch(err) {$("adminStatus").textContent=friendlyError(err);}
+      $("adminStatus").textContent = `${snap.size} user profiles loaded.`;
+    } catch (err) {
+      $("adminStatus").textContent = friendlyError(err);
+    }
   }
-  $("adminBtn").addEventListener("click",async()=>{
-    if(profile?.role!=="admin")return;
+
+  $("adminBtn").addEventListener("click", async () => {
+    if (profile?.role !== "admin") return;
     $("adminPanel").classList.toggle("hidden");
-    if(!$("adminPanel").classList.contains("hidden"))await loadAdminUsers();
+    if (!$("adminPanel").classList.contains("hidden")) await loadAdminUsers();
   });
-  $("refreshUsers").addEventListener("click",loadAdminUsers);
+  $("refreshUsers").addEventListener("click", loadAdminUsers);
 
 } catch (error) {
-  console.error("ChatWave startup error:",error);
-  setAuthStatus(
-    "ChatWave could not start its Firebase code. Check your internet connection, Firebase configuration, and hosting. Details: " +
-    (error?.message || String(error))
-  );
-  $("loginBtn").disabled=true;
-  $("registerBtn").disabled=true;
-  $("googleBtn").disabled=true;
-  $("resetBtn").disabled=true;
+  console.error("ChatWave startup error:", error);
+  setAuthStatus("ChatWave could not start Firebase. Check your connection and configuration. " + (error?.message || String(error)));
+  $("loginBtn").disabled = true;
+  $("registerBtn").disabled = true;
+  $("googleBtn").disabled = true;
+  $("resetBtn").disabled = true;
 }
 </script>
 </body>
