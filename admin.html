@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatWave Admin Panel</title>
+  <meta name="theme-color" content="#080d18">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #080d18;
+      color: #edf3ff;
+      font-family: Arial, sans-serif;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .wrap { max-width: 1100px; margin: auto; padding: 22px; }
+    .brand { font-size: 25px; font-weight: 800; margin-bottom: 28px; }
+    .brand span { color: #4c8dff; }
+    .muted { color: #8e9bb4; }
+    .panel {
+      background: #111a2b;
+      border: 1px solid #24324a;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 27px; margin: 0 0 8px; }
+    h2 { font-size: 19px; margin-top: 0; }
+    label { display: block; margin: 15px 0 7px; color: #b9c7df; }
+    input {
+      width: 100%;
+      padding: 13px;
+      color: white;
+      background: #080f1e;
+      border: 1px solid #31415c;
+      border-radius: 9px;
+      outline: none;
+    }
+    input:focus { border-color: #4c8dff; }
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 16px;
+      background: #3478f6;
+      color: white;
+      font-weight: 700;
+    }
+    .btn:disabled { opacity: .5; cursor: wait; }
+    .secondary { background: #25344c; }
+    .danger { background: #7f2936; }
+    .full { width: 100%; margin-top: 18px; }
+    .hidden { display: none !important; }
+    .message { margin-top: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 13px;
+      margin: 22px 0;
+    }
+    .stat {
+      padding: 19px;
+      background: #111a2b;
+      border: 1px solid #24324a;
+      border-radius: 14px;
+    }
+    .stat strong { display: block; font-size: 27px; margin-top: 10px; }
+    .toolbar { display: flex; gap: 10px; margin: 15px 0; }
+    .toolbar input { flex: 1; min-width: 0; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    th, td {
+      text-align: left;
+      padding: 13px 10px;
+      border-bottom: 1px solid #25334a;
+      font-size: 13px;
+    }
+    th { color: #9fb0cc; }
+    .pill {
+      display: inline-block;
+      background: #1c3b32;
+      color: #7ce4b4;
+      padding: 5px 9px;
+      border-radius: 20px;
+    }
+    .warning {
+      background: #34291a;
+      color: #ffd38b;
+      padding: 13px;
+      border-radius: 10px;
+      line-height: 1.5;
+      margin-top: 15px;
+    }
+    @media(max-width: 600px) {
+      .wrap { padding: 15px; }
+      .stats { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="brand">Chat<span>Wave</span> <span style="color:#8e9bb4;font-size:13px">ADMIN</span></div>
+
+    <section id="loginView" class="panel">
+      <h1>Admin sign in</h1>
+      <p class="muted">Sign in with your authorized administrator account.</p>
+      <form id="loginForm">
+        <label for="email">Administrator email</label>
+        <input id="email" type="email" autocomplete="username" required>
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button class="btn full" id="loginBtn" type="submit">Sign in</button>
+      </form>
+      <div id="loginMessage" class="message" role="status"></div>
+      <div class="warning">
+        Signing in alone does not grant administrator access. Firebase must authorize your account.
+      </div>
+    </section>
+
+    <section id="dashboardView" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="muted">ChatWave platform overview</p>
+        </div>
+        <button id="logoutBtn" class="btn secondary">Sign out</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="muted">Total users</span><strong id="totalUsers">—</strong></div>
+        <div class="stat"><span class="muted">Verified emails</span><strong id="verifiedUsers">—</strong></div>
+        <div class="stat"><span class="muted">Pending verification</span><strong id="pendingUsers">—</strong></div>
+      </div>
+
+      <section class="panel">
+        <h2>Registered users</h2>
+        <p class="muted">User information stored in your Firestore database.</p>
+        <div class="toolbar">
+          <input id="searchInput" type="search" placeholder="Search name or email">
+          <button id="refreshBtn" class="btn secondary">Refresh</button>
+        </div>
+        <div id="userMessage" class="message muted" role="status">Loading users…</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Email</th><th>Email verified</th><th>Account status</th></tr>
+            </thead>
+            <tbody id="usersBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import {
+      getAuth, signInWithEmailAndPassword, onAuthStateChanged,
+      signOut, reload
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import {
+      getFirestore, collection, getDocs, doc, getDoc, query, limit
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    // Your existing Firebase project configuration.
+    const firebaseConfig = {
+      apiKey: "AIzaSyDntET4DqTUk5qnD6hoBLcGBvq2Ty4uJvA",
+      authDomain: "chat-app-fe0df.firebaseapp.com",
+      projectId: "chat-app-fe0df",
+      storageBucket: "chat-app-fe0df.firebasestorage.app",
+      messagingSenderId: "255781243837",
+      appId: "1:255781243837:web:7154aa4a0a28e773f8e0d4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const $ = id => document.getElementById(id);
+    let allUsers = [];
+
+    function showMessage(id, message) {
+      $(id).textContent = message;
+    }
+
+    function friendlyError(error) {
+      const errors = {
+        "auth/invalid-credential": "Email or password is incorrect.",
+        "auth/invalid-email": "Enter a valid email address.",
+        "auth/too-many-requests": "Too many attempts. Try again later.",
+        "auth/network-request-failed": "Network error. Check your internet.",
+        "permission-denied": "Firebase denied access. Check your admin authorization and Firestore rules."
+      };
+      return errors[error.code] || error.message || "Something went wrong.";
+    }
+
+    async function checkAdmin(user) {
+      // Admin status must be granted securely in Firebase, not by this page.
+      const token = await user.getIdTokenResult(true);
+      if (token.claims.admin === true) return true;
+
+      // Also support a server-managed role document.
+      // Firestore rules must ensure users cannot edit their own role.
+      const roleDoc = await getDoc(doc(db, "admins", user.uid));
+      return roleDoc.exists() && roleDoc.data().active === true;
+    }
+
+    $("loginForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const btn = $("loginBtn");
+      btn.disabled = true;
+      showMessage("loginMessage", "Signing in…");
+
+      try {
+        const credential = await signInWithEmailAndPassword(
+          auth, $("email").value.trim(), $("password").value
+        );
+        await credential.user.getIdToken(true);
+
+        if (!await checkAdmin(credential.user)) {
+          await signOut(auth);
+          throw new Error("This account is not authorized as an administrator yet.");
+        }
+        showMessage("loginMessage", "");
+      } catch (error) {
+        showMessage("loginMessage", friendlyError(error));
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        $("loginView").classList.remove("hidden");
+        $("dashboardView").classList.add("hidden");
+        return;
+      }
+
+      try {
+        if (!await checkAdmin(user)) {
+          await signOut(auth);
+          showMessage("loginMessage", "Access denied. An administrator must authorize your account in Firebase first.");
+          return;
+        }
+        $("loginView").classList.add("hidden");
+        $("dashboardView").classList.remove("hidden");
+        await loadUsers();
+      } catch (error) {
+        await signOut(auth);
+        showMessage("loginMessage", friendlyError(error));
+      }
+    });
+
+    async function loadUsers() {
+      showMessage("userMessage", "Loading users…");
+      $("refreshBtn").disabled = true;
+      try {
+        // Read-only in this first version. Limit protects against huge reads.
+        const snapshot = await getDocs(query(collection(db, "users"), limit(200)));
+        allUsers = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
+        renderUsers();
+        showMessage("userMessage", `Showing ${allUsers.length} users (maximum 200 per load).`);
+      } catch (error) {
+        showMessage("userMessage", friendlyError(error));
+      } finally {
+        $("refreshBtn").disabled = false;
+      }
+    }
+
+    function renderUsers() {
+      const term = $("searchInput").value.trim().toLowerCase();
+      const filtered = allUsers.filter(user =>
+        String(user.name || "").toLowerCase().includes(term) ||
+        String(user.email || "").toLowerCase().includes(term)
+      );
+
+      $("totalUsers").textContent = allUsers.length;
+      $("verifiedUsers").textContent =
+        allUsers.filter(user => user.emailVerified === true).length;
+      $("pendingUsers").textContent =
+        allUsers.filter(user => user.emailVerified !== true).length;
+
+      $("usersBody").replaceChildren();
+
+      if (!filtered.length) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 4;
+        cell.textContent = "No users found.";
+        row.appendChild(cell);
+        $("usersBody").appendChild(row);
+        return;
+      }
+
+      for (const user of filtered) {
+        const row = document.createElement("tr");
+        const values = [
+          user.name || "Unnamed",
+          user.email || "No email",
+          user.emailVerified === true ? "Verified" : "Not verified",
+          user.accountStatus || "active"
+        ];
+
+        values.forEach((value, index) => {
+          const cell = document.createElement("td");
+          if (index === 2) {
+            const pill = document.createElement("span");
+            pill.className = "pill";
+            pill.textContent = value;
+            cell.appendChild(pill);
+          } else {
+            cell.textContent = String(value);
+          }
+          row.appendChild(cell);
+        });
+        $("usersBody").appendChild(row);
+      }
+    }
+
+    $("searchInput").addEventListener("input", renderUsers);
+    $("refreshBtn").addEventListener("click", loadUsers);
+    $("logoutBtn").addEventListener("click", () => signOut(auth));
+  </script>
+</body>
+</html>
