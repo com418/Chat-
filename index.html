@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07111f">
 <title>ChatWave — Connect. Chat. Share.</title>
 
@@ -10,77 +10,93 @@
 :root {
   color-scheme: dark;
   --bg:#07111f;
-  --panel:rgba(18,32,53,.82);
-  --line:rgba(255,255,255,.10);
+  --panel:rgba(18,32,53,.88);
+  --line:rgba(255,255,255,.11);
   --text:#f4f7fb;
   --muted:#9aabc1;
   --green:#24d98b;
+  --orange:#ffbd8a;
 }
 * { box-sizing:border-box; }
 body {
-  margin:0; min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,
-  "Segoe UI",sans-serif; color:var(--text);
-  background:radial-gradient(ellipse at top,#173451 0,#07111f 55%);
+  margin:0; min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:radial-gradient(ellipse at top,#173451 0,#07111f 58%);
 }
 button,input { font:inherit; }
 button {
-  border:0; border-radius:12px; padding:12px 16px;
+  border:0; border-radius:13px; padding:13px 17px;
   cursor:pointer; font-weight:650;
 }
+button:disabled { opacity:.5; cursor:not-allowed; }
 .primary { background:var(--green); color:#062016; }
 .secondary { background:#23364d; color:white; }
 input {
-  width:100%; padding:13px; border-radius:12px;
+  width:100%; padding:14px; border-radius:14px;
   color:white; background:#0a1728; border:1px solid var(--line);
-  outline:none; margin:6px 0 12px;
+  outline:none; margin:7px 0 15px;
 }
 input:focus { border-color:var(--green); }
+a { color:var(--green); }
 .hidden { display:none!important; }
-.wrap { width:min(1100px,100%); margin:auto; padding:20px; }
-.brand { font-size:25px; font-weight:800; letter-spacing:-1px; }
+.wrap { width:min(1120px,100%); margin:auto; padding:22px; }
+header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.brand { font-size:27px; font-weight:850; letter-spacing:-1.4px; }
 .brand span { color:var(--green); }
-.muted { color:var(--muted); font-size:14px; }
+.muted { color:var(--muted); font-size:14px; line-height:1.6; }
 .panel {
   background:var(--panel); border:1px solid var(--line);
-  border-radius:22px; padding:20px; backdrop-filter:blur(22px);
+  border-radius:24px; padding:24px; backdrop-filter:blur(22px);
 }
-.auth { max-width:430px; margin:8vh auto; }
-h2 { margin:8px 0 16px; }
-.status { min-height:22px; color:#ffbd8a; font-size:14px; margin:8px 0; }
-.layout { display:grid; grid-template-columns:300px 1fr; gap:16px; margin-top:20px; }
+.auth { max-width:560px; margin:9vh auto; }
+h1,h2 { letter-spacing:-.7px; }
+h2 { margin:8px 0 20px; font-size:28px; }
+label { display:block; margin-top:12px; }
+.status { min-height:22px; color:var(--orange); font-size:14px; line-height:1.5; margin:12px 0 0; overflow-wrap:anywhere; }
+.success { color:var(--green); }
+.layout { display:grid; grid-template-columns:310px minmax(0,1fr); gap:18px; margin-top:20px; }
 .userrow {
   width:100%; text-align:left; display:flex; gap:12px; align-items:center;
   background:transparent; color:white; border-bottom:1px solid var(--line);
   border-radius:0; padding:14px 4px;
 }
+.userrow:hover { background:rgba(255,255,255,.04); }
 .avatar {
-  width:42px; height:42px; border-radius:50%; background:#164a3b;
-  display:grid; place-items:center; color:#9cf5ce; font-weight:800;
+  flex:0 0 42px; width:42px; height:42px; border-radius:50%;
+  background:#164a3b; display:grid; place-items:center;
+  color:#9cf5ce; font-weight:800;
 }
-.chatbox { min-height:60vh; display:flex; flex-direction:column; }
-.chathead { padding-bottom:14px; border-bottom:1px solid var(--line); }
-.messages { flex:1; min-height:280px; padding:16px 0; overflow-y:auto; }
+.chatbox { min-height:62vh; display:flex; flex-direction:column; min-width:0; }
+.chathead { padding-bottom:15px; border-bottom:1px solid var(--line); }
+.messages { flex:1; min-height:280px; max-height:52vh; padding:16px 0; overflow-y:auto; }
 .bubble {
-  max-width:80%; width:fit-content; padding:11px 14px; margin:8px 0;
+  max-width:82%; width:fit-content; padding:11px 14px; margin:8px 0;
   border-radius:16px; background:#20334a; overflow-wrap:anywhere;
+  white-space:pre-wrap;
 }
 .mine { margin-left:auto; background:#087c55; }
+.msgmeta { color:#d0e8df; font-size:11px; margin-top:5px; opacity:.8; }
 .sendrow { display:flex; gap:8px; align-items:center; }
-.sendrow input { margin:0; }
+.sendrow input { margin:0; min-width:0; }
+.small { font-size:12px; color:var(--muted); }
 @media(max-width:700px) {
-  .wrap { padding:12px; }
+  .wrap { padding:15px; }
+  .auth { margin:7vh auto; padding:21px; }
   .layout { grid-template-columns:1fr; }
   .chatbox { min-height:55vh; }
-  .auth { margin:5vh auto; }
+  .messages { max-height:45vh; }
+  .brand { font-size:25px; }
+  h2 { font-size:25px; }
 }
 </style>
 </head>
 
 <body>
 <div class="wrap">
-  <header style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+  <header>
     <div class="brand">Chat<span>Wave</span></div>
-    <button id="logoutBtn" class="secondary hidden">Log out</button>
+    <button id="logoutBtn" class="secondary hidden" type="button">Log out</button>
   </header>
 
   <section id="authScreen" class="panel auth">
@@ -88,47 +104,47 @@ h2 { margin:8px 0 16px; }
       <p class="muted">YOUR SPACE TO CONNECT</p>
       <h2>Welcome back</h2>
       <form id="loginForm">
-        <label>Email</label>
+        <label for="loginEmail">Email</label>
         <input id="loginEmail" type="email" autocomplete="email" required>
-        <label>Password</label>
+        <label for="loginPassword">Password</label>
         <input id="loginPassword" type="password" autocomplete="current-password" required>
         <button class="primary" style="width:100%">Sign in</button>
       </form>
-      <p><button id="forgotBtn" class="secondary">Forgot password?</button></p>
-      <p class="muted">New to ChatWave? <a href="#" id="showSignup" style="color:var(--green)">Create account</a></p>
+      <p><button id="forgotBtn" class="secondary" type="button">Forgot password?</button></p>
+      <p class="muted">New to ChatWave? <a href="#" id="showSignup">Create account</a></p>
     </div>
 
     <div id="signupPane" class="hidden">
       <p class="muted">JOIN THE COMMUNITY</p>
       <h2>Create your account</h2>
       <form id="signupForm">
-        <label>Your name</label>
-        <input id="signupName" autocomplete="name" required maxlength="60">
-        <label>Email</label>
+        <label for="signupName">Your name</label>
+        <input id="signupName" autocomplete="name" maxlength="60" required>
+        <label for="signupEmail">Email</label>
         <input id="signupEmail" type="email" autocomplete="email" required>
-        <label>Password (at least 6 characters)</label>
+        <label for="signupPassword">Password (at least 6 characters)</label>
         <input id="signupPassword" type="password" autocomplete="new-password" minlength="6" required>
-        <button class="primary" style="width:100%">Create account</button>
+        <button id="signupBtn" class="primary" style="width:100%">Create account</button>
       </form>
-      <p class="muted">Already registered? <a href="#" id="showLogin" style="color:var(--green)">Sign in</a></p>
+      <p class="muted">Already registered? <a href="#" id="showLogin">Sign in</a></p>
     </div>
 
     <div id="verifyPane" class="hidden">
       <p class="muted">ONE MORE STEP</p>
       <h2>Verify your email</h2>
-      <p class="muted">Enter the six-digit code sent to your email.</p>
-      <form id="verifyForm">
-        <input id="verifyCode" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required>
-        <button class="primary" style="width:100%">Verify email</button>
-      </form>
-      <p><button id="resendBtn" class="secondary">Send a new code</button></p>
-      <p><button id="cancelVerifyBtn" class="secondary">Back to sign in</button></p>
+      <p>We sent a verification link to:</p>
+      <p id="verifyEmail" class="success"></p>
+      <p class="muted">Open the email and tap its verification link. Then return here and tap the button below.</p>
+      <button id="checkVerifyBtn" class="primary" type="button" style="width:100%">I've verified my email</button>
+      <p><button id="resendVerifyBtn" class="secondary" type="button">Resend verification email</button></p>
+      <p><button id="backLoginBtn" class="secondary" type="button">Back to sign in</button></p>
     </div>
-    <div id="authStatus" class="status" role="status"></div>
+
+    <div id="authStatus" class="status" role="status" aria-live="polite"></div>
   </section>
 
   <section id="appScreen" class="hidden">
-    <div class="panel" style="margin-top:20px">
+    <div class="panel" style="margin-top:22px">
       <div class="muted">SIGNED IN AS</div>
       <h2 id="welcomeName">Welcome</h2>
       <div class="muted">Choose a person to start a conversation.</div>
@@ -137,8 +153,9 @@ h2 { margin:8px 0 16px; }
     <div class="layout">
       <aside class="panel">
         <h2>People</h2>
-        <input id="peopleSearch" placeholder="Search by name or email">
+        <input id="peopleSearch" placeholder="Search by name or email" autocomplete="off">
         <div id="peopleList" class="muted">Loading people…</div>
+        <div id="peopleStatus" class="status"></div>
       </aside>
 
       <section class="panel chatbox">
@@ -151,17 +168,15 @@ h2 { margin:8px 0 16px; }
           <input id="messageInput" placeholder="Write a message…" maxlength="2000" autocomplete="off" disabled>
           <button class="primary" id="sendBtn" disabled>Send</button>
         </form>
-        <div id="chatStatus" class="status"></div>
+        <div id="chatStatus" class="status" role="status" aria-live="polite"></div>
       </section>
     </div>
   </section>
 </div>
 
-<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script>
 const firebaseConfig = {
@@ -173,303 +188,491 @@ const firebaseConfig = {
   appId: "1:255781243837:web:7154aa4a0a28e773f8e0d4"
 };
 
-const EMAILJS_SERVICE_ID = "service_1h2qcyj";
-const EMAILJS_TEMPLATE_ID = "template_g5knl87";
-const EMAILJS_PUBLIC_KEY = "OKtLjZnoiYd3ih6cm";
-
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-
-if (window.emailjs) emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
 const $ = id => document.getElementById(id);
+
 let currentUser = null;
 let currentProfile = null;
 let selectedPerson = null;
 let people = [];
 let peopleUnsub = null;
 let messagesUnsub = null;
-let pendingCode = null;
-let pendingExpiry = 0;
-let pendingUser = null;
+let authHandledUid = null;
+let busy = false;
 
-function status(message, target = "authStatus") {
-  $(target).textContent = message || "";
+function setStatus(message, target = "authStatus", success = false) {
+  const el = $(target);
+  el.textContent = message || "";
+  el.classList.toggle("success", success);
 }
+
 function showPane(id) {
-  ["loginPane","signupPane","verifyPane"].forEach(x => $(x).classList.add("hidden"));
+  ["loginPane", "signupPane", "verifyPane"].forEach(
+    pane => $(pane).classList.add("hidden")
+  );
   $(id).classList.remove("hidden");
-  status("");
+  setStatus("");
 }
+
 function showApp(on) {
   $("authScreen").classList.toggle("hidden", on);
   $("appScreen").classList.toggle("hidden", !on);
   $("logoutBtn").classList.toggle("hidden", !on);
 }
-function escapeText(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
-}
-function roomId(a, b) {
-  return [a,b].sort().join("_");
-}
-async function sendVerificationCode(user, name) {
-  if (!window.emailjs) throw new Error("Email service did not load. Refresh and try again.");
-  pendingCode = String(Math.floor(100000 + Math.random() * 900000));
-  pendingExpiry = Date.now() + 10 * 60 * 1000;
-  pendingUser = { uid:user.uid, email:user.email, name };
-  sessionStorage.setItem("chatwave_pending", JSON.stringify({
-    uid:user.uid, email:user.email, name,
-    code:pendingCode, expiry:pendingExpiry
-  }));
-  await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-    to_email: user.email,
-    user_name: name || "ChatWave user",
-    verification_code: pendingCode,
-    app_name: "ChatWave"
-  });
-}
-function restorePending() {
-  try {
-    const p = JSON.parse(sessionStorage.getItem("chatwave_pending") || "null");
-    if (p && p.expiry > Date.now()) {
-      pendingCode = p.code;
-      pendingExpiry = p.expiry;
-      pendingUser = { uid:p.uid, email:p.email, name:p.name };
-      return true;
-    }
-  } catch (_) {}
-  return false;
-}
-async function saveProfile(user, name, statusValue = "active") {
-  await db.collection("users").doc(user.uid).set({
-    uid:user.uid,
-    name:name || user.displayName || (user.email || "").split("@")[0],
-    email:user.email || "",
-    accountStatus:statusValue,
-    createdAt:firebase.firestore.FieldValue.serverTimestamp()
-  }, { merge:true });
-}
-async function finishVerification() {
-  if (!currentUser || !currentProfile) return;
-  await saveProfile(currentUser, currentProfile.name, "active");
-  sessionStorage.removeItem("chatwave_pending");
-  pendingCode = null;
-  pendingUser = null;
-  showApp(true);
-  await loadPeople();
+
+function errorMessage(error) {
+  const messages = {
+    "auth/email-already-in-use": "This email already has an account. Please sign in.",
+    "auth/invalid-email": "Please enter a valid email address.",
+    "auth/weak-password": "Please choose a stronger password with at least 6 characters.",
+    "auth/invalid-credential": "Email or password is incorrect.",
+    "auth/user-not-found": "No account was found for that email.",
+    "auth/wrong-password": "Email or password is incorrect.",
+    "auth/too-many-requests": "Too many attempts. Please wait and try again.",
+    "auth/network-request-failed": "Network error. Check your internet connection.",
+    "permission-denied": "Firestore blocked this operation. Check the published Firestore rules.",
+    "failed-precondition": "Firebase needs a database configuration change. Check the console."
+  };
+  return messages[error.code] || error.message || "Something went wrong. Please try again.";
 }
 
-$("showSignup").onclick = e => { e.preventDefault(); showPane("signupPane"); };
-$("showLogin").onclick = e => { e.preventDefault(); showPane("loginPane"); };
-$("cancelVerifyBtn").onclick = async () => {
-  status("");
-  try { await auth.signOut(); } catch (_) {}
-  sessionStorage.removeItem("chatwave_pending");
-  pendingCode = null;
-  pendingUser = null;
+function roomId(a, b) {
+  return [a, b].sort().join("_");
+}
+
+function friendlyName(user, profile) {
+  return profile?.name || user.displayName || (user.email || "").split("@")[0] || "ChatWave user";
+}
+
+async function createProfileIfMissing(user, name) {
+  const ref = db.collection("users").doc(user.uid);
+  const snap = await ref.get();
+
+  if (!snap.exists) {
+    await ref.set({
+      uid: user.uid,
+      name: name || friendlyName(user),
+      email: user.email || "",
+      role: "user",
+      accountStatus: user.emailVerified ? "active" : "pending_verification",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    return (await ref.get()).data();
+  }
+
+  return snap.data();
+}
+
+async function activateVerifiedProfile(user, profile) {
+  const ref = db.collection("users").doc(user.uid);
+  const snap = await ref.get();
+
+  if (!snap.exists) {
+    await ref.set({
+      uid: user.uid,
+      name: friendlyName(user, profile),
+      email: user.email || "",
+      role: "user",
+      accountStatus: "active",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    return;
+  }
+
+  const data = snap.data();
+
+  if (data.accountStatus === "suspended") {
+    throw new Error("This account has been suspended. Contact support.");
+  }
+
+  const changes = {};
+  if (!data.role) changes.role = "user";
+  if (data.accountStatus !== "active") changes.accountStatus = "active";
+  if (!data.name) changes.name = friendlyName(user, profile);
+  if (!data.email) changes.email = user.email || "";
+
+  if (Object.keys(changes).length) {
+    await ref.update(changes);
+  }
+}
+
+async function sendVerificationEmail(user) {
+  await user.sendEmailVerification({
+    url: location.origin + location.pathname,
+    handleCodeInApp: false
+  });
+}
+
+$("showSignup").onclick = e => {
+  e.preventDefault();
+  showPane("signupPane");
+};
+$("showLogin").onclick = e => {
+  e.preventDefault();
   showPane("loginPane");
 };
+
 $("signupForm").onsubmit = async e => {
   e.preventDefault();
+  if (busy) return;
+  busy = true;
+  $("signupBtn").disabled = true;
+
   const name = $("signupName").value.trim();
   const email = $("signupEmail").value.trim();
-  const password = $("signupPassword").value;
+
   try {
-    status("Creating your account…");
-    const credential = await auth.createUserWithEmailAndPassword(email, password);
+    setStatus("Creating your account…");
+    const credential = await auth.createUserWithEmailAndPassword(
+      email, $("signupPassword").value
+    );
     currentUser = credential.user;
-    currentProfile = { name, email };
-    await saveProfile(currentUser, name, "pending_verification");
-    await sendVerificationCode(currentUser, name);
+
+    await currentUser.updateProfile({ displayName: name });
+    await createProfileIfMissing(currentUser, name);
+    await sendVerificationEmail(currentUser);
+
+    $("verifyEmail").textContent = email;
     showPane("verifyPane");
-    status("Check your inbox for the verification code.");
+    setStatus("Verification email sent. Check your inbox and spam folder.", "authStatus", true);
   } catch (err) {
-    status(err.message || "Could not create your account.");
+    setStatus(errorMessage(err));
+  } finally {
+    busy = false;
+    $("signupBtn").disabled = false;
   }
 };
-$("verifyForm").onsubmit = async e => {
-  e.preventDefault();
-  const entered = $("verifyCode").value.trim();
-  const pending = restorePending();
-  if (!pendingCode || !pendingUser || !pending) {
-    status("Your code expired. Sign in and request a new code.");
-    return;
-  }
-  if (Date.now() > pendingExpiry) {
-    status("Your code expired. Please request a new one.");
-    return;
-  }
-  if (entered !== pendingCode) {
-    status("That code is incorrect. Try again.");
-    return;
-  }
-  try {
-    status("Verifying…");
-    currentUser = auth.currentUser;
-    if (!currentUser || currentUser.uid !== pendingUser.uid) {
-      status("Please sign in with the account you registered.");
-      return;
-    }
-    currentProfile = { name:pendingUser.name, email:pendingUser.email };
-    await finishVerification();
-  } catch (err) {
-    status(err.message || "Verification failed.");
-  }
-};
-$("resendBtn").onclick = async () => {
-  try {
-    const user = auth.currentUser;
-    if (!user) { status("Please sign in again."); return; }
-    const p = JSON.parse(sessionStorage.getItem("chatwave_pending") || "null");
-    const name = p?.name || user.displayName || "ChatWave user";
-    status("Sending a new code…");
-    await sendVerificationCode(user, name);
-    status("A new code has been sent.");
-  } catch (err) {
-    status("Could not send the code: " + (err.message || "Please try again."));
-  }
-};
+
 $("loginForm").onsubmit = async e => {
   e.preventDefault();
+  if (busy) return;
+  busy = true;
+
   try {
-    status("Signing in…");
+    setStatus("Signing in…");
     await auth.signInWithEmailAndPassword(
-      $("loginEmail").value.trim(), $("loginPassword").value
+      $("loginEmail").value.trim(),
+      $("loginPassword").value
     );
   } catch (err) {
-    status(err.message || "Sign-in failed.");
+    setStatus(errorMessage(err));
+  } finally {
+    busy = false;
   }
 };
+
 $("forgotBtn").onclick = async () => {
   const email = $("loginEmail").value.trim();
-  if (!email) { status("Enter your email address first."); return; }
+  if (!email) {
+    setStatus("Enter your email address first.");
+    return;
+  }
+
   try {
     await auth.sendPasswordResetEmail(email);
-    status("Password reset email sent.");
-  } catch (err) { status(err.message || "Could not send reset email."); }
+    setStatus("Password reset email sent. Check your inbox.", "authStatus", true);
+  } catch (err) {
+    setStatus(errorMessage(err));
+  }
 };
-$("logoutBtn").onclick = () => auth.signOut();
+
+$("checkVerifyBtn").onclick = async () => {
+  const user = auth.currentUser;
+  if (!user) {
+    setStatus("Please sign in with the account you registered.");
+    showPane("loginPane");
+    return;
+  }
+
+  try {
+    setStatus("Checking email verification…");
+    await user.reload();
+
+    const refreshedUser = auth.currentUser;
+    if (!refreshedUser || !refreshedUser.emailVerified) {
+      setStatus("Your email is not verified yet. Open the link in your email first.");
+      return;
+    }
+
+    await refreshedUser.getIdToken(true);
+    const profile = await db.collection("users").doc(refreshedUser.uid).get();
+    await activateVerifiedProfile(refreshedUser, profile.exists ? profile.data() : null);
+    currentUser = refreshedUser;
+    authHandledUid = null;
+    await handleSignedInUser(refreshedUser);
+  } catch (err) {
+    setStatus(errorMessage(err));
+  }
+};
+
+$("resendVerifyBtn").onclick = async () => {
+  const user = auth.currentUser;
+  if (!user) {
+    setStatus("Please sign in again, then request another verification email.");
+    return;
+  }
+
+  try {
+    setStatus("Sending verification email…");
+    await user.reload();
+    if (auth.currentUser.emailVerified) {
+      setStatus("Your email is already verified. Tap the verification check button.", "authStatus", true);
+      return;
+    }
+    await sendVerificationEmail(auth.currentUser);
+    setStatus("A new verification email has been sent.", "authStatus", true);
+  } catch (err) {
+    setStatus(errorMessage(err));
+  }
+};
+
+$("backLoginBtn").onclick = async () => {
+  try { await auth.signOut(); } catch (_) {}
+  showPane("loginPane");
+};
+
+$("logoutBtn").onclick = async () => {
+  try {
+    await auth.signOut();
+  } catch (err) {
+    setStatus(errorMessage(err), "chatStatus");
+  }
+};
+
+function stopListeners() {
+  if (peopleUnsub) peopleUnsub();
+  if (messagesUnsub) messagesUnsub();
+  peopleUnsub = null;
+  messagesUnsub = null;
+}
+
+async function handleSignedInUser(user) {
+  if (!user) return;
+
+  try {
+    await user.reload();
+    currentUser = auth.currentUser || user;
+    await currentUser.getIdToken(true);
+
+    const ref = db.collection("users").doc(currentUser.uid);
+    let snap = await ref.get();
+    let profile = snap.exists ? snap.data() : null;
+
+    if (profile?.accountStatus === "suspended") {
+      showApp(false);
+      setStatus("This account has been suspended. Contact support.");
+      await auth.signOut();
+      return;
+    }
+
+    if (!currentUser.emailVerified) {
+      if (!profile) {
+        profile = await createProfileIfMissing(currentUser, currentUser.displayName);
+      }
+      $("verifyEmail").textContent = currentUser.email || "";
+      showApp(false);
+      showPane("verifyPane");
+      setStatus("Please verify your email before using ChatWave.");
+      return;
+    }
+
+    await activateVerifiedProfile(currentUser, profile);
+    snap = await ref.get();
+    currentProfile = snap.data() || {};
+
+    $("welcomeName").textContent = "Hi, " + friendlyName(currentUser, currentProfile);
+    showApp(true);
+    setStatus("");
+    await loadPeople();
+  } catch (err) {
+    showApp(false);
+    setStatus("Could not load your profile: " + errorMessage(err));
+  }
+}
+
+auth.onAuthStateChanged(async user => {
+  currentUser = user;
+
+  if (!user) {
+    stopListeners();
+    currentProfile = null;
+    selectedPerson = null;
+    authHandledUid = null;
+    showApp(false);
+    showPane("loginPane");
+    return;
+  }
+
+  if (authHandledUid === user.uid) return;
+  authHandledUid = user.uid;
+  await handleSignedInUser(user);
+});
 
 async function loadPeople() {
   if (peopleUnsub) peopleUnsub();
+
+  setStatus("Loading members…", "peopleStatus");
+
   peopleUnsub = db.collection("users").onSnapshot(snapshot => {
-    people = snapshot.docs.map(doc => ({ id:doc.id, ...doc.data() }))
-      .filter(p => p.id !== currentUser.uid && p.accountStatus === "active");
+    people = snapshot.docs
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .filter(person =>
+        person.id !== currentUser?.uid &&
+        person.accountStatus === "active" &&
+        person.role !== "admin"
+      );
+
     renderPeople();
-  }, err => status("Could not load people: " + err.message, "chatStatus"));
+    setStatus("", "peopleStatus");
+  }, err => {
+    setStatus("Could not load members: " + errorMessage(err), "peopleStatus");
+  });
 }
+
 function renderPeople() {
   const q = $("peopleSearch").value.trim().toLowerCase();
-  const filtered = people.filter(p =>
-    (p.name || "").toLowerCase().includes(q) ||
-    (p.email || "").toLowerCase().includes(q)
+  const filtered = people.filter(person =>
+    (person.name || "").toLowerCase().includes(q) ||
+    (person.email || "").toLowerCase().includes(q)
   );
-  $("peopleList").innerHTML = filtered.length ? "" :
-    '<p class="muted">No other active users found yet.</p>';
+
+  $("peopleList").innerHTML = "";
+
+  if (!filtered.length) {
+    $("peopleList").innerHTML = '<p class="muted">No other active members found yet.</p>';
+    return;
+  }
+
   filtered.forEach(person => {
     const button = document.createElement("button");
+    button.type = "button";
     button.className = "userrow";
-    button.innerHTML =
-      '<span class="avatar">' + escapeText((person.name || "?").slice(0,1).toUpperCase()) + '</span>' +
-      '<span><strong>' + escapeText(person.name || "ChatWave user") +
-      '</strong><br><span class="muted">' + escapeText(person.email || "") + '</span></span>';
+
+    const avatar = document.createElement("span");
+    avatar.className = "avatar";
+    avatar.textContent = (person.name || "?").slice(0, 1).toUpperCase();
+
+    const details = document.createElement("span");
+    const name = document.createElement("strong");
+    name.textContent = person.name || "ChatWave user";
+
+    const email = document.createElement("span");
+    email.className = "muted";
+    email.textContent = person.email || "";
+
+    details.append(name, document.createElement("br"), email);
+    button.append(avatar, details);
     button.onclick = () => openChat(person);
     $("peopleList").appendChild(button);
   });
 }
+
 $("peopleSearch").addEventListener("input", renderPeople);
 
 async function openChat(person) {
+  if (!currentUser) return;
+
   selectedPerson = person;
   $("chatTitle").textContent = person.name || "ChatWave user";
   $("chatSubtitle").textContent = person.email || "";
-  $("messageInput").disabled = false;
-  $("sendBtn").disabled = false;
+  $("messageInput").disabled = true;
+  $("sendBtn").disabled = true;
   $("messages").innerHTML = "";
-  status("", "chatStatus");
+  setStatus("Opening conversation…", "chatStatus");
+
   if (messagesUnsub) messagesUnsub();
+
   const id = roomId(currentUser.uid, person.id);
-  messagesUnsub = db.collection("chats").doc(id).collection("messages")
-    .orderBy("createdAt", "asc").limit(200)
-    .onSnapshot(snapshot => {
-      $("messages").innerHTML = "";
-      snapshot.forEach(doc => {
-        const m = doc.data();
-        const div = document.createElement("div");
-        div.className = "bubble " + (m.senderId === currentUser.uid ? "mine" : "");
-        div.textContent = m.text || "";
-        $("messages").appendChild(div);
+  const chatRef = db.collection("chats").doc(id);
+
+  try {
+    const chatSnap = await chatRef.get();
+
+    if (!chatSnap.exists) {
+      await chatRef.set({
+        participants: [currentUser.uid, person.id].sort(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      $("messages").scrollTop = $("messages").scrollHeight;
-    }, err => status("Could not load messages: " + err.message, "chatStatus"));
+    }
+
+    messagesUnsub = chatRef.collection("messages")
+      .orderBy("createdAt", "asc")
+      .limit(200)
+      .onSnapshot(snapshot => {
+        $("messages").innerHTML = "";
+
+        snapshot.forEach(doc => {
+          const message = doc.data();
+          const bubble = document.createElement("div");
+          bubble.className = "bubble" +
+            (message.senderId === currentUser.uid ? " mine" : "");
+          bubble.textContent = message.text || "";
+
+          const meta = document.createElement("div");
+          meta.className = "msgmeta";
+          meta.textContent = message.senderId === currentUser.uid
+            ? "You"
+            : (message.senderName || person.name || "Member");
+          bubble.appendChild(meta);
+          $("messages").appendChild(bubble);
+        });
+
+        $("messages").scrollTop = $("messages").scrollHeight;
+        setStatus("", "chatStatus");
+      }, err => {
+        setStatus("Could not load messages: " + errorMessage(err), "chatStatus");
+      });
+
+    $("messageInput").disabled = false;
+    $("sendBtn").disabled = false;
+    $("messageInput").focus();
+  } catch (err) {
+    setStatus("Could not open conversation: " + errorMessage(err), "chatStatus");
+  }
 }
+
 $("sendForm").onsubmit = async e => {
   e.preventDefault();
+
   const text = $("messageInput").value.trim();
   if (!text || !selectedPerson || !currentUser) return;
+
   $("sendBtn").disabled = true;
+
   try {
     const id = roomId(currentUser.uid, selectedPerson.id);
-    await db.collection("chats").doc(id).collection("messages").add({
+    const chatRef = db.collection("chats").doc(id);
+
+    const snap = await chatRef.get();
+    if (!snap.exists) {
+      await chatRef.set({
+        participants: [currentUser.uid, selectedPerson.id].sort(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    await chatRef.collection("messages").add({
       text,
-      senderId:currentUser.uid,
-      senderName:currentProfile?.name || currentUser.email,
-      receiverId:selectedPerson.id,
-      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+      senderId: currentUser.uid,
+      senderName: friendlyName(currentUser, currentProfile),
+      receiverId: selectedPerson.id,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
+
+    await chatRef.update({
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
     $("messageInput").value = "";
+    setStatus("");
   } catch (err) {
-    status("Message failed: " + err.message, "chatStatus");
+    setStatus("Message failed: " + errorMessage(err), "chatStatus");
   } finally {
     $("sendBtn").disabled = false;
   }
 };
-
-auth.onAuthStateChanged(async user => {
-  currentUser = user;
-  if (!user) {
-    if (peopleUnsub) peopleUnsub();
-    if (messagesUnsub) messagesUnsub();
-    showApp(false);
-    if (restorePending()) showPane("verifyPane");
-    else showPane("loginPane");
-    return;
-  }
-  try {
-    const p = await db.collection("users").doc(user.uid).get();
-    currentProfile = p.exists ? p.data() : {
-      name:user.displayName || (user.email || "").split("@")[0],
-      email:user.email
-    };
-    const pending = restorePending();
-    if (pending && pendingUser?.uid === user.uid) {
-      showApp(false);
-      showPane("verifyPane");
-      return;
-    }
-    if (currentProfile.accountStatus === "pending_verification") {
-      showApp(false);
-      showPane("verifyPane");
-      status("Enter your email verification code.");
-      return;
-    }
-    if (currentProfile.accountStatus === "suspended") {
-      status("This account has been suspended. Contact support.");
-      await auth.signOut();
-      return;
-    }
-    if (!p.exists) await saveProfile(user, currentProfile.name, "active");
-    $("welcomeName").textContent = "Hi, " + (currentProfile.name || "there");
-    showApp(true);
-    await loadPeople();
-  } catch (err) {
-    showApp(false);
-    status("Could not load your profile: " + err.message);
-  }
-});
 </script>
 </body>
 </html>
