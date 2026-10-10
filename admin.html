@@ -1,47 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ChatWave Admin</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{--glass:rgba(14,34,48,.58);--line:rgba(255,255,255,.17)}
+body{margin:0;min-height:100vh;background:#07151e;color:#f4f8ff;font-family:-apple-system,sans-serif}
+.wall{position:fixed;inset:0;z-index:-2;background: radial-gradient(ellipse at 15% 12%,#236a8e 0,transparent 38%), linear-gradient(135deg,#102b45,#081925 55%,#173b49), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2000') center/cover}
+.glass{background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(28px);border-radius:24px}
+</style>
 </head>
-<body class="bg-gray-100 p-5">
-<h1 class="text-3xl font-bold mb-5">ChatWave Admin Panel</h1>
-<div class="grid grid-cols-3 gap-4 mb-5">
-  <div class="bg-white p-5 rounded shadow"><h3>Total Users</h3><b id="totalUsers" class="text-3xl">0</b></div>
-  <div class="bg-white p-5 rounded shadow"><h3>Total Chats</h3><b id="totalChats" class="text-3xl">0</b></div>
-  <div class="bg-white p-5 rounded shadow"><h3>Online Now</h3><b class="text-3xl text-green-500">Live</b></div>
+<body class="p-4">
+<div class="wall"></div>
+<div class="max-w-[1100px] mx-auto">
+  <div class="glass p-6 mb-4 flex justify-between"><div><h1 class="text-2xl font-bold">ChatWave Admin</h1><p class="text-xs text-white/50">service_1h2qcyj · template_g5knl87</p></div><b id="total" class="text-3xl">0</b></div>
+  <div class="glass p-5"><div id="list"></div></div>
 </div>
-<h2 class="text-xl font-bold mb-3">All Users</h2>
-<div id="usersTable" class="bg-white rounded shadow"></div>
-<h2 class="text-xl font-bold my-3">All Messages (Recent)</h2>
-<div id="messagesTable" class="bg-white rounded shadow p-3 max-h-[400px] overflow-y-auto"></div>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
-  authDomain: "chat-2c557.firebaseapp.com",
-  projectId: "chat-2c557",
-  storageBucket: "chat-2c557.firebasestorage.app",
-  messagingSenderId: "74313204354",
-  appId: "1:74313204354:web:c735269d502b88a39eea9b"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-onSnapshot(collection(db, "users"), (snap)=>{
-  document.getElementById('totalUsers').innerText = snap.size;
-  const table = document.getElementById('usersTable');
-  table.innerHTML = `<div class="p-2 font-bold border-b grid grid-cols-3"><span>Email</span><span>UID</span><span>Action</span></div>`;
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {getFirestore,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",authDomain:"chat-2c557.firebaseapp.com",projectId:"chat-2c557",storageBucket:"chat-2c557.firebasestorage.app",messagingSenderId:"74313204354",appId:"1:74313204354:web:c735269d502b88a39eea9b"};
+const app=initializeApp(firebaseConfig); const db=getFirestore(app);
+onSnapshot(collection(db,"users"),snap=>{
+  document.getElementById('total').innerText=snap.size+" users";
+  const list=document.getElementById('list');
+  list.innerHTML=`<div class="grid grid-cols-3 text-xs text-white/40 pb-2 border-b border-white/10"><span>Email</span><span>UID</span><span>Status</span></div>`;
   snap.forEach(d=>{
-    const u = d.data();
-    const div = document.createElement('div');
-    div.className = "p-2 border-b grid grid-cols-3 text-sm";
-    div.innerHTML = `<span>${u.email}</span><span class="truncate">${u.uid}</span><span><button onclick="alert('${u.email}')" class="text-blue-500">View</button></span>`;
-    table.appendChild(div);
+    const u=d.data();
+    list.innerHTML+=`<div class="grid grid-cols-3 py-3 border-b border-white/5 text-sm"><span>${u.email}</span><span class="text-xs text-white/40 truncate">${u.uid}</span><span class="text-green-400">${u.online?'● Online':'○'}</span></div>`;
   });
 });
 </script>
