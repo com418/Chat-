@@ -3,965 +3,342 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#080d18">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07152e">
 <title>ChatWave Admin</title>
 
 <style>
 :root {
-  --bg: #080d18;
-  --panel: rgba(255,255,255,.055);
-  --border: rgba(255,255,255,.10);
-  --text: #f5f7ff;
-  --muted: #929db2;
-  --accent: #7c83ff;
-  --green: #39dca7;
-  --red: #ff7185;
-  --radius: 20px;
+  --bg:#061329;
+  --panel:rgba(13,30,58,.76);
+  --border:rgba(160,190,255,.19);
+  --text:#f5f7ff;
+  --muted:#9aaccb;
+  --blue:#7199ff;
+  --purple:#7965ff;
+  --mint:#69e4c1;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  color: var(--text);
+*{box-sizing:border-box}
+body{
+  margin:0;color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:
-    radial-gradient(ellipse at 10% 0%, rgba(88,95,255,.18), transparent 36%),
-    radial-gradient(ellipse at 95% 90%, rgba(40,210,170,.08), transparent 35%),
-    var(--bg);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  min-height: 100vh;
+    radial-gradient(ellipse at 15% 15%,#123f83,transparent 40%),
+    radial-gradient(ellipse at 85% 75%,#075b88,transparent 38%),
+    #050b18;min-height:100vh
 }
-button, input, select { font: inherit; }
-button { cursor: pointer; }
-button:disabled { opacity: .5; cursor: not-allowed; }
-.hidden { display: none !important; }
-.muted { color: var(--muted); }
-.small { font-size: 12px; }
-.glass {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.layout{display:grid;grid-template-columns:235px 1fr;min-height:100vh}
+.sidebar{
+  padding:24px 15px;background:#061127bd;
+  backdrop-filter:blur(25px);border-right:1px solid var(--border)
 }
-button:focus-visible, input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+.brand{font-size:21px;font-weight:800;padding:8px 9px 27px}
+.brand span{color:#7fd9ed}
+.brand-icon{color:#79d9e9;margin-right:8px}
+.nav-label{font-size:10px;letter-spacing:1.5px;color:var(--muted);margin:23px 10px 9px}
+.nav{
+  display:flex;gap:12px;padding:12px;border-radius:10px;
+  color:#d5e1f8;text-decoration:none;margin:3px 0
 }
-#loginScreen {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 22px;
+.nav:hover,.nav.active{
+  background:linear-gradient(100deg,#6252ff63,#398aff19)
 }
-.login-card {
-  width: min(100%, 420px);
-  padding: 30px;
+.nav-icon{width:20px;color:#a5c4ff}
+.main{padding:25px;min-width:0}
+.topbar{display:flex;gap:12px;align-items:center;margin-bottom:23px}
+.search{flex:1;max-width:470px}
+.search input{
+  width:100%;padding:13px 16px;border:1px solid var(--border);
+  border-radius:12px;background:#07142bc9;color:white;outline:none
 }
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 23px;
-  font-weight: 800;
-  letter-spacing: -.6px;
+.avatar{
+  width:39px;height:39px;display:grid;place-items:center;
+  border-radius:12px;background:linear-gradient(135deg,#7766ff,#4bc9df);
+  font-weight:bold
 }
-.logo {
-  width: 43px;
-  height: 43px;
-  display: grid;
-  place-items: center;
-  border-radius: 15px;
-  color: white;
-  background: linear-gradient(135deg,#858bff,#5850db);
-  box-shadow: 0 8px 30px #6860ff35;
+.btn{
+  border:1px solid var(--border);border-radius:10px;
+  padding:10px 14px;background:#13284a;color:white
 }
-h1 { font-size: 27px; letter-spacing: -.7px; }
-h2 { font-size: 18px; margin: 0; }
-h3 { font-size: 14px; margin: 0; }
-p { line-height: 1.6; }
-.field { margin: 18px 0; }
-.field label {
-  display: block;
-  color: var(--muted);
-  font-size: 13px;
-  margin-bottom: 8px;
+.primary{background:linear-gradient(110deg,#6558ff,#358fdc);border:0}
+h1{font-size:26px;margin:0 0 6px;letter-spacing:-.6px}
+h2{font-size:15px;margin:0}
+.subtitle{color:var(--muted);font-size:12px}
+.heading{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:20px
 }
-.field input, .search-input, .select-input {
-  width: 100%;
-  min-width: 0;
-  padding: 13px 14px;
-  color: var(--text);
-  background: rgba(255,255,255,.055);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+.grid{display:grid;gap:13px}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{
+  min-width:0;border:1px solid var(--border);border-radius:15px;
+  background:linear-gradient(140deg,rgba(20,42,78,.84),rgba(5,14,29,.85));
+  backdrop-filter:blur(22px);
+  box-shadow:0 16px 45px #0002,inset 0 1px #ffffff08
 }
-input::placeholder { color: #78839a; }
-.primary {
-  color: white;
-  border: 0;
-  border-radius: 12px;
-  padding: 13px 17px;
-  background: linear-gradient(135deg,#777eff,#5b58e7);
-  font-weight: 700;
+.stat{padding:18px;min-height:139px}
+.stat-title{color:#cfdbf0;display:flex;justify-content:space-between}
+.stat-number{font-size:29px;font-weight:800;margin:15px 0 4px}
+.stat-foot{font-size:11px;color:var(--muted)}
+.green{color:var(--mint)}
+.middle{grid-template-columns:1.15fr 1fr;margin-top:14px}
+.section-head{
+  padding:17px 18px 0;display:flex;align-items:center;
+  justify-content:space-between;gap:10px
 }
-.secondary {
-  color: var(--text);
-  background: rgba(255,255,255,.07);
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  padding: 10px 13px;
+.chart-area{padding:15px}
+.chart{width:100%;height:220px;display:block}
+.funnel{display:flex;gap:8px;padding:25px 15px}
+.stage{flex:1;min-width:0;text-align:center}
+.stage-label{font-size:11px;color:var(--muted)}
+.stage-number{font-size:22px;font-weight:800;margin:12px 0}
+.stage-rate{border:1px solid var(--border);border-radius:7px;padding:5px;font-size:10px}
+.bar{height:6px;margin-top:15px;border-radius:9px;background:linear-gradient(90deg,#7965ff,#66dfd0)}
+.lower{grid-template-columns:1fr 1fr 1.1fr;margin-top:14px}
+.content{padding:16px 18px}
+.channel{
+  display:grid;grid-template-columns:90px 1fr 35px;gap:9px;
+  align-items:center;margin:17px 0;font-size:12px;color:#cbd7eb
 }
-.full { width: 100%; }
-.error {
-  color: #ff9baa;
-  background: #ff637d13;
-  border: 1px solid #ff637d30;
-  padding: 11px 12px;
-  border-radius: 11px;
-  font-size: 13px;
-  overflow-wrap: anywhere;
+.track{height:5px;border-radius:9px;background:#ffffff15;overflow:hidden}
+.track i{display:block;height:100%;background:linear-gradient(90deg,#7965ff,#67d9db)}
+.bubble-area{height:190px;position:relative}
+.bubble{
+  position:absolute;border-radius:50%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  font-size:11px;box-shadow:inset 0 1px #ffffff40
 }
-.success { color: var(--green); }
-#app { min-height: 100vh; }
-.layout {
-  display: grid;
-  grid-template-columns: 245px minmax(0,1fr);
-  min-height: 100vh;
+.bubble b{font-size:20px}
+.b1{width:125px;height:125px;left:4%;top:30px;background:#554be1}
+.b2{width:82px;height:82px;right:7%;top:15px;background:#54cbb0}
+.b3{width:69px;height:69px;right:23%;bottom:0;background:#568de9}
+.b4{width:56px;height:56px;right:0;bottom:4px;background:#574bb9}
+.activity-row{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #ffffff0d;font-size:12px}
+.activity-row:last-child{border:0}
+.activity-icon{width:30px;height:30px;display:grid;place-items:center;background:#ffffff0b;border-radius:9px}
+.activity-text{flex:1;color:#d7e1f3}
+.activity-text small{display:block;color:var(--muted);margin-top:4px}
+.table-card{margin-top:14px;overflow:hidden}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;white-space:nowrap}
+th,td{text-align:left;padding:14px 17px;border-bottom:1px solid #ffffff0d;font-size:12px}
+th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+td{color:#dce5f7}
+.status{background:#153b35;color:#75e6c0;padding:4px 8px;border-radius:30px;font-size:10px}
+.empty{padding:25px;text-align:center;color:var(--muted)}
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login-card{
+  width:min(100%,420px);padding:30px;border:1px solid var(--border);
+  border-radius:22px;background:#071326e8;backdrop-filter:blur(25px)
 }
-.sidebar {
-  padding: 24px 16px;
-  border-right: 1px solid var(--border);
-  background: rgba(7,11,21,.7);
-  display: flex;
-  flex-direction: column;
-  gap: 26px;
+.login-card h1{font-size:25px}
+.login-card p{color:var(--muted);font-size:13px}
+.field{display:block;margin:16px 0}
+.field span{display:block;font-size:12px;margin-bottom:7px}
+.field input{
+  width:100%;padding:13px;border:1px solid var(--border);
+  border-radius:10px;background:#071126;color:white
 }
-.sidebar .brand { padding: 0 8px; }
-.nav-title {
-  padding: 0 12px;
-  margin-bottom: 10px;
-  font-size: 10px;
-  letter-spacing: 1.8px;
-  color: var(--muted);
-  text-transform: uppercase;
+.login-card button{width:100%;padding:13px}
+.error{color:#ff9eac;font-size:12px;margin-top:12px;white-space:pre-wrap}
+.toast{
+  position:fixed;right:20px;bottom:20px;background:#132b4e;
+  border:1px solid var(--border);padding:13px 17px;border-radius:12px
 }
-.nav {
-  display: grid;
-  gap: 7px;
+.mobile-menu{display:none}
+@media(max-width:1100px){
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .lower{grid-template-columns:1fr 1fr}
+ .activity-card{grid-column:span 2}
 }
-.nav button {
-  text-align: left;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  padding: 12px 13px;
-  background: transparent;
-  color: var(--muted);
-}
-.nav button.active {
-  color: white;
-  background: linear-gradient(110deg,#777eff29,#777eff08);
-  border-color: #858bff36;
-}
-.nav button:hover { background: rgba(255,255,255,.055); }
-.side-bottom { margin-top: auto; }
-.profile-chip {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 8px;
-  border-top: 1px solid var(--border);
-  overflow-wrap: anywhere;
-}
-.avatar {
-  flex: 0 0 37px;
-  width: 37px;
-  height: 37px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg,#8b91ff,#4a47b9);
-  font-weight: 800;
-}
-.main { min-width: 0; padding: 26px 30px 40px; }
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 30px;
-}
-.topbar h1 { margin: 0 0 6px; }
-.top-actions { display: flex; gap: 9px; align-items: center; }
-.online-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  margin-right: 6px;
-}
-.section { display: none; }
-.section.active { display: block; }
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4,minmax(0,1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
-.stat { padding: 19px; min-width: 0; }
-.stat-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 12px;
-}
-.stat-icon {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 11px;
-  background: #8388ff19;
-  font-size: 18px;
-}
-.stat-value {
-  font-size: clamp(23px,2.5vw,32px);
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin: 18px 0 7px;
-  overflow-wrap: anywhere;
-}
-.stat-foot { font-size: 11px; color: var(--muted); }
-.content-grid {
-  display: grid;
-  grid-template-columns: minmax(0,1.45fr) minmax(240px,.8fr);
-  gap: 18px;
-  margin-bottom: 20px;
-}
-.panel { padding: 20px; min-width: 0; }
-.panel-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-.bar-chart {
-  height: 180px;
-  display: flex;
-  align-items: end;
-  justify-content: space-around;
-  gap: 10px;
-  padding: 10px 0 0;
-  border-bottom: 1px solid var(--border);
-}
-.bar-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 9px;
-  height: 100%;
-  justify-content: end;
-  color: var(--muted);
-  font-size: 10px;
-}
-.bar {
-  width: min(35px,70%);
-  min-height: 3px;
-  border-radius: 7px 7px 2px 2px;
-  background: linear-gradient(180deg,#a0a4ff,#6661ed);
-}
-.bar-value { color: var(--text); font-size: 10px; }
-.activity-list { display: grid; gap: 17px; }
-.activity-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-.activity-label { font-size: 13px; }
-.progress {
-  height: 5px;
-  background: rgba(255,255,255,.08);
-  border-radius: 20px;
-  margin-top: 8px;
-  overflow: hidden;
-}
-.progress > span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg,#858bff,#4de0b0);
-  border-radius: inherit;
-}
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td {
-  text-align: left;
-  padding: 14px 12px;
-  border-bottom: 1px solid var(--border);
-  white-space: nowrap;
-}
-th { color: var(--muted); font-size: 11px; font-weight: 600; }
-tbody tr:hover { background: rgba(255,255,255,.025); }
-.user-cell { display: flex; align-items: center; gap: 10px; }
-.mini-avatar {
-  display: grid;
-  place-items: center;
-  width: 33px;
-  height: 33px;
-  border-radius: 50%;
-  background: #858bff25;
-  font-weight: 700;
-}
-.pill {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 30px;
-  font-size: 11px;
-  background: #858bff18;
-  color: #b6baff;
-}
-.pill.green { color: #62e9bd; background: #39dca715; }
-.pill.red { color: #ff9baa; background: #ff718515; }
-.toolbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-.toolbar .search-input { flex: 1; }
-.empty {
-  text-align: center;
-  padding: 32px 14px;
-  color: var(--muted);
-  font-size: 13px;
-}
-.notice {
-  padding: 13px 15px;
-  border-radius: 12px;
-  background: #8188ff10;
-  border: 1px solid #8188ff25;
-  color: #c9ccff;
-  font-size: 12px;
-  line-height: 1.6;
-  margin-bottom: 18px;
-}
-.mobile-menu { display: none; }
-.settings-list { display: grid; gap: 13px; }
-.setting-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-}
-footer { color: var(--muted); font-size: 11px; margin-top: 25px; }
-
-@media (max-width: 1100px) {
-  .stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .content-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 700px) {
-  .layout { display: block; }
-  .sidebar {
-    display: none;
-    position: fixed;
-    z-index: 20;
-    inset: 0 65px 0 0;
-    max-width: 280px;
-    box-shadow: 30px 0 80px #0009;
-  }
-  .sidebar.open { display: flex; }
-  .main { padding: 20px 15px 32px; }
-  .topbar { align-items: flex-start; margin-bottom: 22px; }
-  .topbar h1 { font-size: 24px; }
-  .mobile-menu { display: inline-block; }
-  .top-actions .refresh-label { display: none; }
-  .stats { gap: 10px; }
-  .stat { padding: 14px; }
-  .stat-value { font-size: 25px; }
-  .stat-head { font-size: 11px; }
-  .panel { padding: 15px; }
-  .login-card { padding: 23px; }
+@media(max-width:760px){
+ .layout{grid-template-columns:1fr}
+ .sidebar{
+  position:fixed;z-index:20;top:0;bottom:0;left:-260px;
+  width:245px;transition:left .2s;overflow:auto
+ }
+ .sidebar.open{left:0}
+ .main{padding:15px 12px 25px}
+ .mobile-menu{display:block}
+ .topbar{gap:8px}
+ .middle,.lower{grid-template-columns:1fr}
+ .activity-card{grid-column:auto}
+ .stats{gap:9px}
+ .stat{padding:13px;min-height:125px}
+ .stat-number{font-size:24px}
+ .heading h1{font-size:22px}
+ .funnel{padding:22px 9px}
+ .stage-number{font-size:18px}
 }
 </style>
 </head>
-
 <body>
-<div id="loginScreen">
-  <div class="login-card glass">
-    <div class="brand">
-      <div class="logo">CW</div>
-      <span>ChatWave <span style="color:#9295ff">Admin</span></span>
+
+<section id="loginScreen" class="login-screen">
+  <form id="loginForm" class="login-card">
+    <div class="brand"><span class="brand-icon">〰</span>ChatWave <span>Admin</span></div>
+    <h1>Welcome back</h1>
+    <p>Sign in with your authorized administrator account.</p>
+    <label class="field"><span>Email address</span>
+      <input id="email" type="email" autocomplete="username" required placeholder="Your admin email">
+    </label>
+    <label class="field"><span>Password</span>
+      <input id="password" type="password" autocomplete="current-password" required placeholder="Your password">
+    </label>
+    <button id="loginButton" class="btn primary" type="submit">Sign in to dashboard</button>
+    <div id="loginError" class="error" role="alert"></div>
+    <p style="font-size:11px;margin-top:18px">Only accounts listed in the protected Firebase admins collection can enter.</p>
+  </form>
+</section>
+
+<div id="app" class="layout hidden">
+  <aside id="sidebar" class="sidebar">
+    <div class="brand"><span class="brand-icon">〰</span>ChatWave <span>Admin</span></div>
+    <a href="#overview" class="nav active" data-view="overview"><span class="nav-icon">▦</span>Overview</a>
+    <div class="nav-label">ENGAGEMENT</div>
+    <a href="#users" class="nav" data-view="users"><span class="nav-icon">♙</span>Users</a>
+    <a href="#chats" class="nav" data-view="chats"><span class="nav-icon">▤</span>Chats</a>
+    <a href="#messages" class="nav" data-view="messages"><span class="nav-icon">◉</span>Messages</a>
+    <a href="#activity" class="nav" data-view="activity"><span class="nav-icon">◷</span>Activity</a>
+    <div class="nav-label">OPERATIONS</div>
+    <a href="#reports" class="nav" data-view="reports"><span class="nav-icon">▥</span>Reports</a>
+    <a href="#settings" class="nav" data-view="settings"><span class="nav-icon">⚙</span>Settings</a>
+    <div style="margin-top:30px;border-top:1px solid var(--border);padding-top:14px">
+      <a href="#" class="nav" id="signOut"><span class="nav-icon">↪</span>Sign out</a>
     </div>
-    <h1 style="margin-top:32px">Welcome back</h1>
-    <p class="muted">Sign in with your administrator account.</p>
+  </aside>
 
-    <form id="loginForm">
-      <div class="field">
-        <label for="email">Email address</label>
-        <input id="email" type="email" autocomplete="username"
-          placeholder="you@example.com" required>
+  <main class="main">
+    <div class="topbar">
+      <button class="btn mobile-menu" id="menuBtn" type="button">☰</button>
+      <div class="search"><input id="globalSearch" type="search" placeholder="Search users by name, email, or UID"></div>
+      <div class="top-actions"><span class="live-pill" style="color:var(--mint)">● Firebase</span><div id="avatar" class="avatar">A</div></div>
+    </div>
+    <div class="heading"><div><h1 id="pageTitle">Overview</h1><p class="subtitle" id="pageSub">Your ChatWave platform at a glance.</p></div><button class="btn" id="refreshBtn">↻ Refresh</button></div>
+
+    <section id="overview">
+      <div class="grid stats">
+        <article class="card stat"><div class="stat-title">Total Users <span>♙</span></div><div id="usersCount" class="stat-number">—</div><div class="stat-foot">Registered user profiles</div></article>
+        <article class="card stat"><div class="stat-title">Total Chats <span style="color:var(--mint)">◉</span></div><div id="chatsCount" class="stat-number">—</div><div class="stat-foot">Conversation documents</div></article>
+        <article class="card stat"><div class="stat-title">Messages <span style="color:#b3a1ff">▤</span></div><div id="messagesCount" class="stat-number">—</div><div class="stat-foot">Messages accessible to admin</div></article>
+        <article class="card stat"><div class="stat-title">Admin access <span style="color:#f0c879">♢</span></div><div class="stat-number" style="font-size:23px">Verified</div><div class="stat-foot">Protected admin document</div></article>
       </div>
-      <div class="field">
-        <label for="password">Password</label>
-        <input id="password" type="password"
-          autocomplete="current-password" placeholder="Your password" required>
+      <div class="grid middle">
+        <article class="card"><div class="section-head"><h2>Platform activity</h2><span class="subtitle">Illustrative chart</span></div><div class="chart-area">
+          <svg class="chart" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Decorative platform activity chart">
+            <defs><linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7665ff" stop-opacity=".45"/><stop offset="1" stop-color="#7665ff" stop-opacity="0"/></linearGradient><linearGradient id="lineFill"><stop stop-color="#7965ff"/><stop offset="1" stop-color="#65dfd0"/></linearGradient></defs>
+            <g stroke="#ffffff12"><path d="M15 35H585M15 80H585M15 125H585M15 170H585M15 200H585"/></g>
+            <path d="M15 165 C65 160 70 105 115 126 S165 180 210 125 S265 55 310 95 S365 150 410 105 S475 45 510 77 S555 90 585 40 L585 205 L15 205Z" fill="url(#areaFill)"/>
+            <path d="M15 165 C65 160 70 105 115 126 S165 180 210 125 S265 55 310 95 S365 150 410 105 S475 45 510 77 S555 90 585 40" fill="none" stroke="url(#lineFill)" stroke-width="3"/>
+            <g fill="#91a4c5" font-size="10"><text x="15" y="218">Mon</text><text x="110" y="218">Tue</text><text x="205" y="218">Wed</text><text x="300" y="218">Thu</text><text x="395" y="218">Fri</text><text x="490" y="218">Sat</text><text x="565" y="218">Sun</text></g>
+          </svg>
+          <div class="subtitle">Illustrative visualization only — not historical analytics.</div>
+        </div></article>
+        <article class="card"><div class="section-head"><h2>Account overview</h2><span class="subtitle">Live collection totals</span></div>
+          <div class="funnel"><div class="stage"><div class="stage-label">01 · Users</div><div id="funnelUsers" class="stage-number">—</div><span class="stage-rate">Profiles</span><div class="bar"></div></div><div class="stage"><div class="stage-label">02 · Chats</div><div id="funnelChats" class="stage-number">—</div><span class="stage-rate">Conversations</span><div class="bar" style="opacity:.8"></div></div><div class="stage"><div class="stage-label">03 · Messages</div><div id="funnelMessages" class="stage-number">—</div><span class="stage-rate">Accessible</span><div class="bar" style="opacity:.6"></div></div></div>
+          <div class="content subtitle">Counts are read from your existing Firestore collections when permissions allow.</div>
+        </article>
       </div>
-      <button id="loginButton" class="primary full" type="submit">
-        Sign in
-      </button>
-    </form>
-    <p id="loginError" class="error hidden" role="alert"></p>
-    <p class="muted small" style="margin-top:18px">
-      Authorized administrators only.
-    </p>
-  </div>
+      <div class="grid lower">
+        <article class="card"><div class="section-head"><h2>Connection health</h2></div><div class="content"><div class="channel"><span>Authentication</span><div class="track"><i style="width:100%"></i></div><span class="green">Ready</span></div><div class="channel"><span>Admin role</span><div class="track"><i style="width:100%"></i></div><span class="green">Verified</span></div><div class="channel"><span>Firestore</span><div class="track"><i id="healthBar" style="width:25%"></i></div><span id="healthText">Waiting</span></div><p class="subtitle">The dashboard follows your published Firestore rules.</p></div></article>
+        <article class="card"><div class="section-head"><h2>Data summary</h2></div><div class="bubble-area"><div class="bubble b1"><b id="bubbleUsers">—</b>Users</div><div class="bubble b2"><b id="bubbleChats">—</b>Chats</div><div class="bubble b3"><b id="bubbleMessages">—</b>Messages</div><div class="bubble b4"><b>✓</b>Admin</div></div></article>
+        <article class="card activity-card"><div class="section-head"><h2>Recent admin activity</h2></div><div class="content" id="activityList"><div class="activity-row"><div class="activity-icon">✓</div><div class="activity-text">Admin session verified<small>Current session</small></div></div></div></article>
+      </div>
+      <article class="card table-card"><div class="section-head"><h2>Recent user profiles</h2><a href="#users" class="subtitle" data-view="users">View all users →</a></div><div class="table-scroll"><table><thead><tr><th>User</th><th>Email</th><th>UID</th><th>Status</th></tr></thead><tbody id="recentUsers"><tr><td colspan="4" class="empty">Connect Firebase to load user profiles.</td></tr></tbody></table></div></article>
+    </section>
+    <section id="dataView" class="hidden"><article class="card table-card" style="margin-top:0"><div class="section-head"><h2 id="dataHeading">Users</h2><span id="dataCount" class="subtitle">—</span></div><div class="table-scroll"><table><thead id="dataHead"></thead><tbody id="dataBody"></tbody></table></div></article><p id="viewNotice" class="subtitle" style="padding:14px 2px"></p></section>
+  </main>
 </div>
+<div id="toast" class="toast hidden"></div>
 
-<div id="app" class="hidden">
-  <div class="layout">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="logo">CW</div>
-        <span>ChatWave</span>
-      </div>
+<script type="module">
+import {initializeApp,getApps} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import {getFirestore,doc,getDoc,collection,getDocs} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-      <div>
-        <div class="nav-title">Workspace</div>
-        <nav class="nav" aria-label="Admin navigation">
-          <button class="active" data-page="dashboard">◫ &nbsp; Dashboard</button>
-          <button data-page="users">♙ &nbsp; Users</button>
-          <button data-page="chats">▤ &nbsp; Chats</button>
-          <button data-page="analytics">▥ &nbsp; Analytics</button>
-          <button data-page="settings">⚙ &nbsp; Settings</button>
-        </nav>
-      </div>
-
-      <div class="side-bottom">
-        <div class="nav-title">Account</div>
-        <button class="secondary full" id="logoutButton">↪ &nbsp; Sign out</button>
-        <div class="profile-chip">
-          <div class="avatar">A</div>
-          <div style="min-width:0">
-            <div style="font-size:12px;font-weight:700">Administrator</div>
-            <div id="adminEmail" class="muted small" style="overflow-wrap:anywhere">Signed in</div>
-          </div>
-        </div>
-      </div>
-    </aside>
-
-    <main class="main">
-      <header class="topbar">
-        <div style="display:flex;align-items:flex-start;gap:12px">
-          <button id="menuButton" class="secondary mobile-menu" aria-label="Open menu">☰</button>
-          <div>
-            <h1 id="pageTitle">Dashboard</h1>
-            <div class="muted small" id="pageSubtitle">Your ChatWave overview</div>
-          </div>
-        </div>
-        <div class="top-actions">
-          <span class="muted small"><span class="online-dot"></span>Firebase</span>
-          <button id="refreshButton" class="secondary">
-            ↻ <span class="refresh-label">Refresh</span>
-          </button>
-        </div>
-      </header>
-
-      <div class="notice" id="accessNotice">
-        Connecting to Firebase…
-      </div>
-      <div id="globalError" class="error hidden" role="alert"></div>
-
-      <section class="section active" id="page-dashboard">
-        <div class="stats">
-          <div class="stat glass">
-            <div class="stat-head"><span>Total Users</span><span class="stat-icon">♙</span></div>
-            <div class="stat-value" id="totalUsers">—</div>
-            <div class="stat-foot">User profiles visible to this account</div>
-          </div>
-          <div class="stat glass">
-            <div class="stat-head"><span>Active Now</span><span class="stat-icon">◉</span></div>
-            <div class="stat-value" id="activeUsers">—</div>
-            <div class="stat-foot">Based on available online indicators</div>
-          </div>
-          <div class="stat glass">
-            <div class="stat-head"><span>Chats Visible</span><span class="stat-icon">▤</span></div>
-            <div class="stat-value" id="totalChats">—</div>
-            <div class="stat-foot">Chats readable under current rules</div>
-          </div>
-          <div class="stat glass">
-            <div class="stat-head"><span>Messages Visible</span><span class="stat-icon">✉</span></div>
-            <div class="stat-value" id="totalMessages">—</div>
-            <div class="stat-foot">Messages in chats this account can read</div>
-          </div>
-        </div>
-
-        <div class="content-grid">
-          <div class="panel glass">
-            <div class="panel-head">
-              <div>
-                <h2>User overview</h2>
-                <div class="muted small" style="margin-top:6px">Recently created profiles</div>
-              </div>
-              <button class="secondary" data-goto="users">View users →</button>
-            </div>
-            <div class="bar-chart" id="userChart">
-              <div class="empty">Loading user data…</div>
-            </div>
-          </div>
-          <div class="panel glass">
-            <div class="panel-head"><h2>Account overview</h2></div>
-            <div class="activity-list" id="activityList">
-              <div class="muted small">Loading…</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel glass">
-          <div class="panel-head">
-            <div>
-              <h2>Recent users</h2>
-              <div class="muted small" style="margin-top:6px">Latest profiles available to your account</div>
-            </div>
-            <button class="secondary" data-goto="users">All users →</button>
-          </div>
-          <div class="table-wrap" id="recentUsers"></div>
-        </div>
-      </section>
-
-      <section class="section" id="page-users">
-        <div class="panel glass">
-          <div class="panel-head">
-            <div>
-              <h2>User management</h2>
-              <div class="muted small" style="margin-top:6px">Search profiles your account is allowed to read.</div>
-            </div>
-            <span class="pill" id="userCountPill">0 users</span>
-          </div>
-          <div class="toolbar">
-            <input id="userSearch" class="search-input" type="search"
-              placeholder="Search by name, email or UID…">
-          </div>
-          <div class="table-wrap" id="usersTable"></div>
-        </div>
-      </section>
-
-      <section class="section" id="page-chats">
-        <div class="panel glass">
-          <div class="panel-head">
-            <div>
-              <h2>Chats</h2>
-              <div class="muted small" style="margin-top:6px">Only chats permitted by Firestore rules are displayed.</div>
-            </div>
-          </div>
-          <div class="notice">
-            Your current rules restrict chats to their members. This page cannot bypass those restrictions to list every user's private conversations.
-          </div>
-          <div class="table-wrap" id="chatsTable"></div>
-        </div>
-      </section>
-
-      <section class="section" id="page-analytics">
-        <div class="stats">
-          <div class="stat glass"><div class="stat-head">Total profiles</div><div class="stat-value" id="analyticsUsers">—</div></div>
-          <div class="stat glass"><div class="stat-head">Online indicators</div><div class="stat-value" id="analyticsOnline">—</div></div>
-          <div class="stat glass"><div class="stat-head">Visible chats</div><div class="stat-value" id="analyticsChats">—</div></div>
-          <div class="stat glass"><div class="stat-head">Visible messages</div><div class="stat-value" id="analyticsMessages">—</div></div>
-        </div>
-        <div class="panel glass">
-          <h2>Registration activity</h2>
-          <p class="muted small">Profile creation dates grouped by month, based on available user documents.</p>
-          <div class="bar-chart" id="analyticsChart"></div>
-        </div>
-      </section>
-
-      <section class="section" id="page-settings">
-        <div class="panel glass">
-          <h2>Settings</h2>
-          <p class="muted small">Dashboard and connection information.</p>
-          <div class="settings-list">
-            <div class="setting-row">
-              <div><h3>Firebase connection</h3><p class="muted small">Authentication and Firestore</p></div>
-              <span class="pill green" id="connectionStatus">Checking</span>
-            </div>
-            <div class="setting-row">
-              <div><h3>Administrator account</h3><p class="muted small" id="settingsEmail">Not signed in</p></div>
-              <span class="pill">Current session</span>
-            </div>
-            <div class="setting-row">
-              <div><h3>Data permissions</h3><p class="muted small">Controlled by your Firestore Security Rules.</p></div>
-              <a href="https://console.firebase.google.com/project/chat-2c557/firestore/rules" target="_blank" rel="noopener" class="secondary" style="text-decoration:none">View rules ↗</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer>ChatWave Admin · Secure your Firebase rules before deploying administrative features.</footer>
-    </main>
-  </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
-
-<script>
-"use strict";
-
-/*
- * ChatWave Firebase configuration.
- * Firebase web config is not a private Admin SDK key.
- */
+/* IMPORTANT: Copy your EXISTING customer page's Firebase web config here.
+   Use Firebase Console > Project settings > General > Your apps.
+   Do not put service-account/private keys in this file. */
 const firebaseConfig = {
-  apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
-  authDomain: "chat-2c557.firebaseapp.com",
-  databaseURL: "https://chat-2c557-default-rtdb.firebaseio.com",
-  projectId: "chat-2c557",
-  storageBucket: "chat-2c557.firebasestorage.app",
-  messagingSenderId: "74313204354",
-  appId: "1:74313204354:web:c735269d502b88a39eea9b"
+  apiKey: "PASTE_YOUR_FIREBASE_WEB_API_KEY",
+  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
+  appId: "PASTE_YOUR_FIREBASE_APP_ID"
 };
 
-/*
- * UI GATE ONLY — NOT SECURE DATABASE AUTHORIZATION.
- * Actual data access is still controlled by Firestore rules.
- */
-const ADMIN_UIDS = [
-  "GmD5BMWqmUSj84w75v9sBuvEmx22"
-];
-
-const $ = id => document.getElementById(id);
-const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
-  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-}[ch]));
-
-let auth = null;
-let db = null;
-let currentUser = null;
-let usersCache = [];
-let chatsCache = [];
-let messagesCount = 0;
-let loadErrors = [];
-let busy = false;
-
-const pageInfo = {
-  dashboard: ["Dashboard", "Your ChatWave overview"],
-  users: ["Users", "Search and inspect available user profiles"],
-  chats: ["Chats", "Conversations available to your account"],
-  analytics: ["Analytics", "Registration and account activity"],
-  settings: ["Settings", "Dashboard configuration"]
-};
-
-function setError(id, message) {
-  const el = $(id);
-  el.textContent = message;
-  el.classList.remove("hidden");
-}
-function clearError(id) {
-  $(id).textContent = "";
-  $(id).classList.add("hidden");
-}
-function showLoginError(message) {
-  setError("loginError", message);
-}
-function setLoadingLogin(value) {
-  $("loginButton").disabled = value;
-  $("loginButton").textContent = value ? "Signing in…" : "Sign in";
-}
-function fmtDate(value) {
-  if (!value) return "—";
-  let date = value.toDate ? value.toDate() : new Date(value);
-  if (Number.isNaN(date.getTime())) return "—";
-  return date.toLocaleDateString(undefined, {year:"numeric",month:"short",day:"numeric"});
-}
-function getDate(doc) {
-  const value = doc.createdAt || doc.created_at || doc.timestamp;
-  if (!value) return null;
-  const date = value.toDate ? value.toDate() : new Date(value);
-  return Number.isNaN(date.getTime()) ? null : date;
-}
-function userName(user) {
-  return user.name || user.displayName || user.username || "Unnamed user";
-}
-function userEmail(user) {
-  return user.email || "No email";
-}
-function avatarText(user) {
-  return userName(user).trim().slice(0,1).toUpperCase() || "U";
-}
-function setCount(id, value) {
-  $(id).textContent = Number.isFinite(value) ? value.toLocaleString() : "—";
-}
-function showApp(user) {
-  $("loginScreen").classList.add("hidden");
-  $("app").classList.remove("hidden");
-  $("adminEmail").textContent = user.email || user.uid;
-  $("settingsEmail").textContent = user.email || user.uid;
-}
-function showLogin() {
-  $("app").classList.add("hidden");
-  $("loginScreen").classList.remove("hidden");
-}
-function setNotice(message) {
-  $("accessNotice").textContent = message;
-}
-function goToPage(page) {
-  if (!pageInfo[page]) return;
-  document.querySelectorAll(".section").forEach(el => el.classList.remove("active"));
-  $("page-" + page).classList.add("active");
-  document.querySelectorAll(".nav button[data-page]").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.page === page);
+const $=id=>document.getElementById(id);
+const fmt=n=>Number(n||0).toLocaleString();
+const esc=v=>String(v??"—").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let auth=null,db=null,admin=null,users=[],chats=[],messageCount=0;
+const navMeta={overview:["Overview","Your ChatWave platform at a glance."],users:["Users","Registered profiles in your Firestore users collection."],chats:["Chats","Conversation documents available to this admin."],messages:["Messages","Message totals from accessible conversations."],activity:["Activity","Events recorded in this browser session."],reports:["Reports","Summary of current Firestore data."],settings:["Settings","Administrator and connection information."]};
+function error(message){$("loginError").textContent=message}
+function toast(message){$("toast").textContent=message;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),3000)}
+function ready(){return firebaseConfig.apiKey.startsWith("AIza")&&!firebaseConfig.projectId.startsWith("PASTE_")&&firebaseConfig.appId.startsWith("1:")}
+function showLogin(){ $("loginScreen").classList.remove("hidden");$("app").classList.add("hidden") }
+function showApp(user){$("loginScreen").classList.add("hidden");$("app").classList.remove("hidden");$("avatar").textContent=(user.email||"A")[0].toUpperCase()}
+if(ready()){
+ try{
+  const app=getApps().length?getApps()[0]:initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);
+  onAuthStateChanged(auth,async user=>{
+   if(!user){admin=null;showLogin();return}
+   try{
+    const snap=await getDoc(doc(db,"admins",user.uid));
+    if(!snap.exists()||snap.data().role!=="admin"||snap.data().active!==true){await signOut(auth);showLogin();error("This account is not authorized. The admins document ID must match this account's Firebase Authentication UID, with role=admin and active=true.");return}
+    admin=user;showApp(user);error("");await refreshData();
+   }catch(e){showLogin();error("Could not verify admin access: "+e.message)}
   });
-  $("pageTitle").textContent = pageInfo[page][0];
-  $("pageSubtitle").textContent = pageInfo[page][1];
-  $("sidebar").classList.remove("open");
-}
-function renderTable(items, type) {
-  if (!items.length) {
-    return '<div class="empty">No records available to display.</div>';
-  }
-
-  if (type === "users") {
-    return `<table>
-      <thead><tr><th>USER</th><th>EMAIL</th><th>CREATED</th><th>STATUS</th></tr></thead>
-      <tbody>${items.map(user => {
-        const online = user.online === true;
-        return `<tr>
-          <td><div class="user-cell">
-            <div class="mini-avatar">${esc(avatarText(user))}</div>
-            <div><div>${esc(userName(user))}</div><div class="muted small">${esc(user.id)}</div></div>
-          </div></td>
-          <td>${esc(userEmail(user))}</td>
-          <td>${esc(fmtDate(getDate(user)))}</td>
-          <td><span class="pill ${online ? "green" : ""}">${online ? "Online" : "Not marked online"}</span></td>
-        </tr>`;
-      }).join("")}</tbody></table>`;
-  }
-
-  return `<table><thead><tr><th>CHAT ID</th><th>MEMBERS</th><th>CREATED</th></tr></thead>
-    <tbody>${items.map(chat => `<tr>
-      <td>${esc(chat.id)}</td>
-      <td>${esc(Array.isArray(chat.members) ? chat.members.join(", ") : "—")}</td>
-      <td>${esc(fmtDate(getDate(chat)))}</td>
-    </tr>`).join("")}</tbody></table>`;
-}
-
-function renderUsers() {
-  const query = $("userSearch").value.trim().toLowerCase();
-  const filtered = usersCache.filter(user =>
-    [user.id, userName(user), userEmail(user)].some(value =>
-      String(value || "").toLowerCase().includes(query)
-    )
-  );
-  $("usersTable").innerHTML = renderTable(filtered, "users");
-  $("userCountPill").textContent = `${filtered.length} user${filtered.length === 1 ? "" : "s"}`;
-}
-function renderRecentUsers() {
-  const recent = [...usersCache].sort((a,b) =>
-    (getDate(b)?.getTime() || 0) - (getDate(a)?.getTime() || 0)
-  ).slice(0,5);
-  $("recentUsers").innerHTML = renderTable(recent, "users");
-}
-function renderCharts() {
-  const now = new Date();
-  const months = [];
-  for (let i=5; i>=0; i--) {
-    const date = new Date(now.getFullYear(), now.getMonth()-i, 1);
-    months.push({
-      label: date.toLocaleDateString(undefined,{month:"short"}),
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      value: 0
-    });
-  }
-  usersCache.forEach(user => {
-    const date = getDate(user);
-    if (!date) return;
-    const bucket = months.find(m => m.year === date.getFullYear() && m.month === date.getMonth());
-    if (bucket) bucket.value++;
-  });
-  const max = Math.max(1, ...months.map(m => m.value));
-  const chart = months.map(m => `<div class="bar-item">
-    <span class="bar-value">${m.value}</span>
-    <div class="bar" style="height:${Math.max(3, m.value/max*100)}%"></div>
-    <span>${esc(m.label)}</span>
-  </div>`).join("");
-  $("userChart").innerHTML = chart;
-  $("analyticsChart").innerHTML = chart;
-}
-function renderOverview() {
-  const online = usersCache.filter(user => user.online === true).length;
-  setCount("totalUsers", usersCache.length);
-  setCount("activeUsers", online);
-  setCount("totalChats", chatsCache.length);
-  setCount("totalMessages", messagesCount);
-  setCount("analyticsUsers", usersCache.length);
-  setCount("analyticsOnline", online);
-  setCount("analyticsChats", chatsCache.length);
-  setCount("analyticsMessages", messagesCount);
-
-  $("activityList").innerHTML = `
-    <div>
-      <div class="activity-row"><span class="activity-label">Profiles loaded</span><strong>${usersCache.length}</strong></div>
-      <div class="progress"><span style="width:${usersCache.length ? 100 : 0}%"></span></div>
-    </div>
-    <div>
-      <div class="activity-row"><span class="activity-label">Marked online</span><strong>${online}</strong></div>
-      <div class="progress"><span style="width:${usersCache.length ? online/usersCache.length*100 : 0}%"></span></div>
-    </div>
-    <div>
-      <div class="activity-row"><span class="activity-label">Chats readable</span><strong>${chatsCache.length}</strong></div>
-      <div class="progress"><span style="width:${chatsCache.length ? 100 : 0}%"></span></div>
-    </div>
-    <div>
-      <div class="activity-row"><span class="activity-label">Messages readable</span><strong>${messagesCount}</strong></div>
-      <div class="progress"><span style="width:${messagesCount ? 100 : 0}%"></span></div>
-    </div>`;
-  renderRecentUsers();
-  renderUsers();
-  renderCharts();
-  $("chatsTable").innerHTML = renderTable(chatsCache, "chats");
-}
-
-async function loadDashboard() {
-  if (!currentUser || busy) return;
-  busy = true;
-  loadErrors = [];
-  clearError("globalError");
-  $("refreshButton").disabled = true;
-  setNotice("Loading the data this account is permitted to access…");
-  $("connectionStatus").textContent = "Connecting";
-
-  try {
-    /*
-     * Current rules allow signed-in users to read user profiles.
-     * They do NOT allow an administrator to read every chat.
-     */
-    try {
-      const snapshot = await db.collection("users").get();
-      usersCache = snapshot.docs.map(doc => ({id:doc.id, ...doc.data()}));
-    } catch (error) {
-      usersCache = [];
-      loadErrors.push("Users: " + error.message);
-    }
-
-    /*
-     * The existing rules restrict chats to members. Querying all chats
-     * will normally be denied. We intentionally do not weaken those rules.
-     */
-    try {
-      const snapshot = await db.collection("chats")
-        .where("members", "array-contains", currentUser.uid).get();
-      chatsCache = snapshot.docs.map(doc => ({id:doc.id, ...doc.data()}));
-    } catch (error) {
-      chatsCache = [];
-      loadErrors.push("Chats: " + error.message);
-    }
-
-    messagesCount = 0;
-    /*
-     * Count messages only inside chats this account can read.
-     * A denied read is reported; no security rule is bypassed.
-     */
-    for (const chat of chatsCache) {
-      try {
-        const snapshot = await db.collection("chats")
-          .doc(chat.id).collection("messages").get();
-        messagesCount += snapshot.size;
-      } catch (error) {
-        loadErrors.push("Messages in chat " + chat.id + ": " + error.message);
-      }
-    }
-
-    renderOverview();
-    $("connectionStatus").textContent = loadErrors.length ? "Limited access" : "Connected";
-    $("connectionStatus").className = "pill " + (loadErrors.length ? "" : "green");
-
-    if (loadErrors.length) {
-      setNotice("Dashboard loaded with limited permissions. This account can only display data allowed by the current Firestore rules.");
-      setError("globalError", loadErrors.slice(0,3).join(" | "));
-    } else {
-      setNotice("Connected. Displaying data allowed by the current Firestore rules.");
-    }
-  } catch (error) {
-    setNotice("Unable to load dashboard data.");
-    setError("globalError", error.message || "Unknown Firebase error.");
-    $("connectionStatus").textContent = "Error";
-  } finally {
-    busy = false;
-    $("refreshButton").disabled = false;
-  }
-}
-
-async function handleLogin(event) {
-  event.preventDefault();
-  clearError("loginError");
-  setLoadingLogin(true);
-  try {
-    if (!auth) throw new Error("Firebase did not initialize. Reload this page and try again.");
-    const credential = await auth.signInWithEmailAndPassword(
-      $("email").value.trim(),
-      $("password").value
-    );
-
-    if (!ADMIN_UIDS.includes(credential.user.uid)) {
-      await auth.signOut();
-      throw new Error("This account is not on the dashboard's allowed UID list.");
-    }
-  } catch (error) {
-    showLoginError(error.message || "Unable to sign in.");
-  } finally {
-    setLoadingLogin(false);
-  }
-}
-
-async function handleLogout() {
-  if (!auth) return;
-  await auth.signOut();
-}
-
-document.querySelectorAll("[data-page]").forEach(button => {
-  button.addEventListener("click", () => goToPage(button.dataset.page));
+ }catch(e){error("Firebase initialization failed: "+e.message)}
+}else{error("Setup required: paste your existing Firebase web app configuration into the firebaseConfig section of this file.")}
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();error("");
+ if(!auth){error("Firebase configuration is not filled in yet. Find firebaseConfig in this file and paste the same web app config used by your customer page.");return}
+ $("loginButton").disabled=true;$("loginButton").textContent="Signing in…";
+ try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}
+ catch(e){let msg=e.message;if(["auth/invalid-credential","auth/wrong-password","auth/user-not-found"].includes(e.code))msg="Firebase could not verify that email/password. Make sure this file uses the same Firebase project as your customer page and enter the correct password.";if(e.code==="auth/unauthorized-domain")msg="Add this website's domain in Firebase Authentication → Settings → Authorized domains.";error(msg)}
+ finally{$("loginButton").disabled=false;$("loginButton").textContent="Sign in to dashboard"}
 });
-document.querySelectorAll("[data-goto]").forEach(button => {
-  button.addEventListener("click", () => goToPage(button.dataset.goto));
-});
-$("loginForm").addEventListener("submit", handleLogin);
-$("logoutButton").addEventListener("click", handleLogout);
-$("refreshButton").addEventListener("click", loadDashboard);
-$("userSearch").addEventListener("input", renderUsers);
-$("menuButton").addEventListener("click", () => $("sidebar").classList.toggle("open"));
-
-try {
-  firebase.initializeApp(firebaseConfig);
-  auth = firebase.auth();
-  db = firebase.firestore();
-
-  auth.onAuthStateChanged(async user => {
-    currentUser = user;
-
-    if (!user) {
-      showLogin();
-      return;
-    }
-
-    if (!ADMIN_UIDS.includes(user.uid)) {
-      await auth.signOut();
-      showLoginError("This account is not authorized to open this dashboard.");
-      return;
-    }
-
-    showApp(user);
-    await loadDashboard();
-  });
-} catch (error) {
-  showLoginError("Firebase initialization failed: " + error.message);
-  setError("globalError", error.message);
+$("signOut").addEventListener("click",async e=>{e.preventDefault();if(auth)await signOut(auth);showLogin()});
+$("refreshBtn").addEventListener("click",()=>refreshData(true));
+async function refreshData(showToast=false){
+ if(!db||!admin)return;
+ $("healthText").textContent="Loading";$("healthBar").style.width="50%";
+ try{
+  const [u,c]=await Promise.all([getDocs(collection(db,"users")),getDocs(collection(db,"chats"))]);
+  users=u.docs.map(d=>({id:d.id,...d.data()}));chats=c.docs.map(d=>({id:d.id,...d.data()}));
+  messageCount=0;
+  const messageSnaps=await Promise.all(c.docs.map(async d=>{try{return await getDocs(collection(db,"chats",d.id,"messages"))}catch{return null}}));
+  messageSnaps.forEach(s=>{if(s)messageCount+=s.size});
+  for(const [id,val] of [["usersCount",users.length],["chatsCount",chats.length],["messagesCount",messageCount],["funnelUsers",users.length],["funnelChats",chats.length],["funnelMessages",messageCount],["bubbleUsers",users.length],["bubbleChats",chats.length],["bubbleMessages",messageCount]])$(id).textContent=fmt(val);
+  $("healthText").textContent="Connected";$("healthText").className="green";$("healthBar").style.width="100%";
+  renderRecent();renderData();
+  $("activityList").innerHTML=`<div class="activity-row"><div class="activity-icon">✓</div><div class="activity-text">Admin verified<small>${esc(admin.email)}</small></div></div><div class="activity-row"><div class="activity-icon">↻</div><div class="activity-text">Firestore refreshed<small>${fmt(users.length)} users · ${fmt(chats.length)} chats</small></div></div>`;
+  if(showToast)toast("Dashboard refreshed");
+ }catch(e){$("healthText").textContent="Rules check";$("recentUsers").innerHTML=`<tr><td colspan="4" class="empty">Firestore could not load data: ${esc(e.message)}</td></tr>`;if(showToast)toast("Check Firestore Security Rules");console.error(e)}
 }
+function renderRecent(){
+ const rows=users.slice(0,7);
+ $("recentUsers").innerHTML=rows.length?rows.map(u=>`<tr><td>${esc(u.name||u.displayName||"Unnamed user")}</td><td>${esc(u.email||"—")}</td><td>${esc(u.id)}</td><td><span class="status">${esc(u.accountStatus||"active")}</span></td></tr>`).join(""):`<tr><td colspan="4" class="empty">No user profiles found.</td></tr>`;
+}
+function renderData(view){
+ const head=$("dataHead"),body=$("dataBody");let columns=[],rows=[],note="";
+ if(view==="users"){columns=["Name","Email","UID","Account status","KYC status"];rows=users.map(u=>[u.name||u.displayName||"Unnamed user",u.email||"—",u.id,u.accountStatus||"active",u.kycStatus||"—"]);note="Read-only starter: editing or suspending users is not enabled."}
+ else if(view==="chats"){columns=["Chat ID","Members","Created"];rows=chats.map(c=>[c.id,Array.isArray(c.members)?c.members.join(", "):"—",c.createdAt?.toDate?c.createdAt.toDate().toLocaleString():"—"]);note="Chats shown only when Firestore rules permit access."}
+ else if(view==="messages"){columns=["Chat ID","Message count","Access"];rows=chats.map(c=>[c.id,"Included in overview total","Rules checked"]);note="Message contents are not shown in this starter."}
+ else if(view==="activity"){columns=["Event","Details"];rows=[["Admin session",admin?.email||"—"],["Last Firestore refresh",`${users.length} users and ${chats.length} chats`]];note="Only this browser session's activity is shown."}
+ else if(view==="reports"){columns=["Metric","Current value","Source"];rows=[["User profiles",fmt(users.length),"users"],["Chats",fmt(chats.length),"chats"],["Accessible messages",fmt(messageCount),"chats/*/messages"]];note="The platform activity graphic is illustrative, not historical analytics."}
+ else{columns=["Setting","Value"];rows=[["Signed-in email",admin?.email||"—"],["Admin UID",admin?.uid||"—"],["Firebase project",firebaseConfig.projectId],["Authorization","Verified from admins/{uid}"]];note="Manage administrator documents in Firebase Console."}
+ $("dataHeading").textContent=navMeta[view][0];$("dataCount").textContent=`${rows.length} records`;head.innerHTML="<tr>"+columns.map(c=>`<th>${esc(c)}</th>`).join("")+"</tr>";body.innerHTML=rows.length?rows.map(r=>"<tr>"+r.map(v=>`<td>${esc(v)}</td>`).join("")+"</tr>").join(""):`<tr><td colspan="${columns.length}" class="empty">No records available.</td></tr>`;$("viewNotice").textContent=note;
+}
+function renderData(){const v=document.querySelector(".nav.active")?.dataset.view||"overview";if(v!=="overview")renderData(v)}
+function switchView(v){document.querySelectorAll("[data-view]").forEach(a=>a.classList.toggle("active",a.dataset.view===v));$("pageTitle").textContent=navMeta[v][0];$("pageSub").textContent=navMeta[v][1];$("overview").classList.toggle("hidden",v!=="overview");$("dataView").classList.toggle("hidden",v==="overview");if(v!=="overview")renderData(v);$("sidebar").classList.remove("open")}
+document.querySelectorAll("[data-view]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();switchView(a.dataset.view)}));
+$("globalSearch").addEventListener("input",()=>{const term=$("globalSearch").value.trim().toLowerCase();if(!term){if(document.querySelector(".nav.active")?.dataset.view==="users")renderData("users");return}switchView("users");const found=users.filter(u=>[u.name,u.displayName,u.email,u.id].some(v=>String(v||"").toLowerCase().includes(term)));$("dataCount").textContent=`${found.length} matches`;$("dataBody").innerHTML=found.map(u=>[u.name||u.displayName||"Unnamed user",u.email||"—",u.id,u.accountStatus||"active",u.kycStatus||"—"]).map(r=>"<tr>"+r.map(v=>`<td>${esc(v)}</td>`).join("")+"</tr>").join("")||'<tr><td colspan="5" class="empty">No matching users.</td></tr>'});
+$("menuBtn").addEventListener("click",()=> $("sidebar").classList.toggle("open"));
 </script>
 </body>
 </html>
