@@ -3,398 +3,699 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#101c2d">
-<title>ChatWave — Connect. Chat. Share.</title>
+<meta name="theme-color" content="#080808">
+<title>ChatWave</title>
 
 <style>
 :root {
   color-scheme: dark;
-  --bg: #091321;
-  --glass: rgba(255,255,255,.075);
-  --glass-strong: rgba(255,255,255,.12);
-  --border: rgba(255,255,255,.13);
-  --text: #f6f8ff;
-  --muted: #9aa9bf;
-  --accent: #42d6b5;
-  --accent2: #65aaff;
-  --danger: #ff647c;
-  --shadow: 0 20px 70px rgba(0,0,0,.24);
+  --bg: #080808;
+  --panel: #171717;
+  --line: #303030;
+  --text: #f7f7f7;
+  --muted: #999;
+  --green: #20d66b;
 }
-* { box-sizing:border-box; }
-html,body { margin:0; min-height:100%; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif; }
-body {
-  background:
-    radial-gradient(ellipse at 10% 5%,rgba(45,140,220,.22),transparent 38%),
-    radial-gradient(ellipse at 90% 90%,rgba(42,215,174,.15),transparent 40%),
-    var(--bg);
-  color:var(--text);
-  min-height:100dvh;
-  overflow:hidden;
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
-body.light {
-  color:#142033;
-  --bg:#eaf1f9;
-  --glass:rgba(255,255,255,.57);
-  --glass-strong:rgba(255,255,255,.78);
-  --border:rgba(255,255,255,.75);
-  --text:#142033;
-  --muted:#64748b;
-  --shadow:0 20px 70px rgba(35,60,90,.12);
-  background:
-    radial-gradient(ellipse at 10% 5%,rgba(95,166,255,.2),transparent 38%),
-    radial-gradient(ellipse at 90% 90%,rgba(42,215,174,.17),transparent 40%),
-    var(--bg);
-}
-button,input,textarea { font:inherit; }
-button { cursor:pointer; color:inherit; }
-button:disabled { opacity:.55; cursor:wait; }
-input,textarea { color:var(--text); }
-::placeholder { color:var(--muted); }
-.hidden { display:none!important; }
-.glass {
-  background:var(--glass);
-  border:1px solid var(--border);
-  backdrop-filter:blur(28px) saturate(165%);
-  -webkit-backdrop-filter:blur(28px) saturate(165%);
-  box-shadow:var(--shadow);
-}
-#authScreen {
-  min-height:100dvh; display:flex; align-items:center; justify-content:center;
-  padding:22px; overflow:auto;
-}
-.auth-card {
-  width:min(430px,100%); border-radius:30px; padding:30px;
-  background:var(--glass); border:1px solid var(--border);
-  backdrop-filter:blur(30px) saturate(170%);
-  -webkit-backdrop-filter:blur(30px) saturate(170%);
-  box-shadow:var(--shadow);
-}
-.brand { display:flex; align-items:center; gap:12px; font-size:24px; font-weight:800; letter-spacing:-.7px; }
-.brand-icon {
-  width:48px;height:48px;border-radius:17px;display:grid;place-items:center;
-  background:linear-gradient(135deg,#43dfbd,#4398ff);color:white;
-  box-shadow:0 8px 25px rgba(65,190,220,.25);
-}
-.brand-icon svg { width:27px;height:27px; }
-.gradient-text { background:linear-gradient(90deg,#44dfbd,#66a9ff); color:transparent; background-clip:text; }
-.auth-card h1 { font-size:29px; margin:27px 0 7px; letter-spacing:-.8px; }
-.subtitle { color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 23px; }
-.field { margin:14px 0; }
-.field label { display:block;font-size:12px;font-weight:700;color:var(--muted);margin:0 0 8px 3px; }
+button, input, textarea { font: inherit; }
+button { color: inherit; cursor: pointer; }
+.hidden { display: none !important; }
 .control {
-  width:100%; padding:14px 15px; border-radius:15px;
-  border:1px solid var(--border); background:rgba(120,140,170,.09);
-  outline:none; transition:.2s;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #202020;
+  color: white;
+  outline: none;
 }
-.control:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(66,214,181,.1); }
 .primary {
-  width:100%; border:0; border-radius:15px; padding:14px 18px;
-  background:linear-gradient(110deg,#40d9b6,#479dff); color:#071b2b;
-  font-weight:800; margin-top:10px; transition:transform .2s,filter .2s;
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--green);
+  color: #04150a;
+  font-weight: 800;
+  margin-top: 10px;
 }
-.primary:hover { filter:brightness(1.08);transform:translateY(-1px); }
-.secondary {
-  border:1px solid var(--border); background:var(--glass); border-radius:12px;
-  padding:10px 13px;
+.link {
+  border: 0;
+  background: none;
+  color: var(--green);
+  padding: 8px;
 }
-.auth-switch { text-align:center;color:var(--muted);font-size:13px;margin-top:20px; }
-.link-btn { border:0;background:none;color:var(--accent);font-weight:700;padding:4px; }
-#authMessage { color:var(--danger);font-size:13px;line-height:1.5;margin-top:12px; }
-#app { height:100dvh; padding:12px; }
-.app-shell {
-  max-width:1500px;height:100%;margin:auto;display:grid;
-  grid-template-columns:340px minmax(0,1fr);overflow:hidden;border-radius:27px;
-  border:1px solid var(--border);background:var(--glass);
-  backdrop-filter:blur(28px) saturate(165%);
-  -webkit-backdrop-filter:blur(28px) saturate(165%);box-shadow:var(--shadow);
+.auth {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 22px;
 }
-.sidebar { min-width:0;display:flex;flex-direction:column;border-right:1px solid var(--border); }
-.side-head { padding:20px 17px 12px; }
-.brand-small { font-size:20px; }
-.brand-small .brand-icon { width:39px;height:39px;border-radius:14px; }
-.head-actions { display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:19px; }
-.icon-btn {
-  width:40px;height:40px;border-radius:14px;border:1px solid var(--border);
-  background:var(--glass);display:grid;place-items:center;flex-shrink:0;
+.card {
+  width: min(430px, 100%);
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: #151515;
 }
-.icon-btn svg { width:19px;height:19px; }
-.icon-btn:hover,.secondary:hover { background:var(--glass-strong); }
-.search-box { position:relative; }
-.search-box input { padding-left:40px; }
-.search-box svg { position:absolute;left:13px;top:15px;width:17px;height:17px;color:var(--muted); }
-.section-label { color:var(--muted);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin:20px 3px 12px; }
-.stories { display:flex;gap:14px;overflow-x:auto;padding:0 2px 9px;scrollbar-width:none; }
-.stories::-webkit-scrollbar,.chat-list::-webkit-scrollbar,.messages::-webkit-scrollbar { display:none; }
-.story { border:0;background:none;min-width:57px;max-width:65px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--muted); }
-.story-ring { width:51px;height:51px;border-radius:50%;padding:3px;border:2px solid var(--accent);display:grid;place-items:center; }
-.story-ring .avatar { width:100%;height:100%; }
-.chat-list { overflow:auto;flex:1;padding:0 9px 12px; }
-.chat-row { width:100%;border:0;background:transparent;text-align:left;display:flex;align-items:center;gap:11px;padding:12px 9px;border-radius:17px;transition:.15s; }
-.chat-row:hover,.chat-row.active { background:var(--glass-strong); }
+.brand { font-size: 25px; font-weight: 800; }
+.green { color: var(--green); }
+.field { margin: 15px 0; }
+.field label {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.err { color: #ff7885; font-size: 13px; margin-top: 12px; }
+
+.shell {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  background: var(--bg);
+}
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background: #101010;
+  border-right: 1px solid #252525;
+  min-width: 0;
+}
+.sidehead { padding: 18px 16px 8px; }
+.topline, .rowflex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.icon {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #333;
+  background: #202020;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.icon svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+.search { position: relative; margin-top: 18px; }
+.search svg {
+  position: absolute;
+  top: 15px;
+  left: 12px;
+  width: 18px;
+  height: 18px;
+  stroke: #aaa;
+  fill: none;
+}
+.search input { padding-left: 40px; }
+.label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #888;
+  font-weight: 800;
+  margin: 18px 3px 12px;
+}
+.stories { display: flex; gap: 12px; overflow: auto; }
+.story {
+  border: 0;
+  background: none;
+  min-width: 57px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #aaa;
+  font-size: 11px;
+}
+.ring {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  padding: 3px;
+}
 .avatar {
-  width:47px;height:47px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;
-  color:white;font-weight:800;font-size:16px;
-  background:linear-gradient(135deg,#3bcdb2,#448cff);
-  overflow:hidden;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #216844;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-weight: 800;
+  flex-shrink: 0;
 }
-.avatar img { width:100%;height:100%;object-fit:cover; }
-.chat-info { flex:1;min-width:0; }
-.chat-top { display:flex;justify-content:space-between;gap:8px;align-items:center; }
-.chat-name { font-size:14px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
-.chat-time { font-size:10px;color:var(--muted);white-space:nowrap; }
-.chat-preview { font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:5px; }
-.side-foot { border-top:1px solid var(--border);padding:12px;display:flex;align-items:center;gap:10px; }
-.profile-mini { min-width:0;flex:1; }
-.profile-mini strong { display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis; }
-.profile-mini span { color:var(--muted);font-size:11px; }
-.main { display:flex;flex-direction:column;min-width:0;min-height:0;position:relative; }
-.welcome { flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px; }
-.welcome-icon {
-  width:100px;height:100px;margin:0 auto 20px;border-radius:34px;
-  display:grid;place-items:center;color:white;background:linear-gradient(135deg,#43d9b8,#479bff);
-  box-shadow:0 18px 50px rgba(60,170,200,.25);
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ring .avatar { width: 100%; height: 100%; }
+.chatlist { flex: 1; overflow: auto; padding: 0 8px 12px; }
+.chatrow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 9px;
+  border: 0;
+  background: transparent;
+  border-radius: 14px;
+  text-align: left;
 }
-.welcome-icon svg { width:48px;height:48px; }
-.welcome h2 { font-size:28px;letter-spacing:-.8px;margin:0 0 10px; }
-.welcome p { color:var(--muted);font-size:14px;line-height:1.7;max-width:360px; }
-.chat-head {
-  min-height:77px;display:flex;align-items:center;gap:12px;padding:13px 20px;
-  border-bottom:1px solid var(--border);background:rgba(120,140,170,.035);
+.chatrow:hover, .chatrow.active { background: #252525; }
+.chatinfo { flex: 1; min-width: 0; }
+.chatname {
+  font-weight: 750;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.chat-head-info { flex:1;min-width:0; }
-.chat-head-info strong { display:block;font-size:15px; }
-.chat-head-info small { color:var(--muted);font-size:12px; }
+.preview {
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 5px;
+}
+.sidefoot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid #252525;
+}
+.miniinfo { flex: 1; min-width: 0; }
+.miniinfo strong, .miniinfo small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.miniinfo small { color: #999; margin-top: 3px; }
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+.welcome {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 25px;
+}
+.welcome p { color: #999; max-width: 350px; line-height: 1.7; }
+.chatpanel {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+.chathead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #252525;
+}
+.chathead .grow { flex: 1; min-width: 0; }
+.chathead small { display: block; color: #999; margin-top: 4px; }
 .messages {
-  flex:1;min-height:0;overflow:auto;padding:23px clamp(12px,4vw,45px);
-  display:flex;flex-direction:column;gap:11px;
-  background-image:radial-gradient(rgba(120,150,180,.07) .8px,transparent .8px);
-  background-size:19px 19px;
+  flex: 1;
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.date-chip { align-self:center;font-size:10px;color:var(--muted);background:var(--glass);padding:7px 12px;border-radius:20px;margin:6px 0; }
-.message-line { max-width:min(75%,500px);display:flex;flex-direction:column;align-items:flex-start;gap:4px; }
-.message-line.mine { align-self:flex-end;align-items:flex-end; }
+.bubbleline { max-width: 80%; align-self: flex-start; }
+.bubbleline.mine { align-self: flex-end; text-align: right; }
 .bubble {
-  padding:11px 14px;border:1px solid var(--border);border-radius:19px 19px 19px 5px;
-  background:var(--glass-strong);font-size:14px;line-height:1.55;overflow-wrap:anywhere;
-  white-space:pre-wrap;
+  display: inline-block;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 11px 14px;
+  border-radius: 18px 18px 18px 5px;
+  background: #202020;
+  font-size: 14px;
+  line-height: 1.5;
 }
-.message-line.mine .bubble {
-  background:linear-gradient(135deg,rgba(53,205,169,.92),rgba(71,156,255,.88));
-  color:#071b2b;border-color:transparent;border-radius:19px 19px 5px 19px;
+.mine .bubble {
+  background: var(--green);
+  color: #04150a;
+  border-radius: 18px 18px 5px 18px;
 }
-.message-meta { font-size:10px;color:var(--muted);padding:0 4px; }
+.meta { font-size: 10px; color: #999; margin-top: 4px; }
 .composer {
-  padding:13px 18px max(13px,env(safe-area-inset-bottom));border-top:1px solid var(--border);
-  display:flex;align-items:flex-end;gap:10px;background:rgba(120,140,170,.035);
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid #252525;
 }
-.composer textarea { resize:none;min-height:45px;max-height:120px;flex:1;padding:13px 15px;border-radius:17px; }
-.send-btn { width:46px;height:46px;border-radius:16px;border:0;background:linear-gradient(135deg,#40d9b6,#479dff);color:#071b2b;display:grid;place-items:center; }
-.send-btn svg { width:20px;height:20px; }
-.mobile-back { display:none; }
-.bottom-nav { display:none; }
-.modal-backdrop {
-  position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10;display:grid;place-items:center;padding:18px;
+.composer textarea { flex: 1; resize: none; min-height: 45px; max-height: 120px; }
+
+/* WhatsApp-inspired profile screen */
+.profilepage {
+  height: 100dvh;
+  overflow: auto;
+  padding: 0 32px 130px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(32,214,107,.04), transparent 38%), #080808;
+}
+.statusbar {
+  height: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.profiletools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0 0;
+}
+.toolgroup {
+  display: flex;
+  border: 1px solid #333;
+  background: #1c1c1c;
+  border-radius: 40px;
+  padding: 3px;
+}
+.toolgroup button {
+  width: 56px;
+  height: 48px;
+  border: 0;
+  background: none;
+  display: grid;
+  place-items: center;
+}
+.toolgroup svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+.profilephoto {
+  width: 174px;
+  height: 174px;
+  border-radius: 50%;
+  margin: -4px auto 22px;
+  position: relative;
+  background: #202020;
+  border: 1px solid #333;
+  display: grid;
+  place-items: center;
+  font-size: 52px;
+  font-weight: 800;
+  overflow: visible;
+}
+.profilephoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.addphoto {
+  position: absolute;
+  right: -3px;
+  bottom: 4px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 5px solid #080808;
+  background: var(--green);
+  color: #031208;
+  font-size: 35px;
+  display: grid;
+  place-items: center;
+}
+.username {
+  text-align: center;
+  font-size: clamp(27px, 4vw, 42px);
+  letter-spacing: -1px;
+  margin: 0;
+  font-weight: 800;
+}
+.handle {
+  text-align: center;
+  font-size: clamp(18px, 2.5vw, 25px);
+  color: #999;
+  margin-top: 9px;
+}
+.linked {
+  text-align: center;
+  font-size: clamp(14px, 2vw, 19px);
+  margin: 31px 0 48px;
+}
+.linked button {
+  border: 0;
+  background: none;
+  color: var(--green);
+  padding: 0;
+}
+.settingsgroup {
+  background: #171717;
+  border-radius: 32px;
+  padding: 0 26px;
+  margin: 0 0 34px;
+}
+.setting {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  min-height: 98px;
+  position: relative;
+  width: 100%;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: clamp(17px, 2.2vw, 23px);
+  padding: 16px 0;
+}
+.setting + .setting:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 91px;
+  right: 0;
+  height: 1px;
+  background: #333;
+}
+.setting svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  flex-shrink: 0;
+}
+.setting .chev { margin-left: auto; width: 17px; height: 17px; color: #999; }
+.setting span { flex: 1; }
+
+.tabs {
+  position: fixed;
+  z-index: 8;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(690px, calc(100% - 42px));
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2px;
+  padding: 7px 8px;
+  border: 1px solid #373737;
+  border-radius: 50px;
+  background: rgba(37,37,37,.88);
+  box-shadow: 0 12px 40px #0008;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+}
+.tab {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  border: 0;
+  border-radius: 40px;
+  background: none;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 9px 2px;
+  font-size: 12px;
+}
+.tab svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+.tab.active { background: #414141; }
+.tab.active span { color: var(--green); }
+.badge {
+  position: absolute;
+  top: 0;
+  right: calc(50% - 29px);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #06140b;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+}
+.modalback {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  background: #0009;
+  display: grid;
+  place-items: center;
+  padding: 18px;
 }
 .modal {
-  width:min(430px,100%);max-height:85dvh;overflow:auto;padding:23px;border-radius:25px;
-  background:var(--glass-strong);border:1px solid var(--border);backdrop-filter:blur(35px);
-  -webkit-backdrop-filter:blur(35px);box-shadow:var(--shadow);
+  width: min(430px, 100%);
+  max-height: 85dvh;
+  overflow: auto;
+  border: 1px solid #393939;
+  border-radius: 25px;
+  background: #1b1b1b;
+  padding: 22px;
 }
-.modal h2 { margin:0 0 7px;font-size:23px; }
-.modal p { color:var(--muted);font-size:13px;line-height:1.6; }
-.modal-actions { display:flex;gap:10px;margin-top:17px; }
-.modal-actions>* { flex:1; }
-#toast {
-  position:fixed;left:50%;bottom:25px;transform:translateX(-50%);
-  z-index:30;background:var(--glass-strong);border:1px solid var(--border);
-  backdrop-filter:blur(20px);padding:12px 18px;border-radius:15px;
-  box-shadow:var(--shadow);font-size:13px;max-width:90%;text-align:center;
+.modal p { color: #aaa; line-height: 1.6; font-size: 13px; }
+.modalactions { display: flex; gap: 10px; margin-top: 12px; }
+.secondary {
+  flex: 1;
+  border: 1px solid #393939;
+  border-radius: 12px;
+  background: #252525;
+  padding: 12px;
 }
-body.light .control { background:rgba(255,255,255,.42); }
-body.light .message-line.mine .bubble { color:#071b2b; }
+.toast {
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: 100px;
+  transform: translateX(-50%);
+  padding: 12px 17px;
+  border-radius: 15px;
+  background: #222;
+  border: 1px solid #444;
+  font-size: 13px;
+  max-width: 90%;
+  text-align: center;
+}
 @media(max-width:760px) {
-  #app { padding:0; }
-  .app-shell { border-radius:0;border:0;grid-template-columns:minmax(0,1fr); }
-  .sidebar { border-right:0; }
-  .main { display:none; }
-  .app-shell.chat-open .sidebar { display:none; }
-  .app-shell.chat-open .main { display:flex; }
-  .side-head { padding:calc(12px + env(safe-area-inset-top)) 15px 10px; }
-  .chat-list { padding-bottom:90px; }
-  .side-foot { padding-bottom:calc(78px + env(safe-area-inset-bottom)); }
-  .chat-head { padding:calc(10px + env(safe-area-inset-top)) 12px 10px; }
-  .mobile-back { display:grid; }
-  .messages { padding:17px 12px; }
-  .message-line { max-width:87%; }
-  .composer { padding:10px 10px max(10px,env(safe-area-inset-bottom)); }
-  .bottom-nav {
-    display:flex;position:absolute;z-index:4;bottom:0;left:0;right:0;
-    padding:10px 12px max(10px,env(safe-area-inset-bottom));
-    justify-content:space-around;gap:5px;border-top:1px solid var(--border);
-    background:var(--glass-strong);backdrop-filter:blur(25px);
-  }
-  .bottom-nav button { border:0;background:none;color:var(--muted);font-size:10px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:3px 10px; }
-  .bottom-nav svg { width:21px;height:21px; }
-  .bottom-nav button.selected { color:var(--accent); }
+  .shell { display: block; }
+  .sidebar { height: 100dvh; border: 0; }
+  .sidehead { padding: calc(12px + env(safe-area-inset-top)) 15px 8px; }
+  .main { display: none; height: 100dvh; }
+  .shell.chat-open .sidebar { display: none; }
+  .shell.chat-open .main { display: flex; }
+  .profilepage { padding: 0 16px 135px; }
+  .statusbar { padding: 0 14px; }
+  .profilephoto { width: 155px; height: 155px; margin-top: -2px; margin-bottom: 18px; }
+  .linked { margin: 28px 0 38px; }
+  .settingsgroup { padding: 0 20px; border-radius: 30px; margin-bottom: 28px; }
+  .setting { min-height: 80px; gap: 20px; }
+  .setting + .setting:before { left: 72px; }
+  .setting svg { width: 26px; height: 26px; }
+  .tabs { width: calc(100% - 34px); padding: 6px; }
+  .tab { font-size: 11px; padding: 8px 1px; }
+  .tab svg { width: 28px; height: 28px; }
+  .messages { padding: 16px 12px; }
+  .bubbleline { max-width: 88%; }
+  .chathead { padding: calc(9px + env(safe-area-inset-top)) 12px 10px; }
 }
-@media(min-width:761px) {
-  #app { display:block!important; }
-}
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important;scroll-behavior:auto!important; } }
 </style>
 </head>
 
 <body>
-<section id="authScreen">
-  <div class="auth-card">
-    <div class="brand">
-      <div class="brand-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
-          <path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z"/>
-          <path d="M8 10h8M8 14h5"/>
-        </svg>
-      </div>
-      <span>Chat<span class="gradient-text">Wave</span></span>
-    </div>
-
+<section id="authScreen" class="auth">
+  <div class="card">
+    <div class="brand">◉ Chat<span class="green">Wave</span></div>
     <h1 id="authTitle">Welcome back.</h1>
-    <p class="subtitle" id="authSubtitle">Your people, your conversations, all in one place.</p>
-
+    <p style="color:#999;font-size:14px">Your people, your conversations, all in one place.</p>
     <form id="authForm">
       <div id="nameField" class="field hidden">
-        <label for="displayName">YOUR NAME</label>
-        <input id="displayName" class="control" autocomplete="name" placeholder="Enter your name">
+        <label>YOUR NAME</label>
+        <input id="nameInput" class="control" autocomplete="name">
       </div>
       <div class="field">
-        <label for="email">EMAIL ADDRESS</label>
-        <input id="email" class="control" type="email" autocomplete="email" required placeholder="you@example.com">
+        <label>EMAIL ADDRESS</label>
+        <input id="emailInput" class="control" type="email" required autocomplete="email">
       </div>
       <div class="field">
-        <label for="password">PASSWORD</label>
-        <input id="password" class="control" type="password" autocomplete="current-password" required minlength="6" placeholder="At least 6 characters">
+        <label>PASSWORD</label>
+        <input id="passwordInput" class="control" type="password" minlength="6" required autocomplete="current-password">
       </div>
-      <button class="primary" id="authSubmit" type="submit">Sign in</button>
+      <button class="primary" id="authSubmit">Sign in</button>
     </form>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap">
-      <button class="link-btn" id="forgotBtn" type="button">Forgot password?</button>
-      <button class="link-btn" id="modeBtn" type="button">Create account</button>
+    <div class="rowflex">
+      <button class="link" id="forgotBtn">Forgot password?</button>
+      <button class="link" id="modeBtn">Create account</button>
     </div>
-    <div id="authMessage" role="status" aria-live="polite"></div>
-    <p style="font-size:11px;color:var(--muted);margin:20px 0 0;text-align:center">By continuing, you agree to use ChatWave responsibly.</p>
+    <div id="authError" class="err"></div>
   </div>
 </section>
 
 <section id="app" class="hidden">
-  <div class="app-shell" id="appShell">
-    <aside class="sidebar">
-      <div class="side-head">
-        <div class="head-actions">
-          <div class="brand brand-small">
-            <div class="brand-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
-                <path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z"/>
-                <path d="M8 10h8M8 14h5"/>
-              </svg>
-            </div>
-            <span>Chat<span class="gradient-text">Wave</span></span>
-          </div>
-          <button class="icon-btn" id="newChatBtn" title="New chat" aria-label="New chat">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-        </div>
-        <div class="search-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-          <input id="searchInput" class="control" placeholder="Search conversations..." autocomplete="off">
-        </div>
-        <div class="section-label">Stories</div>
-        <div class="stories" id="stories"></div>
-        <div class="section-label">Messages <span id="chatCount"></span></div>
+<div class="shell" id="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidehead">
+      <div class="topline">
+        <div class="brand" style="font-size:21px">◉ Chat<span class="green">Wave</span></div>
+        <button class="icon" id="newChat" aria-label="New chat">＋</button>
       </div>
-
-      <div class="chat-list" id="chatList">
-        <p style="color:var(--muted);font-size:13px;padding:10px">Loading conversations…</p>
+      <div class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input id="search" class="control" placeholder="Search conversations">
       </div>
+      <div class="label">Stories</div>
+      <div id="stories" class="stories"></div>
+      <div class="label">Messages <span id="chatCount"></span></div>
+    </div>
+    <div id="chatList" class="chatlist"><p style="color:#999;padding:12px">Loading…</p></div>
+    <div class="sidefoot">
+      <div class="avatar" id="miniAvatar">?</div>
+      <div class="miniinfo"><strong id="miniName">My account</strong><small id="miniEmail"></small></div>
+      <button class="icon" id="settings">⚙</button>
+    </div>
+  </aside>
 
-      <div class="side-foot">
-        <div class="avatar" id="myAvatar">?</div>
-        <div class="profile-mini">
-          <strong id="myName">My account</strong>
-          <span id="myEmail">Loading profile…</span>
-        </div>
-        <button class="icon-btn" id="settingsBtn" aria-label="Settings" title="Settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.8 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.8-1l-1.7.6-1.4-2.4 1.4-1.1a8 8 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.6a8 8 0 0 1 1.8-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.8 1l1.7-.6 1.4 2.4-1.4 1.1a8 8 0 0 1-.1 1.9Z"/></svg>
-        </button>
+  <main class="main" id="main">
+    <section class="welcome" id="welcome">
+      <div>
+        <div style="font-size:55px;color:var(--green)">◉</div>
+        <h2>Your people, <span class="green">your ChatWave.</span></h2>
+        <p>Choose a conversation or start a new chat.</p>
+        <button class="primary" id="welcomeNew" style="max-width:250px">Start a conversation</button>
       </div>
-    </aside>
+    </section>
+    <section class="chatpanel" id="chatPanel">
+      <header class="chathead">
+        <button class="icon" id="back">‹</button>
+        <div class="avatar" id="activeAvatar">?</div>
+        <div class="grow"><strong id="activeName">Conversation</strong><small id="activeEmail">ChatWave member</small></div>
+        <button class="icon" id="activeProfile">⋯</button>
+      </header>
+      <div id="messages" class="messages"></div>
+      <form id="messageForm" class="composer">
+        <textarea id="messageText" class="control" rows="1" maxlength="4000" placeholder="Message…"></textarea>
+        <button class="primary" style="width:48px;height:46px;padding:0;margin:0">➤</button>
+      </form>
+    </section>
+  </main>
 
-    <main class="main" id="mainPanel">
-      <div class="welcome" id="welcomePanel">
-        <div>
-          <div class="welcome-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 10h8M8 14h5"/></svg>
-          </div>
-          <h2>Good conversations<br><span class="gradient-text">start here.</span></h2>
-          <p>Choose a conversation or start a new chat. Stay close to the people who matter.</p>
-          <button class="primary" id="welcomeNewChat" style="width:auto;padding:13px 23px">Start a conversation</button>
-        </div>
-      </div>
-
-      <section id="chatPanel" class="hidden" style="flex:1;min-height:0;display:none;flex-direction:column">
-        <header class="chat-head">
-          <button class="icon-btn mobile-back" id="backBtn" aria-label="Back to chats">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
-          </button>
-          <div class="avatar" id="activeAvatar">?</div>
-          <div class="chat-head-info">
-            <strong id="activeName">Conversation</strong>
-            <small id="activeStatus">ChatWave</small>
-          </div>
-          <button class="icon-btn" id="profileBtn" title="View profile" aria-label="View profile">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-          </button>
-        </header>
-        <div class="messages" id="messages" aria-live="polite"></div>
-        <form class="composer" id="messageForm">
-          <textarea id="messageInput" class="control" rows="1" maxlength="4000" placeholder="Write a message…" aria-label="Message"></textarea>
-          <button class="send-btn" type="submit" aria-label="Send message">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-          </button>
-        </form>
-      </section>
-    </main>
-
-    <nav class="bottom-nav">
-      <button class="selected" id="navChats">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z"/></svg>Chats
+  <section class="profilepage hidden" id="profilePage">
+    <div class="statusbar"><span id="clock">4:48</span><span>▮▮▮　◉　▰</span></div>
+    <div class="profiletools">
+      <button class="icon" id="profileSearch" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
       </button>
-      <button id="navStories">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/></svg>Stories
+      <div class="toolgroup">
+        <button id="qrBtn" aria-label="QR"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><path d="M15 15h3v3h-3zM21 15v3M18 21h3"/></svg></button>
+        <button id="editProfile" aria-label="Edit profile"><svg viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l4-.8L20 7a2 2 0 0 0-3-3L5 16Z"/></svg></button>
+      </div>
+    </div>
+
+    <div class="profilephoto" id="profilePhoto">?</div>
+    <h1 class="username" id="profileName">ChatWave user ⌄</h1>
+    <div class="handle" id="profileHandle">@chatwave</div>
+    <div class="linked">This is a linked device. <button id="learnMore">Learn more</button></div>
+
+    <div class="settingsgroup">
+      <button class="setting" data-setting="Lists">
+        <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="14" rx="2"/><path d="M7 4h10M9 2h6M12 11a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8ZM7 19c.6-2 2.3-3 5-3s4.4 1 5 3"/></svg>
+        <span>Lists</span>
+        <svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
       </button>
-      <button id="navProfile">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile
+      <button class="setting" data-setting="Starred">
+        <svg viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 7 1-5.1 5 1.2 7-6.2-3.3-6.2 3.3 1.2-7-5.1-5 7-1Z"/></svg>
+        <span>Starred</span>
+        <svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
       </button>
-    </nav>
-  </div>
+    </div>
+
+    <div class="settingsgroup">
+      <button class="setting" data-setting="Chat history">
+        <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>
+        <span>Chat history</span>
+        <svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="settingsgroup">
+      <button class="setting" data-setting="Account">
+        <svg viewBox="0 0 24 24"><circle cx="10" cy="7" r="4"/><path d="m12 10 8 8-3 3-2-2-2 1-1-2 1-2-2-2"/></svg>
+        <span>Account</span><svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
+      <button class="setting" data-setting="Privacy">
+        <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="12" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg>
+        <span>Privacy</span><svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
+      <button class="setting" data-setting="Chats">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+        <span>Chats</span><svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
+      <button class="setting" data-setting="Appearance">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1.5-3.3 1.7 1.7 0 0 1 1.3-2.8H18a3 3 0 0 0 3-3c0-5-4-9-9-9Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="11" cy="6.8" r="1"/><circle cx="16" cy="9" r="1"/></svg>
+        <span>Appearance</span><svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
+      <button class="setting" data-setting="Notifications">
+        <svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+        <span>Notifications</span><svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
+      <button class="setting" data-setting="Storage and data">
+        <svg viewBox="0 0 24 24"><path d="M7 3v18M3 7l4-4 4 4M17 21V3m-4 14 4 4 4-4"/></svg>
+        <span>Storage and data</span><svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <nav class="tabs hidden" id="tabs">
+    <button class="tab" data-tab="Updates"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="3"/></svg><span>Updates</span></button>
+    <button class="tab" data-tab="Calls"><svg viewBox="0 0 24 24"><path d="M6 3 3.5 5.5c-.7.7 0 4.3 4.5 8.8s8.1 5.2 8.8 4.5l2.5-2.5-4.2-3-2 2c-2.1-1-4-2.9-5-5l2-2Z"/></svg><span>Calls</span></button>
+    <button class="tab" data-tab="Communities"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><circle cx="5" cy="10" r="2.5"/><circle cx="19" cy="10" r="2.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2ZM1 20v-2a4 4 0 0 1 3-3.9M23 20v-2a4 4 0 0 0-3-3.9"/></svg><span>Communities</span></button>
+    <button class="tab" data-tab="Chats"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z"/></svg><span>Chats</span><i class="badge hidden" id="badge">1</i></button>
+    <button class="tab active" data-tab="You"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>You</span></button>
+  </nav>
+</div>
 </section>
 
 <div id="modalRoot"></div>
-<div id="toast" class="hidden" role="status" aria-live="polite"></div>
+<div id="toast" class="toast hidden"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import {
   getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile,
-  signOut
+  signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile, signOut
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import {
   getFirestore, collection, doc, setDoc, getDoc, getDocs, query,
-  where, onSnapshot, addDoc, serverTimestamp, updateDoc, orderBy,
-  limit
+  where, onSnapshot, addDoc, serverTimestamp, updateDoc, orderBy, limit
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-/* Your existing Firebase project configuration */
 const firebaseConfig = {
   apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
   authDomain: "chat-2c557.firebaseapp.com",
@@ -408,709 +709,571 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
 const $ = id => document.getElementById(id);
-let currentUser = null;
-let profileData = {};
-let authMode = "login";
-let selectedChat = null;
-let selectedChatData = null;
-let unsubChats = null;
-let unsubUsers = null;
-let unsubMessages = null;
-let unsubStories = null;
-let chatCache = [];
-let userCache = {};
-let toastTimer = null;
-let isSending = false;
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+}[c]));
 
-const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[ch]));
+let me = null, profile = {}, mode = "login", activeChat = null;
+let unsubs = [], chatRows = [], people = {}, timer;
 
 function toast(message) {
   $("toast").textContent = message;
   $("toast").classList.remove("hidden");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => $("toast").classList.add("hidden"), 3200);
+  clearTimeout(timer);
+  timer = setTimeout(() => $("toast").classList.add("hidden"), 3000);
 }
-
-function setAuthMessage(message, success = false) {
-  $("authMessage").textContent = message;
-  $("authMessage").style.color = success ? "var(--accent)" : "var(--danger)";
-}
-
 function initials(name) {
   return String(name || "?").trim().split(/\s+/).slice(0,2)
-    .map(part => part[0] || "").join("").toUpperCase() || "?";
+    .map(x => x[0] || "").join("").toUpperCase() || "?";
+}
+function avatar(p) {
+  const name = p?.displayName || p?.name || p?.email || "?";
+  return `<div class="avatar">${p?.photoURL ? `<img src="${esc(p.photoURL)}">` : esc(initials(name))}</div>`;
+}
+function tm(value) {
+  if (!value) return "";
+  const date = value.toDate ? value.toDate() : new Date(value);
+  if (isNaN(date)) return "";
+  return date.toDateString() === new Date().toDateString()
+    ? date.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})
+    : date.toLocaleDateString([], {month:"short", day:"numeric"});
+}
+function stopListeners() {
+  unsubs.forEach(fn => fn && fn());
+  unsubs = [];
+}
+function modal(title, content) {
+  $("modalRoot").innerHTML = `
+    <div class="modalback" id="modalBack">
+      <div class="modal">
+        <div class="rowflex"><h2>${esc(title)}</h2><button class="icon" id="modalClose">✕</button></div>
+        ${content}
+      </div>
+    </div>`;
+  $("modalClose").onclick = () => $("modalRoot").innerHTML = "";
+  $("modalBack").onclick = e => {
+    if (e.target.id === "modalBack") $("modalRoot").innerHTML = "";
+  };
 }
 
-function avatarHTML(user, extraClass = "") {
-  const name = user?.displayName || user?.name || user?.email || "?";
-  const photo = user?.photoURL || user?.photoUrl || "";
-  return `<div class="avatar ${extraClass}">${photo
-    ? `<img src="${escapeHTML(photo)}" alt="" referrerpolicy="no-referrer">`
-    : escapeHTML(initials(name))}</div>`;
-}
+/* Authentication */
+$("modeBtn").onclick = () => {
+  mode = mode === "login" ? "register" : "login";
+  $("nameField").classList.toggle("hidden", mode !== "register");
+  $("nameInput").required = mode === "register";
+  $("authTitle").textContent = mode === "register" ? "Create your account." : "Welcome back.";
+  $("authSubmit").textContent = mode === "register" ? "Create account" : "Sign in";
+  $("modeBtn").textContent = mode === "register" ? "I already have an account" : "Create account";
+  $("forgotBtn").classList.toggle("hidden", mode === "register");
+  $("authError").textContent = "";
+};
 
-function safeTime(timestamp) {
-  if (!timestamp) return "";
-  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-  if (Number.isNaN(date.getTime())) return "";
-  const now = new Date();
-  return date.toDateString() === now.toDateString()
-    ? date.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
-    : date.toLocaleDateString([], {month:"short",day:"numeric"});
-}
-
-function getChatId(uidA, uidB) {
-  return [uidA, uidB].sort().join("_");
-}
-
-/* Authentication UI */
-function setAuthMode(mode) {
-  authMode = mode;
-  const registering = mode === "register";
-  $("authTitle").textContent = registering ? "Create your account." : "Welcome back.";
-  $("authSubtitle").textContent = registering
-    ? "Join ChatWave and start connecting."
-    : "Your people, your conversations, all in one place.";
-  $("nameField").classList.toggle("hidden", !registering);
-  $("displayName").required = registering;
-  $("authSubmit").textContent = registering ? "Create account" : "Sign in";
-  $("modeBtn").textContent = registering ? "I already have an account" : "Create account";
-  $("forgotBtn").classList.toggle("hidden", registering);
-  $("password").autocomplete = registering ? "new-password" : "current-password";
-  setAuthMessage("");
-}
-
-$("modeBtn").addEventListener("click", () => {
-  setAuthMode(authMode === "login" ? "register" : "login");
-});
-
-$("authForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  const email = $("email").value.trim();
-  const password = $("password").value;
-  const name = $("displayName").value.trim();
-  const button = $("authSubmit");
-  button.disabled = true;
-  setAuthMessage(authMode === "register" ? "Creating your account…" : "Signing in…");
-
+$("authForm").onsubmit = async e => {
+  e.preventDefault();
+  $("authSubmit").disabled = true;
   try {
-    if (authMode === "register") {
-      if (!name) throw new Error("Please enter your name.");
-      const credential = await createUserWithEmailAndPassword(auth, email, password);
+    if (mode === "register") {
+      const name = $("nameInput").value.trim();
+      const email = $("emailInput").value.trim();
+      if (!name) throw new Error("Enter your name.");
+      const credential = await createUserWithEmailAndPassword(
+        auth, email, $("passwordInput").value
+      );
       await updateProfile(credential.user, {displayName:name});
-      await setDoc(doc(db, "users", credential.user.uid), {
+      profile = {
         uid: credential.user.uid,
-        name,
-        displayName: name,
-        email,
-        photoURL: "",
-        bio: "",
-        createdAt: serverTimestamp(),
-        lastSeen: serverTimestamp()
+        name, displayName:name, email, photoURL:"", bio:""
+      };
+      await setDoc(doc(db, "users", credential.user.uid), {
+        ...profile, createdAt:serverTimestamp(), lastSeen:serverTimestamp()
       });
-      profileData = {name, displayName:name, email, photoURL:"", bio:""};
-      toast("Welcome to ChatWave!");
     } else {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(
+        auth, $("emailInput").value.trim(), $("passwordInput").value
+      );
     }
   } catch (error) {
-    console.error("Authentication error:", error);
     const messages = {
-      "auth/email-already-in-use":"This email already has an account. Try signing in.",
-      "auth/invalid-email":"Please enter a valid email address.",
-      "auth/weak-password":"Choose a stronger password with at least 6 characters.",
+      "auth/email-already-in-use":"Email already registered.",
       "auth/invalid-credential":"Email or password is incorrect.",
       "auth/invalid-login-credentials":"Email or password is incorrect.",
-      "auth/network-request-failed":"Network error. Check your internet connection.",
-      "auth/too-many-requests":"Too many attempts. Please try again later.",
-      "permission-denied":"Firebase Firestore permissions prevented account setup. Check your database rules."
+      "auth/weak-password":"Use at least 6 characters.",
+      "auth/invalid-email":"Enter a valid email."
     };
-    setAuthMessage(messages[error.code] || error.message || "Unable to continue. Please try again.");
+    $("authError").textContent = messages[error.code] || error.message || "Authentication failed.";
   } finally {
-    button.disabled = false;
+    $("authSubmit").disabled = false;
   }
-});
+};
 
-$("forgotBtn").addEventListener("click", async () => {
-  const email = $("email").value.trim();
-  if (!email) {
-    setAuthMessage("Enter your email address first.");
-    $("email").focus();
-    return;
-  }
+$("forgotBtn").onclick = async () => {
   try {
+    const email = $("emailInput").value.trim();
+    if (!email) throw new Error("Enter your email first.");
     await sendPasswordResetEmail(auth, email);
-    setAuthMessage("Password reset email sent. Check your inbox.", true);
+    $("authError").textContent = "Password reset email sent.";
   } catch (error) {
-    setAuthMessage(error.message || "Could not send password reset email.");
+    $("authError").textContent = error.message;
   }
-});
+};
 
-/* Main app state */
-function showApp() {
-  $("authScreen").classList.add("hidden");
-  $("app").classList.remove("hidden");
+/* Profile page */
+function showProfile() {
+  $("sidebar").classList.add("hidden");
+  $("main").classList.add("hidden");
+  $("profilePage").classList.remove("hidden");
+  $("tabs").classList.remove("hidden");
 }
-
-function showAuth() {
-  $("app").classList.add("hidden");
-  $("authScreen").classList.remove("hidden");
-  $("appShell").classList.remove("chat-open");
-  closeChat();
+function showChats() {
+  $("profilePage").classList.add("hidden");
+  $("sidebar").classList.remove("hidden");
+  $("main").classList.remove("hidden");
+  $("tabs").classList.add("hidden");
+  $("shell").classList.remove("chat-open");
 }
-
-async function loadProfile(user) {
-  const ref = doc(db, "users", user.uid);
-  const snap = await getDoc(ref);
-
-  if (snap.exists()) {
-    profileData = snap.data();
-  } else {
-    profileData = {
-      uid:user.uid,
-      name:user.displayName || user.email?.split("@")[0] || "ChatWave user",
-      displayName:user.displayName || user.email?.split("@")[0] || "ChatWave user",
-      email:user.email || "",
-      photoURL:"",
-      bio:""
-    };
-    await setDoc(ref, {...profileData, createdAt:serverTimestamp()});
-  }
-
-  const displayName = profileData.displayName || profileData.name || user.displayName || "ChatWave user";
-  $("myName").textContent = displayName;
-  $("myEmail").textContent = user.email || "";
-  $("myAvatar").innerHTML = profileData.photoURL
-    ? `<img src="${escapeHTML(profileData.photoURL)}" alt="">`
-    : escapeHTML(initials(displayName));
-}
-
-function cleanupListeners() {
-  [unsubChats,unsubUsers,unsubMessages,unsubStories].forEach(unsub => {
-    if (typeof unsub === "function") unsub();
-  });
-  unsubChats = unsubUsers = unsubMessages = unsubStories = null;
+function paintProfile() {
+  const name = profile.displayName || profile.name || me.displayName || "ChatWave user";
+  $("miniName").textContent = name;
+  $("miniEmail").textContent = me.email || "";
+  $("miniAvatar").innerHTML = profile.photoURL
+    ? `<img src="${esc(profile.photoURL)}">`
+    : esc(initials(name));
+  $("profilePhoto").innerHTML =
+    (profile.photoURL ? `<img src="${esc(profile.photoURL)}">` : esc(initials(name))) +
+    `<button class="addphoto" id="addphoto">+</button>`;
+  $("profileName").innerHTML = esc(name) + ' <span style="font-size:22px">⌄</span>';
+  $("profileHandle").textContent = "@" + name.replace(/\s+/g, "").toLowerCase();
+  $("addphoto").onclick = editProfile;
 }
 
 onAuthStateChanged(auth, async user => {
-  cleanupListeners();
-  currentUser = user;
-  selectedChat = null;
-  selectedChatData = null;
+  stopListeners();
+  me = user;
+
   if (!user) {
-    showAuth();
+    $("app").classList.add("hidden");
+    $("authScreen").classList.remove("hidden");
     return;
   }
 
-  showApp();
-  $("chatList").innerHTML = '<p style="color:var(--muted);padding:10px;font-size:13px">Loading conversations…</p>';
+  $("authScreen").classList.add("hidden");
+  $("app").classList.remove("hidden");
 
   try {
-    await loadProfile(user);
-    await updateDoc(doc(db, "users", user.uid), {lastSeen:serverTimestamp()});
-    startUsersListener();
-    startChatsListener();
-    startStoriesListener();
+    const snapshot = await getDoc(doc(db, "users", user.uid));
+    profile = snapshot.exists() ? snapshot.data() : {
+      uid:user.uid,
+      name:user.displayName || user.email.split("@")[0],
+      displayName:user.displayName || user.email.split("@")[0],
+      email:user.email,
+      photoURL:"",
+      bio:""
+    };
+
+    if (!snapshot.exists()) {
+      await setDoc(doc(db, "users", user.uid), {
+        ...profile, createdAt:serverTimestamp()
+      });
+    }
+
+    paintProfile();
+    showProfile();
+    listen();
   } catch (error) {
-    console.error("Profile setup:", error);
-    toast("Your account opened, but some profile data could not load. Check Firestore rules.");
+    console.error(error);
+    toast("Profile setup failed. Check Firestore rules.");
   }
 });
 
-/* Contacts */
-function startUsersListener() {
-  if (unsubUsers) unsubUsers();
-  unsubUsers = onSnapshot(collection(db,"users"), snapshot => {
-    userCache = {};
-    snapshot.forEach(item => userCache[item.id] = item.data());
-    renderChats();
-  }, error => {
-    console.error("Users listener:",error);
-    toast("Unable to load contacts. Check Firestore read permissions.");
-  });
-}
+function listen() {
+  unsubs.push(onSnapshot(collection(db, "users"), snapshot => {
+    people = {};
+    snapshot.forEach(item => people[item.id] = item.data());
+    drawChats();
+    drawStories([]);
+  }, error => console.error(error)));
 
-function startChatsListener() {
-  if (unsubChats) unsubChats();
-  const q = query(
-    collection(db,"chats"),
-    where("members","array-contains",currentUser.uid)
-  );
+  unsubs.push(onSnapshot(
+    query(collection(db, "chats"), where("members", "array-contains", me.uid)),
+    snapshot => {
+      chatRows = snapshot.docs.map(item => ({id:item.id, ...item.data()}))
+        .sort((a,b) => (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0));
+      drawChats();
+      $("badge").classList.toggle("hidden", !chatRows.length);
+      $("badge").textContent = chatRows.length > 9 ? "9+" : chatRows.length;
+    },
+    error => {
+      console.error(error);
+      toast("Chat access denied. Check Firestore rules.");
+    }
+  ));
 
-  unsubChats = onSnapshot(q, snapshot => {
-    chatCache = snapshot.docs.map(item => ({id:item.id,...item.data()}));
-    chatCache.sort((a,b) => {
-      const ta = a.updatedAt?.toMillis?.() || 0;
-      const tb = b.updatedAt?.toMillis?.() || 0;
-      return tb - ta;
-    });
-    renderChats();
-  }, error => {
-    console.error("Chats listener:",error);
-    $("chatList").innerHTML = '<p style="color:var(--muted);padding:12px;font-size:13px">Could not load conversations. Check Firestore rules.</p>';
-  });
+  unsubs.push(onSnapshot(
+    query(collection(db, "statuses"), orderBy("createdAt", "desc"), limit(50)),
+    snapshot => drawStories(snapshot.docs.map(item => ({id:item.id, ...item.data()}))),
+    () => drawStories([])
+  ));
 }
 
 function otherMember(chat) {
-  return (chat.members || []).find(uid => uid !== currentUser.uid);
+  return (chat.members || []).find(uid => uid !== me.uid);
 }
 
-function renderChats() {
-  const term = $("searchInput").value.trim().toLowerCase();
-  const rows = chatCache.filter(chat => {
-    const otherId = otherMember(chat);
-    const person = userCache[otherId] || {};
-    const name = person.displayName || person.name || person.email || "ChatWave user";
-    return name.toLowerCase().includes(term) || (chat.lastMessage || "").toLowerCase().includes(term);
+function drawChats() {
+  const search = $("search").value.toLowerCase().trim();
+  const filtered = chatRows.filter(chat => {
+    const person = people[otherMember(chat)] || {};
+    const name = person.displayName || person.name || person.email || "Member";
+    return name.toLowerCase().includes(search) ||
+      (chat.lastMessage || "").toLowerCase().includes(search);
   });
 
-  $("chatCount").textContent = rows.length ? `(${rows.length})` : "";
+  $("chatCount").textContent = filtered.length ? `(${filtered.length})` : "";
+  $("chatList").innerHTML = filtered.length
+    ? filtered.map(chat => {
+        const person = people[otherMember(chat)] || {};
+        const name = person.displayName || person.name || person.email || "Member";
+        return `<button class="chatrow ${activeChat === chat.id ? "active" : ""}" data-id="${esc(chat.id)}">
+          ${avatar(person)}
+          <div class="chatinfo">
+            <div class="rowflex">
+              <span class="chatname">${esc(name)}</span>
+              <small style="color:#888">${esc(tm(chat.updatedAt))}</small>
+            </div>
+            <div class="preview">${esc(chat.lastMessage || "Start a conversation")}</div>
+          </div>
+        </button>`;
+      }).join("")
+    : '<p style="padding:12px;color:#999;font-size:13px">No chats yet. Tap + to start one.</p>';
 
-  if (!rows.length) {
-    $("chatList").innerHTML = `<div style="padding:18px 10px;color:var(--muted);font-size:13px;line-height:1.7">
-      ${term ? "No matching conversations." : "No conversations yet. Tap + to find someone and start chatting."}
-    </div>`;
-    return;
-  }
-
-  $("chatList").innerHTML = rows.map(chat => {
-    const uid = otherMember(chat);
-    const person = userCache[uid] || {name:"ChatWave user"};
-    const name = person.displayName || person.name || person.email || "ChatWave user";
-    const active = selectedChat === chat.id ? "active" : "";
-    return `<button class="chat-row ${active}" data-chat-id="${escapeHTML(chat.id)}">
-      ${avatarHTML(person)}
-      <div class="chat-info">
-        <div class="chat-top">
-          <span class="chat-name">${escapeHTML(name)}</span>
-          <span class="chat-time">${escapeHTML(safeTime(chat.updatedAt))}</span>
-        </div>
-        <div class="chat-preview">${escapeHTML(chat.lastMessage || "Start a conversation")}</div>
-      </div>
-    </button>`;
-  }).join("");
-
-  $("chatList").querySelectorAll("[data-chat-id]").forEach(button => {
-    button.addEventListener("click", () => openChat(button.dataset.chatId));
+  $("chatList").querySelectorAll("[data-id]").forEach(button => {
+    button.onclick = () => openChat(button.dataset.id);
   });
 }
+$("search").oninput = drawChats;
 
-$("searchInput").addEventListener("input", renderChats);
-
-/* Start a new conversation */
-async function startNewChat() {
-  if (!currentUser) return;
+async function newChat() {
   try {
-    const snapshot = await getDocs(collection(db,"users"));
+    const snapshot = await getDocs(collection(db, "users"));
     const contacts = snapshot.docs
-      .map(item => ({id:item.id,...item.data()}))
-      .filter(person => person.id !== currentUser.uid);
+      .map(item => ({id:item.id, ...item.data()}))
+      .filter(person => person.id !== me.uid);
 
     if (!contacts.length) {
-      showModal("No contacts yet", `
-        <p>There are no other ChatWave accounts in the users collection yet. Ask someone to create an account first.</p>
-      `);
+      modal("No contacts yet", "<p>Ask another person to create a ChatWave account first.</p>");
       return;
     }
 
-    const rows = contacts.map(person => {
-      const name = person.displayName || person.name || person.email || "ChatWave user";
-      return `<button class="chat-row" data-contact-id="${escapeHTML(person.id)}">
-        ${avatarHTML(person)}
-        <div class="chat-info">
-          <div class="chat-name">${escapeHTML(name)}</div>
-          <div class="chat-preview">${escapeHTML(person.email || "ChatWave member")}</div>
-        </div>
-      </button>`;
-    }).join("");
+    modal("New chat", `<p>Choose a member.</p>
+      <div id="contacts" style="max-height:50vh;overflow:auto">
+        ${contacts.map(person => `<button class="chatrow" data-uid="${esc(person.id)}">
+          ${avatar(person)}
+          <div><div class="chatname">${esc(person.displayName || person.name || person.email || "Member")}</div>
+          <div class="preview">${esc(person.email || "ChatWave member")}</div></div>
+        </button>`).join("")}
+      </div>`);
 
-    showModal("New conversation", `
-      <p>Choose a ChatWave member to message.</p>
-      <div id="contactPicker" style="max-height:50vh;overflow:auto">${rows}</div>
-    `);
+    $("contacts").querySelectorAll("[data-uid]").forEach(button => {
+      button.onclick = async () => {
+        const otherUid = button.dataset.uid;
+        const members = [me.uid, otherUid].sort();
+        const chatId = members.join("_");
 
-    $("contactPicker").querySelectorAll("[data-contact-id]").forEach(button => {
-      button.addEventListener("click", async () => {
-        const otherUid = button.dataset.contactId;
         try {
-          const chatId = getChatId(currentUser.uid,otherUid);
-          const chatRef = doc(db,"chats",chatId);
-          const snap = await getDoc(chatRef);
-          if (!snap.exists()) {
-            await setDoc(chatRef,{
-              members:[currentUser.uid,otherUid].sort(),
+          const reference = doc(db, "chats", chatId);
+          const existing = await getDoc(reference);
+
+          if (!existing.exists()) {
+            await setDoc(reference, {
+              members,
               createdAt:serverTimestamp(),
               updatedAt:serverTimestamp(),
               lastMessage:""
             });
           }
-          closeModal();
-          await openChat(chatId);
+
+          $("modalRoot").innerHTML = "";
+          showChats();
+          openChat(chatId);
         } catch (error) {
-          console.error("New chat:",error);
-          toast("Couldn't create chat. Check your Firestore rules.");
+          console.error(error);
+          toast("Couldn't create chat. Check Firestore rules.");
         }
-      });
+      };
     });
   } catch (error) {
-    console.error("Contact lookup:",error);
-    toast("Couldn't load contacts. Check Firestore read permissions.");
+    console.error(error);
+    toast("Couldn't load contacts.");
   }
 }
+$("newChat").onclick = $("welcomeNew").onclick = newChat;
 
-$("newChatBtn").addEventListener("click",startNewChat);
-$("welcomeNewChat").addEventListener("click",startNewChat);
-
-/* Conversation */
-async function openChat(chatId) {
+async function openChat(id) {
   try {
-    const snap = await getDoc(doc(db,"chats",chatId));
-    if (!snap.exists()) {
-      toast("This conversation no longer exists.");
-      return;
-    }
-    const data = snap.data();
-    if (!(data.members || []).includes(currentUser.uid)) {
-      toast("You don't have access to this conversation.");
-      return;
+    const snapshot = await getDoc(doc(db, "chats", id));
+    if (!snapshot.exists() || !snapshot.data().members?.includes(me.uid)) {
+      throw new Error("Conversation unavailable");
     }
 
-    selectedChat = chatId;
-    selectedChatData = data;
-    const otherUid = otherMember(data);
-    const person = userCache[otherUid] || {};
-    const name = person.displayName || person.name || person.email || "ChatWave user";
+    activeChat = id;
+    const person = people[otherMember(snapshot.data())] || {};
+    const name = person.displayName || person.name || person.email || "Member";
 
     $("activeName").textContent = name;
-    $("activeStatus").textContent = person.email || "ChatWave member";
+    $("activeEmail").textContent = person.email || "ChatWave member";
     $("activeAvatar").innerHTML = person.photoURL
-      ? `<img src="${escapeHTML(person.photoURL)}" alt="">`
-      : escapeHTML(initials(name));
+      ? `<img src="${esc(person.photoURL)}">`
+      : esc(initials(name));
 
-    $("welcomePanel").classList.add("hidden");
-    $("chatPanel").classList.remove("hidden");
+    $("welcome").classList.add("hidden");
     $("chatPanel").style.display = "flex";
-    $("appShell").classList.add("chat-open");
-    renderChats();
+    $("shell").classList.add("chat-open");
+    showChats();
+    $("welcome").classList.add("hidden");
+    $("chatPanel").style.display = "flex";
+    $("shell").classList.add("chat-open");
 
-    if (unsubMessages) unsubMessages();
-    $("messages").innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center">Loading messages…</div>';
+    if (window.unMsg) window.unMsg();
 
-    const messageQuery = query(
-      collection(db,"chats",chatId,"messages"),
-      orderBy("createdAt","asc"),
-      limit(200)
+    window.unMsg = onSnapshot(
+      query(collection(db, "chats", id, "messages"), orderBy("createdAt", "asc"), limit(200)),
+      messages => {
+        $("messages").innerHTML = messages.empty
+          ? '<p style="color:#999;text-align:center">Start the conversation.</p>'
+          : messages.docs.map(item => {
+              const message = item.data();
+              return `<div class="bubbleline ${message.senderId === me.uid ? "mine" : ""}">
+                <div class="bubble">${esc(message.text)}</div>
+                <div class="meta">${esc(tm(message.createdAt))}</div>
+              </div>`;
+            }).join("");
+        $("messages").scrollTop = $("messages").scrollHeight;
+      },
+      error => {
+        console.error(error);
+        toast("Cannot load messages. Check Firestore rules.");
+      }
     );
 
-    unsubMessages = onSnapshot(messageQuery, snapshot => {
-      renderMessages(snapshot.docs.map(item => ({id:item.id,...item.data()})));
-    }, error => {
-      console.error("Messages listener:",error);
-      $("messages").innerHTML = '<div style="color:var(--danger);font-size:13px;text-align:center">Could not load messages. Check Firestore rules and any requested index.</div>';
-    });
+    drawChats();
   } catch (error) {
-    console.error("Open chat:",error);
-    toast("Couldn't open conversation. Check Firestore rules.");
+    toast(error.message || "Couldn't open chat.");
   }
 }
 
-function renderMessages(messages) {
-  const container = $("messages");
-  if (!messages.length) {
-    container.innerHTML = '<div class="date-chip">This is the beginning of your conversation</div>';
-    return;
-  }
+$("back").onclick = () => {
+  if (window.unMsg) window.unMsg();
+  activeChat = null;
+  $("chatPanel").style.display = "none";
+  $("welcome").classList.remove("hidden");
+  $("shell").classList.remove("chat-open");
+  drawChats();
+};
 
-  container.innerHTML = messages.map(message => {
-    const mine = message.senderId === currentUser.uid;
-    const time = safeTime(message.createdAt);
-    return `<div class="message-line ${mine ? "mine" : ""}">
-      <div class="bubble">${escapeHTML(message.text)}</div>
-      <div class="message-meta">${escapeHTML(time)}${mine ? " · You" : ""}</div>
-    </div>`;
-  }).join("");
-
-  container.scrollTop = container.scrollHeight;
-}
-
-$("messageForm").addEventListener("submit", async event => {
+$("messageForm").onsubmit = async event => {
   event.preventDefault();
-  const text = $("messageInput").value.trim();
-  if (!text || !selectedChat || isSending) return;
-  isSending = true;
+  const text = $("messageText").value.trim();
+  if (!text || !activeChat) return;
+
   const button = $("messageForm").querySelector("button");
   button.disabled = true;
 
   try {
-    const chatRef = doc(db,"chats",selectedChat);
-    const messageRef = collection(db,"chats",selectedChat,"messages");
-
-    await addDoc(messageRef,{
+    await addDoc(collection(db, "chats", activeChat, "messages"), {
       text,
-      senderId:currentUser.uid,
+      senderId:me.uid,
       createdAt:serverTimestamp()
     });
 
-    await updateDoc(chatRef,{
+    await updateDoc(doc(db, "chats", activeChat), {
       lastMessage:text,
       updatedAt:serverTimestamp(),
-      lastSenderId:currentUser.uid
+      lastSenderId:me.uid
     });
 
-    $("messageInput").value = "";
-    $("messageInput").style.height = "45px";
+    $("messageText").value = "";
+    $("messageText").style.height = "45px";
   } catch (error) {
-    console.error("Send message:",error);
-    toast("Message not sent. Check your Firestore security rules.");
+    console.error(error);
+    toast("Message failed. Check Firestore rules.");
   } finally {
-    isSending = false;
     button.disabled = false;
-    $("messageInput").focus();
   }
-});
+};
 
-$("messageInput").addEventListener("input", event => {
-  const field = event.target;
-  field.style.height = "45px";
-  field.style.height = Math.min(field.scrollHeight,120) + "px";
-});
-
-function closeChat() {
-  if (unsubMessages) unsubMessages();
-  unsubMessages = null;
-  selectedChat = null;
-  selectedChatData = null;
-  $("chatPanel").classList.add("hidden");
-  $("chatPanel").style.display = "none";
-  $("welcomePanel").classList.remove("hidden");
-  $("appShell").classList.remove("chat-open");
-  renderChats();
-}
-
-$("backBtn").addEventListener("click",closeChat);
-
-/* Stories / status updates */
-function startStoriesListener() {
-  if (unsubStories) unsubStories();
-  const q = query(collection(db,"statuses"),orderBy("createdAt","desc"),limit(50));
-
-  unsubStories = onSnapshot(q, snapshot => {
-    const now = Date.now();
-    const stories = snapshot.docs.map(item => ({id:item.id,...item.data()}))
-      .filter(story => {
-        const created = story.createdAt?.toMillis?.() || 0;
-        return !created || now - created < 24*60*60*1000;
-      });
-    renderStories(stories);
-  }, error => {
-    console.warn("Status listener:",error);
-    renderStories([]);
-  });
-}
-
-function renderStories(stories) {
+function drawStories(items) {
+  let all = [{userId:me.uid, isMine:true, ...profile}, ...items.filter(item => item.userId !== me.uid)];
   const seen = new Set();
-  const visible = [];
-  stories.forEach(story => {
-    if (!story.userId || seen.has(story.userId)) return;
-    seen.add(story.userId);
-    visible.push(story);
+
+  all = all.filter(item => {
+    if (!item.userId || seen.has(item.userId)) return false;
+    seen.add(item.userId);
+    return true;
   });
 
-  const mine = {
-    userId:currentUser.uid,
-    name:profileData.displayName || profileData.name || "My status",
-    photoURL:profileData.photoURL || "",
-    isMine:true
-  };
-  const all = [mine,...visible.filter(story => story.userId !== currentUser.uid)];
-  $("stories").innerHTML = all.map(story => {
-    const person = userCache[story.userId] || story;
-    const name = story.isMine ? "My status" :
-      (person.displayName || person.name || person.email || "Member");
-    return `<button class="story" data-story-user="${escapeHTML(story.userId)}" data-my-story="${story.isMine ? "1":"0"}">
-      <div class="story-ring">${avatarHTML(person)}</div>
-      <span style="max-width:65px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHTML(name)}</span>
+  $("stories").innerHTML = all.map(item => {
+    const person = people[item.userId] || item;
+    return `<button class="story" data-story="${esc(item.userId)}" data-mine="${item.isMine ? 1 : 0}">
+      <div class="ring">${avatar(person)}</div>
+      <span>${item.isMine ? "My status" : esc(person.displayName || person.name || person.email || "Member")}</span>
     </button>`;
   }).join("");
 
-  $("stories").querySelectorAll("[data-story-user]").forEach(button => {
-    button.addEventListener("click", () => {
-      if (button.dataset.myStory === "1") createStatus();
-      else viewStatus(button.dataset.storyUser);
-    });
+  $("stories").querySelectorAll("[data-story]").forEach(button => {
+    button.onclick = () => button.dataset.mine === "1"
+      ? createStatus()
+      : viewStatus(button.dataset.story);
   });
 }
 
 async function createStatus() {
-  const text = prompt("Write a status update (text only):");
+  const text = prompt("Write a text status:");
   if (!text?.trim()) return;
+
   try {
-    await addDoc(collection(db,"statuses"),{
-      userId:currentUser.uid,
+    await addDoc(collection(db, "statuses"), {
+      userId:me.uid,
       text:text.trim().slice(0,500),
       createdAt:serverTimestamp()
     });
-    toast("Status shared for your contacts to see.");
+    toast("Status shared.");
   } catch (error) {
-    console.error("Create status:",error);
-    toast("Couldn't share status. Check Firestore status permissions.");
+    console.error(error);
+    toast("Couldn't share status. Check Firestore rules.");
   }
 }
 
 async function viewStatus(uid) {
   try {
-    const q = query(
-      collection(db,"statuses"),
-      where("userId","==",uid),
-      orderBy("createdAt","desc"),
+    const snapshot = await getDocs(query(
+      collection(db, "statuses"),
+      where("userId", "==", uid),
+      orderBy("createdAt", "desc"),
       limit(10)
+    ));
+    const person = people[uid] || {};
+    const statuses = snapshot.docs.map(item => item.data()).filter(item =>
+      !item.createdAt || Date.now() - (item.createdAt.toMillis?.() || 0) < 86400000
     );
-    const snap = await getDocs(q);
-    const valid = snap.docs.map(item => item.data()).filter(story => {
-      const time = story.createdAt?.toMillis?.() || 0;
-      return !time || Date.now() - time < 24*60*60*1000;
-    });
-    const person = userCache[uid] || {};
-    const name = person.displayName || person.name || person.email || "ChatWave member";
 
-    if (!valid.length) {
-      toast("No recent status updates.");
-      return;
-    }
-
-    showModal(`${name}'s status`, valid.map(story => `
-      <div class="glass" style="padding:17px;border-radius:17px;margin-top:12px">
-        <p style="font-size:16px;color:var(--text);white-space:pre-wrap">${escapeHTML(story.text || "")}</p>
-        <small style="color:var(--muted)">${escapeHTML(safeTime(story.createdAt))}</small>
-      </div>
-    `).join(""));
+    modal(
+      (person.displayName || person.name || "Member") + "'s status",
+      statuses.length
+        ? statuses.map(item => `<p style="color:white;font-size:16px">${esc(item.text)}</p>
+          <small style="color:#999">${esc(tm(item.createdAt))}</small>`).join("<hr style='border-color:#333'>")
+        : "<p>No recent status updates.</p>"
+    );
   } catch (error) {
-    console.error("View status:",error);
+    console.error(error);
     toast("Couldn't load status.");
   }
 }
 
-/* Profile, theme, and dialogs */
-function showModal(title, content) {
-  $("modalRoot").innerHTML = `
-    <div class="modal-backdrop" id="modalBackdrop">
-      <div class="modal glass" role="dialog" aria-modal="true" aria-label="${escapeHTML(title)}">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-          <h2>${escapeHTML(title)}</h2>
-          <button class="icon-btn" id="closeModalBtn" aria-label="Close dialog">✕</button>
-        </div>
-        ${content}
-      </div>
-    </div>`;
-  $("closeModalBtn").addEventListener("click",closeModal);
-  $("modalBackdrop").addEventListener("click",event => {
-    if (event.target.id === "modalBackdrop") closeModal();
-  });
-}
-
-function closeModal() {
-  $("modalRoot").innerHTML = "";
-}
-
-async function openSettings() {
-  const name = profileData.displayName || profileData.name || "";
-  const bio = profileData.bio || "";
-  const photoURL = profileData.photoURL || "";
-
-  showModal("Your profile", `
-    <p>Update the details other ChatWave members see.</p>
-    <form id="profileForm">
-      <div class="field"><label for="profileName">DISPLAY NAME</label>
-        <input id="profileName" class="control" maxlength="60" required value="${escapeHTML(name)}"></div>
-      <div class="field"><label for="profileBio">ABOUT YOU</label>
-        <textarea id="profileBio" class="control" rows="3" maxlength="180" placeholder="A little about yourself…">${escapeHTML(bio)}</textarea></div>
-      <div class="field"><label for="profilePhoto">PROFILE PHOTO URL (OPTIONAL)</label>
-        <input id="profilePhoto" class="control" type="url" value="${escapeHTML(photoURL)}" placeholder="https://example.com/photo.jpg"></div>
-      <button class="primary" type="submit">Save profile</button>
-    </form>
-    <div class="modal-actions">
-      <button class="secondary" id="themeBtn">Switch theme</button>
-      <button class="secondary" id="logoutBtn" style="color:var(--danger)">Sign out</button>
+function editProfile() {
+  modal("Edit profile", `<form id="editForm">
+    <div class="field"><label>DISPLAY NAME</label>
+      <input id="editName" class="control" required value="${esc(profile.displayName || profile.name || "")}">
     </div>
-  `);
+    <div class="field"><label>ABOUT</label>
+      <textarea id="editBio" class="control" rows="3">${esc(profile.bio || "")}</textarea>
+    </div>
+    <div class="field"><label>PROFILE PHOTO URL</label>
+      <input id="editPhoto" class="control" type="url" value="${esc(profile.photoURL || "")}" placeholder="https://...">
+    </div>
+    <button class="primary">Save changes</button>
+    <div class="modalactions"><button type="button" class="secondary" id="logout">Sign out</button></div>
+  </form>`);
 
-  $("profileForm").addEventListener("submit", async event => {
+  $("editForm").onsubmit = async event => {
     event.preventDefault();
-    const displayName = $("profileName").value.trim();
-    const bio = $("profileBio").value.trim();
-    const photoURL = $("profilePhoto").value.trim();
-
-    if (!displayName) return;
-    if (photoURL) {
-      try {
-        const parsed = new URL(photoURL);
-        if (!["http:","https:"].includes(parsed.protocol)) throw new Error();
-      } catch {
-        toast("Enter a valid http or https photo URL.");
-        return;
-      }
-    }
+    const name = $("editName").value.trim();
+    const bio = $("editBio").value.trim();
+    const photoURL = $("editPhoto").value.trim();
 
     try {
-      await updateProfile(currentUser,{displayName,photoURL});
-      await setDoc(doc(db,"users",currentUser.uid),{
-        name:displayName,displayName,email:currentUser.email,bio,photoURL,
-        lastSeen:serverTimestamp()
-      },{merge:true});
-      profileData = {...profileData,name:displayName,displayName,bio,photoURL};
-      $("myName").textContent = displayName;
-      $("myAvatar").innerHTML = photoURL
-        ? `<img src="${escapeHTML(photoURL)}" alt="">`
-        : escapeHTML(initials(displayName));
-      renderChats();
-      closeModal();
+      await updateProfile(me, {displayName:name, photoURL});
+      await setDoc(doc(db, "users", me.uid), {
+        name, displayName:name, bio, photoURL, email:me.email
+      }, {merge:true});
+
+      profile = {...profile, name, displayName:name, bio, photoURL};
+      paintProfile();
+      drawChats();
+      $("modalRoot").innerHTML = "";
       toast("Profile updated.");
     } catch (error) {
-      console.error("Profile update:",error);
+      console.error(error);
       toast("Couldn't save profile. Check Firestore rules.");
     }
-  });
+  };
 
-  $("themeBtn").addEventListener("click",() => {
-    document.body.classList.toggle("light");
-    localStorage.setItem("chatwave-theme",document.body.classList.contains("light") ? "light":"dark");
-  });
-
-  $("logoutBtn").addEventListener("click",async () => {
-    closeModal();
-    cleanupListeners();
+  $("logout").onclick = async () => {
+    stopListeners();
     await signOut(auth);
-  });
+    $("modalRoot").innerHTML = "";
+  };
 }
 
-$("settingsBtn").addEventListener("click",openSettings);
-$("profileBtn").addEventListener("click",openSettings);
-$("navProfile").addEventListener("click",openSettings);
-$("navStories").addEventListener("click",createStatus);
-$("navChats").addEventListener("click",() => {
-  $("appShell").classList.remove("chat-open");
-  document.querySelectorAll(".bottom-nav button").forEach(button => button.classList.remove("selected"));
-  $("navChats").classList.add("selected");
+$("settings").onclick = $("editProfile").onclick = $("activeProfile").onclick = editProfile;
+
+$("profileSearch").onclick = () => {
+  showChats();
+  $("search").focus();
+};
+
+$("qrBtn").onclick = () => modal(
+  "ChatWave ID",
+  `<p style="color:white">${esc(me?.email || "")}</p><p>QR sharing can be added in a future update.</p>`
+);
+
+$("learnMore").onclick = () => modal(
+  "Linked device",
+  "<p>This is your ChatWave profile on this device.</p>"
+);
+
+document.querySelectorAll(".setting").forEach(button => {
+  button.onclick = () => {
+    const name = button.dataset.setting;
+
+    if (name === "Chats" || name === "Chat history") {
+      showChats();
+      return;
+    }
+
+    if (name === "Appearance") {
+      modal("Appearance", "<p>ChatWave is using the dark iOS-inspired style.</p>");
+      return;
+    }
+
+    modal(name, `<p>${esc(name)} options can be connected in a future update.</p>`);
+  };
 });
 
-document.addEventListener("keydown",event => {
-  if (event.key === "Escape") closeModal();
+document.querySelectorAll(".tab").forEach(button => {
+  button.onclick = () => {
+    document.querySelectorAll(".tab").forEach(item => item.classList.remove("active"));
+    button.classList.add("active");
+
+    const name = button.dataset.tab;
+    if (name === "You") showProfile();
+    else if (name === "Chats") showChats();
+    else if (name === "Updates") {
+      showChats();
+      createStatus();
+    } else {
+      modal(name, `<p>${esc(name)} features can be added next.</p>`);
+    }
+  };
 });
 
-try {
-  if (localStorage.getItem("chatwave-theme") === "light") {
-    document.body.classList.add("light");
-  }
-} catch {}
+$("messageText").oninput = event => {
+  event.target.style.height = "45px";
+  event.target.style.height = Math.min(event.target.scrollHeight, 120) + "px";
+};
 
-/* A helpful error message for unexpected initialization failures */
-window.addEventListener("unhandledrejection",event => {
-  console.error("ChatWave error:",event.reason);
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") $("modalRoot").innerHTML = "";
 });
 </script>
 </body>
