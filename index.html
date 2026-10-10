@@ -1,527 +1,768 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07111f">
 <title>ChatWave — Connect. Chat. Share.</title>
+
 <style>
-:root{color-scheme:dark;--bg:#07111f;--panel:rgba(17,31,51,.88);--line:rgba(255,255,255,.12);--text:#f5f8ff;--muted:#92a2b9;--accent:#7c9cff;--accent2:#8b5cf6;--good:#62dfb2;--danger:#ff7188}
+:root {
+  --bg:#07111f;
+  --panel:rgba(17,31,51,.88);
+  --panel2:#14243a;
+  --text:#f4f7ff;
+  --muted:#91a1b9;
+  --line:rgba(255,255,255,.09);
+  --green:#23d5ab;
+  --blue:#5687ff;
+  --danger:#ff6177;
+}
 *{box-sizing:border-box}
-body{margin:0;min-height:100dvh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 12% 0%,#17284c,transparent 40%),radial-gradient(ellipse at 100% 70%,#241c4a,transparent 38%),var(--bg);color:var(--text)}
-button,input,textarea,select{font:inherit}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100vh
+}
+button,input,textarea{font:inherit}
 button{cursor:pointer}
-button:disabled{opacity:.55;cursor:not-allowed}
+button:disabled{opacity:.5;cursor:not-allowed}
+svg{width:21px;height:21px;stroke:currentColor;fill:none;
+stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .hidden{display:none!important}
+.app{max-width:1200px;margin:auto;min-height:100vh}
+.topbar{
+  height:72px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;border-bottom:1px solid var(--line);
+  background:rgba(7,17,31,.88);position:sticky;top:0;z-index:5;
+  backdrop-filter:blur(24px)
+}
+.brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:800}
+.logo{
+  width:39px;height:39px;border-radius:14px;background:linear-gradient(135deg,#23d5ab,#5687ff);
+  display:grid;place-items:center;color:#061321
+}
+.logo svg{width:24px;height:24px}
 .muted{color:var(--muted)}
-.app{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:18px}
-.shell{width:min(1200px,100%);height:min(900px,calc(100dvh - 36px));min-height:580px;display:grid;grid-template-columns:280px 1fr;overflow:hidden;border:1px solid var(--line);border-radius:28px;background:rgba(7,17,31,.8);box-shadow:0 28px 90px #0007;backdrop-filter:blur(28px)}
-.sidebar{display:flex;flex-direction:column;min-width:0;border-right:1px solid var(--line);background:#ffffff05}
-.brand{display:flex;align-items:center;gap:12px;padding:24px 20px}
-.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(140deg,var(--accent),var(--accent2));font-weight:900}
-.brand h1{font-size:19px;margin:0}
-.brand p{font-size:12px;color:var(--muted);margin:4px 0 0}
-.nav{display:flex;flex-direction:column;gap:6px;padding:0 12px 16px}
-.nav button{display:flex;align-items:center;gap:10px;text-align:left;padding:12px;border:1px solid transparent;border-radius:13px;background:transparent;color:var(--muted)}
-.nav button.active,.nav button:hover{background:#7c9cff18;border-color:#7c9cff35;color:var(--text)}
-.nav svg{width:19px;height:19px}
-.side-extra{padding:14px;overflow:auto;border-top:1px solid var(--line)}
-.side-extra h3{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
-.side-extra p{font-size:12px;overflow-wrap:anywhere}
-.workspace{display:flex;flex-direction:column;min-width:0;min-height:0}
-.topbar{height:72px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 22px;border-bottom:1px solid var(--line)}
-.topbar h2{font-size:17px;margin:0}
-.topbar p{font-size:12px;color:var(--muted);margin:4px 0 0}
-.content{flex:1;min-height:0;overflow:auto;padding:24px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:13px;padding:12px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:700}
-.btn.secondary{border:1px solid var(--line);background:#ffffff08;color:var(--text)}
-.btn.danger{background:#ff718818;border:1px solid #ff718855;color:#ff9aaa}
-input,textarea,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:#ffffff08;color:var(--text);outline:none}
-textarea{resize:vertical;min-height:100px}
-label{display:block;font-size:13px;color:#c0ccdc;margin:14px 0 7px}
-.card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#ffffff05;margin-bottom:14px}
-.card h3{margin:0 0 8px;font-size:15px}
-.card p{color:var(--muted);font-size:13px;line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.ticket{display:block;width:100%;text-align:left;color:var(--text);border:1px solid var(--line);border-radius:15px;padding:15px;background:#ffffff05;margin:9px 0}
-.ticket:hover{background:#ffffff0c}
-.ticket strong{display:block;margin-bottom:7px}
-.ticket small{color:var(--muted)}
-.pill{display:inline-block;border-radius:20px;padding:4px 9px;font-size:11px;background:#7c9cff20;color:#b8c9ff}
-.pill.open{background:#62dfb21b;color:#8ce8c5}
-.pill.closed{background:#ffffff15;color:#bdc6d5}
-.message{padding:13px;border:1px solid var(--line);border-radius:14px;background:#ffffff06;margin:10px 0;overflow-wrap:anywhere}
-.message.mine{background:#7c9cff18;border-color:#7c9cff35}
-.message small{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.notice{padding:12px;border:1px solid var(--line);border-radius:12px;font-size:13px;margin:12px 0;line-height:1.5}
-.notice.error{color:#ffb2bf;border-color:#ff718855}
-.notice.success{color:#9cf2d3;border-color:#62dfb255}
-.empty{text-align:center;padding:35px 12px;color:var(--muted);line-height:1.6}
-.auth-wrap{width:min(430px,100%);margin:auto}
-.auth-card{width:100%;padding:30px;border:1px solid var(--line);border-radius:25px;background:#0c182ae8;box-shadow:0 25px 80px #0005}
-.auth-card h2{margin:0 0 8px}
-.auth-card p{color:var(--muted);font-size:13px;line-height:1.5}
-.auth-card label{margin-top:15px}
-.auth-card .btn{width:100%;margin-top:12px}
-.link{border:0;background:none;color:#a9bbff;padding:8px 0}
-#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);max-width:90%;padding:13px 18px;background:#192943;border:1px solid var(--line);border-radius:14px;z-index:99;box-shadow:0 10px 40px #0008}
-@media(max-width:760px){
- .app{padding:0}.shell{height:100dvh;min-height:0;border:0;border-radius:0;grid-template-columns:1fr}
- .sidebar{border-right:0;border-bottom:1px solid var(--line)}
- .brand{padding:calc(12px + env(safe-area-inset-top)) 16px 12px}
- .nav{flex-direction:row;overflow-x:auto;padding:0 10px 10px}
- .nav button{white-space:nowrap;flex:1;justify-content:center;padding:10px 7px;font-size:12px}
- .side-extra{display:none}.topbar{height:66px;padding:0 15px}.content{padding:15px}
- .grid{grid-template-columns:1fr}
+.small{font-size:12px}
+.btn{
+  border:1px solid var(--line);border-radius:13px;padding:11px 15px;
+  background:var(--panel2);color:var(--text)
+}
+.primary{background:var(--green);color:#062019;border:0;font-weight:750}
+.danger{color:var(--danger)}
+.iconbtn{
+  border:1px solid var(--line);background:transparent;color:var(--text);
+  border-radius:12px;padding:9px;display:grid;place-items:center
+}
+.layout{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 72px)}
+.sidebar{border-right:1px solid var(--line);padding:18px}
+.search,.field{
+  width:100%;padding:13px 14px;border:1px solid var(--line);
+  background:rgba(255,255,255,.045);color:var(--text);
+  border-radius:13px;outline:none
+}
+.search:focus,.field:focus{border-color:var(--green)}
+.sectionlabel{font-size:11px;letter-spacing:1.4px;color:var(--muted);margin:22px 0 12px}
+.person{
+  display:flex;align-items:center;gap:12px;padding:12px;
+  border-radius:15px;cursor:pointer;margin-top:4px
+}
+.person:hover,.person.active{background:var(--panel2)}
+.avatar{
+  width:43px;height:43px;flex-shrink:0;border-radius:50%;
+  display:grid;place-items:center;background:linear-gradient(135deg,#23d5ab,#5687ff);
+  color:#07111f;font-weight:800;overflow:hidden
+}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.personinfo{min-width:0;flex:1}
+.personname{font-size:14px;font-weight:700}
+.preview{font-size:12px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-top:5px}
+.chat{display:flex;flex-direction:column;min-width:0;min-height:calc(100vh - 72px)}
+.chathead{
+  padding:14px 20px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--line)
+}
+.chatheadinfo{flex:1;min-width:0}
+.messages{
+  flex:1;padding:24px;overflow-y:auto;display:flex;
+  flex-direction:column;gap:13px;min-height:300px
+}
+.empty{margin:auto;text-align:center;color:var(--muted);padding:30px}
+.bubble{
+  max-width:min(76%,460px);padding:12px 14px;border-radius:18px;
+  background:var(--panel2);align-self:flex-start;overflow-wrap:anywhere;
+  position:relative
+}
+.bubble.mine{
+  align-self:flex-end;background:linear-gradient(135deg,#167e70,#146c80);
+  border-bottom-right-radius:5px
+}
+.bubble:not(.mine){border-bottom-left-radius:5px}
+.bubble img{max-width:100%;max-height:300px;display:block;border-radius:12px;margin-top:6px}
+.bubblemeta{display:flex;justify-content:flex-end;gap:7px;margin-top:7px;font-size:10px;color:#d4e3ef}
+.replyquote{border-left:3px solid var(--green);padding:6px 9px;background:#0002;border-radius:5px;margin-bottom:8px;font-size:12px}
+.bubbleactions{display:flex;gap:7px;margin-top:8px;justify-content:flex-end}
+.bubbleactions button{border:0;background:#0002;color:white;border-radius:7px;padding:5px 7px;font-size:11px}
+.composer-wrap{padding:12px 18px 18px;border-top:1px solid var(--line)}
+.replybar{padding:9px 12px;background:var(--panel2);border-radius:10px;margin-bottom:9px;font-size:12px;display:flex;justify-content:space-between;gap:10px}
+.composer{display:flex;gap:9px;align-items:flex-end}
+.composer textarea{
+  flex:1;resize:none;min-height:46px;max-height:130px;
+  border:1px solid var(--line);border-radius:15px;padding:13px;
+  color:var(--text);background:rgba(255,255,255,.04);outline:none
+}
+.authscreen{max-width:420px;margin:50px auto;padding:25px}
+.authcard{border:1px solid var(--line);background:var(--panel);padding:26px;border-radius:25px;backdrop-filter:blur(20px)}
+.authcard h1{margin:8px 0}
+.authcard .field{margin-top:12px}
+.authcard .btn{width:100%;margin-top:14px}
+.notice{font-size:13px;color:var(--muted);line-height:1.6;margin-top:14px}
+.tabs{display:flex;gap:8px;margin:20px 0}
+.tabs button{flex:1}
+.statusline{font-size:12px;color:var(--muted);min-height:18px;margin-top:8px}
+.mobileback{display:none}
+.profilebox{padding:15px;background:var(--panel2);border-radius:15px;margin-top:15px}
+#toast{
+  position:fixed;bottom:25px;left:50%;transform:translateX(-50%);
+  background:#20334a;border:1px solid var(--line);border-radius:12px;
+  padding:12px 17px;z-index:20;max-width:90%;font-size:13px
+}
+@media(max-width:700px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{border-right:0;padding:12px}
+  .chat{display:none;min-height:calc(100dvh - 72px)}
+  .layout.chatopen .sidebar{display:none}
+  .layout.chatopen .chat{display:flex}
+  .mobileback{display:grid}
+  .messages{padding:16px}
+  .bubble{max-width:86%}
+  .topbar{height:64px;padding:0 13px}
+  .authscreen{margin:25px auto;padding:16px}
+  .layout{min-height:calc(100dvh - 64px)}
+  .chat{min-height:calc(100dvh - 64px)}
 }
 </style>
 </head>
-<body>
-<div id="authScreen" class="app">
- <div class="auth-wrap">
-  <div class="auth-card">
-   <div class="brand" style="padding:0 0 20px">
-    <div class="logo">CW</div><div><h1>ChatWave</h1><p>Connect. Chat. Share.</p></div>
-   </div>
-   <div id="authPanel">
-    <h2>Welcome back</h2>
-    <p>Sign in to access your ChatWave account.</p>
-    <form id="loginForm">
-     <label for="email">Email address</label>
-     <input id="email" type="email" autocomplete="email" required placeholder="you@example.com">
-     <label for="password">Password</label>
-     <input id="password" type="password" autocomplete="current-password" minlength="6" required>
-     <button class="btn" id="loginBtn" type="submit">Sign in</button>
-    </form>
-    <button class="link" id="forgotBtn" type="button">Forgot password?</button>
-    <div id="authNotice" class="notice hidden"></div>
-   </div>
-  </div>
- </div>
-</div>
 
-<div id="appScreen" class="app hidden">
- <div class="shell">
-  <aside class="sidebar">
-   <div class="brand"><div class="logo">CW</div><div><h1>ChatWave</h1><p>Connect. Chat. Share.</p></div></div>
-   <nav class="nav" id="navigation">
-    <button data-page="home" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8 8 0 0 1-8 8 8 8 0 0 1-4-1L3 21l2-5a8 8 0 1 1 16-4.5z"/></svg> Messages</button>
-    <button data-page="support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4.3 1.8c-1.2 1-1.8 1.3-1.8 3.2M12 17h.01"/></svg> Support</button>
-    <button data-page="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 3 20h18L12 3z"/><path d="M12 9v5m0 3h.01"/></svg> Report a problem</button>
-    <button data-page="mytickets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4zM8 9h8M8 13h8M8 17h4"/></svg> My tickets</button>
-    <button data-page="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="m19 13 2 1-2 4-2-1-2 1v2H9v-2l-2-1-2 1-2-4 2-1v-2l-2-1 2-4 2 1 2-1V4h6v2l2 1 2-1 2 4-2 1z"/></svg> Settings</button>
-    <button id="adminNav" data-page="admin" class="hidden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h4"/></svg> Admin reports</button>
-   </nav>
-   <div class="side-extra"><h3>Signed in</h3><p id="sideEmail"></p><p class="muted">Your support conversations are private to your account and authorized administrators.</p></div>
-  </aside>
-  <main class="workspace">
-   <header class="topbar"><div><h2 id="pageTitle">Messages</h2><p id="pageSubtitle">Your ChatWave workspace</p></div></header>
-   <section class="content" id="content"><div class="empty">Welcome to ChatWave.</div></section>
-  </main>
- </div>
+<body>
+<div id="toast" class="hidden"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg>
+    </div>
+    ChatWave
+  </div>
+  <div id="topActions" class="hidden">
+    <button class="iconbtn" id="themeBtn" title="Change theme">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<section id="authScreen" class="authscreen">
+  <div class="authcard">
+    <div class="logo"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9"/></svg></div>
+    <h1 id="authTitle">Welcome to ChatWave</h1>
+    <p class="muted">Connect. Chat. Share.</p>
+
+    <div class="tabs">
+      <button id="loginTab" class="btn primary">Sign in</button>
+      <button id="registerTab" class="btn">Create account</button>
+    </div>
+
+    <form id="authForm">
+      <input id="displayName" class="field hidden" placeholder="Your full name" autocomplete="name">
+      <input id="email" class="field" type="email" placeholder="Email address" autocomplete="email" required>
+      <input id="password" class="field" type="password" placeholder="Password (minimum 6 characters)" autocomplete="current-password" minlength="6" required>
+      <button id="authSubmit" class="btn primary" type="submit">Sign in</button>
+    </form>
+    <button id="resetBtn" class="btn" style="width:100%">Forgot password?</button>
+    <div id="authStatus" class="statusline"></div>
+    <p class="notice">Use your email address to access your account. Registration sends a verification code to your email.</p>
+  </div>
+</section>
+
+<main id="mainApp" class="app hidden">
+  <div class="layout" id="layout">
+    <aside class="sidebar">
+      <input id="searchUsers" class="search" placeholder="Search people by email...">
+      <div class="sectionlabel">YOUR CONVERSATIONS</div>
+      <div id="peopleList"><div class="empty">Loading conversations…</div></div>
+      <div class="profilebox">
+        <div class="muted small">SIGNED IN AS</div>
+        <div id="myName" style="font-weight:700;margin-top:7px"></div>
+        <div id="myEmail" class="muted small" style="margin-top:5px;overflow-wrap:anywhere"></div>
+        <button id="profileBtn" class="btn" style="width:100%;margin-top:12px">Edit profile</button>
+        <button id="logoutBtn" class="btn" style="width:100%;margin-top:8px">Sign out</button>
+      </div>
+    </aside>
+
+    <section class="chat">
+      <div class="chathead">
+        <button id="backBtn" class="iconbtn mobileback" aria-label="Back">
+          <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="avatar" id="chatAvatar">C</div>
+        <div class="chatheadinfo">
+          <div id="chatName" style="font-weight:750">Choose a conversation</div>
+          <div id="chatPresence" class="muted small">Your messages appear here</div>
+        </div>
+      </div>
+      <div id="messages" class="messages">
+        <div class="empty">👋<br><br>Select a person to start chatting.</div>
+      </div>
+      <div class="composer-wrap">
+        <div id="replyBar" class="replybar hidden">
+          <span id="replyText"></span>
+          <button id="cancelReply" class="iconbtn">×</button>
+        </div>
+        <div class="composer">
+          <button id="imageBtn" class="iconbtn" title="Share an image">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          </button>
+          <input id="imageInput" class="hidden" type="file" accept="image/*">
+          <textarea id="messageInput" placeholder="Write a message…" rows="1"></textarea>
+          <button id="sendBtn" class="iconbtn primary" title="Send">
+            <svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </button>
+        </div>
+        <div id="sendStatus" class="statusline"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div id="verifyScreen" class="authscreen hidden">
+  <div class="authcard">
+    <h1>Verify your email</h1>
+    <p class="muted">Enter the 6-digit code sent to your email.</p>
+    <input id="verifyCode" class="field" inputmode="numeric" maxlength="6" placeholder="000000">
+    <button id="verifyBtn" class="btn primary">Verify and continue</button>
+    <button id="resendBtn" class="btn">Send another code</button>
+    <div id="verifyStatus" class="statusline"></div>
+  </div>
 </div>
-<div id="toast" class="hidden" role="status"></div>
 
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import {
- getFirestore,doc,getDoc,setDoc,collection,addDoc,query,where,
- orderBy,onSnapshot,serverTimestamp,getDocs,updateDoc
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  onAuthStateChanged, signOut, sendPasswordResetEmail, updateProfile
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import {
+  getFirestore, doc, setDoc, getDoc, collection, query, where,
+  onSnapshot, addDoc, updateDoc, deleteDoc, serverTimestamp,
+  orderBy, limit, getDocs
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import {
+  getStorage, ref, uploadBytes, getDownloadURL
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-storage.js";
 
-const firebaseConfig={
- apiKey:"AIzaSyCOfnS3DMUMSRHJpyW_tpSIjwFymrTt7w",
- authDomain:"chat-2c557.firebaseapp.com",
- databaseURL:"https://chat-2c557-default-rtdb.firebaseio.com",
- projectId:"chat-2c557",
- storageBucket:"chat-2c557.firebasestorage.app",
- messagingSenderId:"74313204354",
- appId:"1:74313204354:web:c735269d502b88a39eea9b"
+/* IMPORTANT:
+   Paste the complete Firebase web configuration from your existing
+   ChatWave code below. Do not use your service-account private key. */
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_EXISTING_FIREBASE_API_KEY",
+  authDomain: "chat-2c557.firebaseapp.com",
+  projectId: "chat-2c557",
+  storageBucket: "PASTE_YOUR_EXISTING_STORAGE_BUCKET",
+  messagingSenderId: "PASTE_YOUR_EXISTING_MESSAGING_SENDER_ID",
+  appId: "PASTE_YOUR_EXISTING_APP_ID"
 };
 
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let currentUser=null,profile={},currentPage="home";
-let stopMyTickets=null,stopAdminTickets=null,stopTicketMessages=null;
-let currentTicket=null,myTickets=[],adminTickets=[];
+/* Your existing EmailJS configuration */
+const EMAILJS_SERVICE = "service_1h2qcyj";
+const EMAILJS_TEMPLATE = "template_g5knl87";
+const EMAILJS_PUBLIC_KEY = "OxtLjZnoiYd3ih6cm";
 
-function toast(msg){
- $("toast").textContent=msg;
- $("toast").classList.remove("hidden");
- setTimeout(()=>$("toast").classList.add("hidden"),3500);
-}
-function notice(id,msg,type=""){
- const el=$(id);
- el.textContent=msg;
- el.className="notice "+type;
-}
-function friendlyError(e){
- const c=e?.code||"";
- const map={
-  "auth/invalid-credential":"Email or password is incorrect.",
-  "auth/user-not-found":"No account was found for that email.",
-  "auth/wrong-password":"Email or password is incorrect.",
-  "auth/too-many-requests":"Too many attempts. Try again later.",
-  "auth/network-request-failed":"Check your internet connection.",
-  "permission-denied":"Firebase denied this action. Check your Firestore security rules.",
-  "unavailable":"Firebase is temporarily unavailable. Try again."
- };
- return map[c]||e?.message||"Something went wrong.";
-}
-function dateLabel(v){
- try{return v?.toDate?v.toDate().toLocaleString(): "Just now"}catch{return "Just now"}
-}
-function statusPill(status){
- const s=status||"open";
- return `<span class="pill ${s==="closed"?"closed":"open"}">${esc(s.replaceAll("_"," "))}</span>`;
-}
-function page(title,subtitle,html){
- $("pageTitle").textContent=title;
- $("pageSubtitle").textContent=subtitle;
- $("content").innerHTML=html;
- currentPage=title.toLowerCase();
- document.querySelectorAll("#navigation button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===({
-  "messages":"home","support":"support","report a problem":"reports","my tickets":"mytickets","settings":"settings","admin reports":"admin"
- })[currentPage]));
-}
-function stopListeners(){
- if(stopMyTickets){stopMyTickets();stopMyTickets=null}
- if(stopAdminTickets){stopAdminTickets();stopAdminTickets=null}
- if(stopTicketMessages){stopTicketMessages();stopTicketMessages=null}
-}
-function isAdmin(){return profile.role==="admin"||profile.isAdmin===true}
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-function renderHome(){
- page("Messages","Your ChatWave workspace",`
-  <div class="card"><h3>Welcome to ChatWave</h3>
-  <p>Your messaging area is ready. Use Support if you need help with your account, messages, or a technical issue. Use Report a problem to submit a safety or abuse report.</p>
-  <button class="btn" id="homeSupport">Open Support Center</button></div>
-  <div class="grid">
-   <div class="card"><h3>Support Center</h3><p>Get help with login, verification, account access, or technical issues.</p><button class="btn secondary" id="homeHelp">Get support</button></div>
-   <div class="card"><h3>Report a user or issue</h3><p>Report spam, harassment, scams, impersonation, or other problems.</p><button class="btn secondary" id="homeReport">Make a report</button></div>
-  </div>`);
- $("homeSupport").onclick=renderSupport;
- $("homeHelp").onclick=renderSupport;
- $("homeReport").onclick=renderReportForm;
+const $ = id => document.getElementById(id);
+let me = null;
+let selectedUser = null;
+let selectedChatId = null;
+let messageUnsub = null;
+let peopleUnsub = null;
+let typingUnsub = null;
+let typingTimer = null;
+let replyTo = null;
+let users = [];
+let messagesCache = [];
+let isRegister = false;
+let verificationEmail = "";
+let verificationName = "";
+let pendingCode = "";
+let pendingUid = "";
+let themeLight = false;
+const unsubscribeList = [];
+
+function toast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.remove("hidden");
+  setTimeout(() => $("toast").classList.add("hidden"), 3000);
 }
-
-function renderSupport(){
- page("Support","Contact the ChatWave support team",`
-  <div class="card"><h3>How can we help?</h3>
-   <p>Send a private support ticket to the ChatWave team. Replies will appear inside ChatWave under My tickets.</p>
-   <form id="supportForm">
-    <label for="supportCategory">What do you need help with?</label>
-    <select id="supportCategory" required>
-     <option value="Account access">Account access</option>
-     <option value="Email verification">Email verification</option>
-     <option value="Messages">Messages not sending or loading</option>
-     <option value="Profile">Profile or account settings</option>
-     <option value="Bug report">Technical issue or bug</option>
-     <option value="Other">Other</option>
-    </select>
-    <label for="supportSubject">Subject</label>
-    <input id="supportSubject" maxlength="120" required placeholder="Briefly describe the problem">
-    <label for="supportBody">Tell us more</label>
-    <textarea id="supportBody" maxlength="5000" required placeholder="Explain what happened and what you need help with."></textarea>
-    <button class="btn" id="submitSupport" type="submit">Submit support ticket</button>
-   </form>
-   <div id="supportNotice" class="notice hidden"></div>
-  </div>
-  <div class="card"><h3>What happens next?</h3><p>Your ticket receives a reference number. You can reopen it under My tickets to read replies and continue the conversation.</p></div>`);
- $("supportForm").onsubmit=e=>submitTicket(e,"support");
+function status(id, message) { $(id).textContent = message || ""; }
+function safe(value="") {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
 }
-
-function renderReportForm(){
- page("Report a problem","Report an account, user, or safety issue",`
-  <div class="card"><h3>Submit a report</h3>
-   <p>Give enough detail for the support team to review the situation. Please do not include passwords or verification codes.</p>
-   <form id="reportForm">
-    <label for="reportType">What are you reporting?</label>
-    <select id="reportType" required>
-     <option value="Harassment or bullying">Harassment or bullying</option>
-     <option value="Spam">Spam or unwanted messages</option>
-     <option value="Scam or fraud">Scam or fraud</option>
-     <option value="Impersonation">Impersonation or fake account</option>
-     <option value="Threats">Threats or safety concern</option>
-     <option value="Inappropriate content">Inappropriate content</option>
-     <option value="Technical issue">Technical issue</option>
-     <option value="Other">Other</option>
-    </select>
-    <label for="reportedUser">Username or email of the user (optional)</label>
-    <input id="reportedUser" maxlength="180" placeholder="Who are you reporting?">
-    <label for="reportSubject">Subject</label>
-    <input id="reportSubject" maxlength="120" required placeholder="Brief summary">
-    <label for="reportBody">Describe what happened</label>
-    <textarea id="reportBody" maxlength="5000" required placeholder="Include relevant details, dates, and message context."></textarea>
-    <button class="btn" id="submitReport" type="submit">Submit report</button>
-   </form>
-   <div id="reportNotice" class="notice hidden"></div>
-  </div>
-  <div class="card"><h3>Your privacy</h3><p>Reports are intended for review by authorized ChatWave administrators. Submitting a report does not automatically block the reported user.</p></div>`);
- $("reportForm").onsubmit=e=>submitTicket(e,"report");
+function initials(name="User") {
+  return name.trim().split(/\s+/).slice(0,2).map(s=>s[0]||"").join("").toUpperCase() || "U";
 }
-
-async function submitTicket(e,type){
- e.preventDefault();
- const form=e.currentTarget;
- const button=form.querySelector('button[type="submit"]');
- const subject=$(type==="support"?"supportSubject":"reportSubject").value.trim();
- const body=$(type==="support"?"supportBody":"reportBody").value.trim();
- const category=$(type==="support"?"supportCategory":"reportType").value;
- const reportedUser=type==="report"?$("reportedUser").value.trim():"";
- const noticeId=type==="support"?"supportNotice":"reportNotice";
- if(!subject||!body){notice(noticeId,"Please complete all required fields.","error");return}
- button.disabled=true;button.textContent="Submitting…";
- try{
-  const ticketRef=await addDoc(collection(db,"supportTickets"),{
-   ownerUid:currentUser.uid,
-   ownerEmail:currentUser.email||"",
-   category,
-   subject,
-   body,
-   reportedUser,
-   type,
-   status:"open",
-   createdAt:serverTimestamp(),
-   updatedAt:serverTimestamp(),
-   lastReplyAt:null
-  });
-  notice(noticeId,"Submitted successfully. Your reference number is "+ticketRef.id+". Open My tickets to view replies.","success");
-  form.reset();
-  toast("Your ticket has been submitted.");
- }catch(err){
-  notice(noticeId,friendlyError(err),"error");
- }finally{
-  button.disabled=false;
-  button.textContent=type==="support"?"Submit support ticket":"Submit report";
- }
+function chatId(a,b) { return [a,b].sort().join("_"); }
+function timeText(ts) {
+  if (!ts?.toDate) return "now";
+  return ts.toDate().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
 }
-
-function watchMyTickets(){
- if(stopMyTickets)stopMyTickets();
- const q=query(collection(db,"supportTickets"),where("ownerUid","==",currentUser.uid));
- stopMyTickets=onSnapshot(q,snap=>{
-  myTickets=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-  if(currentPage==="my tickets")renderMyTickets();
- },err=>toast(friendlyError(err)));
+function dateText(ts) {
+  if (!ts?.toDate) return "";
+  return ts.toDate().toLocaleDateString();
 }
-
-function renderMyTickets(){
- page("My tickets","View your support requests and replies",`
-  <div id="myTicketList"><div class="empty">Loading your tickets…</div></div>
-  <div id="ticketDetail" class="hidden"></div>`);
- const list=$("myTicketList");
- if(!myTickets.length){
-  list.innerHTML='<div class="card empty">You have not submitted any tickets yet.</div>';
-  return;
- }
- list.innerHTML=myTickets.map(t=>`
-  <button class="ticket" data-ticket="${esc(t.id)}">
-   <div class="row"><strong>${esc(t.subject||"Untitled ticket")}</strong>${statusPill(t.status)}</div>
-   <small>${esc(t.category||t.type||"Support")} · ${esc(dateLabel(t.createdAt))}</small>
-   <p>${esc((t.body||"").slice(0,130))}</p>
-   <small>Reference: ${esc(t.id)}</small>
-  </button>`).join("");
- list.querySelectorAll("[data-ticket]").forEach(b=>b.onclick=()=>openTicket(b.dataset.ticket,false));
-}
-
-function renderAdminTickets(){
- if(!isAdmin()){
-  page("Admin reports","Restricted access",'<div class="card"><h3>Access denied</h3><p>This page is only available to authorized administrators.</p></div>');
-  return;
- }
- page("Admin reports","Review support tickets and user reports",`
-  <div class="grid">
-   <div class="card"><h3>Open tickets</h3><div id="adminOpenCount">—</div></div>
-   <div class="card"><h3>Total tickets</h3><div id="adminTotalCount">—</div></div>
-  </div>
-  <div id="adminTicketList"><div class="empty">Loading tickets…</div></div>
-  <div id="ticketDetail" class="hidden"></div>`);
- const list=$("adminTicketList");
- $("adminOpenCount").textContent=adminTickets.filter(t=>t.status!=="closed").length;
- $("adminTotalCount").textContent=adminTickets.length;
- if(!adminTickets.length){
-  list.innerHTML='<div class="card empty">No tickets found.</div>';
-  return;
- }
- list.innerHTML=adminTickets.map(t=>`
-  <button class="ticket" data-ticket="${esc(t.id)}">
-   <div class="row"><strong>${esc(t.subject||"Untitled ticket")}</strong>${statusPill(t.status)}</div>
-   <small>${esc(t.type||"support")} · ${esc(t.category||"")} · ${esc(t.ownerEmail||"")}</small>
-   <p>${esc((t.body||"").slice(0,140))}</p>
-   <small>${esc(dateLabel(t.createdAt))} · ${esc(t.id)}</small>
-  </button>`).join("");
- list.querySelectorAll("[data-ticket]").forEach(b=>b.onclick=()=>openTicket(b.dataset.ticket,true));
-}
-
-function watchAdminTickets(){
- if(!isAdmin())return;
- if(stopAdminTickets)stopAdminTickets();
- const q=query(collection(db,"supportTickets"),orderBy("createdAt","desc"));
- stopAdminTickets=onSnapshot(q,snap=>{
-  adminTickets=snap.docs.map(d=>({id:d.id,...d.data()}));
-  if(currentPage==="admin reports")renderAdminTickets();
- },err=>{
-  console.error(err);
-  toast("Could not load admin tickets: "+friendlyError(err));
- });
-}
-
-async function openTicket(id,admin){
- const ticket=(admin?adminTickets:myTickets).find(t=>t.id===id);
- if(!ticket){toast("Ticket not found. Refresh and try again.");return}
- currentTicket=ticket;
- const host=$("ticketDetail");
- host.classList.remove("hidden");
- host.innerHTML=`
-  <div class="card">
-   <div class="row"><h3>${esc(ticket.subject||"Ticket")}</h3>${statusPill(ticket.status)}</div>
-   <p>Reference: ${esc(ticket.id)}</p>
-   <p>Category: ${esc(ticket.category||"Support")}</p>
-   ${admin?`<p>Submitted by: ${esc(ticket.ownerEmail||ticket.ownerUid)}</p>`:""}
-   ${ticket.reportedUser?`<p>Reported user: ${esc(ticket.reportedUser)}</p>`:""}
-   <div class="message"><small>Original message · ${esc(dateLabel(ticket.createdAt))}</small>${esc(ticket.body||"")}</div>
-   <div id="ticketReplies"><div class="empty">Loading replies…</div></div>
-   ${ticket.status!=="closed"?(admin?`
-    <form id="replyForm">
-     <label for="replyText">Reply to user</label>
-     <textarea id="replyText" maxlength="5000" required placeholder="Write your response…"></textarea>
-     <div class="row"><button class="btn" type="submit">Send reply</button><button class="btn secondary" type="button" id="closeTicket">Close ticket</button></div>
-    </form>`:`
-    <form id="replyForm">
-     <label for="replyText">Add a message</label>
-     <textarea id="replyText" maxlength="5000" required placeholder="Add more details to your ticket…"></textarea>
-     <button class="btn" type="submit">Send message</button>
-    </form>`):`<p>This ticket is closed. If you still need help, submit a new ticket.</p>`}
-   <div id="ticketNotice" class="notice hidden"></div>
-  </div>`;
- const replyQ=query(collection(db,"supportTickets",id,"replies"),orderBy("createdAt","asc"));
- if(stopTicketMessages){stopTicketMessages();stopTicketMessages=null}
- stopTicketMessages=onSnapshot(replyQ,snap=>{
-  const target=$("ticketReplies");if(!target)return;
-  if(snap.empty){target.innerHTML='<p class="muted">No replies yet.</p>';return}
-  target.innerHTML=snap.docs.map(d=>{
-   const r=d.data(),mine=r.senderUid===currentUser.uid;
-   return `<div class="message ${mine?"mine":""}"><small>${esc(r.senderName||r.senderEmail||"ChatWave Support")} · ${esc(dateLabel(r.createdAt))}</small>${esc(r.text||"")}</div>`;
-  }).join("");
- },err=>{$("ticketReplies").innerHTML='<div class="notice error">'+esc(friendlyError(err))+'</div>'});
- const form=$("replyForm");
- if(form)form.onsubmit=async e=>{
-  e.preventDefault();
-  const text=$("replyText").value.trim();
-  if(!text)return;
-  const btn=form.querySelector("button[type='submit']");
-  if(btn){btn.disabled=true;btn.textContent="Sending…"}
-  try{
-   await addDoc(collection(db,"supportTickets",id,"replies"),{
-    text,
-    senderUid:currentUser.uid,
-    senderEmail:currentUser.email||"",
-    senderName:admin?"ChatWave Support":(profile.displayName||profile.name||currentUser.email||"User"),
-    isAdmin:admin,
-    createdAt:serverTimestamp()
-   });
-   await updateDoc(doc(db,"supportTickets",id),{
-    updatedAt:serverTimestamp(),
-    lastReplyAt:serverTimestamp(),
-    lastReplyBy:admin?"support":currentUser.uid,
-    status:admin?"in_progress":"open"
-   });
-   $("replyText").value="";
-   notice("ticketNotice","Reply sent.","success");
-  }catch(err){notice("ticketNotice",friendlyError(err),"error")}
-  finally{if(btn){btn.disabled=false;btn.textContent=admin?"Send reply":"Send message"}}
- };
- if(admin&&ticket.status!=="closed"){
-  $("closeTicket").onclick=async()=>{
-   try{
-    await updateDoc(doc(db,"supportTickets",id),{status:"closed",updatedAt:serverTimestamp()});
-    toast("Ticket closed.");
-   }catch(e){toast(friendlyError(e))}
-  };
- }
- host.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function renderSettings(){
- page("Settings","Your ChatWave account",`
-  <div class="card"><h3>Account</h3><p>Email: ${esc(currentUser.email||"Not available")}</p><p>Display name: ${esc(profile.displayName||profile.name||"ChatWave user")}</p></div>
-  <div class="card"><h3>Support and privacy</h3><p>Support tickets and reports are linked to your account. Only you and authorized support administrators should be able to access your ticket conversations.</p><button class="btn secondary" id="settingsSupport">Contact support</button></div>
-  <div class="card"><h3>Sign-in security</h3><p>Use a strong password and never share your password or verification codes with anyone claiming to be support.</p><button class="btn secondary" id="resetPassword">Send password reset email</button></div>`);
- $("settingsSupport").onclick=renderSupport;
- $("resetPassword").onclick=async()=>{
-  try{await sendPasswordResetEmail(auth,currentUser.email);toast("If the account exists, a reset email has been sent.")}
-  catch(e){toast(friendlyError(e))}
- };
-}
-
-function openPage(name){
- if(stopTicketMessages){stopTicketMessages();stopTicketMessages=null}
- if(name==="home")renderHome();
- if(name==="support")renderSupport();
- if(name==="reports")renderReportForm();
- if(name==="mytickets")renderMyTickets();
- if(name==="settings")renderSettings();
- if(name==="admin")renderAdminTickets();
-}
-document.querySelectorAll("#navigation button[data-page]").forEach(b=>{
- b.addEventListener("click",()=>openPage(b.dataset.page));
-});
-
-$("loginForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const btn=$("loginBtn");btn.disabled=true;btn.textContent="Signing in…";
- $("authNotice").className="notice hidden";
- try{
-  await signInWithEmailAndPassword(auth,$("email").value.trim().toLowerCase(),$("password").value);
- }catch(err){
-  notice("authNotice",friendlyError(err),"error");
- }finally{
-  btn.disabled=false;btn.textContent="Sign in";
- }
-});
-$("forgotBtn").addEventListener("click",async()=>{
- const email=$("email").value.trim();
- if(!email){notice("authNotice","Enter your email address first.","error");return}
- try{
-  await sendPasswordResetEmail(auth,email);
-  notice("authNotice","If an account exists for that address, a password reset email has been sent.","success");
- }catch(e){notice("authNotice",friendlyError(e),"error")}
-});
-
-onAuthStateChanged(auth,async user=>{
- currentUser=user;
- stopListeners();
- if(!user){
-  profile={};myTickets=[];adminTickets=[];
-  $("appScreen").classList.add("hidden");
+function showAuth(register=false) {
+  isRegister = register;
   $("authScreen").classList.remove("hidden");
-  return;
- }
- $("authScreen").classList.add("hidden");
- $("appScreen").classList.remove("hidden");
- $("sideEmail").textContent=user.email||"";
- try{
-  const snap=await getDoc(doc(db,"users",user.uid));
-  profile=snap.exists()?snap.data():{};
-  if(!snap.exists()){
-   profile={uid:user.uid,email:user.email||"",displayName:user.displayName||user.email?.split("@")[0]||"ChatWave user",role:"user",createdAt:serverTimestamp()};
-   await setDoc(doc(db,"users",user.uid),profile,{merge:true});
+  $("mainApp").classList.add("hidden");
+  $("verifyScreen").classList.add("hidden");
+  $("displayName").classList.toggle("hidden",!register);
+  $("displayName").required = register;
+  $("password").autocomplete = register ? "new-password" : "current-password";
+  $("authTitle").textContent = register ? "Create your account" : "Welcome to ChatWave";
+  $("authSubmit").textContent = register ? "Create account" : "Sign in";
+  $("loginTab").classList.toggle("primary",!register);
+  $("registerTab").classList.toggle("primary",register);
+  $("resetBtn").classList.toggle("hidden",register);
+  status("authStatus","");
+}
+$("loginTab").onclick = () => showAuth(false);
+$("registerTab").onclick = () => showAuth(true);
+
+async function sendVerificationCode(email, code) {
+  const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      service_id:EMAILJS_SERVICE,
+      template_id:EMAILJS_TEMPLATE,
+      user_id:EMAILJS_PUBLIC_KEY,
+      template_params:{to_email:email,passcode:code}
+    })
+  });
+  if (!response.ok) throw new Error("Email could not be sent. Check your EmailJS template settings.");
+}
+
+async function issueCode(email) {
+  pendingCode = String(Math.floor(100000 + Math.random()*900000));
+  await sendVerificationCode(email,pendingCode);
+  sessionStorage.setItem("cw_verify_email",email);
+  sessionStorage.setItem("cw_verify_code",pendingCode);
+  sessionStorage.setItem("cw_verify_name",verificationName);
+  sessionStorage.setItem("cw_verify_uid",pendingUid);
+  verificationEmail = email;
+  $("authScreen").classList.add("hidden");
+  $("verifyScreen").classList.remove("hidden");
+  status("verifyStatus","A verification code was sent to " + email);
+}
+
+$("authForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = $("email").value.trim().toLowerCase();
+  const password = $("password").value;
+  const name = $("displayName").value.trim();
+  $("authSubmit").disabled = true;
+  status("authStatus",isRegister ? "Creating your account…" : "Signing in…");
+  try {
+    if (isRegister) {
+      if (!name) throw new Error("Enter your name.");
+      const credential = await createUserWithEmailAndPassword(auth,email,password);
+      await updateProfile(credential.user,{displayName:name});
+      verificationName = name;
+      pendingUid = credential.user.uid;
+      await setDoc(doc(db,"users",credential.user.uid),{
+        uid:credential.user.uid,name,email,createdAt:serverTimestamp(),
+        emailVerifiedApp:false,photoURL:""
+      },{merge:true});
+      await issueCode(email);
+      status("authStatus","");
+    } else {
+      await signInWithEmailAndPassword(auth,email,password);
+    }
+  } catch(error) {
+    console.error(error);
+    status("authStatus",friendlyError(error));
+  } finally {
+    $("authSubmit").disabled = false;
   }
- }catch(e){
-  console.error(e);
-  toast("Your account loaded, but the profile could not be read: "+friendlyError(e));
- }
- $("adminNav").classList.toggle("hidden",!isAdmin());
- watchMyTickets();
- if(isAdmin())watchAdminTickets();
- openPage("home");
 });
+
+function friendlyError(error) {
+  const code = error?.code || "";
+  if (code.includes("email-already-in-use")) return "This email already has an account. Sign in instead.";
+  if (code.includes("invalid-credential") || code.includes("wrong-password")) return "Incorrect email or password.";
+  if (code.includes("weak-password")) return "Choose a password with at least 6 characters.";
+  if (code.includes("network-request-failed")) return "Network error. Check your internet connection.";
+  if (code.includes("permission-denied")) return "Firebase permission denied. Check your Firestore rules.";
+  return error?.message || "Something went wrong. Please try again.";
+}
+
+$("verifyBtn").onclick = async () => {
+  const code = $("verifyCode").value.trim();
+  const savedCode = sessionStorage.getItem("cw_verify_code");
+  const email = sessionStorage.getItem("cw_verify_email");
+  const uid = sessionStorage.getItem("cw_verify_uid");
+  const name = sessionStorage.getItem("cw_verify_name");
+  if (!/^\d{6}$/.test(code)) return status("verifyStatus","Enter the 6-digit code.");
+  if (!savedCode || code !== savedCode) return status("verifyStatus","That code is incorrect. Try again.");
+  if (!uid || !email) return status("verifyStatus","Verification session expired. Please sign in again.");
+
+  $("verifyBtn").disabled = true;
+  try {
+    await setDoc(doc(db,"users",uid),{
+      uid,name,email,emailVerifiedApp:true,createdAt:serverTimestamp(),photoURL:""
+    },{merge:true});
+    sessionStorage.removeItem("cw_verify_code");
+    sessionStorage.removeItem("cw_verify_email");
+    sessionStorage.removeItem("cw_verify_name");
+    sessionStorage.removeItem("cw_verify_uid");
+    $("verifyScreen").classList.add("hidden");
+    toast("Email verified. Welcome to ChatWave!");
+    if (auth.currentUser) openApp(auth.currentUser);
+  } catch(error) {
+    status("verifyStatus",friendlyError(error));
+  } finally {
+    $("verifyBtn").disabled = false;
+  }
+};
+
+$("resendBtn").onclick = async () => {
+  const email = sessionStorage.getItem("cw_verify_email");
+  if (!email) return status("verifyStatus","Please register again to request a new code.");
+  try {
+    await issueCode(email);
+    toast("A new code has been sent.");
+  } catch(error) {
+    status("verifyStatus",friendlyError(error));
+  }
+};
+
+$("resetBtn").onclick = async () => {
+  const email = $("email").value.trim();
+  if (!email) return status("authStatus","Enter your email address first.");
+  try {
+    await sendPasswordResetEmail(auth,email);
+    status("authStatus","Password reset email sent. Check your inbox.");
+  } catch(error) {
+    status("authStatus",friendlyError(error));
+  }
+};
+
+onAuthStateChanged(auth, async user => {
+  me = user;
+  if (!user) {
+    cleanup();
+    showAuth(false);
+    return;
+  }
+  const pendingUid = sessionStorage.getItem("cw_verify_uid");
+  const verified = (await getDoc(doc(db,"users",user.uid)).catch(()=>null))?.data()?.emailVerifiedApp;
+  if (pendingUid === user.uid && !verified) {
+    $("authScreen").classList.add("hidden");
+    $("verifyScreen").classList.remove("hidden");
+    return;
+  }
+  if (!verified) {
+    // Existing users created before app email verification can still use ChatWave.
+    // Only newly registered accounts in the pending verification session are blocked.
+    await setDoc(doc(db,"users",user.uid),{
+      uid:user.uid,name:user.displayName||user.email?.split("@")[0]||"User",
+      email:user.email||"",lastSeen:serverTimestamp()
+    },{merge:true}).catch(console.error);
+  }
+  openApp(user);
+});
+
+function cleanup() {
+  if (messageUnsub) messageUnsub();
+  if (peopleUnsub) peopleUnsub();
+  if (typingUnsub) typingUnsub();
+  messageUnsub = peopleUnsub = typingUnsub = null;
+  selectedUser = null;
+  selectedChatId = null;
+}
+
+async function openApp(user) {
+  $("authScreen").classList.add("hidden");
+  $("verifyScreen").classList.add("hidden");
+  $("mainApp").classList.remove("hidden");
+  $("topActions").classList.remove("hidden");
+  $("myName").textContent = user.displayName || user.email?.split("@")[0] || "User";
+  $("myEmail").textContent = user.email || "";
+  await setDoc(doc(db,"users",user.uid),{
+    uid:user.uid,name:user.displayName||user.email?.split("@")[0]||"User",
+    email:user.email||"",lastSeen:serverTimestamp()
+  },{merge:true}).catch(console.error);
+  loadPeople();
+}
+
+function loadPeople() {
+  if (peopleUnsub) peopleUnsub();
+  peopleUnsub = onSnapshot(collection(db,"users"),snap => {
+    users = snap.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.id!==me.uid);
+    renderPeople();
+  },err => {
+    console.error(err);
+    $("peopleList").innerHTML='<div class="empty">Could not load people. Check Firestore rules.</div>';
+  });
+}
+
+function renderPeople() {
+  const search = $("searchUsers").value.trim().toLowerCase();
+  const filtered = users.filter(u=>
+    (u.name||"").toLowerCase().includes(search) ||
+    (u.email||"").toLowerCase().includes(search)
+  );
+  if (!filtered.length) {
+    $("peopleList").innerHTML='<div class="empty">No people found yet.<br><br>Ask a friend to create a ChatWave account.</div>';
+    return;
+  }
+  $("peopleList").innerHTML = filtered.map(u=>`
+    <div class="person ${selectedUser?.id===u.id?"active":""}" data-uid="${safe(u.id)}">
+      <div class="avatar">${u.photoURL?`<img src="${safe(u.photoURL)}" alt="">`:safe(initials(u.name||u.email))}</div>
+      <div class="personinfo">
+        <div class="personname">${safe(u.name||"ChatWave user")}</div>
+        <div class="preview">${safe(u.email||"")}</div>
+      </div>
+    </div>
+  `).join("");
+  $("peopleList").querySelectorAll(".person").forEach(el=>{
+    el.onclick = ()=>selectUser(users.find(u=>u.id===el.dataset.uid));
+  });
+}
+
+$("searchUsers").addEventListener("input",renderPeople);
+
+async function selectUser(user) {
+  if (!user || !me) return;
+  if (messageUnsub) messageUnsub();
+  if (typingUnsub) typingUnsub();
+  selectedUser = user;
+  selectedChatId = chatId(me.uid,user.id);
+  replyTo = null;
+  $("replyBar").classList.add("hidden");
+  $("chatName").textContent = user.name||user.email||"ChatWave user";
+  $("chatAvatar").innerHTML = user.photoURL
+    ? `<img src="${safe(user.photoURL)}" alt="">`
+    : safe(initials(user.name||user.email));
+  $("chatPresence").textContent = "ChatWave conversation";
+  $("messages").innerHTML = '<div class="empty">Loading messages…</div>';
+  $("layout").classList.add("chatopen");
+  renderPeople();
+
+  const msgs = collection(db,"chats",selectedChatId,"messages");
+  messageUnsub = onSnapshot(query(msgs,orderBy("createdAt","asc"),limit(300)),snap=>{
+    messagesCache = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderMessages();
+    markRead(snap.docs);
+  },err=>{
+    console.error(err);
+    $("messages").innerHTML='<div class="empty">Could not load messages. Check Firestore rules.</div>';
+  });
+
+  typingUnsub = onSnapshot(doc(db,"chats",selectedChatId,"typing",user.id),snap=>{
+    const data = snap.data();
+    $("chatPresence").textContent = data?.typing ? "Typing…" : "ChatWave conversation";
+  },()=>{});
+}
+
+function markRead(docs) {
+  docs.forEach(d=>{
+    const m=d.data();
+    if (m.to===me.uid && m.read!==true) {
+      updateDoc(d.ref,{read:true}).catch(()=>{});
+    }
+  });
+}
+
+function renderMessages() {
+  if (!messagesCache.length) {
+    $("messages").innerHTML='<div class="empty">Say hello 👋<br><br>Your conversation starts here.</div>';
+    return;
+  }
+  $("messages").innerHTML = messagesCache.map(m=>{
+    const mine = m.from===me.uid;
+    const quote = m.replyText ? `<div class="replyquote">${safe(m.replySender||"Reply")}<br>${safe(m.replyText)}</div>` : "";
+    const body = m.deleted
+      ? '<i>This message was deleted</i>'
+      : `${quote}${m.text?`<div>${safe(m.text)}</div>`:""}${m.imageURL?`<img src="${safe(m.imageURL)}" alt="Shared image" loading="lazy">`:""}`;
+    const ticks = mine ? (m.read ? "✓✓ Read" : (m.id ? "✓ Sent" : "")) : "";
+    const actions = !m.deleted ? `
+      <div class="bubbleactions">
+        <button data-reply="${safe(m.id)}">Reply</button>
+        ${mine?`<button data-edit="${safe(m.id)}">Edit</button><button data-delete="${safe(m.id)}">Delete</button>`:""}
+      </div>` : "";
+    return `<article class="bubble ${mine?"mine":""}">
+      ${body}
+      <div class="bubblemeta"><span>${safe(timeText(m.createdAt))}${m.edited?" · edited":""}</span><span>${ticks}</span></div>
+      ${actions}
+    </article>`;
+  }).join("");
+  $("messages").querySelectorAll("[data-reply]").forEach(b=>b.onclick=()=>startReply(b.dataset.reply));
+  $("messages").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editMessage(b.dataset.edit));
+  $("messages").querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>removeMessage(b.dataset.delete));
+  $("messages").scrollTop=$("messages").scrollHeight;
+}
+
+function startReply(id) {
+  const m=messagesCache.find(x=>x.id===id);
+  if (!m) return;
+  replyTo = {id:m.id,text:m.text||"Image",sender:m.from===me.uid?"You":(selectedUser.name||"Friend")};
+  $("replyText").textContent = "Replying to " + replyTo.sender + ": " + replyTo.text.slice(0,100);
+  $("replyBar").classList.remove("hidden");
+  $("messageInput").focus();
+}
+$("cancelReply").onclick=()=>{
+  replyTo=null;
+  $("replyBar").classList.add("hidden");
+};
+
+async function editMessage(id) {
+  const m=messagesCache.find(x=>x.id===id);
+  if (!m || m.from!==me.uid || m.deleted || !m.text) return;
+  const next=prompt("Edit your message:",m.text);
+  if (next===null) return;
+  if (!next.trim()) return toast("Message cannot be empty.");
+  try {
+    await updateDoc(doc(db,"chats",selectedChatId,"messages",id),{
+      text:next.trim(),edited:true,editedAt:serverTimestamp()
+    });
+  } catch(error) { toast(friendlyError(error)); }
+}
+
+async function removeMessage(id) {
+  const m=messagesCache.find(x=>x.id===id);
+  if (!m || m.from!==me.uid) return;
+  if (!confirm("Delete this message for everyone?")) return;
+  try {
+    await updateDoc(doc(db,"chats",selectedChatId,"messages",id),{
+      text:"",imageURL:"",deleted:true,deletedAt:serverTimestamp()
+    });
+    toast("Message deleted.");
+  } catch(error) { toast(friendlyError(error)); }
+}
+
+async function sendMessage(text="",imageURL="") {
+  if (!me || !selectedUser || !selectedChatId) return toast("Choose a conversation first.");
+  if (!text.trim() && !imageURL) return;
+  $("sendBtn").disabled=true;
+  try {
+    const payload={
+      from:me.uid,to:selectedUser.id,
+      text:text.trim(),imageURL,
+      createdAt:serverTimestamp(),read:false,edited:false,deleted:false
+    };
+    if (replyTo) {
+      payload.replyTo=replyTo.id;
+      payload.replyText=replyTo.text;
+      payload.replySender=replyTo.sender;
+    }
+    await addDoc(collection(db,"chats",selectedChatId,"messages"),payload);
+    await setDoc(doc(db,"chats",selectedChatId),{
+      members:[me.uid,selectedUser.id],updatedAt:serverTimestamp(),
+      lastMessage:text.trim()||(imageURL?"📷 Image":"")
+    },{merge:true});
+    replyTo=null;
+    $("replyBar").classList.add("hidden");
+    $("messageInput").value="";
+    status("sendStatus","");
+    await setDoc(doc(db,"chats",selectedChatId,"typing",me.uid),{typing:false},{merge:true}).catch(()=>{});
+  } catch(error) {
+    console.error(error);
+    status("sendStatus",friendlyError(error));
+  } finally {
+    $("sendBtn").disabled=false;
+  }
+}
+
+$("sendBtn").onclick=()=>sendMessage($("messageInput").value);
+$("messageInput").addEventListener("keydown",e=>{
+  if (e.key==="Enter"&&!e.shiftKey) {
+    e.preventDefault();
+    sendMessage($("messageInput").value);
+  }
+});
+$("messageInput").addEventListener("input",()=>{
+  if (!selectedChatId || !me) return;
+  setDoc(doc(db,"chats",selectedChatId,"typing",me.uid),{
+    typing:true,updatedAt:serverTimestamp()
+  },{merge:true}).catch(()=>{});
+  clearTimeout(typingTimer);
+  typingTimer=setTimeout(()=>{
+    if (selectedChatId && me) {
+      setDoc(doc(db,"chats",selectedChatId,"typing",me.uid),{typing:false},{merge:true}).catch(()=>{});
+    }
+  },1800);
+});
+
+$("imageBtn").onclick=()=>$("imageInput").click();
+$("imageInput").addEventListener("change",async()=>{
+  const file=$("imageInput").files?.[0];
+  $("imageInput").value="";
+  if (!file) return;
+  if (!selectedUser) return toast("Choose a conversation first.");
+  if (!file.type.startsWith("image/")) return toast("Choose an image.");
+  if (file.size>5*1024*1024) return toast("Image must be 5 MB or smaller.");
+  try {
+    status("sendStatus","Uploading image…");
+    const path=`chatImages/${selectedChatId}/${me.uid}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g,"_")}`;
+    const storageRef=ref(storage,path);
+    await uploadBytes(storageRef,file);
+    const url=await getDownloadURL(storageRef);
+    await sendMessage("",url);
+    status("sendStatus","");
+  } catch(error) {
+    console.error(error);
+    status("sendStatus",friendlyError(error));
+  }
+});
+
+$("backBtn").onclick=()=>$("layout").classList.remove("chatopen");
+$("logoutBtn").onclick=async()=>{
+  cleanup();
+  await signOut(auth);
+  showAuth(false);
+};
+$("profileBtn").onclick=async()=>{
+  if (!me) return;
+  const current=me.displayName||"";
+  const name=prompt("Your display name:",current);
+  if (name===null||!name.trim()) return;
+  try {
+    await updateProfile(me,{displayName:name.trim()});
+    await setDoc(doc(db,"users",me.uid),{name:name.trim()},{merge:true});
+    $("myName").textContent=name.trim();
+    toast("Profile updated.");
+  } catch(error) { toast(friendlyError(error)); }
+};
+$("themeBtn").onclick=()=>{
+  themeLight=!themeLight;
+  if (themeLight) {
+    document.documentElement.style.setProperty("--bg","#edf3f8");
+    document.documentElement.style.setProperty("--panel","#ffffff");
+    document.documentElement.style.setProperty("--panel2","#dce7f0");
+    document.documentElement.style.setProperty("--text","#132238");
+    document.documentElement.style.setProperty("--muted","#607086");
+    document.documentElement.style.setProperty("--line","rgba(10,30,50,.13)");
+  } else {
+    ["--bg","--panel","--panel2","--text","--muted","--line"].forEach(p=>document.documentElement.style.removeProperty(p));
+  }
+};
 </script>
 </body>
 </html>
