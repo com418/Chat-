@@ -7,61 +7,45 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
-<body class="bg-[#111b21] h-screen flex">
+<body class="bg-[#111b21] h-screen flex flex-col items-center justify-center p-4">
 
-<!-- LOGIN/SIGNUP PAGE -->
-<div id="authPage" class="w-full flex items-center justify-center">
-  <div class="bg-white p-8 rounded-xl w-[380px]">
-    <h1 class="text-3xl font-bold text-center text-[#00a884]">ChatWave</h1>
-    <p class="text-center text-gray-500 mb-6">WhatsApp Clone</p>
-
-    <input id="email" type="email" placeholder="Email" class="w-full border p-3 rounded mb-3">
-    <input id="password" type="password" placeholder="Password" class="w-full border p-3 rounded mb-3">
-    <button onclick="handleSignup()" class="w-full bg-[#00a884] text-white p-3 rounded font-bold">Create Account & Send Code</button>
-    <button onclick="handleLogin()" class="w-full mt-2 bg-gray-800 text-white p-3 rounded">Login</button>
-    <div class="text-center my-3">OR</div>
-    <button onclick="googleLogin()" class="w-full border-2 p-3 rounded font-bold flex items-center justify-center gap-2"> <img src="https://www.google.com/favicon.ico" class="w-5"> Sign in with Google</button>
-    <p class="text-xs text-center mt-3 text-gray-500">Code will be sent via EmailJS</p>
-  </div>
+<div id="auth" class="bg-white rounded-2xl p-8 w-full max-w-[380px]">
+  <h1 class="text-3xl font-bold text-[#00a884]">ChatWave</h1>
+  <p class="text-sm text-gray-500 mb-6">Simple & Secure Chat</p>
+  <input id="email" placeholder="Email" class="w-full border p-3 rounded-xl mb-3">
+  <input id="password" type="password" placeholder="Password" class="w-full border p-3 rounded-xl mb-4">
+  <button onclick="signup()" class="w-full bg-[#00a884] text-white p-3 rounded-xl font-bold">Create & Send Code</button>
+  <button onclick="login()" class="w-full mt-2 bg-black text-white p-3 rounded-xl">Login</button>
 </div>
 
-<!-- VERIFY PAGE -->
-<div id="verifyPage" class="hidden w-full flex items-center justify-center">
-  <div class="bg-white p-8 rounded-xl w-[380px] text-center">
-    <h2 class="text-2xl font-bold">Enter 6-Digit Code</h2>
-    <p id="verifyEmailText" class="text-gray-500 mb-4"></p>
-    <input id="codeInput" maxlength="6" placeholder="000000" class="w-full text-center text-3xl tracking-[0.8em] border p-3 rounded mb-4">
-    <button onclick="verifyCode()" class="w-full bg-[#00a884] text-white p-3 rounded font-bold">Verify & Continue</button>
-    <button onclick="showAuth()" class="mt-2 text-sm">Back</button>
-  </div>
+<div id="verify" class="hidden bg-white rounded-2xl p-8 w-full max-w-[380px] text-center">
+  <h2 class="text-xl font-bold">Enter 6-digit code</h2>
+  <p id="vEmail" class="text-sm text-gray-500 my-2"></p>
+  <input id="code" maxlength="6" placeholder="000000" class="w-full text-center text-3xl tracking-[0.7em] border-2 border-green-500 p-3 rounded-xl my-5">
+  <button onclick="verify()" class="w-full bg-[#00a884] text-white p-3 rounded-xl font-bold">Verify</button>
+  <button onclick="resend()" class="mt-3 text-sm text-green-600">Resend Code</button>
 </div>
 
-<!-- CHAT PAGE -->
-<div id="chatPage" class="hidden w-full flex">
-  <!-- Sidebar -->
-  <div class="w-[30%] bg-white border-r flex flex-col">
-    <div class="bg-[#f0f2f5] p-3 flex justify-between items-center">
-      <b id="myEmail"></b>
-      <button onclick="logout()" class="text-red-500">Logout</button>
-    </div>
-    <div id="userList" class="flex-1 overflow-y-auto"></div>
+<div id="chat" class="hidden w-full h-screen bg-[#efeae2] flex">
+  <div class="w-[35%] bg-white border-r flex flex-col">
+    <div class="p-3 bg-[#f0f2f5] flex justify-between"><b id="me" class="text-sm truncate"></b><button onclick="logout()" class="text-red-500 text-sm">Logout</button></div>
+    <div id="users" class="flex-1 overflow-y-auto"></div>
   </div>
-  <!-- Chat Window -->
-  <div class="w-[70%] flex flex-col bg-[#efeae2]">
-    <div id="chatHeader" class="bg-[#f0f2f5] p-3 font-bold">Select a user</div>
-    <div id="messages" class="flex-1 overflow-y-auto p-4"></div>
-    <div class="bg-[#f0f2f5] p-3 flex gap-2">
-      <input type="file" id="imgInput" accept="image/*" class="hidden" onchange="sendImage(event)">
-      <button onclick="document.getElementById('imgInput').click()" class="bg-white p-3 rounded">📷</button>
-      <input id="msgInput" placeholder="Type message" class="flex-1 p-3 rounded">
-      <button onclick="sendMessage()" class="bg-[#00a884] text-white px-6 rounded">Send</button>
+  <div class="w-[65%] flex flex-col">
+    <div id="chatHead" class="p-3 bg-[#f0f2f5] font-bold">Select user</div>
+    <div id="msgs" class="flex-1 overflow-y-auto p-4 flex flex-col gap-2"></div>
+    <div class="p-3 bg-[#f0f2f5] flex gap-2">
+      <input type="file" id="img" hidden accept="image/*" onchange="sendImg(event)">
+      <button onclick="document.getElementById('img').click()">📷</button>
+      <input id="msg" class="flex-1 p-3 rounded-full" placeholder="Type a message" onkeypress="if(event.key==='Enter')sendMsg()">
+      <button onclick="sendMsg()" class="bg-[#00a884] text-white px-5 rounded-full">Send</button>
     </div>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -72,131 +56,43 @@ const firebaseConfig = {
   messagingSenderId: "74313204354",
   appId: "1:74313204354:web:c735269d502b88a39eea9b"
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// EmailJS - REPLACE WITH YOUR OWN IDS
 const SERVICE_ID = "service_1h2qcyj";
-const TEMPLATE_ID = "template_g5knl87";
-const PUBLIC_KEY = "OxtLjZnoiYd3ih6cm";
+const TEMPLATE_ID = "template_7r6apmq"; // <- Replace if you get real one
+const PUBLIC_KEY = "3T5o3Kz1j5XxXxXxX"; // <- Replace if you get real one
 emailjs.init(PUBLIC_KEY);
 
-let currentUser = null;
-let selectedUser = null;
-
-window.handleSignup = async () => {
-  const email = document.getElementById('email').value;
-  const pass = document.getElementById('password').value;
-  const code = Math.floor(100000 + Math.random()*900000).toString();
-  try {
-    await emailjs.send(SERVICE_ID, TEMPLATE_ID, { to_email: email, code: code });
-    alert("Code sent to " + email);
-  } catch(e){ alert("EmailJS not set, test code: " + code); }
-  localStorage.setItem('chatwave_code', code);
-  localStorage.setItem('chatwave_pending_email', email);
-  localStorage.setItem('chatwave_pending_pass', pass);
-  document.getElementById('authPage').classList.add('hidden');
-  document.getElementById('verifyPage').classList.remove('hidden');
-  document.getElementById('verifyEmailText').innerText = "Code sent to " + email;
+let cur=null, sel=null;
+window.signup = async()=>{
+  const email=document.getElementById('email').value, pass=document.getElementById('password').value;
+  if(!email||!pass) return alert("Fill form");
+  const code=Math.floor(100000+Math.random()*900000).toString();
+  try{ await emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:email,code:code}); alert("Code sent to "+email); }catch(e){ alert("Your code: "+code); }
+  localStorage.setItem('code',code); localStorage.setItem('pemail',email); localStorage.setItem('ppass',pass);
+  document.getElementById('auth').classList.add('hidden'); document.getElementById('verify').classList.remove('hidden'); document.getElementById('vEmail').innerText=email;
 }
-
-window.verifyCode = async () => {
-  const input = document.getElementById('codeInput').value;
-  const real = localStorage.getItem('chatwave_code');
-  if(input === real){
-    const email = localStorage.getItem('chatwave_pending_email');
-    const pass = localStorage.getItem('chatwave_pending_pass');
-    await createUserWithEmailAndPassword(auth, email, pass);
-  } else { alert("Wrong code! Real code: " + real); }
+window.verify=async()=>{
+  if(document.getElementById('code').value!==localStorage.getItem('code')) return alert("Wrong! Code: "+localStorage.getItem('code'));
+  try{ await createUserWithEmailAndPassword(auth, localStorage.getItem('pemail'), localStorage.getItem('ppass')); }catch(e){alert(e.message)}
 }
+window.resend=async()=>{ const email=localStorage.getItem('pemail'), code=localStorage.getItem('code'); try{await emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:email,code:code});alert("Resent")}catch(e){alert("Code: "+code)} }
+window.login=async()=>{ try{await signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);}catch(e){alert(e.message)} }
+window.logout=async()=>{await signOut(auth); localStorage.clear(); location.reload();}
 
-window.handleLogin = async () => {
-  const email = document.getElementById('email').value;
-  const pass = document.getElementById('password').value;
-  await signInWithEmailAndPassword(auth, email, pass);
-}
-
-window.googleLogin = async () => {
-  await signInWithPopup(auth, new GoogleAuthProvider());
-}
-
-window.showAuth = () => {
-  document.getElementById('verifyPage').classList.add('hidden');
-  document.getElementById('authPage').classList.remove('hidden');
-}
-
-window.logout = async () => { await signOut(auth); location.reload(); }
-
-onAuthStateChanged(auth, async (user)=>{
-  if(user){
-    currentUser = user;
-    localStorage.setItem('chatwave_user', JSON.stringify(user));
-    await setDoc(doc(db, "users", user.uid), { uid: user.uid, email: user.email, displayName: user.displayName||user.email, photoURL: user.photoURL||"", lastSeen: serverTimestamp() }, {merge:true});
-    document.getElementById('authPage').classList.add('hidden');
-    document.getElementById('verifyPage').classList.add('hidden');
-    document.getElementById('chatPage').classList.remove('hidden');
-    document.getElementById('myEmail').innerText = user.email;
-    loadUsers();
+onAuthStateChanged(auth, async u=>{
+  if(u){ cur=u; await setDoc(doc(db,"users",u.uid),{uid:u.uid,email:u.email,online:true,lastSeen:serverTimestamp()},{merge:true});
+    document.getElementById('auth').classList.add('hidden'); document.getElementById('verify').classList.add('hidden'); document.getElementById('chat').classList.remove('hidden'); document.getElementById('me').innerText=u.email;
+    onSnapshot(collection(db,"users"),s=>{ const box=document.getElementById('users'); box.innerHTML=""; s.forEach(d=>{ if(d.id===cur.uid) return; const x=d.data(); const div=document.createElement('div'); div.className="p-3 border-b cursor-pointer hover:bg-gray-100"; div.innerHTML=`<b class="text-sm">${x.email}</b>`; div.onclick=()=>openChat(x); box.appendChild(div); }); });
   }
 });
 
-function loadUsers(){
-  onSnapshot(collection(db, "users"), (snap)=>{
-    const list = document.getElementById('userList');
-    list.innerHTML = "";
-    snap.forEach(d=>{
-      if(d.id === currentUser.uid) return;
-      const u = d.data();
-      const div = document.createElement('div');
-      div.className = "p-3 border-b hover:bg-gray-100 cursor-pointer";
-      div.innerText = u.email;
-      div.onclick = () => openChat(u);
-      list.appendChild(div);
-    });
-  });
-}
+window.openChat=x=>{ sel=x; document.getElementById('chatHead').innerText=x.email; const id=[cur.uid,x.uid].sort().join("_"); onSnapshot(query(collection(db,"chats",id,"messages"),orderBy("timestamp")),s=>{ const b=document.getElementById('msgs'); b.innerHTML=""; s.forEach(d=>{ const m=d.data(); const isMe=m.senderId===cur.uid; const div=document.createElement('div'); div.className=`max-w-[70%] p-2 rounded-lg text-sm ${isMe?'bg-[#d9fdd3] self-end':'bg-white self-start'}`; div.innerHTML=m.imageUrl?`<img src="${m.imageUrl}" class="max-w-[200px] rounded"> ${m.text||''}`:m.text; b.appendChild(div); }); b.scrollTop=b.scrollHeight; }); }
 
-window.openChat = (u) => {
-  selectedUser = u;
-  document.getElementById('chatHeader').innerText = u.email;
-  const chatId = [currentUser.uid, u.uid].sort().join("_");
-  const q = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
-  onSnapshot(q, (snap)=>{
-    const box = document.getElementById('messages');
-    box.innerHTML = "";
-    snap.forEach(d=>{
-      const m = d.data();
-      const isMe = m.senderId === currentUser.uid;
-      const div = document.createElement('div');
-      div.className = `mb-2 p-2 rounded max-w-[60%] ${isMe? 'bg-[#d9fdd3] self-end ml-auto' : 'bg-white'}`;
-      div.innerHTML = m.imageUrl? `<img src="${m.imageUrl}" class="max-w-[200px] rounded"><p>${m.text||''}</p>` : m.text;
-      box.appendChild(div);
-    });
-    box.scrollTop = box.scrollHeight;
-  });
-}
-
-window.sendMessage = async () => {
-  const text = document.getElementById('msgInput').value;
-  if(!text ||!selectedUser) return;
-  const chatId = [currentUser.uid, selectedUser.uid].sort().join("_");
-  await addDoc(collection(db, "chats", chatId, "messages"), { text, senderId: currentUser.uid, timestamp: serverTimestamp() });
-  document.getElementById('msgInput').value = "";
-}
-
-window.sendImage = (e) => {
-  const file = e.target.files[0];
-  if(!file || file.size > 2*1024*1024) return alert("Max 2MB");
-  const reader = new FileReader();
-  reader.onload = async (ev) => {
-    const base64 = ev.target.result;
-    const chatId = [currentUser.uid, selectedUser.uid].sort().join("_");
-    await addDoc(collection(db, "chats", chatId, "messages"), { text: "", imageUrl: base64, senderId: currentUser.uid, timestamp: serverTimestamp() });
-  };
-  reader.readAsDataURL(file);
-}
+window.sendMsg=async()=>{ const t=document.getElementById('msg').value.trim(); if(!t||!sel) return; const id=[cur.uid,sel.uid].sort().join("_"); await addDoc(collection(db,"chats",id,"messages"),{text:t,senderId:cur.uid,timestamp:serverTimestamp()}); document.getElementById('msg').value=""; }
+window.sendImg=e=>{ const f=e.target.files[0]; if(!f||f.size>2*1024*1024) return alert("Max 2MB"); const r=new FileReader(); r.onload=async ev=>{ const id=[cur.uid,sel.uid].sort().join("_"); await addDoc(collection(db,"chats",id,"messages"),{text:"",imageUrl:ev.target.result,senderId:cur.uid,timestamp:serverTimestamp()}); }; r.readAsDataURL(f); }
 </script>
 </body>
 </html>
