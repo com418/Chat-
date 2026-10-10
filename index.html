@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,17 +11,14 @@
 :root{color-scheme:dark;--bg:#07111f;--line:rgba(255,255,255,.11);--text:#f5f8ff;--muted:#92a2b9;--accent:#7c9cff;--accent2:#8b5cf6}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 12% 0%,#17284c,transparent 40%),radial-gradient(ellipse at 100% 70%,#241c4a,transparent 38%),var(--bg);color:var(--text)}
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.55;cursor:not-allowed}
+button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}
 .hidden{display:none!important}
 .app{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:18px}
 .shell{width:min(1120px,100%);height:min(850px,calc(100dvh - 36px));min-height:580px;display:grid;grid-template-columns:320px 1fr;overflow:hidden;border:1px solid var(--line);border-radius:30px;background:#07111fc9;box-shadow:0 28px 90px #0007;backdrop-filter:blur(28px)}
 .sidebar{display:flex;flex-direction:column;min-width:0;border-right:1px solid var(--line);background:#ffffff06}
 .brand{display:flex;align-items:center;gap:12px;padding:24px 22px 18px}
 .logo{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(140deg,var(--accent),var(--accent2))}
-.brand h1{font-size:19px;margin:0}
-.brand p{font-size:12px;color:var(--muted);margin:3px 0 0}
+.brand h1{font-size:19px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:3px 0 0}
 .nav{display:flex;gap:8px;padding:0 16px 18px}
 .nav button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:14px;padding:11px 8px;background:transparent;color:var(--muted)}
 .nav button.active{background:#7c9cff24;border-color:#7c9cff35;color:var(--text)}
@@ -31,29 +29,28 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .icon-btn{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:#ffffff09;color:var(--text)}
 .search,.field input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#ffffff09;color:var(--text);outline:none}
 .search{margin-bottom:12px}
-.chat-list{display:flex;flex-direction:column;gap:5px}
-.chat-item{width:100%;display:flex;align-items:center;gap:12px;padding:12px;border:1px solid transparent;border-radius:16px;background:transparent;color:var(--text);text-align:left}
-.chat-item:hover,.chat-item.selected{background:#ffffff0d;border-color:var(--line)}
+.chat-list,.people-results{display:flex;flex-direction:column;gap:5px}
+.chat-item,.person-item{width:100%;display:flex;align-items:center;gap:12px;padding:12px;border:1px solid transparent;border-radius:16px;background:transparent;color:var(--text);text-align:left}
+.chat-item:hover,.chat-item.selected,.person-item:hover{background:#ffffff0d;border-color:var(--line)}
 .avatar{flex:0 0 43px;width:43px;height:43px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#253b62,#503d7e);font-weight:750;overflow:hidden}
-.chat-meta{min-width:0;flex:1}
+.chat-meta,.person-info{min-width:0;flex:1}
 .chat-line{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .chat-name{font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chat-preview{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:5px}
+.person-info strong,.person-info small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.person-info strong{font-size:13px}.person-info small{font-size:12px;color:var(--muted);margin-top:4px}
+.mini-button{border:1px solid #7c9cff55;border-radius:10px;padding:8px 10px;background:#7c9cff20;color:#dce5ff;font-size:12px}
+.search-label{font-size:12px;color:var(--muted);margin:12px 2px 8px}
 .workspace{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0}
 .topbar{height:76px;flex:0 0 76px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 24px;border-bottom:1px solid var(--line)}
-.top-person{display:flex;align-items:center;gap:12px;min-width:0}
-.top-person h2{font-size:16px;margin:0}
-.top-person p{font-size:12px;color:var(--muted);margin:4px 0 0}
+.top-person{display:flex;align-items:center;gap:12px;min-width:0}.top-person h2{font-size:16px;margin:0}.top-person p{font-size:12px;color:var(--muted);margin:4px 0 0}
 .top-actions{display:flex;gap:8px}
 .main-content{position:relative;flex:1;min-height:0;overflow:auto;padding:24px}
 .welcome{height:100%;display:flex;align-items:center;justify-content:center;text-align:center}
-.welcome-inner{max-width:370px}
-.welcome-symbol{width:80px;height:80px;margin:0 auto 22px;display:grid;place-items:center;border:1px solid var(--line);border-radius:28px;background:#7c9cff18}
-.welcome h2{font-size:25px;margin:0 0 10px}
-.welcome p{color:var(--muted);line-height:1.65}
+.welcome-inner{max-width:370px}.welcome-symbol{width:80px;height:80px;margin:0 auto 22px;display:grid;place-items:center;border:1px solid var(--line);border-radius:28px;background:#7c9cff18}
+.welcome h2{font-size:25px;margin:0 0 10px}.welcome p{color:var(--muted);line-height:1.65}
 .message-list{display:flex;flex-direction:column;gap:12px;min-height:100%;justify-content:flex-end}
-.message{max-width:80%;display:flex;flex-direction:column;gap:5px;align-self:flex-start}
-.message.mine{align-self:flex-end;align-items:flex-end}
+.message{max-width:80%;display:flex;flex-direction:column;gap:5px;align-self:flex-start}.message.mine{align-self:flex-end;align-items:flex-end}
 .bubble{padding:12px 15px;border-radius:18px 18px 18px 5px;background:#ffffff12;border:1px solid var(--line);line-height:1.45;overflow-wrap:anywhere;white-space:pre-wrap}
 .message.mine .bubble{background:linear-gradient(135deg,#597eff,#765be8);border:0;border-radius:18px 18px 5px 18px}
 .message-time{font-size:10px;color:var(--muted);padding:0 4px}
@@ -61,52 +58,34 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .composer textarea{flex:1;min-height:46px;max-height:130px;resize:vertical;padding:13px 15px;border:1px solid var(--line);border-radius:16px;background:#ffffff0d;color:var(--text);outline:none}
 .send-btn,.primary{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 17px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:700}
 .send-btn{height:46px;width:48px;padding:0}
-.auth-wrap{width:min(430px,100%);margin:auto}
-.auth-card{padding:30px;border:1px solid var(--line);border-radius:28px;background:#0c182ad1;box-shadow:0 25px 80px #0005;backdrop-filter:blur(24px)}
-.auth-brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-.auth-brand h1{font-size:22px;margin:0}
-.auth-brand p{font-size:12px;color:var(--muted);margin:4px 0 0}
-.auth-card h2{font-size:25px;margin:0 0 8px}
-.intro{color:var(--muted);font-size:14px;line-height:1.5;margin:0 0 22px}
-.field{display:block;margin:14px 0}
-.field span{display:block;margin-bottom:8px;font-size:12px;color:#c0ccdc}
-.primary{width:100%;margin-top:8px;min-height:46px}
+.auth-wrap{width:min(430px,100%);margin:auto}.auth-card{padding:30px;border:1px solid var(--line);border-radius:28px;background:#0c182ad1;box-shadow:0 25px 80px #0005;backdrop-filter:blur(24px)}
+.auth-brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}.auth-brand h1{font-size:22px;margin:0}.auth-brand p{font-size:12px;color:var(--muted);margin:4px 0 0}
+.auth-card h2{font-size:25px;margin:0 0 8px}.intro{color:var(--muted);font-size:14px;line-height:1.5;margin:0 0 22px}
+.field{display:block;margin:14px 0}.field span{display:block;margin-bottom:8px;font-size:12px;color:#c0ccdc}
+.field input{margin:0}.primary{width:100%;margin-top:8px;min-height:46px}
 .auth-links{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
 .link-btn{border:0;background:none;color:#a9bbff;padding:4px 0;font-size:13px}
 .notice{margin-top:14px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font-size:13px;line-height:1.45;color:#d7e0ef;overflow-wrap:anywhere}
-.notice.error{border-color:#ff718855;color:#ffb2bf}
-.notice.success{border-color:#62dfb255;color:#9cf2d3}
-.settings{max-width:620px;margin:0 auto}
-.settings h2{margin:0 0 8px;font-size:24px}
-.settings>p{color:var(--muted);margin:0 0 22px}
+.notice.error{border-color:#ff718855;color:#ffb2bf}.notice.success{border-color:#62dfb255;color:#9cf2d3}
+.settings{max-width:620px;margin:0 auto}.settings h2{margin:0 0 8px;font-size:24px}.settings>p{color:var(--muted);margin:0 0 22px}
 .setting-card{padding:18px;margin:12px 0;border:1px solid var(--line);border-radius:18px;background:#ffffff09}
-.setting-card h3{font-size:14px;margin:0 0 8px}
-.setting-card p{font-size:13px;line-height:1.55;color:var(--muted);overflow-wrap:anywhere;margin:0}
+.setting-card h3{font-size:14px;margin:0 0 8px}.setting-card p{font-size:13px;line-height:1.55;color:var(--muted);overflow-wrap:anywhere;margin:0}
 .setting-row{display:flex;align-items:center;justify-content:space-between;gap:15px}
 .danger{background:#ff718818;border:1px solid #ff718855;color:#ff9aaa;border-radius:12px;padding:10px 13px;font-weight:650}
 .empty-list{padding:25px 10px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
 .modal-backdrop{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:18px;background:#020711c9;backdrop-filter:blur(12px)}
 .modal{width:min(420px,100%);padding:24px;border:1px solid var(--line);border-radius:24px;background:#101e32;box-shadow:0 25px 80px #0008}
-.modal h2{margin:0 0 8px;font-size:20px}
-.modal p{color:var(--muted);font-size:13px;line-height:1.55}
-.modal-actions{display:flex;gap:10px;margin-top:20px}
-.modal-actions button{flex:1}
+.modal h2{margin:0 0 8px;font-size:20px}.modal p{color:var(--muted);font-size:13px;line-height:1.55}
+.modal-actions{display:flex;gap:10px;margin-top:20px}.modal-actions button{flex:1}
 .secondary{padding:12px;border:1px solid var(--line);border-radius:13px;background:#ffffff09;color:var(--text)}
 .mobile-back{display:none}
 @media(max-width:760px){
-.app{padding:0}
-.shell{height:100dvh;min-height:0;border-radius:0;border:0;grid-template-columns:1fr}
-.sidebar{border-right:0}
-.workspace{display:none}
-.shell.in-chat .sidebar{display:none}
-.shell.in-chat .workspace{display:flex}
+.app{padding:0}.shell{height:100dvh;min-height:0;border-radius:0;border:0;grid-template-columns:1fr}
+.sidebar{border-right:0}.workspace{display:none}.shell.in-chat .sidebar{display:none}.shell.in-chat .workspace{display:flex}
 .brand{padding:calc(17px + env(safe-area-inset-top)) 18px 14px}
-.topbar{height:70px;flex-basis:70px;padding:0 15px}
-.main-content{padding:16px}
+.topbar{height:70px;flex-basis:70px;padding:0 15px}.main-content{padding:16px}
 .composer{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
-.mobile-back{display:grid}
-.auth-wrap{padding:18px}
-.auth-card{padding:25px 21px}
+.mobile-back{display:grid}.auth-wrap{padding:18px}.auth-card{padding:25px 21px}
 .side-content{padding-bottom:calc(18px + env(safe-area-inset-bottom))}
 }
 </style>
@@ -116,8 +95,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <div class="auth-wrap"><div class="auth-card">
 <div class="auth-brand"><div class="logo" id="authLogo"></div><div><h1>ChatWave</h1><p>Connect. Chat. Share.</p></div></div>
 <div id="authForm">
-<h2 id="authTitle">Welcome back</h2>
-<p class="intro" id="authIntro">Sign in to continue your conversations.</p>
+<h2 id="authTitle">Welcome back</h2><p class="intro" id="authIntro">Sign in to continue your conversations.</p>
 <form id="loginForm">
 <label class="field"><span>Email address</span><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></label>
 <label class="field"><span>Password</span><input id="authPassword" type="password" autocomplete="current-password" placeholder="Your password" minlength="6" required></label>
@@ -136,23 +114,33 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <div id="appScreen" class="app hidden"><div id="shell" class="shell">
 <aside class="sidebar">
 <div class="brand"><div class="logo" id="sideLogo"></div><div><h1>ChatWave</h1><p>Connect. Chat. Share.</p></div></div>
-<div class="nav"><button id="chatsTab" class="active" type="button"><span id="navChatIcon"></span>Chats <span id="navUnread" class="badge hidden">0</span></button><button id="settingsTab" type="button"><span id="navSettingsIcon"></span>Settings</button></div>
+<div class="nav">
+<button id="chatsTab" class="active" type="button"><span id="navChatIcon"></span>Chats <span id="navUnread" class="badge hidden">0</span></button>
+<button id="peopleTab" type="button"><span id="navPeopleIcon"></span>People</button>
+<button id="settingsTab" type="button"><span id="navSettingsIcon"></span>Settings</button>
+</div>
 <div id="chatSideContent" class="side-content">
-<div class="section-head"><h2>Messages</h2><button id="newChatBtn" class="icon-btn" aria-label="New chat"></button></div>
+<div class="section-head"><h2>Messages</h2><button id="newChatBtn" class="icon-btn" aria-label="Find people"></button></div>
 <input id="chatSearch" class="search" placeholder="Search conversations" aria-label="Search conversations">
 <div id="chatList" class="chat-list"><div class="empty-list">Loading conversations…</div></div>
+</div>
+<div id="peopleSideContent" class="side-content hidden">
+<div class="section-head"><h2>Find people</h2></div>
+<input id="peopleSearch" class="search" placeholder="Search username or email" aria-label="Search users">
+<div class="search-label">Search by username or exact email</div>
+<div id="peopleResults" class="people-results"><div class="empty-list">Enter a username to find people.</div></div>
 </div>
 <div id="settingsSideContent" class="side-content hidden"><div class="section-head"><h2>Settings</h2></div><div class="setting-card"><h3>Account</h3><p id="sideAccountEmail">Loading account…</p></div></div>
 </aside>
 <main class="workspace">
-<header class="topbar"><div class="top-person"><button id="mobileBack" class="icon-btn mobile-back" aria-label="Back to chats"></button><div id="topAvatar" class="avatar hidden"></div><div><h2 id="topTitle">Welcome to ChatWave</h2><p id="topSubtitle">Your conversations, all in one place</p></div></div><div class="top-actions"><button id="callBtn" class="icon-btn hidden" aria-label="Call"></button><button id="infoBtn" class="icon-btn hidden" aria-label="Conversation details"></button></div></header>
+<header class="topbar"><div class="top-person"><button id="mobileBack" class="icon-btn mobile-back" aria-label="Back"></button><div id="topAvatar" class="avatar hidden"></div><div><h2 id="topTitle">Welcome to ChatWave</h2><p id="topSubtitle">Your conversations, all in one place</p></div></div><div class="top-actions"><button id="callBtn" class="icon-btn hidden" aria-label="Call"></button><button id="infoBtn" class="icon-btn hidden" aria-label="Conversation details"></button></div></header>
 <section id="mainContent" class="main-content"><div class="welcome"><div class="welcome-inner"><div class="welcome-symbol" id="welcomeIcon"></div><h2>Your space to connect</h2><p>Choose a conversation or start a new chat to send your first message.</p></div></div></section>
 <form id="composer" class="composer hidden"><textarea id="messageInput" rows="1" maxlength="5000" placeholder="Write a message…" aria-label="Write a message"></textarea><button class="send-btn" type="submit" aria-label="Send message"></button></form>
 </main></div></div>
 
 <div id="modalBackdrop" class="modal-backdrop hidden"><div class="modal" role="dialog" aria-modal="true">
-<h2 id="modalTitle">New chat</h2><p id="modalDescription">Enter the email address of the person you want to message.</p>
-<form id="modalForm"><label class="field"><span id="modalFieldLabel">Email address</span><input id="modalInput" type="email" required placeholder="person@example.com"></label><div class="modal-actions"><button type="button" id="modalCancel" class="secondary">Cancel</button><button type="submit" id="modalConfirm" class="primary">Continue</button></div></form>
+<h2 id="modalTitle">Find people</h2><p id="modalDescription">Search by username or email.</p>
+<form id="modalForm"><label class="field"><span id="modalFieldLabel">Username or email</span><input id="modalInput" type="text" required placeholder="@username or email@example.com"></label><div class="modal-actions"><button type="button" id="modalCancel" class="secondary">Cancel</button><button type="submit" id="modalConfirm" class="primary">Search</button></div></form>
 <div id="modalNotice" class="notice hidden"></div>
 </div></div>
 
@@ -162,8 +150,6 @@ import {getAuth,setPersistence,browserLocalPersistence,onAuthStateChanged,create
 import {getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,updateDoc,serverTimestamp,orderBy,limit,getDocs,deleteDoc} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 const $=id=>document.getElementById(id);
-
-/* Firebase project configuration */
 const firebaseConfig={
  apiKey:"AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
  authDomain:"chat-2c557.firebaseapp.com",
@@ -173,19 +159,15 @@ const firebaseConfig={
  messagingSenderId:"74313204354",
  appId:"1:74313204354:web:c735269d502b88a39eea9b"
 };
-
-/* EmailJS configuration */
 const EMAILJS_SERVICE_ID="service_1h2qcyj";
 const EMAILJS_TEMPLATE_ID="template_g5knl87";
 const EMAILJS_PUBLIC_KEY="OxtLjZnoiYd3ih6cm";
-
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 
 const paths={
  message:'<path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>',
  chats:'<path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>',
+ users:'<path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
  settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 3.1-.2-.1a1.7 1.7 0 0 0-1.8.1l-.2.1h-3.6l-.1-.2a1.7 1.7 0 0 0-1.6-1l-.2.1-3.1-1.8.1-.2a1.7 1.7 0 0 0-.1-1.8l-.1-.2v-3.6l.2-.1a1.7 1.7 0 0 0 1-1.6l-.1-.2 1.8-3.1.2.1a1.7 1.7 0 0 0 1.8-.1l.2-.1h3.6l.1.2a1.7 1.7 0 0 0 1.6 1l.2-.1 3.1 1.8-.1.2a1.7 1.7 0 0 0 .1 1.8l.1.2v3.6z"/>',
  plus:'<path d="M12 5v14M5 12h14"/>',
  send:'<path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/>',
@@ -195,200 +177,127 @@ const paths={
  wave:'<path d="M2 12h3l3-8 5 16 3-8h6"/>'
 };
 function svg(name,size=20){return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.message}</svg>`}
-$("authLogo").innerHTML=svg("message",23);
-$("sideLogo").innerHTML=svg("message",23);
-$("navChatIcon").innerHTML=svg("chats",17);
-$("navSettingsIcon").innerHTML=svg("settings",17);
-$("newChatBtn").innerHTML=svg("plus",18);
-$("composer").querySelector("button").innerHTML=svg("send",19);
-$("mobileBack").innerHTML=svg("back",19);
-$("callBtn").innerHTML=svg("phone",18);
-$("infoBtn").innerHTML=svg("info",18);
-$("welcomeIcon").innerHTML=svg("wave",34);
+$("authLogo").innerHTML=svg("message",23);$("sideLogo").innerHTML=svg("message",23);
+$("navChatIcon").innerHTML=svg("chats",17);$("navPeopleIcon").innerHTML=svg("users",17);$("navSettingsIcon").innerHTML=svg("settings",17);
+$("newChatBtn").innerHTML=svg("plus",18);$("composer").querySelector("button").innerHTML=svg("send",19);
+$("mobileBack").innerHTML=svg("back",19);$("callBtn").innerHTML=svg("phone",18);$("infoBtn").innerHTML=svg("info",18);$("welcomeIcon").innerHTML=svg("wave",34);
 
 let currentUser=null,mode="login",pendingEmail="",pendingPassword="",pendingCode="",pendingExpires=0;
-let stopChats=null,stopMessages=null,chats=[],activeChat=null,unreadTotal=0,sending=false;
-
+let stopChats=null,stopMessages=null,chats=[],activeChat=null,unreadTotal=0,sending=false,peopleTimer=null;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function showNotice(text,type=""){const n=$("authNotice");n.textContent=text;n.className="notice "+type}
 function clearNotice(){$("authNotice").className="notice hidden";$("authNotice").textContent=""}
 function authError(err){
- const map={
- "auth/invalid-credential":"Email or password is incorrect.",
- "auth/wrong-password":"Email or password is incorrect.",
- "auth/user-not-found":"No account was found for that email.",
- "auth/email-already-in-use":"An account already exists. Please sign in.",
- "auth/weak-password":"Use a password with at least 6 characters.",
- "auth/invalid-email":"Enter a valid email address.",
- "auth/too-many-requests":"Too many attempts. Wait and try again.",
- "auth/network-request-failed":"Network error. Check your internet connection.",
- "permission-denied":"Firebase denied this action. Check your Firestore rules."
- };
+ const map={"auth/invalid-credential":"Email or password is incorrect.","auth/wrong-password":"Email or password is incorrect.","auth/user-not-found":"No account was found for that email.","auth/email-already-in-use":"An account already exists. Please sign in.","auth/weak-password":"Use a password with at least 6 characters.","auth/invalid-email":"Enter a valid email address.","auth/too-many-requests":"Too many attempts. Wait and try again.","auth/network-request-failed":"Network error. Check your internet connection.","permission-denied":"Firebase denied this action. Check your Firestore rules."};
  return map[err?.code]||err?.text||err?.message||"Something went wrong. Please try again.";
 }
 function authMode(next){
- mode=next;
- $("authForm").classList.remove("hidden");
- $("verifyForm").classList.add("hidden");
+ mode=next;$("authForm").classList.remove("hidden");$("verifyForm").classList.add("hidden");
  $("authTitle").textContent=next==="register"?"Create your account":"Welcome back";
  $("authIntro").textContent=next==="register"?"Create an account to start chatting on ChatWave.":"Sign in to continue your conversations.";
  $("authSubmit").textContent=next==="register"?"Create account":"Sign In";
  $("authPassword").autocomplete=next==="register"?"new-password":"current-password";
  $("toggleMode").textContent=next==="register"?"I already have an account":"Create account";
- $("forgotBtn").classList.toggle("hidden",next==="register");
- clearNotice();
+ $("forgotBtn").classList.toggle("hidden",next==="register");clearNotice();
 }
 $("toggleMode").addEventListener("click",()=>authMode(mode==="login"?"register":"login"));
-
 function makeCode(){return String(Math.floor(100000+Math.random()*900000))}
 async function sendVerificationCode(){
  if(!window.emailjs)throw new Error("EmailJS did not load. Check your connection and refresh.");
- pendingCode=makeCode();
- pendingExpires=Date.now()+10*60*1000;
- await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
-  to_email:pendingEmail,
-  email:pendingEmail,
-  verification_code:pendingCode,
-  passcode:pendingCode,
-  code:pendingCode,
-  app_name:"ChatWave",
-  time_limit:"10 minutes"
- },EMAILJS_PUBLIC_KEY);
+ pendingCode=makeCode();pendingExpires=Date.now()+10*60*1000;
+ await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:pendingEmail,email:pendingEmail,verification_code:pendingCode,passcode:pendingCode,code:pendingCode,app_name:"ChatWave",time_limit:"10 minutes"},EMAILJS_PUBLIC_KEY);
 }
 $("loginForm").addEventListener("submit",async e=>{
  e.preventDefault();clearNotice();
- const email=$("authEmail").value.trim().toLowerCase();
- const password=$("authPassword").value;
+ const email=$("authEmail").value.trim().toLowerCase(),password=$("authPassword").value;
  if(mode==="register"){
-  pendingEmail=email;pendingPassword=password;
-  $("authSubmit").disabled=true;$("authSubmit").textContent="Sending code…";
-  try{
-   await sendVerificationCode();
-   $("authForm").classList.add("hidden");
-   $("verifyForm").classList.remove("hidden");
-   showNotice("A verification code has been sent to "+email+". Check your inbox and spam folder.","success");
-  }catch(err){
-   showNotice("Could not send the verification email. Check your EmailJS template settings. "+(err?.text||err?.message||""),"error");
-  }finally{$("authSubmit").disabled=false;$("authSubmit").textContent="Create account"}
-  return;
+  pendingEmail=email;pendingPassword=password;$("authSubmit").disabled=true;$("authSubmit").textContent="Sending code…";
+  try{await sendVerificationCode();$("authForm").classList.add("hidden");$("verifyForm").classList.remove("hidden");showNotice("A verification code has been sent to "+email+". Check your inbox and spam folder.","success")}
+  catch(err){showNotice("Could not send the verification email. "+(err?.text||err?.message||""),"error")}
+  finally{$("authSubmit").disabled=false;$("authSubmit").textContent="Create account"}return;
  }
  $("authSubmit").disabled=true;$("authSubmit").textContent="Signing in…";
- try{await signInWithEmailAndPassword(auth,email,password)}
- catch(err){showNotice(authError(err),"error")}
+ try{await signInWithEmailAndPassword(auth,email,password)}catch(err){showNotice(authError(err),"error")}
  finally{$("authSubmit").disabled=false;$("authSubmit").textContent="Sign In"}
 });
 $("cancelVerify").addEventListener("click",()=>{pendingCode="";pendingPassword="";authMode("login")});
 $("resendCode").addEventListener("click",async()=>{
- $("resendCode").disabled=true;
- try{await sendVerificationCode();showNotice("A new verification code was sent. Use the latest code.","success")}
- catch(err){showNotice("Could not resend the code. "+authError(err),"error")}
- finally{$("resendCode").disabled=false}
+ $("resendCode").disabled=true;try{await sendVerificationCode();showNotice("A new verification code was sent. Use the latest code.","success")}
+ catch(err){showNotice("Could not resend the code. "+authError(err),"error")}finally{$("resendCode").disabled=false}
 });
 $("codeForm").addEventListener("submit",async e=>{
- e.preventDefault();clearNotice();
- const code=$("verifyCode").value.trim();
+ e.preventDefault();clearNotice();const code=$("verifyCode").value.trim();
  if(Date.now()>pendingExpires){showNotice("That code has expired. Tap Send a new code.","error");return}
  if(code!==pendingCode){showNotice("That verification code is incorrect.","error");return}
  $("verifySubmit").disabled=true;$("verifySubmit").textContent="Creating account…";
  try{
   const cred=await createUserWithEmailAndPassword(auth,pendingEmail,pendingPassword);
-  await setDoc(doc(db,"users",cred.user.uid),{
-   uid:cred.user.uid,email:pendingEmail,
-   displayName:pendingEmail.split("@")[0],
-   createdAt:serverTimestamp(),active:true
-  },{merge:true});
+  const base=(pendingEmail.split("@")[0].toLowerCase().replace(/[^a-z0-9_]/g,"").slice(0,16)||"user");
+  const username=base+"_"+cred.user.uid.slice(0,5).toLowerCase();
+  await setDoc(doc(db,"users",cred.user.uid),{uid:cred.user.uid,email:pendingEmail,displayName:base,username,usernameLower:username.toLowerCase(),createdAt:serverTimestamp(),active:true},{merge:true});
   pendingCode="";pendingPassword="";
  }catch(err){showNotice(authError(err),"error")}
  finally{$("verifySubmit").disabled=false;$("verifySubmit").textContent="Verify and create account"}
 });
 $("forgotBtn").addEventListener("click",async()=>{
- const email=$("authEmail").value.trim();
- if(!email){showNotice("Enter your email address first.");return}
- try{await sendPasswordResetEmail(auth,email);showNotice("If an account exists for this email, a password reset link has been sent.","success")}
- catch(err){showNotice(authError(err),"error")}
+ const email=$("authEmail").value.trim();if(!email){showNotice("Enter your email address first.");return}
+ try{await sendPasswordResetEmail(auth,email);showNotice("If an account exists for this email, a password reset link has been sent.","success")}catch(err){showNotice(authError(err),"error")}
 });
 
 function initials(name="?"){return name.trim().split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"?"}
-function personName(chat){
- const other=(chat.members||[]).find(m=>m!==currentUser.uid);
- return chat.memberNames?.[other]||chat.memberEmails?.[other]||"ChatWave user";
-}
+function otherUid(chat){return(chat.members||[]).find(m=>m!==currentUser.uid)}
+function personName(chat){const other=otherUid(chat);return chat.memberNames?.[other]||chat.memberUsernames?.[other]||chat.memberEmails?.[other]||"ChatWave user"}
 function chatUnread(c){return Number(c.unread?.[currentUser.uid]||0)}
 function renderChatList(){
  const search=$("chatSearch").value.trim().toLowerCase();
  const shown=[...chats].filter(c=>{
-  const other=(c.members||[]).find(m=>m!==currentUser.uid);
-  return personName(c).toLowerCase().includes(search)||(c.memberEmails?.[other]||"").toLowerCase().includes(search);
+  const other=otherUid(c);
+  return personName(c).toLowerCase().includes(search)||(c.memberUsernames?.[other]||"").toLowerCase().includes(search)||(c.memberEmails?.[other]||"").toLowerCase().includes(search)||(c.lastMessage||"").toLowerCase().includes(search);
  }).sort((a,b)=>(b.updatedAt?.seconds||0)-(a.updatedAt?.seconds||0));
  unreadTotal=chats.reduce((n,c)=>n+chatUnread(c),0);
- $("navUnread").textContent=unreadTotal>99?"99+":String(unreadTotal);
- $("navUnread").classList.toggle("hidden",unreadTotal===0);
- $("chatList").innerHTML=shown.length?shown.map(c=>`
- <button class="chat-item ${activeChat?.id===c.id?"selected":""}" data-chat="${esc(c.id)}">
- <div class="avatar">${esc(initials(personName(c)))}</div>
- <div class="chat-meta"><div class="chat-line"><span class="chat-name">${esc(personName(c))}</span>
- ${chatUnread(c)?`<span class="badge">${chatUnread(c)>99?"99+":chatUnread(c)}</span>`:""}
- </div><div class="chat-preview">${esc(c.lastMessage||"Start a conversation")}</div></div></button>`).join(""):'<div class="empty-list">No conversations yet.<br>Tap + to start a chat.</div>';
+ $("navUnread").textContent=unreadTotal>99?"99+":String(unreadTotal);$("navUnread").classList.toggle("hidden",unreadTotal===0);
+ $("chatList").innerHTML=shown.length?shown.map(c=>`<button class="chat-item ${activeChat?.id===c.id?"selected":""}" data-chat="${esc(c.id)}"><div class="avatar">${esc(initials(personName(c)))}</div><div class="chat-meta"><div class="chat-line"><span class="chat-name">${esc(personName(c))}</span>${chatUnread(c)?`<span class="badge">${chatUnread(c)>99?"99+":chatUnread(c)}</span>`:""}</div><div class="chat-preview">${esc(c.lastMessage||"Start a conversation")}</div></div></button>`).join(""):'<div class="empty-list">No conversations found.<br>Tap + to find people.</div>';
  $("chatList").querySelectorAll("[data-chat]").forEach(btn=>btn.addEventListener("click",()=>openChat(btn.dataset.chat)));
 }
 $("chatSearch").addEventListener("input",renderChatList);
 
 function showTab(tab){
- const settings=tab==="settings";
- $("chatsTab").classList.toggle("active",!settings);
- $("settingsTab").classList.toggle("active",settings);
- $("chatSideContent").classList.toggle("hidden",settings);
- $("settingsSideContent").classList.toggle("hidden",!settings);
- if(settings){
-  activeChat=null;
+ const settings=tab==="settings",people=tab==="people";
+ $("chatsTab").classList.toggle("active",!settings&&!people);$("peopleTab").classList.toggle("active",people);$("settingsTab").classList.toggle("active",settings);
+ $("chatSideContent").classList.toggle("hidden",settings||people);$("peopleSideContent").classList.toggle("hidden",!people);$("settingsSideContent").classList.toggle("hidden",!settings);
+ if(settings||people){
   if(stopMessages){stopMessages();stopMessages=null}
-  $("composer").classList.add("hidden");
-  $("topAvatar").classList.add("hidden");
-  $("callBtn").classList.add("hidden");
-  $("infoBtn").classList.add("hidden");
-  $("topTitle").textContent="Settings";
-  $("topSubtitle").textContent="Manage your account";
-  $("mainContent").innerHTML=`<div class="settings"><h2>Settings</h2><p>Your ChatWave account and preferences.</p>
-  <div class="setting-card"><h3>Account email</h3><p>${esc(currentUser.email||"No email available")}</p></div>
-  <div class="setting-card"><h3>Account security</h3><p>You remain signed in on this device.</p></div>
-  <div class="setting-card"><div class="setting-row"><div><h3>Delete account</h3><p>This deletes your sign-in account and profile. Existing messages may remain.</p></div><button class="danger" id="deleteAccountBtn">Delete</button></div></div></div>`;
-  $("deleteAccountBtn").addEventListener("click",confirmDeleteAccount);
+  $("composer").classList.add("hidden");$("topAvatar").classList.add("hidden");$("callBtn").classList.add("hidden");$("infoBtn").classList.add("hidden");
+  if(settings){
+   activeChat=null;$("topTitle").textContent="Settings";$("topSubtitle").textContent="Manage your account";
+   $("mainContent").innerHTML=`<div class="settings"><h2>Settings</h2><p>Your ChatWave account and preferences.</p><div class="setting-card"><h3>Account email</h3><p>${esc(currentUser.email||"No email available")}</p></div><div class="setting-card"><h3>Username</h3><p id="myUsername">Loading username…</p></div><div class="setting-card"><h3>Account security</h3><p>You remain signed in on this device.</p></div><div class="setting-card"><div class="setting-row"><div><h3>Delete account</h3><p>This deletes your sign-in account and profile. Existing messages may remain.</p></div><button class="danger" id="deleteAccountBtn">Delete</button></div></div></div>`;
+   getDoc(doc(db,"users",currentUser.uid)).then(s=>{if(s.exists()&&$("myUsername"))$("myUsername").textContent=s.data().username?"@"+s.data().username:"No username set yet"}).catch(()=>{});
+   $("deleteAccountBtn").addEventListener("click",confirmDeleteAccount);
+  }else{$("topTitle").textContent="Find people";$("topSubtitle").textContent="Search by username";$("mainContent").innerHTML=`<div class="welcome"><div class="welcome-inner"><div class="welcome-symbol">${svg("users",34)}</div><h2>Find your people</h2><p>Search by username or email to start a conversation.</p></div></div>`}
  }else if(!activeChat){
-  $("topTitle").textContent="Welcome to ChatWave";
-  $("topSubtitle").textContent="Your conversations, all in one place";
+  $("topTitle").textContent="Welcome to ChatWave";$("topSubtitle").textContent="Your conversations, all in one place";
   $("mainContent").innerHTML=`<div class="welcome"><div class="welcome-inner"><div class="welcome-symbol">${svg("wave",34)}</div><h2>Your space to connect</h2><p>Choose a conversation or start a new chat to send your first message.</p></div></div>`;
  }
 }
 $("chatsTab").addEventListener("click",()=>showTab("chats"));
+$("peopleTab").addEventListener("click",()=>showTab("people"));
 $("settingsTab").addEventListener("click",()=>showTab("settings"));
 
 function watchChats(){
  if(stopChats)stopChats();
- const q=query(collection(db,"chats"),where("members","array-contains",currentUser.uid));
- stopChats=onSnapshot(q,snap=>{
-  chats=snap.docs.map(d=>({id:d.id,...d.data()}));
-  renderChatList();
+ stopChats=onSnapshot(query(collection(db,"chats"),where("members","array-contains",currentUser.uid)),snap=>{
+  chats=snap.docs.map(d=>({id:d.id,...d.data()}));renderChatList();
   if(activeChat){const latest=chats.find(c=>c.id===activeChat.id);if(latest)activeChat=latest}
- },err=>{
-  console.error(err);
-  $("chatList").innerHTML=`<div class="empty-list">Could not load chats.<br>${esc(err.message)}<br>Check Firestore security rules.</div>`;
- });
+ },err=>{$("chatList").innerHTML=`<div class="empty-list">Could not load chats.<br>${esc(err.message)}<br>Check Firestore security rules.</div>`});
 }
 async function openChat(id){
  let c=chats.find(x=>x.id===id);
- if(!c){
-  try{const snap=await getDoc(doc(db,"chats",id));if(snap.exists())c={id:snap.id,...snap.data()}}
-  catch(e){console.error(e)}
- }
+ if(!c){try{const snap=await getDoc(doc(db,"chats",id));if(snap.exists())c={id:snap.id,...snap.data()}}catch(e){console.error(e)}}
  if(!c){alert("Conversation not found. Refresh and try again.");return}
  activeChat=c;showTab("chats");$("shell").classList.add("in-chat");renderChatList();
- $("topAvatar").textContent=initials(personName(c));
- $("topAvatar").classList.remove("hidden");
- $("topTitle").textContent=personName(c);
- $("topSubtitle").textContent="ChatWave conversation";
- $("callBtn").classList.remove("hidden");
- $("infoBtn").classList.remove("hidden");
- $("composer").classList.remove("hidden");
+ $("topAvatar").textContent=initials(personName(c));$("topAvatar").classList.remove("hidden");
+ $("topTitle").textContent=personName(c);$("topSubtitle").textContent=c.memberUsernames?.[otherUid(c)]?"@"+c.memberUsernames[otherUid(c)]:"ChatWave conversation";
+ $("callBtn").classList.remove("hidden");$("infoBtn").classList.remove("hidden");$("composer").classList.remove("hidden");
  if(stopMessages){stopMessages();stopMessages=null}
  $("mainContent").innerHTML='<div class="message-list" id="messageList"><div class="empty-list">Loading messages…</div></div>';
  try{await updateDoc(doc(db,"chats",id),{[`unread.${currentUser.uid}`]:0})}catch(e){console.warn("Could not clear unread count",e)}
@@ -404,71 +313,109 @@ async function openChat(id){
  },err=>{$("mainContent").innerHTML=`<div class="empty-list">Could not load messages: ${esc(err.message)}. Check Firestore rules.</div>`});
 }
 $("mobileBack").addEventListener("click",()=>{
- $("shell").classList.remove("in-chat");activeChat=null;
- if(stopMessages){stopMessages();stopMessages=null}
- $("composer").classList.add("hidden");$("topAvatar").classList.add("hidden");
- $("callBtn").classList.add("hidden");$("infoBtn").classList.add("hidden");
- showTab("chats");renderChatList();
+ $("shell").classList.remove("in-chat");activeChat=null;if(stopMessages){stopMessages();stopMessages=null}
+ $("composer").classList.add("hidden");$("topAvatar").classList.add("hidden");$("callBtn").classList.add("hidden");$("infoBtn").classList.add("hidden");showTab("chats");renderChatList();
 });
-
 $("composer").addEventListener("submit",async e=>{
- e.preventDefault();
- if(!currentUser||!activeChat||sending)return;
+ e.preventDefault();if(!currentUser||!activeChat||sending)return;
  const input=$("messageInput"),text=input.value.trim();if(!text)return;
  sending=true;const btn=$("composer").querySelector("button");btn.disabled=true;input.value="";
  try{
-  await addDoc(collection(db,"chats",activeChat.id,"messages"),{
-   text,senderId:currentUser.uid,senderEmail:currentUser.email||"",createdAt:serverTimestamp()
-  });
-  const other=(activeChat.members||[]).find(m=>m!==currentUser.uid);
-  const unread={...(activeChat.unread||{}),[other]:Number(activeChat.unread?.[other]||0)+1,[currentUser.uid]:0};
+  await addDoc(collection(db,"chats",activeChat.id,"messages"),{text,senderId:currentUser.uid,senderEmail:currentUser.email||"",createdAt:serverTimestamp()});
+  const other=otherUid(activeChat),unread={...(activeChat.unread||{}),[other]:Number(activeChat.unread?.[other]||0)+1,[currentUser.uid]:0};
   await updateDoc(doc(db,"chats",activeChat.id),{lastMessage:text,lastSenderId:currentUser.uid,updatedAt:serverTimestamp(),unread});
  }catch(err){input.value=text;alert("Message was not sent. "+authError(err))}
  finally{sending=false;btn.disabled=false;input.focus()}
 });
 $("messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("composer").requestSubmit()}});
 
+async function startChatWithUser(target){
+ if(!currentUser||target.uid===currentUser.uid){return}
+ const existing=chats.find(c=>(c.members||[]).includes(target.uid));
+ if(existing){$("modalBackdrop").classList.add("hidden");await openChat(existing.id);return}
+ const meSnap=await getDoc(doc(db,"users",currentUser.uid));
+ const me=meSnap.exists()?meSnap.data():{};
+ const myName=me.displayName||currentUser.displayName||currentUser.email.split("@")[0];
+ const myUsername=me.username||"";
+ const targetName=target.displayName||target.username||"ChatWave user";
+ const targetUsername=target.username||"";
+ const members=[currentUser.uid,target.uid];
+ const memberNames={[currentUser.uid]:myName,[target.uid]:targetName};
+ const memberUsernames={[currentUser.uid]:myUsername,[target.uid]:targetUsername};
+ const memberEmails={[currentUser.uid]:currentUser.email||"",[target.uid]:target.email||""};
+ const created=await addDoc(collection(db,"chats"),{members,memberNames,memberUsernames,memberEmails,createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastMessage:"",unread:{[currentUser.uid]:0,[target.uid]:0}});
+ $("modalBackdrop").classList.add("hidden");await openChat(created.id);
+}
+function renderPersonResults(docs){
+ const filtered=docs.filter(d=>d.id!==currentUser.uid);
+ $("peopleResults").innerHTML=filtered.length?filtered.map(d=>{
+  const u=d.data(),name=u.displayName||u.username||"ChatWave user",username=u.username||"username not set";
+  return `<div class="person-item"><div class="avatar">${esc(initials(name))}</div><div class="person-info"><strong>${esc(name)}</strong><small>@${esc(username)}</small></div><button class="mini-button" data-person="${esc(d.id)}">Message</button></div>`;
+ }).join(""):'<div class="empty-list">No users found. Try a username or exact email.</div>';
+ $("peopleResults").querySelectorAll("[data-person]").forEach(btn=>{
+  btn.addEventListener("click",async()=>{
+   btn.disabled=true;try{
+    const snap=await getDoc(doc(db,"users",btn.dataset.person));
+    if(!snap.exists()){alert("This profile could not be found.");return}
+    await startChatWithUser({uid:snap.id,...snap.data()});
+   }catch(err){alert("Could not start chat: "+authError(err))}
+   finally{btn.disabled=false}
+  });
+ });
+}
+async function searchPeople(){
+ const raw=$("peopleSearch").value.trim().toLowerCase().replace(/^@/,"");
+ if(!raw){$("peopleResults").innerHTML='<div class="empty-list">Enter a username to find people.</div>';return}
+ $("peopleResults").innerHTML='<div class="empty-list">Searching…</div>';
+ try{
+  let snap;
+  if(raw.includes("@")){
+   snap=await getDocs(query(collection(db,"users"),where("email","==",raw),limit(10)));
+  }else{
+   snap=await getDocs(query(collection(db,"users"),where("usernameLower","==",raw),limit(10)));
+   if(snap.empty){
+    snap=await getDocs(query(collection(db,"users"),where("usernameLower",">=",raw),where("usernameLower","<=",raw+"\uf8ff"),limit(10)));
+   }
+   if(snap.empty){
+    snap=await getDocs(query(collection(db,"users"),where("displayName",">=",raw),where("displayName","<=",raw+"\uf8ff"),limit(10)));
+   }
+  }
+  renderPersonResults(snap.docs);
+ }catch(err){
+  $("peopleResults").innerHTML=`<div class="empty-list">Search failed: ${esc(err.message)}<br>Check your Firestore rules and indexes.</div>`;
+ }
+}
+$("peopleSearch").addEventListener("input",()=>{
+ clearTimeout(peopleTimer);peopleTimer=setTimeout(searchPeople,350);
+});
 function openModal(){
- $("modalTitle").textContent="Start a new chat";
- $("modalDescription").textContent="Enter the email address of an existing ChatWave user.";
- $("modalFieldLabel").textContent="Their email address";
- $("modalInput").type="email";$("modalInput").placeholder="person@example.com";$("modalInput").value="";
- $("modalConfirm").textContent="Find user";$("modalNotice").className="notice hidden";
- $("modalBackdrop").classList.remove("hidden");
+ $("modalTitle").textContent="Find people";$("modalDescription").textContent="Search by username or email address.";
+ $("modalFieldLabel").textContent="Username or email";$("modalInput").type="text";$("modalInput").placeholder="@username or email@example.com";$("modalInput").value="";
+ $("modalConfirm").textContent="Search";$("modalNotice").className="notice hidden";$("modalBackdrop").classList.remove("hidden");
 }
 $("newChatBtn").addEventListener("click",openModal);
 $("modalCancel").addEventListener("click",()=>$("modalBackdrop").classList.add("hidden"));
 $("modalBackdrop").addEventListener("click",e=>{if(e.target===$("modalBackdrop"))$("modalBackdrop").classList.add("hidden")});
 $("modalForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const email=$("modalInput").value.trim().toLowerCase();if(!email||!currentUser)return;
+ e.preventDefault();const term=$("modalInput").value.trim().toLowerCase().replace(/^@/,"");if(!term||!currentUser)return;
  $("modalConfirm").disabled=true;$("modalConfirm").textContent="Searching…";
  try{
-  const usersSnap=await getDocs(query(collection(db,"users"),where("email","==",email),limit(1)));
-  if(usersSnap.empty){$("modalNotice").textContent="No ChatWave user was found with that email.";$("modalNotice").className="notice error";return}
-  const target=usersSnap.docs[0].data();
+  let snap;
+  if(term.includes("@"))snap=await getDocs(query(collection(db,"users"),where("email","==",term),limit(1)));
+  else snap=await getDocs(query(collection(db,"users"),where("usernameLower","==",term),limit(1)));
+  if(snap.empty){$("modalNotice").textContent="No user found. Check the username or email. Existing accounts without usernames can still be found by email.";$("modalNotice").className="notice error";return}
+  const target={uid:snap.docs[0].id,...snap.docs[0].data()};
   if(target.uid===currentUser.uid){$("modalNotice").textContent="You cannot start a chat with your own account.";$("modalNotice").className="notice error";return}
-  const existing=chats.find(c=>(c.members||[]).includes(target.uid));
-  if(existing){$("modalBackdrop").classList.add("hidden");await openChat(existing.id);return}
-  const members=[currentUser.uid,target.uid];
-  const memberNames={[currentUser.uid]:currentUser.displayName||currentUser.email.split("@")[0],[target.uid]:target.displayName||email.split("@")[0]};
-  const memberEmails={[currentUser.uid]:currentUser.email,[target.uid]:email};
-  const created=await addDoc(collection(db,"chats"),{members,memberNames,memberEmails,createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastMessage:"",unread:{[currentUser.uid]:0,[target.uid]:0}});
-  $("modalBackdrop").classList.add("hidden");await openChat(created.id);
+  await startChatWithUser(target);
  }catch(err){$("modalNotice").textContent=authError(err);$("modalNotice").className="notice error"}
- finally{$("modalConfirm").disabled=false;$("modalConfirm").textContent="Find user"}
+ finally{$("modalConfirm").disabled=false;$("modalConfirm").textContent="Search"}
 });
-
 function confirmDeleteAccount(){
- $("modalTitle").textContent="Delete your account?";
- $("modalDescription").textContent="This is permanent. Type DELETE to confirm. Existing messages may remain.";
- $("modalFieldLabel").textContent="Confirmation";
- $("modalInput").type="text";$("modalInput").placeholder="DELETE";$("modalInput").value="";
- $("modalConfirm").textContent="Delete account";$("modalNotice").className="notice hidden";
- $("modalBackdrop").classList.remove("hidden");
+ $("modalTitle").textContent="Delete your account?";$("modalDescription").textContent="This is permanent. Type DELETE to confirm. Existing messages may remain.";
+ $("modalFieldLabel").textContent="Confirmation";$("modalInput").type="text";$("modalInput").placeholder="DELETE";$("modalInput").value="";
+ $("modalConfirm").textContent="Delete account";$("modalNotice").className="notice hidden";$("modalBackdrop").classList.remove("hidden");
  $("modalForm").onsubmit=async e=>{
-  e.preventDefault();
-  if($("modalInput").value.trim()!=="DELETE"){$("modalNotice").textContent="Type DELETE exactly to continue.";$("modalNotice").className="notice error";return}
+  e.preventDefault();if($("modalInput").value.trim()!=="DELETE"){$("modalNotice").textContent="Type DELETE exactly to continue.";$("modalNotice").className="notice error";return}
   $("modalConfirm").disabled=true;
   try{await deleteDoc(doc(db,"users",currentUser.uid));await deleteUser(currentUser);$("modalBackdrop").classList.add("hidden")}
   catch(err){$("modalNotice").textContent=err.code==="auth/requires-recent-login"?"For security, sign in again before deleting your account.":"Could not delete account: "+authError(err);$("modalNotice").className="notice error"}
@@ -477,30 +424,21 @@ function confirmDeleteAccount(){
 }
 $("callBtn").addEventListener("click",()=>alert("Voice and video calling are not implemented yet."));
 $("infoBtn").addEventListener("click",()=>{
- if(activeChat){
-  const other=(activeChat.members||[]).find(m=>m!==currentUser.uid);
-  alert("Conversation with "+personName(activeChat)+"\nEmail: "+((activeChat.memberEmails||{})[other]||"Not available"));
- }
+ if(activeChat){const other=otherUid(activeChat);alert("Conversation with "+personName(activeChat)+"\nUsername: @"+((activeChat.memberUsernames||{})[other]||"Not set"))}
 });
-
 setPersistence(auth,browserLocalPersistence).catch(console.error);
 onAuthStateChanged(auth,async user=>{
  currentUser=user;
  if(!user){
-  if(stopChats){stopChats();stopChats=null}
-  if(stopMessages){stopMessages();stopMessages=null}
-  chats=[];activeChat=null;
-  $("appScreen").classList.add("hidden");$("authScreen").classList.remove("hidden");$("shell").classList.remove("in-chat");
-  return;
+  if(stopChats){stopChats();stopChats=null}if(stopMessages){stopMessages();stopMessages=null}
+  chats=[];activeChat=null;$("appScreen").classList.add("hidden");$("authScreen").classList.remove("hidden");$("shell").classList.remove("in-chat");return;
  }
- $("authScreen").classList.add("hidden");$("appScreen").classList.remove("hidden");
- $("sideAccountEmail").textContent=user.email||"No email available";
+ $("authScreen").classList.add("hidden");$("appScreen").classList.remove("hidden");$("sideAccountEmail").textContent=user.email||"No email available";
  try{
-  await setDoc(doc(db,"users",user.uid),{
-   uid:user.uid,email:user.email||"",
-   displayName:user.displayName||user.email?.split("@")[0]||"ChatWave user",
-   lastSeen:serverTimestamp()
-  },{merge:true});
+  const userRef=doc(db,"users",user.uid),existing=await getDoc(userRef),data=existing.exists()?existing.data():{};
+  const fallback=(user.email?.split("@")[0]||"user").toLowerCase().replace(/[^a-z0-9_]/g,"").slice(0,16)||"user";
+  const username=data.username||fallback+"_"+user.uid.slice(0,5).toLowerCase();
+  await setDoc(userRef,{uid:user.uid,email:user.email||"",displayName:data.displayName||user.displayName||fallback,username,usernameLower:username.toLowerCase(),lastSeen:serverTimestamp()},{merge:true});
  }catch(err){console.warn("Profile write failed",err)}
  watchChats();showTab("chats");
 });
