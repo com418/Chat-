@@ -2,422 +2,420 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#07111f">
-<title>ChatWave — Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090d19">
+<title>ChatWave Admin</title>
 
 <style>
 :root {
   color-scheme: dark;
-  --bg: #07111f;
-  --panel: rgba(18, 32, 52, .78);
-  --line: rgba(255,255,255,.09);
-  --muted: #91a2bb;
-  --text: #f4f7ff;
-  --blue: #66a9ff;
-  --green: #50e3a4;
-  --red: #ff6b81;
+  --bg: #090d19;
+  --glass: rgba(255,255,255,.065);
+  --line: rgba(255,255,255,.12);
+  --text: #f5f7ff;
+  --muted: #929bb3;
+  --blue: #6d8cff;
+  --cyan: #5de4ff;
+  --green: #65e6b1;
+  --red: #ff7e94;
 }
 * { box-sizing: border-box; }
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background:
-    radial-gradient(ellipse at 10% 0%, #18385b 0%, transparent 42%),
-    radial-gradient(ellipse at 100% 100%, #123d3c 0%, transparent 35%),
-    var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Segoe UI", sans-serif;
   color: var(--text);
+  background:
+    radial-gradient(ellipse at 5% 0%, #1b3162 0, transparent 40%),
+    radial-gradient(ellipse at 100% 30%, #30204d 0, transparent 36%),
+    var(--bg);
 }
 button, input { font: inherit; }
 button { cursor: pointer; }
 .hidden { display: none !important; }
-.muted { color: var(--muted); }
-.small { font-size: 12px; }
+
 .glass {
-  background: var(--panel);
+  background: var(--glass);
   border: 1px solid var(--line);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-radius: 20px;
+  backdrop-filter: blur(26px) saturate(155%);
+  -webkit-backdrop-filter: blur(26px) saturate(155%);
+  box-shadow: 0 18px 55px #00000020,
+              inset 0 1px 0 #ffffff08;
+  border-radius: 24px;
 }
 button:focus-visible, input:focus-visible {
-  outline: 2px solid var(--blue);
+  outline: 2px solid var(--cyan);
   outline-offset: 3px;
 }
+
 #loginScreen {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 20px;
+  padding: 22px;
 }
-.login-card { width: 100%; max-width: 420px; padding: 30px; }
+.login-card {
+  width: min(100%, 420px);
+  padding: 32px;
+}
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 22px;
   font-weight: 800;
-  letter-spacing: -.7px;
+  letter-spacing: -.5px;
+  font-size: 22px;
 }
 .logo {
-  width: 45px;
-  height: 45px;
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
   display: grid;
   place-items: center;
-  border-radius: 15px;
-  background: linear-gradient(135deg, #66a9ff, #7b79ff);
   color: white;
-  font-weight: 900;
+  font-size: 22px;
+  background: linear-gradient(135deg, #6d8cff, #9a70ff);
+  box-shadow: 0 8px 30px #6d8cff50;
 }
-input {
-  width: 100%;
-  color: var(--text);
-  background: rgba(255,255,255,.045);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 14px;
-  margin-top: 8px;
-  outline: none;
-}
-input:focus { border-color: var(--blue); }
-.field { margin-top: 18px; }
-label { font-size: 13px; color: #c2cde0; }
-.btn {
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  color: var(--text);
-  background: rgba(255,255,255,.06);
-}
-.btn-primary {
-  background: linear-gradient(135deg, #398cff, #756cff);
-  border: 0;
-  font-weight: 700;
-}
-.btn:disabled { opacity: .5; cursor: wait; }
-.full { width: 100%; margin-top: 22px; }
-#loginMessage, #appMessage {
-  margin-top: 14px;
-  color: var(--red);
+h1 { font-size: 30px; letter-spacing: -1px; margin: 30px 0 8px; }
+p { color: var(--muted); line-height: 1.6; }
+.field-label {
+  display: block;
   font-size: 13px;
-  overflow-wrap: anywhere;
+  color: #cbd2e4;
+  margin: 18px 0 8px;
 }
-#dashboard { min-height: 100vh; }
+.field {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 15px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: #060a14a8;
+  padding: 0 15px;
+}
+.field:focus {
+  border-color: #6d8cff;
+  outline: none;
+  box-shadow: 0 0 0 4px #6d8cff20;
+}
+.btn {
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0 16px;
+  color: var(--text);
+  background: #ffffff0b;
+  transition: transform .18s, background .18s, border-color .18s;
+}
+.btn:hover { background: #ffffff17; border-color: #ffffff35; }
+.btn:active { transform: scale(.98); }
+.btn.primary {
+  color: white;
+  border: 0;
+  background: linear-gradient(135deg, #6285ff, #8965ef);
+  box-shadow: 0 8px 25px #6d8cff30;
+}
+.btn:disabled { opacity: .55; cursor: wait; }
+.full { width: 100%; margin-top: 22px; }
+.message { font-size: 13px; min-height: 18px; overflow-wrap: anywhere; }
+.error { color: var(--red); }
+.success { color: var(--green); }
+
+#appShell { display: none; }
+#appShell.visible { display: block; }
 .topbar {
   position: sticky;
   top: 0;
   z-index: 5;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 15px;
-  padding: 15px 24px;
-  background: rgba(7,17,31,.78);
-  backdrop-filter: blur(22px);
-  border-bottom: 1px solid var(--line);
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px clamp(16px, 4vw, 42px);
+  background: #090d19a8;
+  border-bottom: 1px solid #ffffff12;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
-.top-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.topbar .brand { font-size: 19px; }
+.topbar .logo { width: 38px; height: 38px; border-radius: 13px; }
+.top-actions { display: flex; gap: 9px; }
 .layout {
-  display: grid;
-  grid-template-columns: 220px minmax(0,1fr);
-  gap: 24px;
-  max-width: 1500px;
-  padding: 24px;
+  width: min(1440px, 100%);
   margin: auto;
+  padding: 28px clamp(14px, 3vw, 36px) 50px;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 22px;
 }
 .sidebar {
-  padding: 16px;
-  height: max-content;
+  padding: 15px;
+  align-self: start;
   position: sticky;
   top: 90px;
+}
+.nav-title {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-size: 10px;
+  padding: 12px 10px;
 }
 .nav-item {
   width: 100%;
   text-align: left;
+  margin: 3px 0;
   padding: 13px;
-  border-radius: 12px;
-  margin: 4px 0;
-  color: var(--muted);
+  border-radius: 14px;
+  color: #c3cbe0;
   background: transparent;
   border: 1px solid transparent;
 }
 .nav-item.active {
   color: white;
-  background: rgba(102,169,255,.13);
-  border-color: rgba(102,169,255,.2);
+  border-color: #849aff35;
+  background: linear-gradient(110deg, #6d8cff30, #9b75ff12);
 }
-main { min-width: 0; }
+.main { min-width: 0; }
 .page-heading {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  margin: 4px 0 22px;
+  margin-bottom: 22px;
 }
-h1 { font-size: clamp(25px,4vw,34px); margin: 0 0 8px; letter-spacing: -1px; }
-h2 { font-size: 17px; margin: 0; }
-p { line-height: 1.6; }
+.page-heading h1 { margin: 0; font-size: clamp(25px, 3vw, 35px); }
+.page-heading p { margin: 7px 0 0; }
 .stats {
   display: grid;
-  grid-template-columns: repeat(3,minmax(0,1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
 }
-.stat { padding: 20px; min-width: 0; }
-.stat-label { color: var(--muted); font-size: 13px; }
-.stat-value { font-size: clamp(25px,4vw,34px); font-weight: 800; margin-top: 13px; }
-.stat-note { font-size: 12px; color: var(--green); margin-top: 8px; }
-.section { padding: 20px; margin-top: 20px; min-width: 0; }
-.section-head {
+.stat { padding: 21px; min-width: 0; }
+.stat-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 17px;
-}
-.search { max-width: 340px; margin: 0; }
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; min-width: 570px; }
-th, td {
-  text-align: left;
-  padding: 15px 12px;
-  border-bottom: 1px solid var(--line);
+  gap: 8px;
+  color: var(--muted);
   font-size: 13px;
 }
-th { color: var(--muted); font-weight: 600; }
-td { overflow-wrap: anywhere; }
-.pill {
-  display: inline-block;
-  border-radius: 99px;
-  padding: 5px 9px;
-  background: rgba(80,227,164,.1);
-  color: var(--green);
-  font-size: 11px;
+.stat-number {
+  font-size: clamp(26px, 3vw, 35px);
+  font-weight: 750;
+  letter-spacing: -1px;
+  margin-top: 17px;
 }
-.pill.pending { color: #ffcc80; background: rgba(255,204,128,.1); }
-.pill.other { color: #a9b8cf; background: rgba(169,184,207,.1); }
-.avatar {
-  width: 36px;
-  height: 36px;
-  flex: 0 0 36px;
-  border-radius: 50%;
+.stat-icon {
+  width: 38px;
+  height: 38px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg,#3c8cff,#8b78ff);
-  font-weight: 700;
+  border-radius: 13px;
+  background: #ffffff0d;
 }
-.user-cell { display: flex; align-items: center; gap: 10px; }
-.empty { text-align: center; padding: 30px; color: var(--muted); }
-#loading { color: var(--muted); padding: 24px 0; }
-.footer { color: var(--muted); font-size: 12px; padding: 24px 0; }
+.panel { padding: 22px; min-width: 0; }
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.panel-heading h2 { font-size: 18px; margin: 0; }
+.search { max-width: 320px; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 490px; }
+th {
+  text-align: left;
+  padding: 12px 10px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
+td {
+  padding: 15px 10px;
+  border-top: 1px solid #ffffff0c;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+tbody tr:hover { background: #ffffff05; }
+.user-name { font-weight: 650; }
+.user-email { color: var(--muted); font-size: 12px; margin-top: 5px; }
+.pill {
+  display: inline-block;
+  border: 1px solid #65e6b138;
+  background: #65e6b112;
+  color: var(--green);
+  border-radius: 30px;
+  padding: 5px 9px;
+  font-size: 11px;
+}
+.empty { text-align: center; color: var(--muted); padding: 30px; }
+.footer-note { font-size: 12px; color: var(--muted); margin-top: 18px; }
 .mobile-nav { display: none; }
-@media(max-width: 850px) {
-  .layout { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+
+@media (max-width: 850px) {
+  .layout { grid-template-columns: 1fr; padding-top: 18px; }
   .sidebar { display: none; }
-  .mobile-nav { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 18px; }
-  .mobile-nav .nav-item { min-width: max-content; width: auto; }
-  .stats { gap: 10px; }
-  .stat { padding: 15px; }
+  .mobile-nav {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px;
+    margin-bottom: 18px;
+  }
+  .mobile-nav .nav-item { white-space: nowrap; width: auto; }
 }
-@media(max-width: 520px) {
+@media (max-width: 560px) {
   .topbar { padding: 12px 14px; }
-  .topbar .brand { font-size: 18px; }
-  .topbar .logo { width: 38px; height: 38px; }
-  .top-actions .btn { padding: 9px 10px; font-size: 12px; }
-  .layout { padding: 13px; }
-  .stats { grid-template-columns: 1fr 1fr; }
+  .topbar .brand { font-size: 16px; }
+  .top-actions .btn { padding: 0 11px; min-height: 40px; }
+  .layout { padding: 15px 12px 35px; gap: 12px; }
+  .stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat { padding: 15px; border-radius: 19px; }
   .stat:last-child { grid-column: 1 / -1; }
-  .section { padding: 14px; }
-  .login-card { padding: 23px; }
+  .stat-number { margin-top: 11px; }
+  .panel { padding: 15px; border-radius: 20px; }
+  .login-card { padding: 24px 20px; }
+  h1 { font-size: 27px; }
+  .search { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
 }
 </style>
 </head>
-
 <body>
 
 <section id="loginScreen">
-  <div class="glass login-card">
+  <div class="login-card glass">
     <div class="brand">
-      <div class="logo">C</div>
-      <div>ChatWave<div class="muted small">Administration</div></div>
+      <div class="logo">✦</div>
+      <span>ChatWave <span style="color:#91a9ff">Admin</span></span>
     </div>
-    <h1 style="font-size:27px;margin-top:32px">Welcome back</h1>
-    <p class="muted">Sign in with your authorized administrator account.</p>
+    <h1>Welcome back.</h1>
+    <p>Sign in to manage your ChatWave dashboard.</p>
 
     <form id="loginForm">
-      <div class="field">
-        <label for="email">Admin email</label>
-        <input id="email" type="email" autocomplete="username"
-          placeholder="admin@example.com" required>
-      </div>
-      <div class="field">
-        <label for="password">Password</label>
-        <input id="password" type="password" autocomplete="current-password"
-          placeholder="Your password" required>
-      </div>
-      <button id="loginButton" class="btn btn-primary full" type="submit">
+      <label class="field-label" for="email">Email address</label>
+      <input class="field" id="email" type="email"
+        autocomplete="username" required
+        placeholder="you@example.com">
+
+      <label class="field-label" for="password">Password</label>
+      <input class="field" id="password" type="password"
+        autocomplete="current-password" required
+        placeholder="Your password">
+
+      <button class="btn primary full" id="loginBtn" type="submit">
         Sign in securely
       </button>
-      <div id="loginMessage" role="alert"></div>
+      <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
     </form>
-    <p class="muted small">Admin access only. New customer accounts cannot access this dashboard.</p>
   </div>
 </section>
 
-<section id="dashboard" class="hidden">
+<section id="appShell">
   <header class="topbar">
     <div class="brand">
-      <div class="logo">C</div>
-      <span>ChatWave <span class="muted">Admin</span></span>
+      <div class="logo">✦</div>
+      <span>ChatWave <span style="color:#91a9ff">Admin</span></span>
     </div>
     <div class="top-actions">
-      <button id="refreshButton" class="btn" type="button">↻ Refresh</button>
-      <button id="logoutButton" class="btn" type="button">Sign out</button>
+      <button class="btn" id="refreshBtn">↻ Refresh</button>
+      <button class="btn" id="logoutBtn">Sign out</button>
     </div>
   </header>
 
   <div class="layout">
-    <aside class="glass sidebar">
-      <div class="muted small" style="padding:10px 12px">WORKSPACE</div>
-      <button class="nav-item active" data-page="overview">◫ &nbsp; Overview</button>
-      <button class="nav-item" data-page="users">♙ &nbsp; Customers</button>
-      <button class="nav-item" data-page="security">◇ &nbsp; Security</button>
-      <div class="muted small" style="padding:18px 12px 8px">CONNECTED PROJECT</div>
-      <div style="padding:8px 12px;font-size:13px;overflow-wrap:anywhere">
-        <span style="color:var(--green)">●</span> chat-2c557
-      </div>
+    <aside class="sidebar glass">
+      <div class="nav-title">Workspace</div>
+      <button class="nav-item active">◈ &nbsp; Overview</button>
+      <button class="nav-item" id="usersNav">♙ &nbsp; Users</button>
+      <div class="nav-title">System</div>
+      <button class="nav-item" id="securityNav">⌑ &nbsp; Security</button>
     </aside>
 
-    <main>
-      <nav class="mobile-nav">
-        <button class="nav-item active" data-page="overview">Overview</button>
-        <button class="nav-item" data-page="users">Customers</button>
-        <button class="nav-item" data-page="security">Security</button>
+    <main class="main">
+      <nav class="mobile-nav glass">
+        <button class="nav-item active" data-section="overview">◈ Overview</button>
+        <button class="nav-item" data-section="users">♙ Users</button>
+        <button class="nav-item" data-section="security">⌑ Security</button>
       </nav>
 
       <div class="page-heading">
         <div>
           <h1 id="pageTitle">Overview</h1>
-          <div class="muted" id="welcomeText">Your ChatWave workspace at a glance.</div>
+          <p id="welcomeText">Your ChatWave workspace at a glance.</p>
         </div>
-        <span class="pill" id="connectionPill">Checking connection</span>
+        <span class="pill">● Connected</span>
       </div>
 
-      <div id="appMessage" role="status"></div>
-
-      <section id="overviewPage">
+      <section id="overviewSection">
         <div class="stats">
-          <div class="glass stat">
-            <div class="stat-label">Registered customers</div>
-            <div class="stat-value" id="userCount">—</div>
-            <div class="stat-note">Firestore users collection</div>
+          <div class="stat glass">
+            <div class="stat-top"><span>Total users</span><span class="stat-icon">♙</span></div>
+            <div class="stat-number" id="totalUsers">—</div>
           </div>
-          <div class="glass stat">
-            <div class="stat-label">Active accounts</div>
-            <div class="stat-value" id="activeCount">—</div>
-            <div class="stat-note">Based on accountStatus</div>
+          <div class="stat glass">
+            <div class="stat-top"><span>Active accounts</span><span class="stat-icon">✓</span></div>
+            <div class="stat-number" id="activeUsers">—</div>
           </div>
-          <div class="glass stat">
-            <div class="stat-label">Pending accounts</div>
-            <div class="stat-value" id="pendingCount">—</div>
-            <div class="stat-note">Based on accountStatus</div>
+          <div class="stat glass">
+            <div class="stat-top"><span>Other statuses</span><span class="stat-icon">◷</span></div>
+            <div class="stat-number" id="otherUsers">—</div>
           </div>
-        </div>
-
-        <section class="glass section">
-          <div class="section-head">
-            <h2>Recent customers</h2>
-            <button class="btn" data-page="users" type="button">View all →</button>
-          </div>
-          <div id="loading">Loading customer records…</div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr>
-                <th>Customer</th><th>Status</th><th>Account ID</th>
-              </tr></thead>
-              <tbody id="recentRows"></tbody>
-            </table>
-          </div>
-          <div id="recentEmpty" class="empty hidden">No customer records found.</div>
-        </section>
-      </section>
-
-      <section id="usersPage" class="hidden">
-        <div class="glass section" style="margin-top:0">
-          <div class="section-head">
-            <div>
-              <h2>Customer directory</h2>
-              <p class="muted small">Read-only view of existing user profiles.</p>
-            </div>
-            <input id="searchInput" class="search" type="search"
-              placeholder="Search name or email…">
-          </div>
-          <div id="usersLoading" class="muted">Loading customers…</div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr>
-                <th>Customer</th><th>Email</th><th>Status</th><th>Account ID</th>
-              </tr></thead>
-              <tbody id="allUserRows"></tbody>
-            </table>
-          </div>
-          <div id="usersEmpty" class="empty hidden">No matching customers.</div>
         </div>
       </section>
 
-      <section id="securityPage" class="hidden">
-        <div class="glass section" style="margin-top:0">
-          <h2>Security & connection</h2>
-          <p class="muted">This dashboard uses Firebase Authentication and Cloud Firestore.</p>
-          <div class="field">
-            <label>Firebase project</label>
-            <p>chat-2c557</p>
-          </div>
-          <div class="field">
-            <label>Signed-in administrator</label>
-            <p id="adminEmail">—</p>
-          </div>
-          <div class="field">
-            <label>Administrator UID</label>
-            <p id="adminUid" style="overflow-wrap:anywhere">—</p>
-          </div>
-          <div class="field">
-            <label>Customer data access</label>
-            <p class="muted">Read-only. This page does not create, delete, or suspend customer accounts.</p>
-          </div>
-          <p class="muted small">Access control must also be enforced by Firebase security rules. Hiding dashboard elements is not a security boundary.</p>
+      <section id="usersSection" class="panel glass">
+        <div class="panel-heading">
+          <h2>Customer directory</h2>
+          <input class="field search" id="searchInput"
+            type="search" placeholder="Search name or email…"
+            aria-label="Search users">
         </div>
+        <div id="dataMessage" class="message" role="status" aria-live="polite"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>User</th><th>Status</th><th>Email verified</th></tr>
+            </thead>
+            <tbody id="userRows">
+              <tr><td colspan="3" class="empty">Sign in to load users.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="footer-note">User records are displayed from your Firestore users collection.</div>
       </section>
 
-      <div class="footer">ChatWave Administration · Firebase connected workspace</div>
+      <section id="securitySection" class="panel glass hidden" style="margin-top:20px">
+        <div class="panel-heading"><h2>Security overview</h2></div>
+        <p>Signed-in administrator:</p>
+        <p id="adminEmail" style="color:#fff;overflow-wrap:anywhere"></p>
+        <p>This page does not change account permissions. Enforce administrator access in Firestore Security Rules as well as in the interface.</p>
+      </section>
     </main>
   </div>
 </section>
 
 <script type="module">
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-
 import {
-  getFirestore,
-  collection,
-  getDocs,
-  query,
-  limit
+  getFirestore, collection, getDocs, limit, query
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-/*
- * CHATWAVE FIREBASE CONFIGURATION
- */
 const firebaseConfig = {
   apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
   authDomain: "chat-2c557.firebaseapp.com",
@@ -428,309 +426,160 @@ const firebaseConfig = {
   appId: "1:74313204354:web:c735269d502b88a39eea9b"
 };
 
-/*
- * Only this Firebase Authentication UID may open this UI.
- * Firestore rules must independently enforce the same admin permission.
- */
+// This must match the administrator UID you confirmed.
 const ADMIN_UID = "GmD5BMWqmUSj84w75v9sBuvEmx22";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
 const $ = id => document.getElementById(id);
 
-let customers = [];
-let currentPage = "overview";
-let loadingData = false;
+let allUsers = [];
 
-function showMessage(message, isError = true) {
-  $("appMessage").textContent = message;
-  $("appMessage").style.color = isError ? "var(--red)" : "var(--green)";
+function message(id, text, type = "") {
+  const el = $(id);
+  el.textContent = text;
+  el.className = "message" + (type ? " " + type : "");
 }
-
-function friendlyError(error) {
-  const code = error?.code || "";
-  const messages = {
-    "auth/invalid-credential":
-      "Incorrect email or password. Check your Firebase Authentication account.",
-    "auth/invalid-email":
-      "Please enter a valid email address.",
-    "auth/too-many-requests":
-      "Too many attempts. Wait a while before trying again.",
-    "auth/network-request-failed":
-      "Network error. Check your internet connection.",
-    "permission-denied":
-      "Firestore denied access. Your security rules must authorize this administrator.",
-    "unavailable":
-      "Firebase is temporarily unavailable. Try refreshing."
-  };
-  return messages[code] ||
-    error?.message ||
-    "Something went wrong. Please try again.";
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  })[c]);
 }
-
-function setPage(page) {
-  currentPage = page;
-
-  for (const name of ["overview", "users", "security"]) {
-    $(name + "Page").classList.toggle("hidden", name !== page);
-  }
-
-  document.querySelectorAll("[data-page]").forEach(button => {
-    button.classList.toggle("active", button.dataset.page === page);
-  });
-
-  $("pageTitle").textContent =
-    page === "users" ? "Customers" :
-    page === "security" ? "Security" : "Overview";
-}
-
-document.querySelectorAll("[data-page]").forEach(button => {
-  button.addEventListener("click", () => setPage(button.dataset.page));
-});
-
-function safeText(value, fallback = "—") {
-  return typeof value === "string" && value.trim()
-    ? value.trim()
-    : fallback;
-}
-
-function statusFor(user) {
-  return safeText(user.accountStatus, "unknown").toLowerCase();
-}
-
-function statusPill(status) {
-  const span = document.createElement("span");
-  span.className = "pill";
-  span.textContent = status;
-
-  if (status === "pending" || status === "suspended") {
-    span.classList.add("pending");
-  } else if (status !== "active") {
-    span.classList.add("other");
-  }
-
-  return span;
-}
-
-function addCell(row, value) {
-  const cell = document.createElement("td");
-  cell.textContent = value;
-  row.appendChild(cell);
-  return cell;
-}
-
-function addCustomerCell(row, user) {
-  const cell = document.createElement("td");
-  const wrapper = document.createElement("div");
-  wrapper.className = "user-cell";
-
-  const avatar = document.createElement("div");
-  avatar.className = "avatar";
-
-  const name = safeText(user.name, "Unnamed customer");
-  avatar.textContent = name.charAt(0).toUpperCase();
-
-  const details = document.createElement("div");
-  const nameText = document.createElement("div");
-  nameText.textContent = name;
-
-  const sub = document.createElement("div");
-  sub.className = "muted small";
-  sub.textContent = safeText(user.email, "");
-
-  details.append(nameText, sub);
-  wrapper.append(avatar, details);
-  cell.appendChild(wrapper);
-  row.appendChild(cell);
-}
-
-function renderRecent() {
-  const tbody = $("recentRows");
-  tbody.replaceChildren();
-
-  customers.slice(0, 5).forEach(user => {
-    const row = document.createElement("tr");
-    addCustomerCell(row, user);
-
-    const statusCell = document.createElement("td");
-    statusCell.appendChild(statusPill(statusFor(user)));
-    row.appendChild(statusCell);
-
-    addCell(row, safeText(user.id));
-    tbody.appendChild(row);
-  });
-
-  $("recentEmpty").classList.toggle("hidden", customers.length > 0);
-}
-
-function renderAllUsers() {
-  const tbody = $("allUserRows");
-  tbody.replaceChildren();
-
-  const term = $("searchInput").value.trim().toLowerCase();
-  const filtered = customers.filter(user => {
-    const searchable = [
-      user.name, user.email, user.id, user.accountStatus
-    ].map(value => String(value || "")).join(" ").toLowerCase();
-
-    return searchable.includes(term);
-  });
-
-  filtered.forEach(user => {
-    const row = document.createElement("tr");
-    addCustomerCell(row, user);
-    addCell(row, safeText(user.email));
-
-    const statusCell = document.createElement("td");
-    statusCell.appendChild(statusPill(statusFor(user)));
-    row.appendChild(statusCell);
-
-    addCell(row, safeText(user.id));
-    tbody.appendChild(row);
-  });
-
-  $("usersEmpty").classList.toggle("hidden", filtered.length > 0);
-}
-
-$("searchInput").addEventListener("input", renderAllUsers);
-
-function renderStats() {
-  $("userCount").textContent = customers.length.toLocaleString();
-  $("activeCount").textContent = customers.filter(
-    user => statusFor(user) === "active"
-  ).length.toLocaleString();
-
-  $("pendingCount").textContent = customers.filter(
-    user => statusFor(user) === "pending"
-  ).length.toLocaleString();
-
-  renderRecent();
-  renderAllUsers();
-}
-
-async function loadCustomers() {
-  if (loadingData) return;
-  loadingData = true;
-
-  $("loading").classList.remove("hidden");
-  $("usersLoading").classList.remove("hidden");
-  showMessage("");
-
-  try {
-    /*
-     * Reads existing records only.
-     * This assumes each document in users has the customer's profile data.
-     */
-    const snapshot = await getDocs(
-      query(collection(db, "users"), limit(500))
-    );
-
-    customers = snapshot.docs.map(documentSnapshot => ({
-      id: documentSnapshot.id,
-      ...documentSnapshot.data()
-    }));
-
-    renderStats();
-
-    $("connectionPill").textContent = "● Connected";
-    $("connectionPill").className = "pill";
-    showMessage("Customer records loaded successfully.", false);
-
-  } catch (error) {
-    console.error("ChatWave customer loading error:", error);
-
-    $("connectionPill").textContent = "Access error";
-    $("connectionPill").className = "pill pending";
-    showMessage(friendlyError(error));
-
-  } finally {
-    loadingData = false;
-    $("loading").classList.add("hidden");
-    $("usersLoading").classList.add("hidden");
-  }
-}
-
-function showDashboard(user) {
-  $("loginScreen").classList.add("hidden");
-  $("dashboard").classList.remove("hidden");
-
-  $("adminEmail").textContent = user.email || "Email not available";
-  $("adminUid").textContent = user.uid;
+function showApp(user) {
+  $("loginScreen").style.display = "none";
+  $("appShell").classList.add("visible");
+  $("adminEmail").textContent = user.email || "Signed-in administrator";
   $("welcomeText").textContent = "Signed in as " + (user.email || "administrator");
-
-  loadCustomers();
 }
-
 function showLogin() {
-  $("dashboard").classList.add("hidden");
-  $("loginScreen").classList.remove("hidden");
-  $("loginMessage").textContent = "";
+  $("appShell").classList.remove("visible");
+  $("loginScreen").style.display = "grid";
+}
+function showSection(section) {
+  $("overviewSection").classList.toggle("hidden", section !== "overview");
+  $("usersSection").classList.toggle("hidden", section === "security");
+  $("securitySection").classList.toggle("hidden", section !== "security");
+  $("pageTitle").textContent =
+    section === "security" ? "Security" :
+    section === "users" ? "Users" : "Overview";
+
+  document.querySelectorAll("[data-section]").forEach(button => {
+    button.classList.toggle("active", button.dataset.section === section);
+  });
+  document.querySelectorAll(".sidebar .nav-item").forEach(button => {
+    button.classList.remove("active");
+  });
+  if (section === "overview") document.querySelector(".sidebar .nav-item")?.classList.add("active");
+  if (section === "users") $("usersNav").classList.add("active");
+  if (section === "security") $("securityNav").classList.add("active");
+}
+function renderUsers() {
+  const search = $("searchInput").value.trim().toLowerCase();
+  const filtered = allUsers.filter(user =>
+    String(user.name || user.displayName || "").toLowerCase().includes(search) ||
+    String(user.email || "").toLowerCase().includes(search)
+  );
+
+  $("userRows").innerHTML = filtered.length ? filtered.map(user => {
+    const name = user.name || user.displayName || "Unnamed user";
+    const status = user.accountStatus || user.status || "unknown";
+    return `<tr>
+      <td><div class="user-name">${escapeHtml(name)}</div>
+      <div class="user-email">${escapeHtml(user.email || "No email recorded")}</div></td>
+      <td><span class="pill">${escapeHtml(status)}</span></td>
+      <td>${user.emailVerified === true ? "Yes" : "Not confirmed"}</td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="3" class="empty">No matching users found.</td></tr>`;
+}
+async function loadUsers() {
+  message("dataMessage", "Loading users…");
+  $("refreshBtn").disabled = true;
+  try {
+    const snapshot = await getDocs(query(collection(db, "users"), limit(500)));
+    allUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    $("totalUsers").textContent = allUsers.length;
+    $("activeUsers").textContent = allUsers.filter(user =>
+      String(user.accountStatus || user.status || "").toLowerCase() === "active"
+    ).length;
+    $("otherUsers").textContent = allUsers.filter(user =>
+      String(user.accountStatus || user.status || "").toLowerCase() !== "active"
+    ).length;
+    renderUsers();
+    message("dataMessage", "Loaded " + allUsers.length + " user record(s).", "success");
+  } catch (error) {
+    console.error("Firestore read failed:", error);
+    allUsers = [];
+    renderUsers();
+    message("dataMessage",
+      error.code === "permission-denied"
+        ? "Firestore denied access. Check your Firestore rules for administrator read access."
+        : "Could not load users. Check your connection and Firebase settings.",
+      "error");
+  } finally {
+    $("refreshBtn").disabled = false;
+  }
 }
 
 $("loginForm").addEventListener("submit", async event => {
   event.preventDefault();
-
-  const button = $("loginButton");
-  const email = $("email").value.trim();
-  const password = $("password").value;
-
-  $("loginMessage").textContent = "";
+  const button = $("loginBtn");
   button.disabled = true;
   button.textContent = "Signing in…";
-
+  message("loginMessage", "");
   try {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-
-    if (result.user.uid !== ADMIN_UID) {
+    const credential = await signInWithEmailAndPassword(
+      auth, $("email").value.trim(), $("password").value
+    );
+    if (credential.user.uid !== ADMIN_UID) {
       await signOut(auth);
-      $("loginMessage").textContent =
-        "Access denied: this account is not the configured administrator.";
+      message("loginMessage", "This account is not the configured administrator.", "error");
+      return;
     }
-    // onAuthStateChanged opens the dashboard for the authorized UID.
-
+    $("password").value = "";
   } catch (error) {
-    console.error("ChatWave sign-in error:", error);
-    $("loginMessage").textContent = friendlyError(error);
-
+    console.error("Sign-in failed:", error);
+    const text = error.code === "auth/invalid-credential"
+      ? "Incorrect email or password."
+      : error.code === "auth/too-many-requests"
+      ? "Too many attempts. Wait and try again."
+      : error.code === "auth/network-request-failed"
+      ? "Network error. Check your internet connection."
+      : "Sign-in failed: " + (error.code || "unknown error");
+    message("loginMessage", text, "error");
   } finally {
     button.disabled = false;
     button.textContent = "Sign in securely";
   }
 });
 
-$("refreshButton").addEventListener("click", () => {
-  loadCustomers();
-});
-
-$("logoutButton").addEventListener("click", async () => {
-  try {
-    await signOut(auth);
-    customers = [];
-    showLogin();
-  } catch (error) {
-    showMessage(friendlyError(error));
-  }
-});
-
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async user => {
   if (!user) {
     showLogin();
     return;
   }
-
   if (user.uid !== ADMIN_UID) {
-    signOut(auth).catch(console.error);
+    await signOut(auth);
     showLogin();
-    $("loginMessage").textContent =
-      "Access denied: this account is not the configured administrator.";
+    message("loginMessage", "This account is not the configured administrator.", "error");
     return;
   }
+  showApp(user);
+  await loadUsers();
+});
 
-  showDashboard(user);
+$("refreshBtn").addEventListener("click", loadUsers);
+$("logoutBtn").addEventListener("click", async () => {
+  await signOut(auth);
+  showLogin();
+});
+$("searchInput").addEventListener("input", renderUsers);
+$("usersNav").addEventListener("click", () => showSection("users"));
+$("securityNav").addEventListener("click", () => showSection("security"));
+document.querySelectorAll("[data-section]").forEach(button => {
+  button.addEventListener("click", () => showSection(button.dataset.section));
 });
 </script>
-
 </body>
 </html>
