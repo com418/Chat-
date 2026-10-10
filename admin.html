@@ -1,399 +1,386 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#eaf8f3">
-<title>ChatWave — Connect. Chat. Share.</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090d16">
+<title>ChatWave Admin</title>
+
 <style>
-:root{--a:#16a085;--bg:#edf8f4;--text:#18302d;--muted:#71847f;--glass:rgba(255,255,255,.68);--border:rgba(255,255,255,.9)}
+:root {
+  --bg:#090d16;
+  --panel:#151b27;
+  --panel2:#101622;
+  --border:#293344;
+  --text:#f3f6fc;
+  --muted:#8995a8;
+  --cyan:#31d9e8;
+  --green:#36e69b;
+  --pink:#f05baf;
+}
 *{box-sizing:border-box}
-body{margin:0;font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 10% 10%,#c8f3e3,transparent 35%),radial-gradient(circle at 90% 85%,#dce6ff,transparent 35%),var(--bg);background-attachment:fixed;min-height:100vh}
-button,input,textarea{font:inherit}
-button{cursor:pointer;border:0}
-.hidden{display:none!important}
-.glass{background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 15px 45px #204c3c14;border-radius:22px}
-.btn{background:var(--a);color:white;padding:11px 15px;border-radius:13px;font-weight:700}
-.btn.secondary,.iconbtn{background:#ffffffa8;color:var(--text);border:1px solid #ffffffdb}
-.btn:disabled{opacity:.6;cursor:wait}
-.iconbtn{width:42px;height:42px;border-radius:14px;font-size:19px}
-.brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:850}
-.logo{width:42px;height:42px;display:grid;place-items:center;background:linear-gradient(135deg,var(--a),#7ce0c5);color:white;border-radius:15px}
-.auth{min-height:100vh;display:grid;place-items:center;padding:18px}
-.authcard{width:min(100%,440px);padding:26px}
-h1{font-size:28px;margin:20px 0 8px}
-.muted,.note{color:var(--muted);line-height:1.5}
-.field{display:grid;gap:7px;margin:14px 0}
-.field label{font-size:13px;font-weight:700}
-.field input,.field textarea,.search,.composer input{width:100%;padding:13px;border-radius:13px;border:1px solid #dce9e4;background:#ffffffc9;outline:none;color:var(--text)}
-.field textarea{min-height:90px;resize:vertical}
-.field input:focus,.field textarea:focus,.search:focus,.composer input:focus{border-color:var(--a)}
-.authswitch{display:flex;gap:8px;margin:18px 0}
-.authswitch button{flex:1}
-.app{max-width:1400px;margin:auto;padding:16px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 16px;margin-bottom:15px}
-.topactions{display:flex;align-items:center;gap:7px}
-.layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:15px;min-height:calc(100vh - 110px)}
-.sidebar{padding:15px;display:flex;flex-direction:column;gap:13px;min-width:0}
-.sideheading{display:flex;justify-content:space-between;align-items:center;font-size:19px;font-weight:800}
-.nav{display:flex;gap:6px}
-.nav button{flex:1;background:#ffffff85;color:var(--muted);border-radius:11px;padding:10px 4px;font-weight:700}
-.nav button.active{background:var(--a);color:white}
-.chatlist{display:flex;flex-direction:column;gap:5px;overflow:auto}
-.chatitem{display:flex;align-items:center;gap:10px;padding:10px;border-radius:15px;text-align:left;background:transparent;color:var(--text);width:100%}
-.chatitem:hover,.chatitem.active{background:#ffffffbd}
-.avatar{height:43px;width:43px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#bdebdc,#dbe4ff);color:#246b5b;font-weight:800;flex-shrink:0;overflow:hidden}
-.avatar img{height:100%;width:100%;object-fit:cover}
-.chatmeta{min-width:0;flex:1}
-.chatname{font-weight:750}
-.preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
-.main{display:flex;flex-direction:column;min-width:0;overflow:hidden;min-height:60vh}
-.panelhead{padding:17px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #ffffffb8}
-.panelhead h2{font-size:19px;margin:0}
-.sub{font-size:12px;color:var(--muted);margin-top:4px}
-.content{padding:20px;flex:1;overflow:auto}
-.empty{min-height:300px;display:grid;place-items:center;text-align:center;color:var(--muted)}
-.empty .big{font-size:48px}
-.messages{display:flex;flex-direction:column;gap:10px;min-height:260px}
-.bubble{max-width:80%;padding:11px 14px;border-radius:17px;background:#ffffffd9;align-self:flex-start;overflow-wrap:anywhere}
-.bubble.mine{align-self:flex-end;background:color-mix(in srgb,var(--a) 18%,white);border-bottom-right-radius:5px}
-.bubble time{display:block;text-align:right;font-size:10px;color:var(--muted);margin-top:5px}
-.composer{display:flex;gap:8px;padding:12px;border-top:1px solid #ffffffb8}
-.composer input{flex:1;min-width:0}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{padding:17px;border-radius:18px;border:1px solid #ffffffd9;background:#ffffff83;margin-bottom:12px}
-.card h3{margin:0 0 10px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #dfeae6}
-.row:last-child{border-bottom:0}
-.statusgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
-.statuscard{padding:12px;border:1px solid white;border-radius:17px;background:#ffffffad;overflow-wrap:anywhere}
-.statusmedia{width:100%;max-height:220px;object-fit:cover;border-radius:12px}
-.modal{position:fixed;inset:0;background:#132a2859;display:grid;place-items:center;padding:16px;z-index:10}
-.modalbox{width:min(100%,440px);padding:22px;max-height:90vh;overflow:auto}
-.modalhead{display:flex;justify-content:space-between;align-items:center}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#18302d;color:white;padding:12px 18px;border-radius:13px;z-index:30;max-width:90vw}
-footer{text-align:center;color:var(--muted);padding:15px;font-size:11px}
-body.dark{--bg:#10191d;--text:#e6f5f0;--muted:#9bb6af;--glass:rgba(20,35,38,.78);--border:#314846;background:radial-gradient(circle at 10% 10%,#173d35,transparent 35%),#10191d}
-body.dark .card,body.dark .statuscard,body.dark .chatitem:hover,body.dark .chatitem.active,body.dark .field input,body.dark .field textarea,body.dark .search,body.dark .composer input,body.dark .bubble,body.dark .nav button,body.dark .iconbtn,body.dark .btn.secondary{background:#1c3030;color:var(--text);border-color:#314846}
-body.dark .nav button.active{background:var(--a)}
-@media(max-width:800px){.app{padding:8px}.layout{grid-template-columns:1fr}.sidebar{padding:12px}.chatlist{max-height:210px}.main{min-height:55vh}.cards{grid-template-columns:1fr}.content{padding:14px}.panelhead{padding:14px}.topbar{padding:11px}.brand{font-size:18px}}
-@media(max-width:450px){.topactions .username{display:none}.authcard{padding:20px}.glass{border-radius:18px}.bubble{max-width:90%}}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:225px;background:#0c111c;border-right:1px solid var(--border);
+  padding:22px 14px;display:flex;flex-direction:column;flex-shrink:0;
+}
+.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;margin:0 8px 36px}
+.logo{
+  width:35px;height:35px;display:grid;place-items:center;border-radius:11px;
+  color:#071018;background:linear-gradient(135deg,var(--cyan),#64f5c4);
+  box-shadow:0 0 24px #31d9e833;font-size:19px
+}
+.nav{display:grid;gap:8px}
+.nav button{
+  background:transparent;border:0;color:var(--muted);text-align:left;
+  padding:13px 12px;border-radius:10px;display:flex;gap:12px;align-items:center
+}
+.nav button.active,.nav button:hover{
+  color:var(--cyan);background:#172a35;border-left:3px solid var(--cyan)
+}
+.nav .ico{width:18px;text-align:center}
+.side-bottom{margin-top:auto;color:var(--muted);font-size:12px;padding:15px 8px}
+.main{min-width:0;flex:1}
+.topbar{
+  height:66px;border-bottom:1px solid var(--border);display:flex;
+  align-items:center;gap:16px;padding:0 25px;background:#0c111bd9;
+  position:sticky;top:0;z-index:5;backdrop-filter:blur(18px)
+}
+.menu{background:none;color:var(--text);border:0;font-size:21px}
+.search{max-width:390px;flex:1;position:relative}
+.search input{
+  width:100%;background:var(--panel);border:1px solid var(--border);
+  border-radius:9px;color:var(--text);padding:11px 13px;outline:none
+}
+.top-right{margin-left:auto;color:var(--muted);font-size:12px}
+.content{padding:27px;max-width:1500px;margin:auto}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+h1{font-size:24px;margin:0 0 8px}
+.subtitle{color:var(--muted);font-size:12px}
+.pill{
+  border:1px solid #285d60;color:var(--cyan);background:#122b31;
+  border-radius:20px;padding:8px 12px;font-size:12px
+}
+.stats{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;margin:25px 0 20px
+}
+.card{
+  background:linear-gradient(145deg,#171e2b,#121823);
+  border:1px solid var(--border);border-radius:13px;padding:19px;
+  box-shadow:0 8px 28px #00000013;min-width:0
+}
+.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.stat-icon{
+  width:40px;height:40px;display:grid;place-items:center;
+  border-radius:11px;font-size:19px
+}
+.cyan{background:#143a49;color:var(--cyan)}
+.green{background:#153d32;color:var(--green)}
+.pink{background:#42223a;color:var(--pink)}
+.blue{background:#193b55;color:#54c8ff}
+.stat-label{color:#a1adbf;font-size:12px}
+.stat-value{font-size:30px;font-weight:750;margin:16px 0 8px}
+.stat-note{font-size:11px;color:var(--muted)}
+.charts{
+  display:grid;grid-template-columns:minmax(0,1.65fr) minmax(270px,1fr);
+  gap:16px
+}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+.card-head h3{font-size:14px;margin:0}
+.filters{display:flex;gap:5px}
+.filters button{
+  border:1px solid transparent;background:transparent;color:var(--muted);
+  padding:6px 9px;border-radius:6px;font-size:11px
+}
+.filters button.active{background:#123b43;color:var(--cyan);border-color:#1b5961}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.legend{display:flex;justify-content:center;gap:17px;flex-wrap:wrap;margin-top:10px;color:var(--muted);font-size:11px}
+.legend span{display:flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:360px;text-align:left}
+th,td{padding:12px 8px;border-bottom:1px solid var(--border);font-size:12px}
+th{color:var(--muted);font-weight:500}
+td{color:#dfe6f1}
+.status{color:var(--green);background:#15372e;padding:5px 8px;border-radius:15px;font-size:10px}
+.notice{color:#d6b875;background:#302817;border:1px solid #5b4926;padding:12px;border-radius:9px;font-size:12px;margin-top:18px;line-height:1.6}
+.page{display:none}
+.page.active{display:block}
+.login-screen{
+  min-height:100vh;display:grid;place-items:center;padding:20px;
+  background:radial-gradient(ellipse at top,#14303d 0%,var(--bg) 60%)
+}
+.login-card{width:100%;max-width:400px;background:var(--panel);border:1px solid var(--border);padding:28px;border-radius:18px}
+.login-card h2{margin-top:0}
+.login-card input{display:block;width:100%;padding:13px;margin:12px 0;background:#0b111b;border:1px solid var(--border);border-radius:9px;color:white}
+.primary{width:100%;padding:13px;border:0;border-radius:9px;background:linear-gradient(90deg,var(--cyan),#6ef1bf);color:#06121a;font-weight:750}
+#error{color:#ff8b9a;font-size:12px;line-height:1.5}
+@media(max-width:1050px){
+ .sidebar{width:190px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .charts{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+ .sidebar{width:62px;padding:18px 7px}
+ .brand{margin:0 5px 30px}.brand-name,.nav-label,.side-bottom{display:none}
+ .nav button{justify-content:center;padding:13px 5px}
+ .content{padding:18px 12px}.topbar{padding:0 13px;height:58px}
+ .top-right{display:none}.stats{gap:9px;margin:19px 0}
+ .card{padding:13px}.stat-value{font-size:25px}.stat-icon{width:34px;height:34px}
+ .lower{grid-template-columns:1fr}
+ h1{font-size:21px}
+}
 </style>
 </head>
+
 <body>
-
-<section id="authView" class="auth">
- <div class="authcard glass">
-  <div class="brand"><span class="logo"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2 1-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11h8M8 14h5"/></svg></span>ChatWave</div>
-  <h1 id="authTitle">Welcome back</h1>
-  <p class="muted" id="authSubtitle">Sign in to continue your conversations.</p>
-  <div class="authswitch"><button class="btn" id="loginTab">Sign in</button><button class="btn secondary" id="signupTab">Create account</button></div>
-  <form id="authForm">
-   <div class="field hidden" id="nameField"><label for="nameInput">Display name</label><input id="nameInput" autocomplete="name" placeholder="Your name"></div>
-   <div class="field"><label for="emailInput">Email</label><input id="emailInput" type="email" required autocomplete="email" placeholder="you@example.com"></div>
-   <div class="field"><label for="passwordInput">Password</label><input id="passwordInput" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"></div>
-   <button class="btn" id="authSubmit" style="width:100%">Sign in</button>
+<div id="loginScreen" class="login-screen">
+  <form class="login-card" id="loginForm">
+    <div class="brand" style="margin:0 0 25px">
+      <div class="logo">✦</div><span>ChatWave <span style="color:var(--cyan)">Admin</span></span>
+    </div>
+    <h2>Welcome back</h2>
+    <p class="subtitle">Sign in with your authorized administrator account.</p>
+    <input id="email" type="email" placeholder="Administrator email" required autocomplete="username">
+    <input id="password" type="password" placeholder="Password" required autocomplete="current-password">
+    <button class="primary" type="submit">Sign in securely</button>
+    <p id="error"></p>
   </form>
-  <button class="btn secondary" id="forgotBtn" style="width:100%;margin-top:9px">Forgot password?</button>
-  <p class="note">Your account and messages use Firebase. Enable Email/Password sign-in and create a Firestore database in Firebase Console.</p>
-  <p class="note" id="authMessage" role="status"></p>
- </div>
-</section>
+</div>
 
-<section id="appView" class="app hidden">
- <header class="topbar glass">
-  <div class="brand"><span class="logo"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2 1-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11h8M8 14h5"/></svg></span>ChatWave</div>
-  <div class="topactions"><span id="topUser" class="username"></span><button class="iconbtn" id="newChatBtn" aria-label="New chat">＋</button><button class="iconbtn" id="settingsBtn" aria-label="Settings">⚙</button><button class="iconbtn" id="signOutBtn" aria-label="Sign out">↪</button></div>
- </header>
- <div class="layout">
-  <aside class="sidebar glass">
-   <div class="sideheading">Messages <button id="refreshBtn" class="iconbtn" aria-label="Refresh">↻</button></div>
-   <input id="searchInput" class="search" placeholder="Search conversations…">
-   <nav class="nav"><button class="active" data-view="chats">Chats</button><button data-view="status">Status</button><button data-view="profile">Profile</button></nav>
-   <div id="chatList" class="chatlist"><p class="muted">Your conversations appear here.</p></div>
+<div id="app" class="app" style="display:none">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">✦</div><span class="brand-name">ChatWave</span></div>
+    <nav class="nav">
+      <button class="active" data-page="dashboard"><span class="ico">◈</span><span class="nav-label">Dashboard</span></button>
+      <button data-page="users"><span class="ico">♙</span><span class="nav-label">Users</span></button>
+      <button data-page="chats"><span class="ico">▤</span><span class="nav-label">Chats</span></button>
+      <button data-page="analytics"><span class="ico">▥</span><span class="nav-label">Analytics</span></button>
+      <button data-page="settings"><span class="ico">⚙</span><span class="nav-label">Settings</span></button>
+      <button id="logout"><span class="ico">⇥</span><span class="nav-label">Logout</span></button>
+    </nav>
+    <div class="side-bottom">CHATWAVE ADMIN<br>Dashboard preview</div>
   </aside>
-  <main class="main glass">
-   <div class="panelhead" id="mainHeader"><div><h2>Welcome to ChatWave</h2><div class="sub">Connect. Chat. Share.</div></div></div>
-   <div class="content" id="mainContent"><div class="empty"><div><div class="big">💬</div><h2>Your conversations start here</h2><p>Choose a chat or start a new one.</p><button class="btn" id="startChatBtn">Start a chat</button></div></div></div>
-   <form id="composer" class="composer hidden"><input id="messageInput" maxlength="4000" placeholder="Write a message…" autocomplete="off"><button class="btn">Send</button></form>
-  </main>
- </div>
- <footer>ChatWave · Connect. Chat. Share.</footer>
-</section>
 
-<div id="modal" class="modal hidden"><div class="modalbox glass"><div class="modalhead"><h2 id="modalTitle">ChatWave</h2><button class="iconbtn" id="modalClose">×</button></div><div id="modalBody"></div></div></div>
-<div id="toast" class="toast hidden" role="status"></div>
+  <main class="main">
+    <header class="topbar">
+      <button class="menu" id="menuBtn" aria-label="Toggle sidebar">☰</button>
+      <div class="search"><input id="search" placeholder="Search dashboard..." aria-label="Search"></div>
+      <div class="top-right" id="adminLabel">Administrator</div>
+    </header>
+
+    <div class="content">
+      <section class="page active" id="dashboard">
+        <div class="heading">
+          <div><h1>◈ Dashboard</h1><div class="subtitle">Your ChatWave platform at a glance</div></div>
+          <span class="pill">● Admin overview</span>
+        </div>
+
+        <div class="stats">
+          <div class="card">
+            <div class="stat-top"><span class="stat-label">Total Users</span><span class="stat-icon cyan">♙</span></div>
+            <div class="stat-value" id="totalUsers">—</div><div class="stat-note">Registered profiles</div>
+          </div>
+          <div class="card">
+            <div class="stat-top"><span class="stat-label">Active Now</span><span class="stat-icon green">◉</span></div>
+            <div class="stat-value" id="activeUsers">—</div><div class="stat-note">Requires live presence tracking</div>
+          </div>
+          <div class="card">
+            <div class="stat-top"><span class="stat-label">Total Chats</span><span class="stat-icon pink">▤</span></div>
+            <div class="stat-value" id="totalChats">—</div><div class="stat-note">Conversation records</div>
+          </div>
+          <div class="card">
+            <div class="stat-top"><span class="stat-label">Messages Today</span><span class="stat-icon blue">✉</span></div>
+            <div class="stat-value" id="messagesToday">—</div><div class="stat-note">Requires message analytics access</div>
+          </div>
+        </div>
+
+        <div class="charts">
+          <div class="card">
+            <div class="card-head"><h3>User Activity</h3>
+              <div class="filters">
+                <button class="active" data-range="week">Week</button>
+                <button data-range="month">Month</button>
+                <button data-range="year">Year</button>
+              </div>
+            </div>
+            <svg class="chart" viewBox="0 0 600 250" role="img" aria-label="Illustrative user activity chart">
+              <g stroke="#2b3545" stroke-width="1">
+                <path d="M45 25H580 M45 70H580 M45 115H580 M45 160H580 M45 205H580"/>
+                <path d="M45 25V205 M135 25V205 M225 25V205 M315 25V205 M405 25V205 M495 25V205 M580 25V205"/>
+              </g>
+              <g fill="#8491a5" font-size="10">
+                <text x="8" y="208">0</text><text x="5" y="163">50</text><text x="0" y="118">100</text><text x="0" y="73">150</text><text x="0" y="28">200</text>
+                <text x="40" y="226">Mon</text><text x="128" y="226">Tue</text><text x="218" y="226">Wed</text><text x="307" y="226">Thu</text><text x="397" y="226">Fri</text><text x="486" y="226">Sat</text><text x="565" y="226">Sun</text>
+              </g>
+              <path d="M45 165 C90 150 105 145 135 130 S190 95 225 100 S280 120 315 125 S370 140 405 105 S465 65 495 75 S545 100 580 85 L580 205 L45 205Z" fill="#36e69b" opacity=".12"/>
+              <path d="M45 165 C90 150 105 145 135 130 S190 95 225 100 S280 120 315 125 S370 140 405 105 S465 65 495 75 S545 100 580 85" fill="none" stroke="#36e69b" stroke-width="2.5"/>
+              <path d="M45 195 C90 190 110 185 135 180 S190 165 225 175 S280 185 315 180 S370 165 405 175 S460 155 495 165 S545 170 580 160" fill="none" stroke="#31d9e8" stroke-width="2.5"/>
+            </svg>
+            <div class="legend"><span><i class="dot" style="background:var(--green)"></i>Active users</span><span><i class="dot" style="background:var(--cyan)"></i>New accounts</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>User Distribution</h3><span class="subtitle">Illustrative</span></div>
+            <div style="display:grid;place-items:center;padding:10px">
+              <svg viewBox="0 0 220 220" width="100%" style="max-width:250px" role="img" aria-label="Illustrative distribution doughnut chart">
+                <circle cx="110" cy="110" r="70" fill="none" stroke="#343b49" stroke-width="30"/>
+                <circle cx="110" cy="110" r="70" fill="none" stroke="#31d9e8" stroke-width="30" stroke-dasharray="145 440" transform="rotate(-90 110 110)"/>
+                <circle cx="110" cy="110" r="70" fill="none" stroke="#f05baf" stroke-width="30" stroke-dasharray="105 440" stroke-dashoffset="-155" transform="rotate(-90 110 110)"/>
+                <text x="110" y="106" text-anchor="middle" fill="#f3f6fc" font-size="20" font-weight="700">—</text>
+                <text x="110" y="125" text-anchor="middle" fill="#8995a8" font-size="10">Profiles</text>
+              </svg>
+            </div>
+            <div class="legend"><span><i class="dot" style="background:var(--cyan)"></i>Complete</span><span><i class="dot" style="background:var(--pink)"></i>Pending</span><span><i class="dot" style="background:#646b77"></i>Other</span></div>
+          </div>
+        </div>
+
+        <div class="notice">Preview mode: chart lines and distribution are sample visuals. Live statistics will appear only after administrator access and Firestore permissions are configured.</div>
+      </section>
+
+      <section class="page" id="users">
+        <div class="heading"><div><h1>Users</h1><p class="subtitle">Registered ChatWave accounts</p></div></div>
+        <div class="card" style="margin-top:22px">
+          <h3>User management</h3>
+          <p class="subtitle">The live user list will be connected after admin permissions are set up.</p>
+        </div>
+      </section>
+
+      <section class="page" id="chats">
+        <div class="heading"><div><h1>Chats</h1><p class="subtitle">Conversation activity overview</p></div></div>
+        <div class="card" style="margin-top:22px">
+          <h3>Conversation management</h3>
+          <p class="subtitle">Chat metadata can be shown to authorized administrators. Private message contents should not be exposed unnecessarily.</p>
+        </div>
+      </section>
+
+      <section class="page" id="analytics">
+        <div class="heading"><div><h1>Analytics</h1><p class="subtitle">Platform activity and trends</p></div></div>
+        <div class="card" style="margin-top:22px"><h3>Analytics setup</h3><p class="subtitle">Real daily and monthly trends require recorded event timestamps or aggregated analytics data.</p></div>
+      </section>
+
+      <section class="page" id="settings">
+        <div class="heading"><div><h1>Settings</h1><p class="subtitle">Administrator session and preferences</p></div></div>
+        <div class="card" style="margin-top:22px">
+          <h3>Administrator account</h3>
+          <p id="settingsEmail" class="subtitle">Not signed in</p>
+          <button class="pill" id="settingsLogout">Sign out</button>
+          <p class="subtitle" style="margin-top:20px">Security note: administrator access must be enforced by Firestore rules or trusted backend authorization, not merely by hiding this page.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
 
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile,sendEmailVerification,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import {getFirestore,collection,doc,setDoc,getDoc,getDocs,addDoc,query,where,orderBy,limit,onSnapshot,serverTimestamp,deleteDoc} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-const firebaseConfig={
- apiKey:"PASTE_YOUR_FIREBASE_WEB_API_KEY",
- authDomain:"chat-2c557.firebaseapp.com",
- projectId:"chat-2c557",
- storageBucket:"chat-2c557.firebasestorage.app",
- messagingSenderId:"PASTE_YOUR_SENDER_ID",
- appId:"PASTE_YOUR_FIREBASE_APP_ID"
+const firebaseConfig = {
+  apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
+  authDomain: "chat-2c557.firebaseapp.com",
+  databaseURL: "https://chat-2c557-default-rtdb.firebaseio.com",
+  projectId: "chat-2c557",
+  storageBucket: "chat-2c557.firebasestorage.app",
+  messagingSenderId: "74313204354",
+  appId: "1:74313204354:web:c735269d502b88a39eea9b"
 };
 
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-const $=id=>document.getElementById(id);
-const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let user=null,profile={},mode="login",activeChat=null,stopChats=null,stopMessages=null,stopStatuses=null,chats=[],accent=localStorage.getItem("cw_accent")||"#16a085";
-document.documentElement.style.setProperty("--a",accent);
-if(localStorage.getItem("cw_dark")==="1")document.body.classList.add("dark");
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-function notify(message){
- $("toast").textContent=message;
- $("toast").classList.remove("hidden");
- clearTimeout(window.cwTimer);
- window.cwTimer=setTimeout(()=>$("toast").classList.add("hidden"),3500);
-}
-function errText(e){
- console.error(e);
- const map={"auth/email-already-in-use":"That email already has an account. Sign in instead.","auth/invalid-email":"Enter a valid email address.","auth/weak-password":"Use at least 6 characters for your password.","auth/invalid-credential":"Email or password is incorrect.","auth/network-request-failed":"Network error. Check your connection.","permission-denied":"Firebase denied access. Check your Firestore rules."};
- return map[e.code]||e.message||"Something went wrong.";
-}
-function makeChatId(a,b){return [a,b].sort().join("_")}
-function avatar(p={},name="User"){
- return `<div class="avatar">${p.photoURL?`<img src="${esc(p.photoURL)}" alt="">`:esc((name||"U").trim().charAt(0).toUpperCase())}</div>`;
-}
-function setMode(next){
- mode=next;const signup=mode==="signup";
- $("authTitle").textContent=signup?"Create your account":"Welcome back";
- $("authSubtitle").textContent=signup?"Join ChatWave and start connecting.":"Sign in to continue your conversations.";
- $("nameField").classList.toggle("hidden",!signup);
- $("authSubmit").textContent=signup?"Create account":"Sign in";
- $("loginTab").className=signup?"btn secondary":"btn";
- $("signupTab").className=signup?"btn":"btn secondary";
- $("authMessage").textContent="";
-}
-$("loginTab").onclick=()=>setMode("login");
-$("signupTab").onclick=()=>setMode("signup");
+// IMPORTANT: Add your administrator UID here in the next setup step.
+// Do not use an email-only check as your security boundary.
+const ADMIN_UIDS = [
+  "REPLACE_WITH_YOUR_ADMIN_FIREBASE_UID"
+];
 
-$("authForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const button=$("authSubmit");button.disabled=true;
- button.textContent=mode==="signup"?"Creating account…":"Signing in…";
- $("authMessage").textContent="";
- try{
-  const email=$("emailInput").value.trim(),password=$("passwordInput").value;
-  if(mode==="signup"){
-   const name=$("nameInput").value.trim();
-   if(!name)throw new Error("Please enter your display name.");
-   const cred=await createUserWithEmailAndPassword(auth,email,password);
-   await updateProfile(cred.user,{displayName:name});
-   await setDoc(doc(db,"users",cred.user.uid),{uid:cred.user.uid,name,email,bio:"",photoURL:"",createdAt:serverTimestamp(),lastSeen:serverTimestamp()});
-   try{await sendEmailVerification(cred.user);notify("Account created. Check your email to verify it.");}
-   catch(e){console.warn(e);notify("Account created. Request verification from Settings.");}
-  }else{
-   await signInWithEmailAndPassword(auth,email,password);
+const loginScreen = document.getElementById("loginScreen");
+const dashboard = document.getElementById("app");
+const error = document.getElementById("error");
+
+document.getElementById("loginForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  error.textContent = "Signing in…";
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      document.getElementById("email").value.trim(),
+      document.getElementById("password").value
+    );
+  } catch (e) {
+    error.textContent = e.message || "Unable to sign in.";
   }
- }catch(e){$("authMessage").textContent=errText(e);}
- finally{button.disabled=false;button.textContent=mode==="signup"?"Create account":"Sign in";}
-});
-$("forgotBtn").onclick=async()=>{
- const email=$("emailInput").value.trim();
- if(!email){notify("Enter your email address first.");return;}
- try{await sendPasswordResetEmail(auth,email);notify("If the account exists, a reset email has been sent.");}
- catch(e){notify(errText(e));}
-};
-$("signOutBtn").onclick=()=>signOut(auth).catch(e=>notify(errText(e)));
-$("refreshBtn").onclick=loadChats;
-$("newChatBtn").onclick=openNewChat;
-$("startChatBtn").onclick=openNewChat;
-$("settingsBtn").onclick=renderSettings;
-$("searchInput").addEventListener("input",renderChatList);
-$("modalClose").onclick=closeModal;
-$("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
-document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{
- document.querySelectorAll("[data-view]").forEach(x=>x.classList.remove("active"));
- b.classList.add("active");
- if(b.dataset.view==="chats")renderHome();
- if(b.dataset.view==="status")renderStatus();
- if(b.dataset.view==="profile")renderProfile();
 });
 
-onAuthStateChanged(auth,async u=>{
- user=u;
- if(stopChats)stopChats();if(stopMessages)stopMessages();if(stopStatuses)stopStatuses();
- stopChats=stopMessages=stopStatuses=null;activeChat=null;
- if(!u){$("authView").classList.remove("hidden");$("appView").classList.add("hidden");return;}
- try{
-  const snap=await getDoc(doc(db,"users",u.uid));
-  profile=snap.exists()?snap.data():{uid:u.uid,name:u.displayName||"User",email:u.email||"",bio:"",photoURL:u.photoURL||""};
-  if(!snap.exists())await setDoc(doc(db,"users",u.uid),{...profile,createdAt:serverTimestamp()},{merge:true});
-  $("topUser").textContent=profile.name||u.displayName||"My account";
-  $("authView").classList.add("hidden");$("appView").classList.remove("hidden");
-  renderHome();loadChats();
- }catch(e){notify(errText(e));}
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    loginScreen.style.display = "grid";
+    dashboard.style.display = "none";
+    return;
+  }
+
+  if (ADMIN_UIDS.includes("REPLACE_WITH_YOUR_ADMIN_FIREBASE_UID") ||
+      !ADMIN_UIDS.includes(user.uid)) {
+    loginScreen.style.display = "grid";
+    dashboard.style.display = "none";
+    error.textContent =
+      "Your account is signed in, but administrator access has not been configured for this UID.";
+    signOut(auth).catch(() => {});
+    return;
+  }
+
+  loginScreen.style.display = "none";
+  dashboard.style.display = "flex";
+  document.getElementById("adminLabel").textContent = user.email || "Administrator";
+  document.getElementById("settingsEmail").textContent = user.email || user.uid;
 });
 
-function renderHome(){
- $("composer").classList.add("hidden");
- $("mainHeader").innerHTML="<div><h2>Welcome to ChatWave</h2><div class='sub'>Select a conversation or start a new one.</div></div>";
- $("mainContent").innerHTML='<div class="empty"><div><div class="big">💬</div><h2>Your conversations start here</h2><p>Chat with other registered users.</p><button class="btn" id="homeNewChat">Start a chat</button></div></div>';
- $("homeNewChat").onclick=openNewChat;
+async function logout() {
+  await signOut(auth);
 }
-async function loadChats(){
- if(!user)return;
- try{
-  if(stopChats)stopChats();
-  const q=query(collection(db,"chats"),where("members","array-contains",user.uid));
-  stopChats=onSnapshot(q,async snap=>{
-   const result=await Promise.all(snap.docs.map(async d=>{
-    const data=d.data(),other=(data.members||[]).find(id=>id!==user.uid);
-    if(!other)return null;
-    const us=await getDoc(doc(db,"users",other));
-    return {id:d.id,...data,other,user:us.exists()?us.data():{uid:other,name:"ChatWave user",email:""}};
-   }));
-   chats=result.filter(Boolean);
-   renderChatList();
-  },e=>notify(errText(e)));
- }catch(e){notify(errText(e));}
-}
-function renderChatList(){
- const needle=$("searchInput").value.trim().toLowerCase();
- const filtered=chats.filter(c=>(c.user.name||"").toLowerCase().includes(needle)||(c.user.email||"").toLowerCase().includes(needle));
- $("chatList").innerHTML=filtered.length?"":'<p class="muted">No conversations found.</p>';
- filtered.forEach(c=>{
-  const b=document.createElement("button");b.className="chatitem"+(activeChat?.id===c.id?" active":"");
-  b.innerHTML=`${avatar(c.user,c.user.name)}<div class="chatmeta"><div class="chatname">${esc(c.user.name||"ChatWave user")}</div><div class="preview">${esc(c.user.email||"Open conversation")}</div></div>`;
-  b.onclick=()=>openChat(c);$("chatList").appendChild(b);
- });
-}
-async function openNewChat(){
- showModal("Start a conversation",`<form id="findUserForm"><div class="field"><label>Find by exact email address</label><input id="findUserEmail" type="email" required placeholder="friend@example.com"></div><button class="btn" style="width:100%">Find user</button></form><p class="note">The other person must already have a ChatWave account.</p>`);
- $("findUserForm").onsubmit=async e=>{
-  e.preventDefault();const email=$("findUserEmail").value.trim().toLowerCase();
-  try{
-   const snap=await getDocs(query(collection(db,"users"),where("email","==",email),limit(1)));
-   if(snap.empty){notify("No account found with that email.");return;}
-   const d=snap.docs[0],other=d.data();
-   if(other.uid===user.uid){notify("You cannot start a chat with yourself.");return;}
-   const id=makeChatId(user.uid,other.uid);
-   await setDoc(doc(db,"chats",id),{members:[user.uid,other.uid],updatedAt:serverTimestamp()},{merge:true});
-   closeModal();openChat({id,members:[user.uid,other.uid],other:other.uid,user:other});
-  }catch(error){notify(errText(error));}
- };
-}
-function openChat(chat){
- activeChat=chat;renderChatList();
- $("mainHeader").innerHTML=`<div style="display:flex;align-items:center;gap:10px">${avatar(chat.user,chat.user.name)}<div><h2>${esc(chat.user.name||"ChatWave user")}</h2><div class="sub">${esc(chat.user.email||"ChatWave member")}</div></div></div><button class="iconbtn" id="chatInfoBtn" aria-label="Conversation information">ⓘ</button>`;
- $("chatInfoBtn").onclick=()=>showModal("Conversation information",`<p><b>Name:</b> ${esc(chat.user.name||"ChatWave user")}</p><p><b>Email:</b> ${esc(chat.user.email||"Not available")}</p><p class="note">Messages are stored in your Firebase Firestore database.</p>`);
- $("mainContent").innerHTML='<div id="messages" class="messages"><p class="muted">Loading messages…</p></div>';
- $("composer").classList.remove("hidden");
- if(stopMessages)stopMessages();
- const q=query(collection(db,"chats",chat.id,"messages"),orderBy("createdAt","asc"),limit(200));
- stopMessages=onSnapshot(q,snap=>{
-  const box=$("messages");if(!box)return;
-  box.innerHTML="";
-  if(snap.empty){box.innerHTML='<p class="muted">Say hello and start the conversation.</p>';return;}
-  snap.forEach(d=>{
-   const m=d.data(),mine=m.senderId===user.uid;
-   const el=document.createElement("div");el.className="bubble"+(mine?" mine":"");
-   el.innerHTML=`${esc(m.text)}<time>${m.createdAt?.toDate?m.createdAt.toDate().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):"Sending…"}</time>`;
-   box.appendChild(el);
+document.getElementById("logout").addEventListener("click", logout);
+document.getElementById("settingsLogout").addEventListener("click", logout);
+
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("[data-page]").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    button.classList.add("active");
+    document.getElementById(button.dataset.page).classList.add("active");
   });
-  box.scrollTop=box.scrollHeight;
- },e=>notify(errText(e)));
-}
-$("composer").addEventListener("submit",async e=>{
- e.preventDefault();if(!activeChat)return;
- const input=$("messageInput"),text=input.value.trim();if(!text)return;
- input.value="";
- try{
-  await addDoc(collection(db,"chats",activeChat.id,"messages"),{text,senderId:user.uid,createdAt:serverTimestamp()});
-  await setDoc(doc(db,"chats",activeChat.id),{members:[user.uid,activeChat.other],updatedAt:serverTimestamp(),lastMessage:text},{merge:true});
- }catch(error){input.value=text;notify(errText(error));}
 });
 
-function showModal(title,html){
- $("modalTitle").textContent=title;$("modalBody").innerHTML=html;$("modal").classList.remove("hidden");
-}
-function closeModal(){$("modal").classList.add("hidden");$("modalBody").innerHTML="";}
-function renderProfile(){
- $("composer").classList.add("hidden");
- $("mainHeader").innerHTML="<div><h2>My profile</h2><div class='sub'>Manage your ChatWave details.</div></div>";
- $("mainContent").innerHTML=`
- <div class="card"><div style="display:flex;align-items:center;gap:12px">${avatar(profile,profile.name)}<div><h2>${esc(profile.name||"User")}</h2><div class="muted">${esc(user.email||"")}</div></div></div>
- <div class="field"><label>Display name</label><input id="profileName" maxlength="60" value="${esc(profile.name||"")}"></div>
- <div class="field"><label>About me</label><textarea id="profileBio" maxlength="250" placeholder="A little about you…">${esc(profile.bio||"")}</textarea></div>
- <button class="btn" id="saveProfile">Save profile</button></div>`;
- $("saveProfile").onclick=async()=>{
-  const name=$("profileName").value.trim();if(!name){notify("Enter a display name.");return;}
-  try{
-   profile={...profile,name,bio:$("profileBio").value.trim()};
-   await updateProfile(user,{displayName:name});
-   await setDoc(doc(db,"users",user.uid),{name,bio:profile.bio,lastSeen:serverTimestamp()},{merge:true});
-   $("topUser").textContent=name;notify("Profile updated.");
-  }catch(e){notify(errText(e));}
- };
-}
-function renderSettings(){
- $("composer").classList.add("hidden");
- $("mainHeader").innerHTML="<div><h2>Settings</h2><div class='sub'>Personalize your ChatWave experience.</div></div>";
- $("mainContent").innerHTML=`
- <section class="card"><h3>Appearance</h3>
- <div class="row"><span>Dark mode</span><input id="darkMode" type="checkbox" ${document.body.classList.contains("dark")?"checked":""}></div>
- <div class="field"><label>Accent color</label><input id="accentColor" type="color" value="${esc(accent)}"></div>
- <button class="btn" id="saveAppearance">Save appearance</button></section>
- <section class="card"><h3>Account security</h3>
- <div class="row"><div><b>Email verification</b><div class="muted">${user.emailVerified?"Your email is verified.":"Your email is not verified."}</div></div><button class="btn secondary" id="verifyEmail">${user.emailVerified?"Verified":"Verify email"}</button></div>
- <div class="row"><div><b>Password</b><div class="muted">Receive a secure password reset link.</div></div><button class="btn secondary" id="resetPassword">Reset</button></div>
- <p class="note">End-to-end encryption, two-step verification, linked devices and server-enforced blocking are not implemented in this prototype.</p></section>
- <section class="card"><h3>Notifications</h3><p class="muted">Browser notification support varies by device. Background notifications need additional Firebase Cloud Messaging setup.</p><button class="btn secondary" id="testNotification">Test notification</button></section>
- <section class="card"><h3>About ChatWave</h3><p class="muted">A responsive messaging prototype built with HTML, CSS, JavaScript and Firebase.</p><button class="btn secondary" id="signOutSettings">Sign out</button></section>`;
- $("saveAppearance").onclick=()=>{
-  accent=$("accentColor").value;localStorage.setItem("cw_accent",accent);
-  document.documentElement.style.setProperty("--a",accent);
-  document.body.classList.toggle("dark",$("darkMode").checked);
-  localStorage.setItem("cw_dark",$("darkMode").checked?"1":"0");
-  notify("Appearance saved.");
- };
- $("verifyEmail").onclick=async()=>{try{if(user.emailVerified){notify("Email already verified.");return;}await sendEmailVerification(user);notify("Verification email sent.");}catch(e){notify(errText(e));}};
- $("resetPassword").onclick=async()=>{try{await sendPasswordResetEmail(auth,user.email);notify("Password reset email sent.");}catch(e){notify(errText(e));}};
- $("testNotification").onclick=async()=>{
-  if(!("Notification" in window)){notify("Notifications are not supported in this browser.");return;}
-  try{const p=await Notification.requestPermission();if(p==="granted")new Notification("ChatWave",{body:"Notifications are enabled for this browser."});else notify("Notification permission was not granted.");}
-  catch{notify("Notifications are unavailable here.");}
- };
- $("signOutSettings").onclick=()=>signOut(auth);
-}
-function renderStatus(){
- $("composer").classList.add("hidden");
- $("mainHeader").innerHTML="<div><h2>Status updates</h2><div class='sub'>Share a moment with other users.</div></div><button id='addStatus' class='btn'>＋ Add status</button>";
- $("mainContent").innerHTML='<div id="statusGrid" class="statusgrid"></div><p class="note">Status updates are stored in Firestore. Expired statuses need scheduled backend cleanup.</p>';
- $("addStatus").onclick=()=>showModal("Create status",`<form id="statusForm"><div class="field"><label>What would you like to share?</label><textarea id="statusText" maxlength="500" required placeholder="Write a status…"></textarea></div><button class="btn" style="width:100%">Post status</button></form>`);
- const form=$("statusForm");
- if(form)form.onsubmit=async e=>{
-  e.preventDefault();const text=$("statusText").value.trim();if(!text)return;
-  try{
-   await addDoc(collection(db,"statuses"),{uid:user.uid,name:profile.name||user.displayName||"User",text,createdAt:serverTimestamp(),expiresAt:new Date(Date.now()+86400000)});
-   closeModal();notify("Status posted.");renderStatus();
-  }catch(error){notify(errText(error));}
- };
- if(stopStatuses)stopStatuses();
- stopStatuses=onSnapshot(query(collection(db,"statuses"),orderBy("createdAt","desc"),limit(50)),snap=>{
-  const grid=$("statusGrid");if(!grid)return;grid.innerHTML="";
-  const items=snap.docs.map(d=>({id:d.id,...d.data()})).filter(s=>!s.expiresAt?.toDate||s.expiresAt.toDate().getTime()>Date.now());
-  if(!items.length){grid.innerHTML='<p class="muted">No recent updates. Share the first one.</p>';return;}
-  items.forEach(s=>{
-   const card=document.createElement("article");card.className="statuscard";
-   card.innerHTML=`<b>${esc(s.name||"ChatWave user")}</b><p>${esc(s.text||"")}</p><div class="sub">${s.createdAt?.toDate?s.createdAt.toDate().toLocaleString():"Just now"}</div>${s.uid===user.uid?'<button class="btn secondary deleteStatus" style="margin-top:8px">Delete</button>':''}`;
-   card.querySelector(".deleteStatus")?.addEventListener("click",async()=>{
-    if(!confirm("Delete this status?"))return;
-    try{await deleteDoc(doc(db,"statuses",s.id));notify("Status deleted.");}catch(e){notify(errText(e));}
-   });
-   grid.appendChild(card);
+document.getElementById("menuBtn").addEventListener("click", () => {
+  const side = document.querySelector(".sidebar");
+  side.style.display = side.style.display === "none" ? "flex" : "none";
+});
+
+document.querySelectorAll("[data-range]").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("[data-range]").forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+    // Chart remains illustrative until real analytics data is connected.
   });
- },e=>notify(errText(e)));
-}
+});
+
+document.getElementById("search").addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    const q = event.target.value.trim().toLowerCase();
+    const match = [...document.querySelectorAll("[data-page]")]
+      .find(b => b.textContent.toLowerCase().includes(q));
+    if (match) match.click();
+  }
+});
 </script>
 </body>
 </html>
