@@ -1,768 +1,905 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#102432">
-<title>ChatWave</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<meta name="theme-color" content="#101a2b">
+<title>ChatWave — Connect. Chat. Share.</title>
 
 <style>
-:root {
-  --mint:#62f5cf;
-  --glass:rgba(14,34,48,.58);
-  --line:rgba(255,255,255,.17);
+:root{
+ --bg:#101a2b;--panel:rgba(255,255,255,.09);
+ --line:rgba(255,255,255,.13);--text:#f5f8ff;
+ --muted:#a9b6ca;--accent:#58dfc1;--blue:#6aa9ff;
+ --danger:#ff7777;--radius:22px;
 }
-* { box-sizing:border-box }
-html,body {
-  margin:0;width:100%;height:100%;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:#f4f8ff;
+*{box-sizing:border-box}
+body{
+ margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,
+ "Segoe UI",sans-serif;min-height:100vh;
+ background:radial-gradient(ellipse at 10% 5%,#234c69 0,transparent 40%),
+ radial-gradient(ellipse at 90% 80%,#274a57 0,transparent 35%),var(--bg);
 }
-body { overflow:hidden;background:#07151e }
-.wall {
-  position:fixed;inset:0;z-index:-2;
-  background:
-    radial-gradient(ellipse at 15% 12%,#236a8e 0,transparent 38%),
-    radial-gradient(ellipse at 85% 85%,#176c68 0,transparent 35%),
-    linear-gradient(135deg,#102b45,#081925 55%,#173b49);
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;color:inherit}
+button:disabled{opacity:.45;cursor:not-allowed}
+input,textarea,select{
+ color:var(--text);background:rgba(0,0,0,.17);
+ border:1px solid var(--line);border-radius:13px;padding:12px;
+ width:100%;outline:none;
 }
-.glass {
-  background:var(--glass);
-  border:1px solid var(--line);
-  box-shadow:0 18px 60px #0003,inset 0 1px #ffffff18;
-  backdrop-filter:blur(28px) saturate(155%);
-  -webkit-backdrop-filter:blur(28px) saturate(155%);
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+option{background:#172338}
+button:focus-visible{outline:2px solid var(--accent)}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+h1,h2,h3,p{margin-top:0}
+h2{font-size:20px}
+h3{font-size:15px}
+.glass{
+ background:var(--panel);border:1px solid var(--line);
+ backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);
+ border-radius:var(--radius);
 }
-.field {
-  width:100%;color:#f4f8ff;background:#ffffff0e;
-  border:1px solid #ffffff25;border-radius:15px;
-  padding:14px;outline:none;
+.btn{
+ border:1px solid var(--line);background:rgba(255,255,255,.08);
+ padding:11px 15px;border-radius:13px;
 }
-.field::placeholder { color:#bdcedc99 }
-.field:focus { border-color:#62f5cfaa;box-shadow:0 0 0 3px #62f5cf1a }
-.primary {
-  background:linear-gradient(135deg,#62f5cf,#5bc1e7);
-  color:#08262d;font-weight:750;border-radius:15px;padding:13px;
+.btn.primary{background:var(--accent);color:#09251f;border:0;font-weight:700}
+.btn.danger{color:#ff9a9a}
+.btn.full{width:100%}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.stack{display:flex;flex-direction:column;gap:13px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:13px;color:var(--muted)}
+.avatar{
+ width:43px;height:43px;border-radius:50%;flex-shrink:0;
+ display:grid;place-items:center;overflow:hidden;
+ background:linear-gradient(135deg,#59e0bf,#588eff);
+ color:#071a25;font-weight:800;
 }
-.secondary {
-  background:#ffffff12;border:1px solid var(--line);
-  border-radius:15px;padding:13px;color:#f4f8ff;
+.avatar img{width:100%;height:100%;object-fit:cover}
+.pill{font-size:11px;padding:5px 9px;border-radius:30px;
+ background:rgba(88,223,193,.13);color:var(--accent)}
+#auth{
+ min-height:100vh;display:grid;place-items:center;padding:20px;
 }
-#authPage,#verifyPage {
-  position:fixed;inset:0;display:flex;align-items:center;
-  justify-content:center;padding:18px;overflow:auto;
+.auth-card{width:min(430px,100%);padding:28px}
+.brand{font-size:27px;font-weight:850;letter-spacing:-1px}
+.brand span{color:var(--accent)}
+#app{
+ min-height:100vh;display:grid;
+ grid-template-columns:76px 300px minmax(0,1fr);
+ gap:12px;padding:12px;max-width:1700px;margin:auto;
 }
-.auth-card { width:min(100%,420px);padding:28px;border-radius:28px }
-#chatPage {
-  height:100dvh;width:100%;padding:12px;
-  display:grid;grid-template-columns:68px minmax(255px,330px) minmax(0,1fr);
-  gap:10px;min-height:0;
+.rail{padding:14px 9px;display:flex;flex-direction:column;
+ align-items:center;gap:10px}
+.rail-logo{font-size:23px;color:var(--accent);font-weight:900;margin:9px}
+.nav-btn{
+ width:49px;height:49px;border-radius:16px;border:0;
+ background:transparent;font-size:20px;
 }
-.rail,.contacts,.conversation {
-  min-height:0;min-width:0;border-radius:24px;overflow:hidden;
+.nav-btn.active,.nav-btn:hover{background:rgba(88,223,193,.15)}
+.sidebar{padding:19px;min-width:0;min-height:calc(100vh - 24px)}
+.side-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.side-head .brand{font-size:22px}
+#sideSearch{margin:17px 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{padding:8px 11px;border-radius:12px;border:0;background:transparent;color:var(--muted)}
+.tab.active{background:rgba(88,223,193,.15);color:var(--accent)}
+#statusStrip{display:flex;gap:12px;overflow-x:auto;padding:14px 0}
+.status-person{flex:0 0 64px;width:64px;text-align:center;
+ border:0;background:transparent;font-size:11px;overflow:hidden}
+.status-ring{padding:3px;border-radius:50%;border:2px solid var(--accent);margin:auto auto 6px;width:53px;height:53px}
+.status-ring.unseen{border-color:#8a77ff}
+.status-ring img,.status-ring .avatar{width:100%;height:100%;border-radius:50%}
+.status-person .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-list{display:flex;flex-direction:column;gap:4px}
+.user-item{
+ display:flex;align-items:center;gap:11px;padding:11px;
+ border:1px solid transparent;border-radius:16px;
+ background:transparent;text-align:left;width:100%;min-width:0;
 }
-.rail {
-  display:flex;flex-direction:column;align-items:center;
-  padding:14px 8px;gap:10px;
+.user-item:hover,.user-item.selected{background:rgba(255,255,255,.08);border-color:var(--line)}
+.user-info{min-width:0;flex:1}
+.user-info strong,.user-info small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user-info small{margin-top:4px;color:var(--muted)}
+.main{min-width:0;min-height:calc(100vh - 24px);padding:22px;position:relative}
+#emptyState{height:100%;min-height:400px;display:grid;place-items:center;text-align:center}
+.empty-icon{font-size:48px;margin-bottom:12px}
+#chatPanel{height:calc(100vh - 68px);min-height:420px;display:flex;flex-direction:column}
+.chat-head{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.chat-head .user-info{flex:1}
+.messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:11px;padding:18px 2px}
+.message{max-width:min(75%,520px);padding:11px 13px;border-radius:17px;
+ background:rgba(255,255,255,.09);border:1px solid var(--line);overflow-wrap:anywhere}
+.message.mine{align-self:flex-end;background:rgba(88,223,193,.16);border-color:rgba(88,223,193,.25)}
+.message img{max-width:100%;max-height:300px;object-fit:contain;border-radius:10px;display:block}
+.message time{display:block;text-align:right;color:var(--muted);font-size:10px;margin-top:5px}
+.composer{display:flex;gap:8px;align-items:center;padding-top:12px;border-top:1px solid var(--line)}
+.composer input{flex:1;min-width:0}
+.page{display:none}
+.page.active{display:block}
+.page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.settings-layout{display:grid;grid-template-columns:190px minmax(0,1fr);gap:20px}
+.settings-nav{display:flex;flex-direction:column;gap:6px}
+.settings-nav button{text-align:left}
+.settings-content{min-width:0}
+.setting-card{padding:17px;margin-bottom:14px}
+.setting-item{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:13px 0;border-bottom:1px solid var(--line)}
+.setting-item:last-child{border:0}
+.setting-item .desc{font-size:12px;color:var(--muted);margin-top:4px}
+.switch{width:44px;height:25px;position:relative;flex-shrink:0}
+.switch input{width:0;height:0;opacity:0}
+.switch span{position:absolute;inset:0;border-radius:20px;background:#526074;cursor:pointer}
+.switch span:before{content:"";position:absolute;width:19px;height:19px;top:3px;left:3px;border-radius:50%;background:white;transition:.2s}
+.switch input:checked+span{background:var(--accent)}
+.switch input:checked+span:before{transform:translateX(19px);background:#102b27}
+.status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:13px}
+.status-card{padding:10px;min-width:0;text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.05);border-radius:18px}
+.status-thumb{width:100%;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:linear-gradient(145deg,#325c75,#182337);display:grid;place-items:center;margin-bottom:10px}
+.status-thumb img,.status-thumb video{width:100%;height:100%;object-fit:cover}
+.status-thumb .status-words{padding:13px;font-size:19px;text-align:center;overflow-wrap:anywhere}
+.modal{
+ position:fixed;inset:0;z-index:20;background:rgba(3,8,17,.76);
+ backdrop-filter:blur(12px);display:grid;place-items:center;padding:18px;
 }
-.mark {
-  width:43px;height:43px;border-radius:15px;display:grid;
-  place-items:center;background:linear-gradient(140deg,#72f6d0,#68aaff);
-  color:#082a34;font-weight:900;font-size:23px;
+.modal-card{width:min(520px,100%);max-height:90vh;overflow-y:auto;padding:23px}
+#viewer{z-index:30}
+.viewer-card{width:min(500px,100%);height:min(85vh,850px);position:relative;
+ border-radius:24px;overflow:hidden;background:#090e19;display:flex;flex-direction:column}
+.viewer-bars{display:flex;gap:4px;padding:12px 12px 0;position:absolute;top:0;left:0;right:0;z-index:2}
+.viewer-bars span{height:3px;flex:1;background:rgba(255,255,255,.35);border-radius:4px}
+.viewer-bars span.done{background:white}
+.viewer-head{position:absolute;z-index:2;top:25px;left:12px;right:12px;display:flex;align-items:center;gap:9px}
+.viewer-media{width:100%;height:100%;display:grid;place-items:center;background:#111827}
+.viewer-media img,.viewer-media video{max-width:100%;max-height:100%;object-fit:contain}
+.viewer-text{font-size:30px;text-align:center;padding:30px;overflow-wrap:anywhere}
+.viewer-foot{position:absolute;bottom:0;left:0;right:0;padding:15px;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+.viewer-foot input{background:rgba(0,0,0,.45)}
+.toast{position:fixed;z-index:50;bottom:25px;left:50%;transform:translateX(-50%);
+ background:#172438;border:1px solid var(--line);border-radius:14px;padding:12px 18px;
+ box-shadow:0 10px 40px #0005;max-width:90%;text-align:center}
+body.light{--bg:#e9f1f8;--panel:rgba(255,255,255,.72);--line:rgba(32,52,73,.13);--text:#172538;--muted:#65748a}
+body.light input,body.light textarea,body.light select{background:rgba(255,255,255,.7);color:var(--text)}
+body.light .message{background:rgba(255,255,255,.8)}
+@media(max-width:900px){
+ #app{grid-template-columns:60px 260px minmax(0,1fr);gap:8px;padding:8px}
+ .sidebar,.main{padding:15px}
+ .settings-layout{grid-template-columns:1fr}
+ .settings-nav{flex-direction:row;overflow-x:auto}
+ .settings-nav button{white-space:nowrap}
 }
-.rail-btn,.icon-btn {
-  display:grid;place-items:center;color:#e6f5ff;
-  background:#ffffff0c;border:1px solid #ffffff12;
-  border-radius:15px;width:43px;height:43px;
-}
-.rail-btn.active,.rail-btn:hover,.icon-btn:hover {
-  background:#62f5cf20;color:var(--mint);
-}
-.push { flex:1 }
-.contacts { display:flex;flex-direction:column }
-.contacts-head {
-  padding:18px 15px 12px;border-bottom:1px solid #ffffff12;
-}
-.headline { display:flex;justify-content:space-between;align-items:center;gap:10px }
-.search { position:relative;margin-top:14px }
-.search span { position:absolute;left:13px;top:11px;opacity:.7 }
-.search input { padding-left:39px }
-.tabs { display:flex;gap:5px;margin-top:10px }
-.tab {
-  border:1px solid transparent;background:transparent;color:#c5d8e5;
-  border-radius:11px;padding:7px 9px;font-size:12px;
-}
-.tab.active { background:#62f5cf1e;color:var(--mint);border-color:#62f5cf22 }
-#userList { overflow:auto;flex:1;padding:7px }
-.user-row {
-  display:flex;align-items:center;gap:10px;padding:11px 9px;
-  border-radius:16px;border:1px solid transparent;cursor:pointer;
-  width:100%;text-align:left;color:inherit;background:transparent;
-}
-.user-row:hover { background:#ffffff0d }
-.user-row.selected {
-  background:linear-gradient(110deg,#48d7ba2e,#64a6ff17);
-  border-color:#82e6e233;
-}
-.avatar {
-  width:43px;height:43px;flex:0 0 43px;border-radius:50%;
-  display:grid;place-items:center;background:linear-gradient(140deg,#4e9db1,#766fc5);
-  border:1px solid #ffffff55;font-weight:750;position:relative;
-}
-.dot {
-  width:10px;height:10px;border-radius:50%;background:#55edb6;
-  border:2px solid #153041;position:absolute;right:0;bottom:0;
-}
-.ucopy { min-width:0;flex:1 }
-.uname { font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
-.upreview { font-size:12px;color:#b5c9d9;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
-.conversation { display:flex;flex-direction:column }
-.chat-top {
-  display:flex;align-items:center;gap:11px;padding:13px 16px;
-  min-height:72px;border-bottom:1px solid #ffffff17;background:#04131d22;
-}
-.chat-person { min-width:0;flex:1 }
-.chat-actions { display:flex;gap:6px }
-#messages {
-  flex:1;overflow:auto;padding:22px clamp(12px,3vw,30px);
-  display:flex;flex-direction:column;gap:11px;scroll-behavior:smooth;
-}
-.empty-state { margin:auto;text-align:center;max-width:340px;color:#d6e6f3 }
-.bubble {
-  max-width:min(78%,520px);padding:11px 14px 8px;
-  border-radius:18px;font-size:14px;line-height:1.45;
-  overflow-wrap:anywhere;white-space:pre-wrap;box-shadow:0 6px 18px #0002;
-}
-.incoming {
-  align-self:flex-start;background:#e1f0ff20;
-  border:1px solid #ffffff20;border-bottom-left-radius:6px;
-}
-.outgoing {
-  align-self:flex-end;background:linear-gradient(135deg,#15b197e8,#1f8bb1e8);
-  border:1px solid #ffffff2e;border-bottom-right-radius:6px;
-}
-.bubble img {
-  display:block;max-width:min(100%,300px);max-height:300px;
-  border-radius:12px;margin-bottom:5px;
-}
-.meta { font-size:10px;color:#eff9ffad;text-align:right;margin-top:5px }
-.composer-wrap {
-  padding:11px 14px 14px;border-top:1px solid #ffffff15;background:#04111a33;
-}
-.composer {
-  display:flex;align-items:center;gap:7px;padding:7px;
-  border-radius:21px;background:#ffffff13;border:1px solid #ffffff25;
-}
-.composer input[type=text] {
-  min-width:0;flex:1;background:transparent;border:0;
-  outline:0;color:white;padding:10px 4px;
-}
-.composer input::placeholder { color:#adc4d6 }
-.send {
-  width:43px;height:43px;border-radius:15px;
-  background:linear-gradient(135deg,#63f0c9,#3cbbd4);
-  color:#062b31;font-size:18px;border:0;font-weight:900;
-}
-.note { font-size:11px;color:#aac0d0 }
-.hidden { display:none!important }
-#status { font-size:12px;color:#c5d9e7;min-height:17px;padding:0 4px 4px }
-#toast {
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-  z-index:50;background:#071722ed;border:1px solid var(--line);
-  border-radius:14px;padding:12px 17px;max-width:90vw;font-size:13px;
-}
-.mobile-back { display:none }
-
-@media(max-width:850px) {
-  #chatPage { grid-template-columns:54px minmax(230px,285px) minmax(0,1fr);padding:7px;gap:7px }
-  .rail { padding:10px 4px }
-  .rail-btn { width:41px;height:41px }
-  .optional { display:none }
-}
-@media(max-width:640px) {
-  #chatPage { display:block;padding:0;height:100dvh }
-  .rail { display:none }
-  .contacts,.conversation { position:absolute;inset:7px;border-radius:22px }
-  .contacts { display:flex }
-  .conversation { display:none }
-  #chatPage.mobile-chat .contacts { display:none }
-  #chatPage.mobile-chat .conversation { display:flex }
-  .mobile-back { display:grid }
-  .chat-top { padding:10px }
-  .bubble { max-width:89% }
-  #messages { padding:16px 11px }
-  .composer-wrap { padding:9px 8px calc(9px + env(safe-area-inset-bottom)) }
-  .auth-card { padding:23px }
+@media(max-width:650px){
+ #app{display:block;padding:0;min-height:100dvh}
+ .rail{position:fixed;z-index:10;bottom:0;left:0;right:0;height:67px;
+  flex-direction:row;justify-content:space-around;padding:5px 10px;
+  border-radius:20px 20px 0 0;background:rgba(13,25,41,.93);
+  border:1px solid var(--line);backdrop-filter:blur(25px)}
+ .rail-logo{display:none}
+ .nav-btn{width:45px;height:45px}
+ .sidebar{border-radius:0;border:0;padding:18px 14px 85px;min-height:100dvh}
+ .main{display:none!important;border:0;border-radius:0;padding:17px 14px 85px;min-height:100dvh}
+ #app.mobile-chat .sidebar{display:none}
+ #app.mobile-chat .main{display:block!important}
+ #chatPanel{height:calc(100dvh - 120px)}
+ .message{max-width:88%}
+ .settings-layout{gap:12px}
+ .settings-content{padding-bottom:15px}
+ .page-head{margin-bottom:16px}
+ .auth-card{padding:22px}
 }
 </style>
 </head>
 
 <body>
-<div class="wall"></div>
+<section id="auth">
+ <div class="glass auth-card">
+  <div class="brand">Chat<span>Wave</span></div>
+  <p class="muted" style="margin-top:8px">Connect. Chat. Share.</p>
+  <div id="authMessage" class="small muted"></div>
 
-<section id="authPage">
-  <div class="auth-card glass">
-    <div class="flex items-center gap-3 mb-6">
-      <div class="mark">〰</div>
-      <div>
-        <h1 class="text-3xl font-bold">ChatWave</h1>
-        <p class="text-sm text-slate-300 mt-1">Your people. Your conversations.</p>
-      </div>
-    </div>
-    <p class="text-sm text-slate-300 mb-5">A calmer place to chat, share and stay close.</p>
+  <form id="loginForm" class="stack" style="margin-top:22px">
+   <div class="field"><label>Email address</label><input id="loginEmail" type="email" autocomplete="email" required></div>
+   <div class="field"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" required minlength="6"></div>
+   <button class="btn primary full" type="submit">Sign in</button>
+   <button class="btn full" type="button" id="forgotBtn">Forgot password?</button>
+   <button class="btn full" type="button" id="showSignup">Create account</button>
+  </form>
 
-    <label class="block text-xs text-slate-300 mb-2" for="email">Email address</label>
-    <input id="email" type="email" autocomplete="email" placeholder="you@example.com" class="field mb-3">
+  <form id="signupForm" class="stack hidden" style="margin-top:22px">
+   <div class="field"><label>Your name</label><input id="signupName" maxlength="40" required></div>
+   <div class="field"><label>Email address</label><input id="signupEmail" type="email" required></div>
+   <div class="field"><label>Password (at least 6 characters)</label><input id="signupPassword" type="password" minlength="6" required></div>
+   <button class="btn primary full" type="submit">Create account</button>
+   <button class="btn full" type="button" id="showLogin">Back to sign in</button>
+  </form>
+  <p class="small muted" style="margin-top:18px">Use an email address you control. Never share your password or verification code.</p>
+ </div>
+</section>
 
-    <label class="block text-xs text-slate-300 mb-2" for="password">Password</label>
-    <input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters" class="field mb-4">
+<div id="app" class="hidden">
+ <nav class="rail glass">
+  <div class="rail-logo">CW</div>
+  <button class="nav-btn active" data-page="chats" title="Chats">◉</button>
+  <button class="nav-btn" data-page="status" title="Status">◌</button>
+  <button class="nav-btn" data-page="settings" title="Settings">⚙</button>
+  <button class="nav-btn" data-page="profile" title="Profile">☺</button>
+  <button class="nav-btn" id="logoutBtn" title="Sign out">⇥</button>
+ </nav>
 
-    <button id="signupBtn" onclick="handleSignup()" class="primary w-full">Create account</button>
-    <button id="loginBtn" onclick="handleLogin()" class="secondary w-full mt-3">Log in</button>
-    <button onclick="resetPassword()" class="block mx-auto mt-4 text-sm text-cyan-200">Forgot password?</button>
-    <p class="text-xs text-center text-slate-400 mt-6">Email and password only · No Google sign-in</p>
-    <p id="authStatus" role="status" class="text-sm text-rose-200 mt-3 text-center"></p>
+ <aside class="sidebar glass">
+  <div class="side-head">
+   <div class="brand">Chat<span>Wave</span></div>
+   <button class="btn" id="newStatusBtn" title="Create status">＋</button>
   </div>
-</section>
-
-<section id="verifyPage" class="hidden">
-  <div class="auth-card glass text-center">
-    <div class="mark mx-auto mb-5">〰</div>
-    <h2 class="text-2xl font-bold">Check your email</h2>
-    <p class="text-sm text-slate-300 mt-2">Enter the six-digit code sent to</p>
-    <p id="verifyEmailText" class="text-sm text-cyan-200 mt-1 break-all"></p>
-    <input id="codeInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" class="field text-center text-2xl tracking-[.5em] my-5">
-    <button id="verifyBtn" onclick="verifyCode()" class="primary w-full">Verify and create account</button>
-    <button onclick="resendCode()" class="block mx-auto mt-4 text-sm text-cyan-200">Resend code</button>
-    <button onclick="showLogin()" class="block mx-auto mt-4 text-sm text-slate-300">Back to login</button>
-    <p id="verifyStatus" class="text-sm text-rose-200 mt-3"></p>
+  <div class="row between" style="margin-top:18px">
+   <strong id="listHeading">Messages</strong><span class="pill">ONLINE</span>
   </div>
-</section>
+  <input id="sideSearch" placeholder="Search people..." aria-label="Search people">
+  <div class="tabs">
+   <button class="tab active" data-filter="all">All</button>
+   <button class="tab" data-filter="online">Online</button>
+  </div>
+  <div id="statusStrip"></div>
+  <div id="userList" class="user-list"></div>
+  <p class="small muted" id="listMessage" style="margin-top:15px"></p>
+ </aside>
 
-<section id="chatPage" class="hidden">
-  <aside class="rail glass">
-    <div class="mark mb-4">〰</div>
-    <button class="rail-btn active" title="Chats">◉</button>
-    <button class="rail-btn" title="Contacts" onclick="toast('Contacts are listed here.')">♙</button>
-    <button class="rail-btn" title="Calls" onclick="toast('Calling needs a calling service to be connected.')">☎</button>
-    <button class="rail-btn" title="Share image" onclick="document.getElementById('imgInput').click()">▧</button>
-    <div class="push"></div>
-    <button class="rail-btn" title="Settings" onclick="toast('More settings can be added next.')">⚙</button>
-    <button class="rail-btn" title="Log out" onclick="logout()">⇥</button>
-  </aside>
-
-  <aside class="contacts glass">
-    <div class="contacts-head">
-      <div class="headline">
-        <div>
-          <h2 class="text-xl font-bold">Messages</h2>
-          <p class="text-xs text-slate-300 mt-1">Stay in the loop</p>
-        </div>
-        <button class="icon-btn" title="New chat" onclick="toast('Choose a contact to start chatting.')">＋</button>
-      </div>
-      <div class="search">
-        <span>⌕</span>
-        <input id="searchInput" class="field" type="search" placeholder="Search people..." oninput="filterUsers()">
-      </div>
-      <div class="tabs">
-        <button class="tab active" onclick="setFilter('all',this)">All chats</button>
-        <button class="tab" onclick="setFilter('online',this)">Online</button>
-        <button class="tab" onclick="setFilter('unread',this)">Unread</button>
-      </div>
+ <main class="main glass">
+  <section id="page-chats" class="page active">
+   <div id="emptyState">
+    <div><div class="empty-icon">◉</div><h2>Your conversations</h2>
+    <p class="muted">Choose someone to start chatting.</p></div>
+   </div>
+   <div id="chatPanel" class="hidden">
+    <div class="chat-head">
+     <button class="btn hidden" id="backToList">←</button>
+     <div class="avatar" id="chatAvatar">C</div>
+     <div class="user-info"><strong id="chatName">Contact</strong><small id="chatEmail"></small></div>
+     <button class="btn" id="callBtn" title="Voice calls">☎</button>
+     <button class="btn" id="videoBtn" title="Video calls">▣</button>
     </div>
+    <div class="messages" id="messages"><p class="muted">Loading messages…</p></div>
+    <form id="messageForm" class="composer">
+     <button type="button" class="btn" id="emojiBtn" title="Add emoji">☺</button>
+     <button type="button" class="btn" id="attachBtn" title="Attach image">＋</button>
+     <input id="messageInput" maxlength="4000" placeholder="Write a message…" autocomplete="off">
+     <button class="btn primary" type="submit">Send</button>
+    </form>
+    <input id="imageInput" type="file" accept="image/*" class="hidden">
+   </div>
+  </section>
 
-    <div id="userList">
-      <div class="p-5 text-sm text-slate-300">Sign in to load contacts.</div>
+  <section id="page-status" class="page">
+   <div class="page-head"><div><h2>Status</h2><p class="muted">Updates from your community disappear after 24 hours.</p></div>
+   <button class="btn primary" id="createStatusPage">＋ Create</button></div>
+   <div class="glass setting-card"><div class="row">
+    <div class="avatar" id="myStatusAvatar">+</div>
+    <div style="flex:1"><strong>My status</strong><p class="muted small" id="myStatusCaption">Share a moment with your contacts.</p></div>
+    <button class="btn" id="myStatusBtn">View</button>
+   </div></div>
+   <h3 style="margin-top:24px">Recent updates</h3>
+   <div id="statusGrid" class="status-grid"><p class="muted">Loading statuses…</p></div>
+  </section>
+
+  <section id="page-settings" class="page">
+   <div class="page-head"><div><h2>Settings</h2><p class="muted">Make ChatWave yours.</p></div></div>
+   <div class="settings-layout">
+    <div class="settings-nav">
+     <button class="tab active" data-settings="general">⚙ General</button>
+     <button class="tab" data-settings="privacy">◈ Privacy</button>
+     <button class="tab" data-settings="security">♧ Security</button>
+     <button class="tab" data-settings="chats">▤ Chats</button>
+     <button class="tab" data-settings="notifications">♬ Notifications</button>
+     <button class="tab" data-settings="storage">▧ Storage</button>
+     <button class="tab" data-settings="help">? Help</button>
     </div>
+    <div id="settingsContent" class="settings-content"></div>
+   </div>
+  </section>
 
-    <div class="p-4 border-t border-white/10 flex items-center gap-3">
-      <div class="avatar" id="myAvatar">CW</div>
-      <div class="min-w-0 flex-1">
-        <p id="myEmail" class="text-sm font-semibold truncate">Your account</p>
-        <p class="text-xs text-emerald-200">● Signed in</p>
-      </div>
-      <button class="icon-btn" onclick="logout()" title="Log out">↗</button>
+  <section id="page-profile" class="page">
+   <div class="page-head"><div><h2>Your profile</h2><p class="muted">How people see you on ChatWave.</p></div></div>
+   <div class="glass setting-card stack">
+    <div class="row">
+     <div class="avatar" id="profileAvatar" style="width:70px;height:70px">C</div>
+     <div><strong id="profileEmail">Your account</strong><p class="muted small">ChatWave member</p></div>
     </div>
-  </aside>
+    <div class="field"><label>Display name</label><input id="profileName" maxlength="40" placeholder="Your name"></div>
+    <div class="field"><label>Username</label><input id="profileUsername" maxlength="24" placeholder="username"></div>
+    <div class="field"><label>About / bio</label><textarea id="profileBio" maxlength="160" rows="3" placeholder="A little about you…"></textarea></div>
+    <div class="field"><label>Profile photo</label><input id="profilePhoto" type="file" accept="image/*"></div>
+    <button class="btn primary" id="saveProfile">Save profile</button>
+    <button class="btn" id="profilePassword">Change password / reset email</button>
+    <button class="btn danger" id="deleteAccountBtn">Delete account…</button>
+   </div>
+  </section>
+ </main>
+</div>
 
-  <main class="conversation glass">
-    <header class="chat-top">
-      <button class="icon-btn mobile-back" onclick="backToContacts()" aria-label="Back">‹</button>
-      <div class="avatar" id="chatAvatar">CW</div>
-      <div class="chat-person">
-        <div id="chatHeader" class="font-semibold truncate">Welcome to ChatWave</div>
-        <div id="chatPresence" class="text-xs text-emerald-200 mt-1">Choose a contact to start chatting</div>
-      </div>
-      <div class="chat-actions">
-        <button class="icon-btn optional" title="Voice call" onclick="toast('Voice calling is not connected yet.')">☎</button>
-        <button class="icon-btn optional" title="Video call" onclick="toast('Video calling is not connected yet.')">▣</button>
-        <button class="icon-btn" title="More" onclick="toast('More chat tools can be added next.')">···</button>
-      </div>
-    </header>
+<div id="statusModal" class="modal hidden">
+ <div class="glass modal-card stack">
+  <div class="row between"><h2>Create status</h2><button class="btn" data-close="statusModal">✕</button></div>
+  <div class="field"><label>Status type</label>
+   <select id="statusType"><option value="text">Text update</option><option value="image">Photo</option><option value="video">Video</option></select>
+  </div>
+  <div id="statusTextFields" class="stack">
+   <div class="field"><label>Your message</label><textarea id="statusText" maxlength="500" rows="5" placeholder="What's happening?"></textarea></div>
+   <div class="field"><label>Background</label><select id="statusBackground"><option value="mint">Mint</option><option value="blue">Ocean blue</option><option value="purple">Purple</option><option value="sunset">Sunset</option><option value="dark">Midnight</option></select></div>
+  </div>
+  <div id="statusMediaFields" class="field hidden"><label>Choose photo or video (max 20 MB)</label><input id="statusMedia" type="file" accept="image/*,video/*"></div>
+  <div class="field"><label>Who can view this status?</label>
+   <select id="statusAudience"><option value="contacts">All ChatWave users</option><option value="private">Only me (test)</option></select>
+   <p class="small muted">Audience selection is a basic option. Restricting visibility to selected contacts requires matching Firestore security rules.</p>
+  </div>
+  <button class="btn primary full" id="publishStatus">Publish status</button>
+  <p class="small muted">Statuses expire automatically after 24 hours when the database query and security rules are configured correctly.</p>
+ </div>
+</div>
 
-    <div id="messages">
-      <div class="empty-state">
-        <div class="text-4xl mb-3">✦</div>
-        <h3 class="text-xl font-semibold">Welcome to ChatWave</h3>
-        <p class="text-sm mt-2 leading-6">Pick someone from your contacts, say hello, and keep the conversation flowing.</p>
-      </div>
-    </div>
+<div id="viewer" class="modal hidden">
+ <div class="viewer-card">
+  <div class="viewer-bars" id="viewerBars"></div>
+  <div class="viewer-head">
+   <div class="avatar" id="viewerAvatar">C</div>
+   <div style="flex:1"><strong id="viewerName">Status</strong><div class="small" id="viewerTime"></div></div>
+   <button class="btn" id="viewerClose">✕</button>
+  </div>
+  <div class="viewer-media" id="viewerMedia"></div>
+  <div class="viewer-foot">
+   <div id="ownerStatusTools" class="row hidden" style="margin-bottom:10px">
+    <span class="small" id="viewerViews">Your status</span><button class="btn danger" id="deleteStatusBtn">Delete</button>
+   </div>
+   <form id="statusReplyForm" class="row"><input id="statusReplyInput" maxlength="500" placeholder="Reply privately…"><button class="btn primary">Send</button></form>
+   <p class="small muted" id="viewerPrivacyNote" style="margin:8px 0 0"></p>
+  </div>
+ </div>
+</div>
 
-    <div class="composer-wrap">
-      <div id="status" role="status"></div>
-      <div class="composer">
-        <input type="file" id="imgInput" accept="image/*" class="hidden" onchange="sendImage(event)">
-        <button class="icon-btn" title="Attach image" onclick="document.getElementById('imgInput').click()">＋</button>
-        <input id="msgInput" type="text" placeholder="Write a message..." autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();sendMessage()}">
-        <button class="icon-btn optional" title="Emoji" onclick="insertEmoji()">☺</button>
-        <button class="send" title="Send" onclick="sendMessage()">➤</button>
-      </div>
-      <p class="note mt-2 text-center">Private conversations · Be kind to each other</p>
-    </div>
-  </main>
-</section>
-
-<div id="toast" class="hidden" role="status"></div>
+<div id="toast" class="toast hidden" role="status"></div>
 
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
-  getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,
-  onAuthStateChanged,signOut,setPersistence,browserLocalPersistence,
-  sendPasswordResetEmail
+ getAuth,onAuthStateChanged,createUserWithEmailAndPassword,
+ signInWithEmailAndPassword,signOut,sendPasswordResetEmail,
+ updateProfile,deleteUser
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
-  getFirestore,doc,setDoc,collection,addDoc,query,orderBy,
-  onSnapshot,serverTimestamp
+ getFirestore,collection,doc,setDoc,getDoc,addDoc,updateDoc,deleteDoc,
+ query,where,orderBy,onSnapshot,serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+ getStorage,ref,uploadBytesResumable,getDownloadURL,deleteObject
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
-  authDomain: "chat-2c557.firebaseapp.com",
-  projectId: "chat-2c557",
-  storageBucket: "chat-2c557.firebasestorage.app",
-  messagingSenderId: "74313204354",
-  appId: "1:74313204354:web:c735269d502b88a39eea9b"
+const firebaseConfig={
+ apiKey:"AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
+ authDomain:"chat-2c557.firebaseapp.com",
+ projectId:"chat-2c557",
+ storageBucket:"chat-2c557.firebasestorage.app",
+ messagingSenderId:"74313204354",
+ appId:"1:74313204354:web:c735269d502b88a39eea9b"
 };
-
 const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-await setPersistence(auth,browserLocalPersistence).catch(()=>{});
+const auth=getAuth(app),db=getFirestore(app),storage=getStorage(app);
 
-const SERVICE_ID="service_1h2qcyj";
-const TEMPLATE_ID="template_g5knl87";
-const PUBLIC_KEY="OxtLjZnoiYd3ih6cm";
-
-if(window.emailjs && PUBLIC_KEY && !PUBLIC_KEY.includes("YOUR_")){
-  try { emailjs.init({publicKey:PUBLIC_KEY}); }
-  catch(e) { console.warn(e); }
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const stamp=t=>t?.toDate?t.toDate():t?new Date(t):new Date();
+const niceTime=t=>stamp(t).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+const ago=t=>{
+ const m=Math.max(0,Math.floor((Date.now()-stamp(t).getTime())/60000));
+ if(m<1)return "Just now";if(m<60)return m+" min ago";
+ if(m<1440)return Math.floor(m/60)+" h ago";return Math.floor(m/1440)+" d ago";
+};
+const initials=name=>(name||"C").trim().slice(0,1).toUpperCase();
+const chatId=(a,b)=>[a,b].sort().join("_");
+function toast(msg){$("toast").textContent=msg;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),3200)}
+function setBusy(button,busy,label="Working…"){if(!button.dataset.original)button.dataset.original=button.textContent;button.disabled=busy;button.textContent=busy?label:button.dataset.original}
+function avatarHTML(u,size=""){
+ const inner=u?.photoURL?`<img src="${esc(u.photoURL)}" alt="">`:esc(initials(u?.displayName||u?.name||u?.email));
+ return `<div class="avatar ${size}">${inner}</div>`;
 }
+function safeFileName(name){return name.replace(/[^a-zA-Z0-9._-]/g,"_").slice(-100)||"upload"}
 
-let currentUser=null;
-let selectedUser=null;
-let usersCache=[];
-let activeFilter="all";
-let stopUsers=null;
-let stopMessages=null;
-let toastTimer;
-
-const el=id=>document.getElementById(id);
-const status=(id,msg)=>el(id).textContent=msg||"";
-
-function err(e){
-  const messages={
-    "auth/invalid-email":"Enter a valid email address.",
-    "auth/weak-password":"Password must have at least 6 characters.",
-    "auth/email-already-in-use":"This email already has an account. Try logging in.",
-    "auth/invalid-credential":"Email or password is incorrect.",
-    "auth/too-many-requests":"Too many attempts. Wait a little and try again.",
-    "auth/network-request-failed":"Network error. Check your connection.",
-    "permission-denied":"Firestore blocked this action. Check Firestore rules.",
-    "firestore/permission-denied":"Firestore blocked this action. Check Firestore rules."
-  };
-  return messages[e?.code]||e?.message||"Something went wrong.";
+let me=null,myProfile={},allUsers=[],statuses=[],selectedUser=null;
+let activeFilter="all",activePage="chats",settingsTab="general";
+let unsubUsers=null,unsubMessages=null,unsubStatuses=null;
+let currentMessages=[],viewingStatuses=[],viewingIndex=0;
+let pendingMediaURL=null,pendingStatusFile=null;
+const userCache=new Map();
+const localPrefs=()=>{try{return JSON.parse(localStorage.getItem("cw-prefs")||"{}")}catch{return {}}};
+function savePrefs(p){localStorage.setItem("cw-prefs",JSON.stringify({...localPrefs(),...p}))}
+function pref(k,d){const p=localPrefs();return p[k]??d}
+function applyPrefs(){
+ document.body.classList.toggle("light",pref("theme","dark")==="light");
+ document.documentElement.style.setProperty("--accent",pref("accent","#58dfc1"));
 }
+applyPrefs();
 
-window.toast=msg=>{
-  const t=el("toast");
-  t.textContent=msg;
-  t.classList.remove("hidden");
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.add("hidden"),3200);
+$("showSignup").onclick=()=>{$("loginForm").classList.add("hidden");$("signupForm").classList.remove("hidden");$("authMessage").textContent=""};
+$("showLogin").onclick=()=>{$("signupForm").classList.add("hidden");$("loginForm").classList.remove("hidden");$("authMessage").textContent=""};
+
+$("signupForm").onsubmit=async e=>{
+ e.preventDefault();const btn=e.submitter;
+ setBusy(btn,true,"Creating account…");
+ try{
+  const name=$("signupName").value.trim(),email=$("signupEmail").value.trim(),pass=$("signupPassword").value;
+  const cred=await createUserWithEmailAndPassword(auth,email,pass);
+  await updateProfile(cred.user,{displayName:name});
+  await setDoc(doc(db,"users",cred.user.uid),{
+   uid:cred.user.uid,email,displayName:name,username:"",
+   bio:"",photoURL:"",online:true,lastSeen:serverTimestamp(),
+   createdAt:serverTimestamp()
+  },{merge:true});
+  $("authMessage").textContent="Account created successfully.";
+ }catch(err){$("authMessage").textContent=authError(err)}
+ finally{setBusy(btn,false)}
 };
-
-function page(id){
-  ["authPage","verifyPage","chatPage"].forEach(x=>{
-    el(x).classList.toggle("hidden",x!==id);
-  });
+$("loginForm").onsubmit=async e=>{
+ e.preventDefault();const btn=e.submitter;setBusy(btn,true,"Signing in…");
+ try{await signInWithEmailAndPassword(auth,$("loginEmail").value.trim(),$("loginPassword").value)}
+ catch(err){$("authMessage").textContent=authError(err)}
+ finally{setBusy(btn,false)}
+};
+function authError(err){
+ const map={
+ "auth/invalid-credential":"Email or password is incorrect.",
+ "auth/email-already-in-use":"That email already has an account.",
+ "auth/weak-password":"Choose a stronger password.",
+ "auth/invalid-email":"Enter a valid email address.",
+ "auth/too-many-requests":"Too many attempts. Please try again later.",
+ "auth/network-request-failed":"Network problem. Check your internet connection."
+ };
+ return map[err.code]||err.message||"Something went wrong.";
 }
-
-window.showLogin=()=>{
-  page("authPage");
-  status("authStatus","");
-  status("verifyStatus","");
+$("forgotBtn").onclick=async()=>{
+ const email=$("loginEmail").value.trim();if(!email)return toast("Enter your email address first.");
+ try{await sendPasswordResetEmail(auth,email);toast("Password reset email sent.")}
+ catch(err){toast(authError(err))}
 };
-
-window.handleSignup=async()=>{
-  const email=el("email").value.trim().toLowerCase();
-  const pass=el("password").value;
-  status("authStatus","");
-
-  if(!email||!pass) return status("authStatus","Enter your email and password.");
-  if(pass.length<6) return status("authStatus","Password must have at least 6 characters.");
-  if(!window.emailjs) return status("authStatus","Email service did not load. Refresh and try again.");
-
-  const b=el("signupBtn");
-  b.disabled=true;
-  b.textContent="Sending code…";
-  const code=String(Math.floor(100000+Math.random()*900000));
-
-  try{
-    await emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:email,code});
-    sessionStorage.setItem("chatwave_pending_verification",JSON.stringify({
-      email,pass,code,expires:Date.now()+600000
-    }));
-    el("verifyEmailText").textContent=email;
-    el("codeInput").value="";
-    status("verifyStatus","");
-    page("verifyPage");
-  }catch(e){
-    console.error(e);
-    status("authStatus","Couldn't send verification email. Check your EmailJS service, template and public key.");
-  }finally{
-    b.disabled=false;
-    b.textContent="Create account";
-  }
+$("logoutBtn").onclick=async()=>{
+ try{if(me)await setDoc(doc(db,"users",me.uid),{online:false,lastSeen:serverTimestamp()},{merge:true})}catch{}
+ await signOut(auth);
 };
-
-window.verifyCode=async()=>{
-  let p;
-  try{p=JSON.parse(sessionStorage.getItem("chatwave_pending_verification")||"null")}catch{}
-  const input=el("codeInput").value.trim();
-
-  if(!p) return status("verifyStatus","Verification session expired. Start again.");
-  if(Date.now()>p.expires){
-    sessionStorage.removeItem("chatwave_pending_verification");
-    return status("verifyStatus","Code expired. Start registration again.");
-  }
-  if(input!==p.code) return status("verifyStatus","Incorrect code. Try again.");
-
-  const b=el("verifyBtn");
-  b.disabled=true;
-  b.textContent="Creating account…";
-  try{
-    await createUserWithEmailAndPassword(auth,p.email,p.pass);
-    sessionStorage.removeItem("chatwave_pending_verification");
-    el("password").value="";
-  }catch(e){
-    status("verifyStatus",err(e));
-  }finally{
-    b.disabled=false;
-    b.textContent="Verify and create account";
-  }
-};
-
-window.resendCode=async()=>{
-  let p;
-  try{p=JSON.parse(sessionStorage.getItem("chatwave_pending_verification")||"null")}catch{}
-  if(!p) return status("verifyStatus","Start registration again.");
-
-  const code=String(Math.floor(100000+Math.random()*900000));
-  try{
-    await emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:p.email,code});
-    p.code=code;
-    p.expires=Date.now()+600000;
-    sessionStorage.setItem("chatwave_pending_verification",JSON.stringify(p));
-    status("verifyStatus","A new code has been sent.");
-  }catch(e){
-    status("verifyStatus","Couldn't resend code. Check EmailJS settings.");
-  }
-};
-
-window.handleLogin=async()=>{
-  const email=el("email").value.trim().toLowerCase();
-  const pass=el("password").value;
-  status("authStatus","");
-  if(!email||!pass) return status("authStatus","Enter email and password.");
-
-  const b=el("loginBtn");
-  b.disabled=true;
-  b.textContent="Logging in…";
-  try{
-    await signInWithEmailAndPassword(auth,email,pass);
-  }catch(e){
-    status("authStatus",err(e));
-  }finally{
-    b.disabled=false;
-    b.textContent="Log in";
-  }
-};
-
-window.resetPassword=async()=>{
-  const email=el("email").value.trim().toLowerCase();
-  if(!email) return status("authStatus","Enter your email first.");
-  try{
-    await sendPasswordResetEmail(auth,email);
-    status("authStatus","Password reset email sent. Check your inbox.");
-  }catch(e){
-    status("authStatus",err(e));
-  }
-};
-
-window.logout=async()=>{
-  try{
-    if(currentUser){
-      await setDoc(doc(db,"users",currentUser.uid),{
-        online:false,lastSeen:serverTimestamp()
-      },{merge:true}).catch(()=>{});
-    }
-    if(stopUsers) stopUsers();
-    if(stopMessages) stopMessages();
-    stopUsers=stopMessages=null;
-    await signOut(auth);
-    currentUser=selectedUser=null;
-    page("authPage");
-  }catch(e){toast(err(e))}
-};
-
 onAuthStateChanged(auth,async user=>{
-  if(!user){
-    currentUser=null;
-    page("authPage");
-    return;
-  }
-
-  currentUser=user;
-  try{
-    await setDoc(doc(db,"users",user.uid),{
-      uid:user.uid,
-      email:user.email||"",
-      displayName:user.displayName||user.email?.split("@")[0]||"ChatWave user",
-      lastSeen:serverTimestamp(),
-      online:true
-    },{merge:true});
-
-    el("myEmail").textContent=user.email||"ChatWave user";
-    el("myAvatar").textContent=initials(user.displayName||user.email);
-    page("chatPage");
-    loadUsers();
-  }catch(e){
-    console.error(e);
-    page("authPage");
-    status("authStatus","Signed in, but Firestore blocked your profile. Check Firestore rules. "+err(e));
-  }
+ stopListeners();me=user;selectedUser=null;
+ if(!user){$("auth").classList.remove("hidden");$("app").classList.add("hidden");return}
+ $("auth").classList.add("hidden");$("app").classList.remove("hidden");
+ try{
+  const r=doc(db,"users",user.uid),s=await getDoc(r);
+  myProfile=s.exists()?s.data():{};
+  await setDoc(r,{uid:user.uid,email:user.email,displayName:user.displayName||myProfile.displayName||"ChatWave user",online:true,lastSeen:serverTimestamp()},{merge:true});
+  myProfile={...myProfile,email:user.email,displayName:user.displayName||myProfile.displayName||"ChatWave user"};
+  renderProfile();startUserListener();startStatusListener();renderSettings(settingsTab);
+  switchPage("chats");
+ }catch(err){toast("Profile setup failed: "+err.message)}
 });
-
-function initials(s){
-  return String(s||"CW").split("@")[0].split(/[ ._-]/)
-    .filter(Boolean).slice(0,2).map(x=>x[0].toUpperCase()).join("")||"CW";
+function stopListeners(){
+ [unsubUsers,unsubMessages,unsubStatuses].forEach(f=>{if(f)f()});
+ unsubUsers=unsubMessages=unsubStatuses=null;
 }
-
-function loadUsers(){
-  if(stopUsers) stopUsers();
-  stopUsers=onSnapshot(collection(db,"users"),snap=>{
-    usersCache=[];
-    snap.forEach(d=>{
-      if(d.id!==currentUser?.uid){
-        const u=d.data();
-        usersCache.push({...u,uid:u.uid||d.id});
-      }
-    });
-    renderUsers();
-  },e=>{
-    console.error(e);
-    toast("Couldn't load contacts. Check Firestore rules.");
-  });
+function startUserListener(){
+ if(unsubUsers)unsubUsers();
+ unsubUsers=onSnapshot(collection(db,"users"),snap=>{
+  allUsers=snap.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.id!==me.uid);
+  allUsers.forEach(u=>userCache.set(u.id,u));
+  renderUsers();renderStatusStrip();
+ },err=>toast("Contacts error: "+err.message));
 }
-
 function renderUsers(){
-  const list=el("userList");
-  list.innerHTML="";
-  const s=el("searchInput").value.trim().toLowerCase();
-
-  const found=usersCache.filter(u=>{
-    const n=(u.displayName||u.email||"ChatWave user").toLowerCase();
-    const mail=(u.email||"").toLowerCase();
-    return (!s||n.includes(s)||mail.includes(s)) &&
-      (activeFilter==="all"||(activeFilter==="online"&&u.online===true));
-  });
-
-  if(!found.length){
-    list.innerHTML=`<div class="p-5 text-sm text-slate-300">${
-      s?"No matching contacts.":"No contacts yet. Ask a friend to create an account."
-    }</div>`;
-    return;
-  }
-
-  found.forEach(u=>{
-    const name=u.displayName||u.email||"ChatWave user";
-    const row=document.createElement("button");
-    row.type="button";
-    row.className="user-row"+(selectedUser?.uid===u.uid?" selected":"");
-
-    const av=document.createElement("div");
-    av.className="avatar";
-    av.textContent=initials(name);
-
-    if(u.online){
-      const dot=document.createElement("span");
-      dot.className="dot";
-      av.appendChild(dot);
-    }
-
-    const cp=document.createElement("div");
-    cp.className="ucopy";
-
-    const nm=document.createElement("div");
-    nm.className="uname";
-    nm.textContent=name;
-
-    const pr=document.createElement("div");
-    pr.className="upreview";
-    pr.textContent=u.online?"● Online":(u.email||"Tap to chat");
-
-    cp.append(nm,pr);
-    row.append(av,cp);
-    row.onclick=()=>openChat(u);
-    list.appendChild(row);
-  });
+ const term=$("sideSearch").value.trim().toLowerCase();
+ const list=allUsers.filter(u=>{
+  const name=(u.displayName||u.name||"").toLowerCase(),email=(u.email||"").toLowerCase();
+  return (!term||name.includes(term)||email.includes(term))&&(activeFilter==="all"||u.online===true);
+ });
+ $("userList").innerHTML=list.map(u=>`
+  <button class="user-item ${selectedUser?.id===u.id?"selected":""}" data-user="${esc(u.id)}">
+   ${avatarHTML(u)}
+   <div class="user-info"><strong>${esc(u.displayName||u.name||u.email||"User")}</strong>
+   <small>${u.online?"● Online":esc(u.email||"ChatWave member")}</small></div>
+  </button>`).join("")||`<p class="muted small">${term?"No matching contacts.":"No other users yet. Invite a friend to join ChatWave."}</p>`;
+ $("userList").querySelectorAll("[data-user]").forEach(b=>b.onclick=()=>openChat(b.dataset.user));
 }
-
-window.filterUsers=renderUsers;
-
-window.setFilter=(f,b)=>{
-  activeFilter=f;
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");
-  renderUsers();
-};
-
-window.backToContacts=()=>el("chatPage").classList.remove("mobile-chat");
-
-window.openChat=u=>{
-  if(!currentUser||!u?.uid) return;
-
-  selectedUser=u;
-  el("chatPage").classList.add("mobile-chat");
-  el("chatHeader").textContent=u.displayName||u.email||"ChatWave user";
-  el("chatPresence").textContent=u.online?"● Online":"ChatWave contact";
-  el("chatAvatar").textContent=initials(u.displayName||u.email);
-  el("messages").innerHTML="";
-
-  if(stopMessages) stopMessages();
-
-  const id=[currentUser.uid,u.uid].sort().join("_");
-  const q=query(collection(db,"chats",id,"messages"),orderBy("timestamp","asc"));
-
-  stopMessages=onSnapshot(q,snap=>{
-    const box=el("messages");
-    box.innerHTML="";
-
-    if(snap.empty){
-      box.innerHTML='<div class="empty-state"><div class="text-4xl mb-3">✧</div><h3 class="text-lg font-semibold">Say hello</h3><p class="text-sm mt-2">This is the beginning of your conversation.</p></div>';
-      return;
-    }
-
-    snap.forEach(d=>{
-      const m=d.data();
-      const mine=m.senderId===currentUser.uid;
-      const b=document.createElement("div");
-      b.className="bubble "+(mine?"outgoing":"incoming");
-
-      if(m.imageUrl){
-        const img=document.createElement("img");
-        img.src=m.imageUrl;
-        img.alt="Shared image";
-        img.loading="lazy";
-        b.appendChild(img);
-      }
-
-      if(m.text){
-        const body=document.createElement("div");
-        body.textContent=m.text;
-        b.appendChild(body);
-      }
-
-      const meta=document.createElement("div");
-      meta.className="meta";
-      meta.textContent=labelTime(m.timestamp)+(mine?" ✓✓":"");
-      b.appendChild(meta);
-      box.appendChild(b);
-    });
-
-    box.scrollTop=box.scrollHeight;
-  },e=>{
-    console.error(e);
-    toast("Couldn't load messages. Check Firestore rules.");
-  });
-
-  renderUsers();
-};
-
-function labelTime(ts){
-  try{
-    if(ts?.toDate) return ts.toDate().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
-  }catch{}
-  return "Just now";
+$("sideSearch").oninput=renderUsers;
+document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{
+ activeFilter=b.dataset.filter;
+ document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));
+ renderUsers();
+});
+function switchPage(page){
+ activePage=page;
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));
+ document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ $("app").classList.remove("mobile-chat");
+ if(page==="settings")renderSettings(settingsTab);
+ if(page==="profile")renderProfile();
+ if(page==="status"){renderStatusGrid()}
 }
+document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>switchPage(b.dataset.page));
+function openChat(uid){
+ const u=allUsers.find(x=>x.id===uid)||userCache.get(uid);if(!u)return;
+ selectedUser=u;switchPage("chats");$("app").classList.add("mobile-chat");
+ $("emptyState").classList.add("hidden");$("chatPanel").classList.remove("hidden");
+ $("backToList").classList.remove("hidden");$("chatName").textContent=u.displayName||u.email||"ChatWave user";
+ $("chatEmail").textContent=u.online?"Online":u.email||"";
+ $("chatAvatar").innerHTML=u.photoURL?`<img src="${esc(u.photoURL)}">`:esc(initials(u.displayName||u.email));
+ $("messages").innerHTML='<p class="muted">Loading messages…</p>';
+ if(unsubMessages)unsubMessages();
+ const path=collection(db,"chats",chatId(me.uid,uid),"messages");
+ unsubMessages=onSnapshot(query(path,orderBy("timestamp","asc")),snap=>{
+  currentMessages=snap.docs.map(d=>({id:d.id,...d.data()}));renderMessages();
+ },err=>{$("messages").innerHTML=`<p class="muted">Cannot load messages: ${esc(err.message)}</p>`});
+ renderUsers();
+}
+$("backToList").onclick=()=>$("app").classList.remove("mobile-chat");
+function renderMessages(){
+ const box=$("messages"),wasBottom=box.scrollHeight-box.scrollTop-box.clientHeight<100;
+ box.innerHTML=currentMessages.map(m=>{
+  const mine=m.senderId===me.uid;
+  let body=m.imageUrl?`<img src="${esc(m.imageUrl)}" alt="Shared image">`:
+   esc(m.text||"").replace(/\n/g,"<br>");
+  return `<div class="message ${mine?"mine":""}">${body}<time>${niceTime(m.timestamp)}${mine?" · You":""}</time></div>`;
+ }).join("")||'<p class="muted" style="text-align:center">Say hello and start the conversation.</p>';
+ if(wasBottom)box.scrollTop=box.scrollHeight;
+}
+$("messageForm").onsubmit=async e=>{
+ e.preventDefault();if(!selectedUser)return;
+ const input=$("messageInput"),text=input.value.trim();if(!text)return;
+ input.value="";
+ try{await addDoc(collection(db,"chats",chatId(me.uid,selectedUser.id),"messages"),{
+  text,senderId:me.uid,timestamp:serverTimestamp()
+ })}catch(err){input.value=text;toast("Message failed: "+err.message)}
+};
+$("emojiBtn").onclick=()=>{$("messageInput").value+=" 😊";$("messageInput").focus()};
+$("attachBtn").onclick=()=>$("imageInput").click();
+$("imageInput").onchange=async()=>{
+ const file=$("imageInput").files[0];if(!file)return;
+ if(!selectedUser){toast("Open a conversation first.");return}
+ if(file.size>5*1024*1024){toast("Choose an image smaller than 5 MB.");return}
+ try{
+  toast("Uploading image…");
+  const url=await uploadFile(file,`chat-media/${me.uid}/${Date.now()}_${safeFileName(file.name)}`);
+  await addDoc(collection(db,"chats",chatId(me.uid,selectedUser.id),"messages"),{
+   imageUrl:url,senderId:me.uid,timestamp:serverTimestamp()
+  });
+  toast("Image sent.");
+ }catch(err){toast("Image upload failed: "+err.message)}
+ $("imageInput").value="";
+};
+async function uploadFile(file,path){
+ const r=ref(storage,path),task=uploadBytesResumable(r,file);
+ await new Promise((resolve,reject)=>task.on("state_changed",()=>{},reject,resolve));
+ return await getDownloadURL(task.snapshot.ref);
+}
+$("callBtn").onclick=()=>toast("Voice calls require a calling service to be connected.");
+$("videoBtn").onclick=()=>toast("Video calls require a calling service to be connected.");
 
-window.sendMessage=async()=>{
-  const input=el("msgInput");
-  const text=input.value.trim();
-
-  if(!currentUser) return toast("Please log in.");
-  if(!selectedUser) return toast("Choose a contact first.");
-  if(!text) return;
-
-  input.value="";
-  const id=[currentUser.uid,selectedUser.uid].sort().join("_");
-
-  try{
-    await addDoc(collection(db,"chats",id,"messages"),{
-      text,senderId:currentUser.uid,timestamp:serverTimestamp()
-    });
-  }catch(e){
-    input.value=text;
-    toast(err(e));
+// Profile
+function renderProfile(){
+ if(!me)return;
+ $("profileEmail").textContent=me.email||"";
+ $("profileName").value=myProfile.displayName||me.displayName||"";
+ $("profileUsername").value=myProfile.username||"";
+ $("profileBio").value=myProfile.bio||"";
+ $("profileAvatar").innerHTML=myProfile.photoURL?`<img src="${esc(myProfile.photoURL)}">`:esc(initials(myProfile.displayName||me.email));
+}
+$("saveProfile").onclick=async()=>{
+ const btn=$("saveProfile");setBusy(btn,true,"Saving…");
+ try{
+  const displayName=$("profileName").value.trim();
+  if(!displayName)throw Error("Enter your display name.");
+  const username=$("profileUsername").value.trim().replace(/^@/,"");
+  if(username&&!/^[a-zA-Z0-9_]{3,24}$/.test(username))throw Error("Username must be 3–24 letters, numbers or underscores.");
+  let photoURL=myProfile.photoURL||"";
+  const file=$("profilePhoto").files[0];
+  if(file){
+   if(file.size>5*1024*1024)throw Error("Profile photo must be under 5 MB.");
+   photoURL=await uploadFile(file,`profile-photos/${me.uid}/${Date.now()}_${safeFileName(file.name)}`);
   }
+  await updateProfile(me,{displayName,photoURL});
+  await setDoc(doc(db,"users",me.uid),{displayName,username,bio:$("profileBio").value.trim(),photoURL},{merge:true});
+  myProfile={...myProfile,displayName,username,bio:$("profileBio").value.trim(),photoURL};
+  renderProfile();toast("Profile updated.");
+ }catch(err){toast(err.message)}
+ finally{setBusy(btn,false)}
+};
+$("profilePassword").onclick=async()=>{
+ try{await sendPasswordResetEmail(auth,me.email);toast("Password reset email sent.")}
+ catch(err){toast(err.message)}
+};
+$("deleteAccountBtn").onclick=async()=>{
+ if(!confirm("Permanently delete your ChatWave login? This cannot be undone. Make sure you understand that this does not automatically delete all of your Firestore messages and uploaded files."))return;
+ try{await deleteUser(me);toast("Account deleted.")}
+ catch(err){toast(err.code==="auth/requires-recent-login"?"For security, sign out, sign in again, then retry account deletion.":err.message)}
 };
 
-window.sendImage=event=>{
-  const f=event.target.files?.[0];
-  event.target.value="";
-  if(!f) return;
-  if(!currentUser||!selectedUser) return toast("Choose a contact before sharing an image.");
-  if(!f.type.startsWith("image/")) return toast("Choose an image file.");
-  if(f.size>2*1024*1024) return toast("Images must be 2 MB or smaller in this demo.");
-
-  const r=new FileReader();
-  r.onload=async e=>{
-    const id=[currentUser.uid,selectedUser.uid].sort().join("_");
-    try{
-      await addDoc(collection(db,"chats",id,"messages"),{
-        text:"",
-        imageUrl:e.target.result,
-        senderId:currentUser.uid,
-        timestamp:serverTimestamp()
-      });
-    }catch(x){toast(err(x))}
-  };
-  r.onerror=()=>toast("Could not read that image.");
-  r.readAsDataURL(f);
+// Settings
+const settingGroups={
+ general:{title:"General",html:()=>`
+  <div class="glass setting-card"><h3>Appearance</h3>
+   <div class="field"><label>Theme</label><select id="prefTheme"><option value="system">System default</option><option value="dark">Dark glass</option><option value="light">Light glass</option></select></div>
+   <div class="field" style="margin-top:13px"><label>Accent colour</label><select id="prefAccent"><option value="#58dfc1">Mint</option><option value="#6aa9ff">Blue</option><option value="#bd93ff">Purple</option><option value="#ff9cba">Pink</option><option value="#ffbd69">Amber</option></select></div>
+   <div class="field" style="margin-top:13px"><label>Language</label><select id="prefLanguage"><option>English</option></select></div>
+  </div>
+  <div class="glass setting-card"><h3>Account</h3><div class="setting-item"><div><strong>Signed in as</strong><div class="desc">${esc(me.email)}</div></div></div>
+   <button class="btn full" id="settingsProfile">Edit profile</button>
+   <button class="btn full" id="settingsReset" style="margin-top:9px">Reset password</button>
+  </div>`},
+ privacy:{title:"Privacy",html:()=>`
+  <div class="glass setting-card"><h3>Visibility preferences</h3>
+   ${toggleHTML("lastSeen","Last seen","Save a local display preference.",true)}
+   ${toggleHTML("onlineVisibility","Show online status","Save a local display preference.",true)}
+   ${toggleHTML("readReceipts","Read receipts","Save a local preference; delivery receipts are not implemented.",true)}
+   ${toggleHTML("profilePhotoVisible","Show profile photo","Local preference only until enforced by security rules.",true)}
+  </div>
+  <div class="glass setting-card"><h3>Blocked accounts</h3><p class="muted small">Blocking requires additional checks in message sending and Firestore security rules.</p><button class="btn full" id="blockedInfo">About blocking</button></div>`},
+ security:{title:"Security",html:()=>`
+  <div class="glass setting-card"><h3>Account security</h3>
+   <div class="setting-item"><div><strong>Email and password</strong><div class="desc">Reset your password through Firebase.</div></div><button class="btn" id="securityReset">Reset</button></div>
+   ${toggleHTML("appLock","App lock","Preference only; device-level authentication is not connected.",false)}
+   ${toggleHTML("twoStep","Two-step verification","Not active. Requires a secure backend or identity provider.",false)}
+   <div class="setting-item"><div><strong>Sign out</strong><div class="desc">Sign out of this device.</div></div><button class="btn" id="securityLogout">Sign out</button></div>
+  </div>
+  <div class="glass setting-card"><h3>Security notice</h3><p class="muted small">ChatWave does not yet provide end-to-end encryption or linked-device session management. Do not use it for highly sensitive information.</p></div>`},
+ chats:{title:"Chats",html:()=>`
+  <div class="glass setting-card"><h3>Chat preferences</h3>
+   ${toggleHTML("enterSend","Enter to send","Enter sends a message; Shift+Enter adds a line.",false)}
+   ${toggleHTML("emojiSuggestions","Emoji shortcuts","Preference for future emoji features.",true)}
+   ${toggleHTML("mediaPreview","Media previews","Display images shared in conversations.",true)}
+   <div class="field" style="margin-top:15px"><label>Message font size</label><select id="fontSize"><option value="14">Small</option><option value="16">Medium</option><option value="18">Large</option><option value="20">Extra large</option></select></div>
+   <button class="btn full" style="margin-top:12px" id="clearChatView">Clear current chat view</button>
+  </div>
+  <div class="glass setting-card"><h3>Backup</h3><p class="muted small">Automatic chat backups are not implemented. Your conversations are stored in Firestore according to the project's database rules.</p></div>`},
+ notifications:{title:"Notifications",html:()=>`
+  <div class="glass setting-card"><h3>Notifications</h3>
+   ${toggleHTML("notifications","Enable notifications","Browser notifications need permission and a notification service.",false)}
+   ${toggleHTML("messageSounds","Message sounds","Local preference.",true)}
+   ${toggleHTML("groupNotifications","Group notifications","Group chat support is not implemented.",true)}
+   <button class="btn full" id="notificationTest" style="margin-top:12px">Test browser notification</button>
+  </div>
+  <div class="glass setting-card"><p class="muted small">These options save your preferences. Background push notifications require Firebase Cloud Messaging, service-worker setup, and permission.</p></div>`},
+ storage:{title:"Storage",html:()=>`
+  <div class="glass setting-card"><h3>Storage and data</h3>
+   <p class="muted">Uploaded media is stored in Firebase Storage.</p>
+   <div class="setting-item"><div><strong>Data saver</strong><div class="desc">Preference for future media download controls.</div></div><label class="switch"><input type="checkbox" data-pref="dataSaver"><span></span></label></div>
+   <div class="setting-item"><div><strong>Auto-download media</strong><div class="desc">Preference only; automatic downloading is not implemented.</div></div><label class="switch"><input type="checkbox" data-pref="autoDownload"><span></span></label></div>
+   <button class="btn full" id="storageInfo">Storage information</button>
+  </div>`},
+ help:{title:"Help",html:()=>`
+  <div class="glass setting-card"><h3>Help and support</h3>
+   <div class="setting-item"><div><strong>ChatWave</strong><div class="desc">Connect. Chat. Share.</div></div><span class="pill">BETA</span></div>
+   <button class="btn full" id="helpFeatures">Feature status</button>
+   <button class="btn full" style="margin-top:9px" id="helpPrivacy">Privacy and security notes</button>
+   <p class="small muted" style="margin-top:15px">Version 2.0 · ChatWave</p>
+  </div>`}
 };
+function toggleHTML(key,title,desc,defaultValue){
+ const checked=pref(key,defaultValue)?"checked":"";
+ return `<div class="setting-item"><div><strong>${esc(title)}</strong><div class="desc">${esc(desc)}</div></div><label class="switch"><input type="checkbox" data-pref="${esc(key)}" ${checked}><span></span></label></div>`;
+}
+function renderSettings(tab){
+ settingsTab=tab;
+ document.querySelectorAll("[data-settings]").forEach(b=>b.classList.toggle("active",b.dataset.settings===tab));
+ const g=settingGroups[tab]||settingGroups.general;
+ $("settingsContent").innerHTML=`<h2>${esc(g.title)}</h2>${g.html()}`;
+ $("settingsContent").querySelectorAll("[data-pref]").forEach(input=>{
+  input.checked=!!pref(input.dataset.pref,input.checked);
+  input.onchange=()=>{savePrefs({[input.dataset.pref]:input.checked});toast("Preference saved.")};
+ });
+ const bind=(id,fn)=>{const el=$(id);if(el)el.onclick=fn};
+ bind("settingsProfile",()=>switchPage("profile"));
+ bind("settingsReset",()=>$("profilePassword").click());
+ bind("securityReset",()=>$("profilePassword").click());
+ bind("securityLogout",()=>$("logoutBtn").click());
+ bind("blockedInfo",()=>toast("Blocking is not yet enforced in the backend."));
+ bind("storageInfo",()=>toast("Check your Firebase console for actual storage usage."));
+ bind("clearChatView",()=>{if(selectedUser){$("messages").innerHTML='<p class="muted">Messages remain stored in the database.</p>';toast("Only the current display was cleared.")}else toast("Open a chat first.")});
+ bind("notificationTest",async()=>{
+  if(!("Notification" in window))return toast("Browser notifications are unavailable.");
+  const permission=await Notification.requestPermission();
+  if(permission==="granted")new Notification("ChatWave",{body:"Notification test"});
+  else toast("Notification permission was not granted.");
+ });
+ bind("helpFeatures",()=>toast("Messaging, profile settings and basic status sharing are included. Calls and push notifications need extra services."));
+ bind("helpPrivacy",()=>toast("Visibility toggles are preferences only until enforced by backend rules."));
+ const theme=$("prefTheme"),accent=$("prefAccent"),font=$("fontSize");
+ if(theme){theme.value=pref("theme","dark");theme.onchange=()=>{savePrefs({theme:theme.value});applyPrefs()}}
+ if(accent){accent.value=pref("accent","#58dfc1");accent.onchange=()=>{savePrefs({accent:accent.value});applyPrefs()}}
+ if(font){font.value=pref("fontSize","16");font.onchange=()=>{savePrefs({fontSize:font.value});document.documentElement.style.setProperty("--message-size",font.value+"px");toast("Font preference saved.")}}
+}
+document.querySelectorAll("[data-settings]").forEach(b=>b.onclick=()=>renderSettings(b.dataset.settings));
+document.addEventListener("keydown",e=>{
+ if(e.target.id==="messageInput"&&e.key==="Enter"&&!e.shiftKey&&pref("enterSend",false)){e.preventDefault();$("messageForm").requestSubmit()}
+});
+$("profileName").addEventListener("input",()=>{});
+</script>
 
-window.insertEmoji=()=>{
-  const i=el("msgInput");
-  const s=i.selectionStart??i.value.length;
-  const e=i.selectionEnd??i.value.length;
-  i.value=i.value.slice(0,s)+" 😊 "+i.value.slice(e);
-  i.focus();
-  i.setSelectionRange(s+4,s+4);
+<script type="module">
+/* Status system uses Firestore for metadata and Firebase Storage for media. */
+import {getAuth} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+ getFirestore,collection,doc,getDoc,setDoc,addDoc,deleteDoc,
+ query,where,orderBy,onSnapshot,serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {getStorage,ref,uploadBytesResumable,getDownloadURL,deleteObject}
+ from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+/* Reuse the Firebase app already initialized above. */
+import {getApps} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+const app=getApps()[0],auth=getAuth(app),db=getFirestore(app),storage=getStorage(app);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const stamp=t=>t?.toDate?t.toDate():t?new Date(t):new Date();
+const age=t=>{const m=Math.max(0,Math.floor((Date.now()-stamp(t).getTime())/60000));return m<1?"Just now":m<60?m+" min ago":m<1440?Math.floor(m/60)+" h ago":Math.floor(m/1440)+" d ago"};
+const initials=s=>(s||"C").trim().slice(0,1).toUpperCase();
+let me=null,profile={},statuses=[],users=[],unsub=null,currentGroup=[],currentIndex=0,activeStatus=null;
+let localPrefs=()=>{try{return JSON.parse(localStorage.getItem("cw-prefs")||"{}")}catch{return {}}};
+function toast(msg){$("toast").textContent=msg;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),3200)}
+function avatar(u){return u?.photoURL?`<img src="${esc(u.photoURL)}">`:esc(initials(u?.displayName||u?.email))}
+function safeFileName(name){return name.replace(/[^a-zA-Z0-9._-]/g,"_").slice(-100)||"upload"}
+function escText(s){return esc(s).replace(/\n/g,"<br>")}
+const bgColors={mint:"linear-gradient(135deg,#4dd9bb,#146c76)",blue:"linear-gradient(135deg,#3878d8,#25365c)",purple:"linear-gradient(135deg,#ad78f0,#4c3b8a)",sunset:"linear-gradient(135deg,#ff9966,#e84a83)",dark:"linear-gradient(135deg,#253449,#080e19)"};
+
+auth.onAuthStateChanged(async user=>{
+ me=user;
+ if(!user){if(unsub)unsub();unsub=null;statuses=[];return}
+ try{
+  const s=await getDoc(doc(db,"users",user.uid));profile=s.exists()?s.data():{};
+  if(unsub)unsub();
+  const q=query(collection(db,"statuses"),where("expiresAt",">",new Date()));
+  unsub=onSnapshot(q,snap=>{
+   statuses=snap.docs.map(d=>({id:d.id,...d.data()}));
+   renderStrip();renderGrid();
+  },err=>{console.error(err);toast("Status feed error: "+err.message)});
+ }catch(err){toast("Could not load statuses: "+err.message)}
+});
+async function uploadStatusMedia(file){
+ const path=`status-media/${me.uid}/${Date.now()}_${safeFileName(file.name)}`;
+ const task=uploadBytesResumable(ref(storage,path),file);
+ await new Promise((resolve,reject)=>task.on("state_changed",s=>{
+  const pct=Math.round(s.bytesTransferred/s.totalBytes*100);
+  $("publishStatus").textContent="Uploading "+pct+"%";
+ },reject,resolve));
+ return {url:await getDownloadURL(task.snapshot.ref),path};
+}
+function mine(){return statuses.filter(s=>s.userId===me?.uid).sort((a,b)=>stamp(b.createdAt)-stamp(a.createdAt))}
+function grouped(){
+ const map=new Map();
+ statuses.filter(s=>s.userId!==me?.uid).sort((a,b)=>stamp(a.createdAt)-stamp(b.createdAt)).forEach(s=>{
+  if(!map.has(s.userId))map.set(s.userId,[]);map.get(s.userId).push(s);
+ });
+ return [...map.values()].map(a=>a.sort((x,y)=>stamp(x.createdAt)-stamp(y.createdAt)));
+}
+function person(s){
+ return {uid:s.userId,displayName:s.displayName||"ChatWave user",photoURL:s.photoURL||"",email:s.email||""};
+}
+function renderStrip(){
+ const groups=grouped(),mineList=mine();
+ $("myStatusAvatar").innerHTML=profile.photoURL?`<img src="${esc(profile.photoURL)}">`:esc(initials(profile.displayName||me?.email));
+ $("myStatusCaption").textContent=mineList.length?mineList.length+" active update(s)":"Share a moment with your contacts.";
+ const items=[`<button class="status-person" id="stripCreate"><div class="status-ring"><div class="avatar">+</div></div><div class="name">My status</div></button>`];
+ groups.forEach((group,i)=>{
+  const u=person(group[group.length-1]);
+  items.push(`<button class="status-person" data-group="${i}"><div class="status-ring unseen">${u.photoURL?`<img src="${esc(u.photoURL)}">`:`<div class="avatar">${esc(initials(u.displayName))}</div>`}</div><div class="name">${esc(u.displayName)}</div></button>`);
+ });
+ $("statusStrip").innerHTML=items.join("");
+ $("stripCreate").onclick=()=>openComposer();
+ $("statusStrip").querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>openGroup(groups[Number(b.dataset.group)]));
+}
+function renderGrid(){
+ const groups=grouped(),items=[];
+ const mineList=mine();
+ mineList.forEach(s=>items.push(statusCard(s,true)));
+ groups.forEach(group=>group.forEach(s=>items.push(statusCard(s,false))));
+ $("statusGrid").innerHTML=items.join("")||'<p class="muted">No recent status updates. Create the first one!</p>';
+ $("statusGrid").querySelectorAll("[data-status]").forEach(b=>b.onclick=()=>{
+  const s=statuses.find(x=>x.id===b.dataset.status);if(s)openGroup([s]);
+ });
+}
+function statusCard(s,isMine){
+ const bg=bgColors[s.background]||bgColors.dark;
+ let content=s.type==="image"?`<img src="${esc(s.mediaUrl)}" alt="Status image">`:s.type==="video"?`<video src="${esc(s.mediaUrl)}" muted playsinline></video>`:`<div class="status-words">${esc(s.text||"")}</div>`;
+ return `<button class="status-card" data-status="${esc(s.id)}"><div class="status-thumb" style="background:${bg}">${content}</div><strong>${esc(isMine?"Your status":s.displayName||"ChatWave user")}</strong><div class="small muted" style="margin-top:5px">${esc(age(s.createdAt))}</div></button>`;
+}
+function openComposer(){
+ $("statusModal").classList.remove("hidden");
+ $("statusText").value="";$("statusMedia").value="";
+ $("statusType").value="text";$("statusBackground").value="mint";
+ $("statusAudience").value="contacts";updateComposerType();
+}
+function updateComposerType(){
+ const type=$("statusType").value;
+ $("statusTextFields").classList.toggle("hidden",type!=="text");
+ $("statusMediaFields").classList.toggle("hidden",type==="text");
+ $("statusMedia").accept=type==="video"?"video/*":"image/*";
+}
+$("statusType").onchange=updateComposerType;
+$("newStatusBtn").onclick=openComposer;
+$("createStatusPage").onclick=openComposer;
+$("myStatusBtn").onclick=()=>{const m=mine();m.length?openGroup(m):openComposer()};
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
+$("statusModal").addEventListener("click",e=>{if(e.target===$("statusModal"))$("statusModal").classList.add("hidden")});
+$("publishStatus").onclick=async()=>{
+ if(!me)return toast("Sign in to post a status.");
+ const btn=$("publishStatus"),type=$("statusType").value,text=$("statusText").value.trim(),file=$("statusMedia").files[0];
+ if(type==="text"&&!text)return toast("Write something first.");
+ if(type!=="text"&&!file)return toast("Choose a media file first.");
+ if(file&&file.size>20*1024*1024)return toast("Choose a file smaller than 20 MB.");
+ if(type==="image"&&file&&!file.type.startsWith("image/"))return toast("Choose an image.");
+ if(type==="video"&&file&&!file.type.startsWith("video/"))return toast("Choose a video.");
+ btn.disabled=true;
+ try{
+  let mediaUrl="",storagePath="";
+  if(file){const uploaded=await uploadStatusMedia(file);mediaUrl=uploaded.url;storagePath=uploaded.path}
+  const expiresAt=new Date(Date.now()+24*60*60*1000);
+  await addDoc(collection(db,"statuses"),{
+   userId:me.uid,email:me.email||"",displayName:profile.displayName||me.displayName||"ChatWave user",
+   photoURL:profile.photoURL||"",type,text:type==="text"?text:"",
+   background:type==="text"?$("statusBackground").value:"dark",
+   mediaUrl,storagePath,audience:$("statusAudience").value,
+   createdAt:serverTimestamp(),expiresAt
+  });
+  $("statusModal").classList.add("hidden");toast("Status published.");
+ }catch(err){toast("Could not publish status: "+err.message)}
+ finally{btn.disabled=false;btn.textContent="Publish status"}
+};
+function openGroup(group){
+ currentGroup=group.slice();currentIndex=0;showStatus();
+}
+function showStatus(){
+ if(!currentGroup.length){$("viewer").classList.add("hidden");return}
+ if(currentIndex<0)currentIndex=0;
+ if(currentIndex>=currentGroup.length){$("viewer").classList.add("hidden");return}
+ const s=currentGroup[currentIndex];activeStatus=s;
+ const own=s.userId===me?.uid;
+ $("viewer").classList.remove("hidden");
+ $("viewerName").textContent=s.displayName||"ChatWave user";
+ $("viewerAvatar").innerHTML=s.photoURL?`<img src="${esc(s.photoURL)}">`:esc(initials(s.displayName));
+ $("viewerTime").textContent=age(s.createdAt);
+ $("viewerBars").innerHTML=currentGroup.map((_,i)=>`<span class="${i<=currentIndex?"done":""}"></span>`).join("");
+ $("ownerStatusTools").classList.toggle("hidden",!own);
+ $("statusReplyForm").classList.toggle("hidden",own);
+ $("viewerPrivacyNote").textContent=own?"This is your status.":"Replying opens a private chat with the status owner.";
+ const media=$("viewerMedia");
+ if(s.type==="image")media.innerHTML=`<img src="${esc(s.mediaUrl)}" alt="Status">`;
+ else if(s.type==="video")media.innerHTML=`<video src="${esc(s.mediaUrl)}" controls autoplay playsinline></video>`;
+ else media.innerHTML=`<div class="viewer-text">${escText(s.text||"")}</div>`;
+ $("viewerMedia").style.background=s.type==="text"?(bgColors[s.background]||bgColors.dark):"#080d17";
+ $("viewerViews").textContent=own?"Your status":"Status update";
+}
+$("viewerClose").onclick=()=>$("viewer").classList.add("hidden");
+$("viewer").addEventListener("click",e=>{if(e.target===$("viewer"))$("viewer").classList.add("hidden")});
+$("viewerMedia").addEventListener("click",e=>{
+ if(e.target.closest("video"))return;
+ const r=$("viewerMedia").getBoundingClientRect();
+ if(e.clientX<r.left+r.width*.35){currentIndex--;showStatus()}
+ else if(e.clientX>r.left+r.width*.65){currentIndex++;showStatus()}
+});
+$("statusReplyForm").onsubmit=async e=>{
+ e.preventDefault();const text=$("statusReplyInput").value.trim(),s=activeStatus;
+ if(!text||!s||!me)return;
+ if(s.userId===me.uid)return toast("You cannot reply to your own status.");
+ try{
+  const id=[me.uid,s.userId].sort().join("_");
+  await addDoc(collection(db,"chats",id,"messages"),{
+   text:"Reply to status: "+text,senderId:me.uid,timestamp:serverTimestamp(),statusId:s.id
+  });
+  $("statusReplyInput").value="";$("viewer").classList.add("hidden");toast("Reply sent.");
+ }catch(err){toast("Reply failed: "+err.message)}
+};
+$("deleteStatusBtn").onclick=async()=>{
+ const s=activeStatus;if(!s||s.userId!==me?.uid)return;
+ if(!confirm("Delete this status?"))return;
+ try{
+  await deleteDoc(doc(db,"statuses",s.id));
+  if(s.storagePath){try{await deleteObject(ref(storage,s.storagePath))}catch{}}
+  $("viewer").classList.add("hidden");toast("Status deleted.");
+ }catch(err){toast("Delete failed: "+err.message)}
 };
 </script>
 </body>
