@@ -6,25 +6,96 @@
 <meta name="theme-color" content="#07111f">
 <title>ChatWave Admin</title>
 <style>
-:root{color-scheme:dark;--bg:#07111f;--panel:rgba(20,35,58,.72);--line:#ffffff20;--text:#f4f7ff;--muted:#9aabc4;--blue:#80a8ff;--green:#4ade80;--yellow:#fbbf24;--red:#fb7185}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top left,#1a3760,transparent 45%),radial-gradient(ellipse at bottom right,#29204b,transparent 45%),var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);min-height:100vh}button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit}.hidden{display:none!important}svg{width:20px;height:20px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.glass{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:20px;box-shadow:0 15px 45px #0002}.app{display:grid;grid-template-columns:235px 1fr;gap:16px;padding:16px;max-width:1700px;margin:auto}.sidebar{padding:18px;height:calc(100vh - 32px);position:sticky;top:16px;display:flex;flex-direction:column;gap:22px}.brand{display:flex;align-items:center;gap:11px;padding-bottom:18px;border-bottom:1px solid var(--line)}.logo{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#80a8ff,#67e8f9);color:#07111f}.brand small{display:block;color:var(--muted);margin-top:4px}.nav{display:grid;gap:6px}.nav button{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid transparent;border-radius:13px;background:transparent;color:var(--muted);text-align:left}.nav button.active,.nav button:hover{background:#80a8ff18;border-color:#80a8ff30;color:white}.nav svg{width:19px;height:19px}.sidebottom{margin-top:auto;border-top:1px solid var(--line);padding-top:15px}.main{min-width:0}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 3px 20px}.topbar h1{font-size:clamp(24px,3vw,34px);margin:0;letter-spacing:-1px}.topbar p{margin:7px 0 0;color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;align-items:center}.btn{padding:10px 13px;border:1px solid var(--line);border-radius:12px;background:#ffffff09;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn:hover{background:#ffffff17}.btn.primary{background:linear-gradient(135deg,#80a8ff,#67e8f9);color:#07111f;border:0;font-weight:700}.btn.danger{color:var(--red);border-color:#fb718555}.btn.good{color:var(--green);border-color:#4ade8055}.btn svg{width:16px;height:16px}.page{display:none}.page.active{display:block}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:15px}.stat{padding:17px;min-width:0}.stat-label{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;gap:5px}.stat-number{font-size:clamp(25px,3vw,34px);font-weight:800;margin:15px 0 5px}.muted{color:var(--muted)}.small{font-size:11px}.stat-icon{color:var(--blue);background:#80a8ff18;padding:8px;border-radius:12px}.panel{padding:17px;margin-bottom:15px;min-width:0}.panelhead,.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.panel h3,.sectionhead h2{font-size:17px;margin:0}.sectionhead{margin:5px 0 15px}.sectionhead p{color:var(--muted);font-size:12px;margin:6px 0 0}.two{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:680px;text-align:left}th,td{padding:12px;border-bottom:1px solid #ffffff0d;font-size:12px;white-space:nowrap}th{font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);background:#ffffff05}tr:last-child td{border-bottom:0}tbody tr:hover{background:#ffffff06}.usercell{display:flex;align-items:center;gap:9px}.avatar{width:32px;height:32px;border-radius:11px;background:#80a8ff20;color:#b7ceff;display:grid;place-items:center;font-weight:800}.pill{display:inline-flex;border-radius:100px;padding:5px 9px;font-size:10px;font-weight:750;text-transform:capitalize;border:1px solid var(--line)}.activeStatus{color:var(--green);background:#4ade8010}.suspended{color:var(--yellow);background:#fbbf2410}.banned{color:var(--red);background:#fb718510}.pending,.unknown{color:var(--muted)}.rowactions{display:flex;gap:5px}.iconbtn{width:31px;height:31px;border:1px solid var(--line);background:#ffffff08;border-radius:9px;display:grid;place-items:center}.iconbtn svg{width:15px;height:15px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.field,.filters input,.filters select{background:#07111f88;border:1px solid var(--line);border-radius:11px;color:white;padding:10px;outline:none;min-width:0}.filters input{flex:1;min-width:170px}.field{width:100%}.field option,.filters option{background:#101a2a}.notice{padding:12px 14px;border:1px solid #fbbf2440;background:#fbbf240b;border-radius:13px;color:#f8dfa0;font-size:12px;line-height:1.6;margin-bottom:14px}.activity{display:grid;gap:13px}.activityitem{display:flex;gap:10px;font-size:12px;line-height:1.5}.dot{width:8px;height:8px;border-radius:50%;background:#67e8f9;margin-top:5px;flex-shrink:0}.empty{padding:25px;text-align:center;color:var(--muted)}.formrow{display:grid;gap:7px;margin-bottom:12px}.formrow label{font-size:12px;color:var(--muted)}.formrow textarea{min-height:100px;resize:vertical}.modalback{position:fixed;inset:0;background:#000a;backdrop-filter:blur(8px);display:grid;place-items:center;padding:15px;z-index:50}.modal{width:min(480px,100%);padding:22px}.modal h2{margin:0 0 8px}.modal p{font-size:12px;color:var(--muted);line-height:1.6}.modalactions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:17px}.toast{position:fixed;right:16px;bottom:16px;z-index:80;background:#14243b;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-size:12px;max-width:90vw}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.loginbox{width:min(410px,100%);padding:27px}.loginbox h1{margin:23px 0 7px}.loginbox p{font-size:12px;color:var(--muted);line-height:1.6}.loginbox .btn{width:100%;padding:13px}.loginbox .formrow{margin:13px 0}.mobileNav{display:none}.error{color:#ff9aaa;font-size:12px}
-@media(max-width:1050px){.app{grid-template-columns:200px 1fr;padding:10px;gap:10px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}}
-@media(max-width:720px){.app{display:block;padding:10px 10px 85px}.sidebar{display:none}.topbar{padding:8px 2px 16px}.topbar h1{font-size:25px}.topbar p{font-size:11px}.actions .searchbox{display:none}.actions .btn span{display:none}.actions .btn{width:40px;height:40px;padding:0}.stat{padding:13px;border-radius:17px}.stat-number{font-size:27px}.stat-label{font-size:11px}.panel{padding:13px}.mobileNav{display:flex;position:fixed;z-index:25;bottom:8px;left:8px;right:8px;justify-content:space-around;padding:7px;border-radius:19px;background:#101c30eF;border:1px solid var(--line);backdrop-filter:blur(25px)}.mobileNav button{background:transparent;border:0;color:var(--muted);display:grid;justify-items:center;gap:3px;font-size:9px;padding:6px}.mobileNav button.active{color:#9ec4ff}.mobileNav svg{width:18px;height:18px}.sectionhead h2{font-size:17px}.sectionhead .btn{font-size:11px;padding:9px}.tablewrap{border-radius:11px}}
+:root{color-scheme:dark;--bg:#07111f;--panel:rgba(20,35,58,.76);--line:#ffffff20;--text:#f4f7ff;--muted:#9aabc4;--blue:#80a8ff;--green:#4ade80;--yellow:#fbbf24;--red:#fb7185}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top left,#1a3760,transparent 45%),radial-gradient(ellipse at bottom right,#29204b,transparent 45%),var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit}
+.hidden{display:none!important}
+svg{width:20px;height:20px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.glass{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:20px;box-shadow:0 15px 45px #0002}
+.app{display:grid;grid-template-columns:225px minmax(0,1fr);gap:16px;padding:16px;max-width:1700px;margin:auto}
+.sidebar{padding:18px;height:calc(100vh - 32px);position:sticky;top:16px;display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;align-items:center;gap:11px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.logo{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#80a8ff,#67e8f9);color:#07111f;flex-shrink:0}
+.brand small{display:block;color:var(--muted);margin-top:4px}
+.nav{display:grid;gap:6px}
+.nav button{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid transparent;border-radius:13px;background:transparent;color:var(--muted);text-align:left}
+.nav button.active,.nav button:hover{background:#80a8ff18;border-color:#80a8ff30;color:white}
+.nav svg{width:19px;height:19px}
+.sidebottom{margin-top:auto;border-top:1px solid var(--line);padding-top:15px}
+.main{min-width:0}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 3px 20px}
+.topbar h1{font-size:clamp(24px,3vw,34px);margin:0;letter-spacing:-1px}
+.topbar p{margin:7px 0 0;color:var(--muted);font-size:13px}
+.actions{display:flex;gap:8px;align-items:center}
+.btn{padding:10px 13px;border:1px solid var(--line);border-radius:12px;background:#ffffff09;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.btn:hover{background:#ffffff17}.btn:disabled{opacity:.55;cursor:wait}
+.btn.primary{background:linear-gradient(135deg,#80a8ff,#67e8f9);color:#07111f;border:0;font-weight:700}
+.btn.danger{color:var(--red);border-color:#fb718555}.btn.good{color:var(--green);border-color:#4ade8055}
+.btn svg{width:16px;height:16px}
+.page{display:none}.page.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:15px}
+.stat{padding:17px;min-width:0}
+.stat-label{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;gap:5px}
+.stat-number{font-size:clamp(25px,3vw,34px);font-weight:800;margin:15px 0 5px}
+.muted{color:var(--muted)}.small{font-size:11px}
+.stat-icon{color:var(--blue);background:#80a8ff18;padding:8px;border-radius:12px}
+.panel{padding:17px;margin-bottom:15px;min-width:0}
+.panelhead,.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.panel h3,.sectionhead h2{font-size:17px;margin:0}
+.sectionhead{margin:5px 0 15px}.sectionhead p{color:var(--muted);font-size:12px;margin:6px 0 0}
+.two{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:650px;text-align:left}
+th,td{padding:12px;border-bottom:1px solid #ffffff0d;font-size:12px;white-space:nowrap}
+th{font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);background:#ffffff05}
+tr:last-child td{border-bottom:0}tbody tr:hover{background:#ffffff06}
+.usercell{display:flex;align-items:center;gap:9px}
+.avatar{width:32px;height:32px;border-radius:11px;background:#80a8ff20;color:#b7ceff;display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.pill{display:inline-flex;border-radius:100px;padding:5px 9px;font-size:10px;font-weight:750;text-transform:capitalize;border:1px solid var(--line)}
+.activeStatus{color:var(--green);background:#4ade8010}.suspended{color:var(--yellow);background:#fbbf2410}.banned{color:var(--red);background:#fb718510}.pending,.unknown,.draft{color:var(--muted)}
+.rowactions{display:flex;gap:5px}
+.iconbtn{width:31px;height:31px;border:1px solid var(--line);background:#ffffff08;border-radius:9px;display:grid;place-items:center}
+.iconbtn svg{width:15px;height:15px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.field,.filters input,.filters select{background:#07111f88;border:1px solid var(--line);border-radius:11px;color:white;padding:10px;outline:none;min-width:0}
+.field{width:100%}.field:focus,.filters input:focus{border-color:#80a8ff}
+.field option,.filters option{background:#101a2a}
+.notice{padding:12px 14px;border:1px solid #fbbf2440;background:#fbbf240b;border-radius:13px;color:#f8dfa0;font-size:12px;line-height:1.6;margin-bottom:14px}
+.activity{display:grid;gap:13px}
+.activityitem{display:flex;gap:10px;font-size:12px;line-height:1.5}
+.dot{width:8px;height:8px;border-radius:50%;background:#67e8f9;margin-top:5px;flex-shrink:0}
+.empty{padding:25px;text-align:center;color:var(--muted)}
+.formrow{display:grid;gap:7px;margin-bottom:12px}
+.formrow label{font-size:12px;color:var(--muted)}
+.formrow textarea{min-height:100px;resize:vertical}
+.modalback{position:fixed;inset:0;background:#000a;backdrop-filter:blur(8px);display:grid;place-items:center;padding:15px;z-index:50;overflow:auto}
+.modal{width:min(480px,100%);padding:22px;max-height:90vh;overflow:auto}
+.modal h2{margin:0 0 8px}.modal p{font-size:12px;color:var(--muted);line-height:1.6}
+.modalactions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:17px}
+.toast{position:fixed;right:16px;bottom:16px;z-index:80;background:#14243b;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-size:12px;max-width:90vw;overflow-wrap:anywhere}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.loginbox{width:min(410px,100%);padding:27px}
+.loginbox h1{margin:23px 0 7px}.loginbox p{font-size:12px;color:var(--muted);line-height:1.6}
+.loginbox .btn{width:100%;padding:13px}.loginbox .formrow{margin:13px 0}
+.error{color:#ff9aaa;font-size:12px;overflow-wrap:anywhere}
+.mobileNav{display:none}
+@media(max-width:1050px){.app{grid-template-columns:190px minmax(0,1fr);padding:10px;gap:10px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}}
+@media(max-width:720px){.app{display:block;padding:10px 10px 85px}.sidebar{display:none}.topbar{padding:8px 2px 16px}.topbar h1{font-size:25px}.topbar p{font-size:11px}.actions .searchbox{display:none}.actions .btn span{display:none}.actions .btn{width:40px;height:40px;padding:0}.stat{padding:13px;border-radius:17px}.stat-number{font-size:27px}.stat-label{font-size:11px}.panel{padding:13px}.mobileNav{display:flex;position:fixed;z-index:25;bottom:8px;left:8px;right:8px;justify-content:space-around;padding:7px;border-radius:19px;background:#101c30ef;border:1px solid var(--line);backdrop-filter:blur(25px)}.mobileNav button{background:transparent;border:0;color:var(--muted);display:grid;justify-items:center;gap:3px;font-size:9px;padding:6px}.mobileNav button.active{color:#9ec4ff}.mobileNav svg{width:18px;height:18px}.sectionhead h2{font-size:17px}.sectionhead .btn{font-size:11px;padding:9px}}
 </style>
 </head>
 <body>
-<!-- Inline SVG symbol library: icons remain crisp at every screen size. -->
+
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
 <symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 8c3-3 5-3 8 0s5 3 8 0 4-3 4 0M2 13c3-3 5-3 8 0s5 3 8 0 4-3 4 0M2 18c3-3 5-3 8 0s5 3 8 0 4-3 4 0"/></symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></symbol>
-<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-4M16 3a4 4 0 0 1 0 8"/><path d="M16 11l2 2 4-4"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-4M16 3a4 4 0 0 1 0 8"/></symbol>
 <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></symbol>
 <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4M4 4c7-4 9 4 16 0v12c-7 4-9-4-16 0"/></symbol>
 <symbol id="i-mega" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 13zM11 15l3 7h-4l-2-7M3 11v2"/></symbol>
 <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M6 15l5-5 4 4 6-7"/></symbol>
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11zM9 12l2 2 4-4"/></symbol>
-<symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.8 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.8-1l-1.7.6-1.4-2.4 1.4-1.1a8 8 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.6a8 8 0 0 1 1.8-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.8 1l1.7-.6 1.4 2.4-1.4 1.1a8 8 0 0 1 0 2z"/></symbol>
-<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.4-4.4"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 13a7 7 0 0 0 0-2l2-1-2-4-2 1a7 7 0 0 0-2-1l-.5-2h-5L9 6a7 7 0 0 0-2 1L5 6 3 10l2 1a7 7 0 0 0 0 2l-2 1 2 4 2-1a7 7 0 0 0 2 1l.5 2h5l.5-2a7 7 0 0 0 2-1l2 1 2-4z"/></symbol>
 <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M5.6 9a7 7 0 0 1 11.5-2L20 12M4 12l2.9 5a7 7 0 0 0 11.5-2"/></symbol>
 <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
 <symbol id="i-pause" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M10 8v8M14 8v8"/></symbol>
@@ -34,18 +105,22 @@
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
 </svg>
+
 <div id="login" class="login">
  <div class="glass loginbox">
   <div class="brand"><div class="logo"><svg><use href="#i-wave"/></svg></div><div><b>ChatWave</b><small>Admin Console</small></div></div>
-  <h1>Welcome back</h1><p>Sign in using your authorized administrator account.</p>
+  <h1>Welcome back</h1>
+  <p>Sign in using your authorized administrator account.</p>
   <form id="loginForm">
-   <div class="formrow"><label>Email</label><input class="field" id="email" type="email" autocomplete="username" required></div>
-   <div class="formrow"><label>Password</label><input class="field" id="password" type="password" autocomplete="current-password" required></div>
-   <button class="btn primary" id="loginBtn">Sign in securely</button><p id="loginError" class="error"></p>
+   <div class="formrow"><label for="email">Email</label><input class="field" id="email" type="email" autocomplete="username" required></div>
+   <div class="formrow"><label for="password">Password</label><input class="field" id="password" type="password" autocomplete="current-password" required></div>
+   <button class="btn primary" id="loginBtn" type="submit">Sign in securely</button>
+   <p id="loginError" class="error" role="alert"></p>
   </form>
-  <p>Use Firestore Security Rules to protect administrator access. The UID check in this page is not a replacement for database rules.</p>
+  <p>Admin access is verified against Firebase Authentication and the admins collection.</p>
  </div>
 </div>
+
 <div id="app" class="app hidden">
  <aside class="sidebar glass">
   <div class="brand"><div class="logo"><svg><use href="#i-wave"/></svg></div><div><b>ChatWave</b><small>Admin Console</small></div></div>
@@ -61,19 +136,23 @@
   </nav>
   <div class="sidebottom"><button class="btn" id="logout" style="width:100%"><svg><use href="#i-out"/></svg>Sign out</button><p class="muted small" id="adminEmail"></p></div>
  </aside>
+
  <main class="main">
-  <header class="topbar"><div><h1 id="pageTitle">Dashboard</h1><p id="pageSub">A clear view of your ChatWave community.</p></div><div class="actions"><label class="searchbox"><input class="field" id="globalSearch" placeholder="Search users…" style="width:190px"></label><button class="btn" id="refresh"><svg><use href="#i-refresh"/></svg><span>Refresh</span></button></div></header>
+  <header class="topbar">
+   <div><h1 id="pageTitle">Dashboard</h1><p id="pageSub">A clear view of your ChatWave community.</p></div>
+   <div class="actions"><label class="searchbox"><input class="field" id="globalSearch" placeholder="Search users…" style="width:190px"></label><button class="btn" id="refresh"><svg><use href="#i-refresh"/></svg><span>Refresh</span></button></div>
+  </header>
 
   <section class="page active" id="page-dashboard">
    <div class="stats">
     <article class="glass stat"><div class="stat-label">Total users <span class="stat-icon"><svg><use href="#i-users"/></svg></span></div><div class="stat-number" id="total">—</div><div class="small muted">User profiles</div></article>
-    <article class="glass stat"><div class="stat-label">Active <span class="stat-icon" style="color:var(--green)"><svg><use href="#i-check"/></svg></span></div><div class="stat-number" id="active">—</div><div class="small muted">Normal account status</div></article>
-    <article class="glass stat"><div class="stat-label">Suspended <span class="stat-icon" style="color:var(--yellow)"><svg><use href="#i-pause"/></svg></span></div><div class="stat-number" id="suspended">—</div><div class="small muted">Temporary restrictions</div></article>
-    <article class="glass stat"><div class="stat-label">Banned <span class="stat-icon" style="color:var(--red)"><svg><use href="#i-ban"/></svg></span></div><div class="stat-number" id="banned">—</div><div class="small muted">Restricted until restored</div></article>
+    <article class="glass stat"><div class="stat-label">Active <span class="stat-icon"><svg><use href="#i-check"/></svg></span></div><div class="stat-number" id="active">—</div><div class="small muted">Normal accounts</div></article>
+    <article class="glass stat"><div class="stat-label">Suspended <span class="stat-icon"><svg><use href="#i-pause"/></svg></span></div><div class="stat-number" id="suspended">—</div><div class="small muted">Temporary restrictions</div></article>
+    <article class="glass stat"><div class="stat-label">Banned <span class="stat-icon"><svg><use href="#i-ban"/></svg></span></div><div class="stat-number" id="banned">—</div><div class="small muted">Restricted accounts</div></article>
    </div>
-   <div class="notice"><b>Account enforcement:</b> These controls update Firestore account status. Your customer app and Firestore Rules must enforce it. This does not itself disable Firebase Authentication sign-in.</div>
+   <div class="notice"><b>Account enforcement:</b> The customer app must enforce accountStatus. This panel does not itself disable Firebase Authentication accounts.</div>
    <div class="two">
-    <div class="glass panel"><div class="panelhead"><h3>Community overview</h3><span class="pill activeStatus">Live data</span></div><div id="chart" style="display:grid;gap:18px"></div></div>
+    <div class="glass panel"><div class="panelhead"><h3>Community overview</h3><span class="pill activeStatus">Loaded data</span></div><div id="chart" style="display:grid;gap:18px"></div></div>
     <div class="glass panel"><div class="panelhead"><h3>Recent admin activity</h3><button class="btn" data-go="security">View logs</button></div><div class="activity" id="recentLogs"><div class="empty">No activity loaded.</div></div></div>
    </div>
    <div class="glass panel"><div class="panelhead"><h3>Recently registered users</h3><button class="btn" data-go="users">Manage users</button></div><div class="tablewrap"><table><thead><tr><th>User</th><th>Email</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="recentUsers"></tbody></table></div></div>
@@ -81,53 +160,61 @@
 
   <section class="page" id="page-users">
    <div class="sectionhead"><div><h2>User management</h2><p>Search profiles, suspend accounts, ban users, or restore access.</p></div><button class="btn" id="export"><svg><use href="#i-download"/></svg>Export CSV</button></div>
-   <div class="notice"><b>Moderation actions:</b> add a reason for every restriction. The account status will be stored in the users collection and an audit record written to adminLogs.</div>
-   <div class="glass panel"><div class="filters"><input id="userSearch" placeholder="Search name, email or UID…"><select id="statusFilter"><option value="all">All statuses</option><option>active</option><option>suspended</option><option>banned</option><option>pending</option><option>unknown</option></select><button class="btn" id="clear">Clear</button></div><div class="tablewrap"><table><thead><tr><th>User</th><th>Email</th><th>UID / document ID</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody id="usersTable"></tbody></table></div><p class="muted small" id="usersCount"></p></div>
+   <div class="notice">Moderation actions update the users collection and create an audit record.</div>
+   <div class="glass panel"><div class="filters"><input id="userSearch" placeholder="Search name, email or UID…"><select id="statusFilter"><option value="all">All statuses</option><option value="active">active</option><option value="suspended">suspended</option><option value="banned">banned</option><option value="pending">pending</option><option value="unknown">unknown</option></select><button class="btn" id="clear">Clear</button></div><div class="tablewrap"><table><thead><tr><th>User</th><th>Email</th><th>UID / document ID</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody id="usersTable"></tbody></table></div><p class="muted small" id="usersCount"></p></div>
   </section>
 
   <section class="page" id="page-chats">
-   <div class="sectionhead"><div><h2>Chat overview</h2><p>High-level conversation metadata; message contents are not shown here.</p></div></div>
-   <div class="notice">This page reads the <b>conversations</b> collection. Change the collection name in the code if your app uses another structure.</div>
-   <div class="stats"><article class="glass stat"><div class="stat-label">Conversations</div><div class="stat-number" id="chatTotal">—</div></article><article class="glass stat"><div class="stat-label">Open reports</div><div class="stat-number" id="chatReports">—</div></article></div>
-   <div class="glass panel"><div class="tablewrap"><table><thead><tr><th>Conversation ID</th><th>Participants</th><th>Last activity</th><th>Created</th></tr></thead><tbody id="chatsTable"></tbody></table></div></div>
+   <div class="sectionhead"><div><h2>Chat overview</h2><p>Conversation metadata only; message contents are not shown.</p></div></div>
+   <div class="notice">Your current database uses <b>chats</b>. This page reads that collection.</div>
+   <div class="stats"><article class="glass stat"><div class="stat-label">Chats</div><div class="stat-number" id="chatTotal">—</div></article><article class="glass stat"><div class="stat-label">Open reports</div><div class="stat-number" id="chatReports">—</div></article></div>
+   <div class="glass panel"><div class="tablewrap"><table><thead><tr><th>Chat ID</th><th>Members</th><th>Last activity</th><th>Created</th></tr></thead><tbody id="chatsTable"></tbody></table></div></div>
   </section>
 
   <section class="page" id="page-reports">
    <div class="sectionhead"><div><h2>Reports & moderation</h2><p>Review reports and record a decision.</p></div><button class="btn" id="reloadReports">Reload</button></div>
-   <div class="notice">Reads the <b>reports</b> collection. Make sure the customer app submits reports to this collection.</div>
+   <div class="notice">Reads the reports collection.</div>
    <div class="glass panel"><div class="filters"><input id="reportSearch" placeholder="Search report or reason…"><select id="reportFilter"><option value="open">Open / pending</option><option value="all">All reports</option><option value="resolved">Resolved</option><option value="dismissed">Dismissed</option></select></div><div class="tablewrap"><table><thead><tr><th>Report</th><th>Reported user</th><th>Reason</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody id="reportsTable"></tbody></table></div></div>
   </section>
 
   <section class="page" id="page-announcements">
-   <div class="sectionhead"><div><h2>Announcements</h2><p>Create notices for the customer app.</p></div><button class="btn primary" id="newAnnouncement"><svg><use href="#i-plus"/></svg>New announcement</button></div>
-   <div class="notice">Creates documents in <b>announcements</b>. The customer app must read this collection to show notices.</div>
+   <div class="sectionhead"><div><h2>Announcements</h2><p>Create notices for your customer app.</p></div><button class="btn primary" id="newAnnouncement"><svg><use href="#i-plus"/></svg>New announcement</button></div>
+   <div class="notice">Creates documents in announcements. Your customer app must read this collection to display notices.</div>
    <div class="glass panel"><div class="tablewrap"><table><thead><tr><th>Title</th><th>Message</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody id="announcementsTable"></tbody></table></div></div>
   </section>
 
   <section class="page" id="page-analytics">
-   <div class="sectionhead"><div><h2>Analytics</h2><p>Account totals from loaded profiles.</p></div></div>
+   <div class="sectionhead"><div><h2>Analytics</h2><p>Totals from loaded profiles.</p></div></div>
    <div class="stats"><article class="glass stat"><div class="stat-label">Verified emails</div><div class="stat-number" id="verified">—</div></article><article class="glass stat"><div class="stat-label">Pending accounts</div><div class="stat-number" id="pending">—</div></article><article class="glass stat"><div class="stat-label">Open reports</div><div class="stat-number" id="openReports">—</div></article><article class="glass stat"><div class="stat-label">Announcements</div><div class="stat-number" id="announcementCount">—</div></article></div>
    <div class="glass panel"><h3>Registrations by month</h3><div id="timeline" style="display:flex;align-items:end;gap:12px;height:200px;padding:15px 0"></div></div>
   </section>
 
   <section class="page" id="page-security">
-   <div class="sectionhead"><div><h2>Security & audit logs</h2><p>Review account moderation actions.</p></div><button class="btn" id="reloadLogs">Refresh logs</button></div>
-   <div class="notice"><b>Important:</b> browser-side admin checks are not sufficient by themselves. Secure your database with Firestore Rules. Never put a service-account key in this file.</div>
+   <div class="sectionhead"><div><h2>Security & audit logs</h2><p>Review administrative actions.</p></div><button class="btn" id="reloadLogs">Refresh logs</button></div>
+   <div class="notice">Never put a Firebase service-account key in this HTML file.</div>
    <div class="glass panel"><div class="tablewrap"><table><thead><tr><th>Action</th><th>Target</th><th>Reason</th><th>Admin UID</th><th>Time</th></tr></thead><tbody id="logsTable"></tbody></table></div></div>
   </section>
 
   <section class="page" id="page-settings">
    <div class="sectionhead"><div><h2>Settings</h2><p>Project connection information.</p></div></div>
-   <div class="glass panel"><div class="panelhead"><h3>Firebase project</h3><span class="pill activeStatus">Configured</span></div><p>Project ID: <b>chat-2c557</b></p><p>Users collection: <b>users</b></p><p>Audit collection: <b>adminLogs</b></p><p>Reports collection: <b>reports</b></p><p>Announcements collection: <b>announcements</b></p><div class="notice">Suspension and ban changes are Firestore flags. To disable Firebase Authentication accounts directly, a trusted backend is required.</div><button class="btn" id="logout2">Sign out</button></div>
+   <div class="glass panel"><div class="panelhead"><h3>Firebase project</h3><span class="pill activeStatus">Configured</span></div><p>Project ID: <b>chat-2c557</b></p><p>Users collection: <b>users</b></p><p>Admin collection: <b>admins</b></p><p>Chat collection: <b>chats</b></p><p>Audit collection: <b>adminLogs</b></p><p>Reports collection: <b>reports</b></p><p>Announcements collection: <b>announcements</b></p><div class="notice">Firestore status flags do not disable Firebase Authentication accounts by themselves.</div><button class="btn" id="logout2">Sign out</button></div>
   </section>
  </main>
 </div>
-<nav class="mobileNav hidden" id="mobileNav"><button class="active" data-page="dashboard"><svg><use href="#i-home"/></svg>Home</button><button data-page="users"><svg><use href="#i-users"/></svg>Users</button><button data-page="reports"><svg><use href="#i-flag"/></svg>Reports</button><button data-page="announcements"><svg><use href="#i-mega"/></svg>Notices</button><button data-page="security"><svg><use href="#i-shield"/></svg>Security</button></nav>
+
+<nav class="mobileNav hidden" id="mobileNav">
+ <button class="active" data-page="dashboard"><svg><use href="#i-home"/></svg>Home</button>
+ <button data-page="users"><svg><use href="#i-users"/></svg>Users</button>
+ <button data-page="reports"><svg><use href="#i-flag"/></svg>Reports</button>
+ <button data-page="announcements"><svg><use href="#i-mega"/></svg>Notices</button>
+ <button data-page="security"><svg><use href="#i-shield"/></svg>Security</button>
+</nav>
 <div id="modalHost"></div><div id="toastHost"></div>
+
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import{getFirestore,collection,getDocs,doc,updateDoc,addDoc,deleteDoc,query,limit,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import{getFirestore,collection,getDocs,doc,getDoc,updateDoc,addDoc,deleteDoc,query,limit,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig={
  apiKey:"AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
@@ -139,52 +226,484 @@ const firebaseConfig={
  appId:"1:74313204354:web:c735269d502b88a39eea9b"
 };
 const ADMIN_UID="GmD5BMWqmUSj84w75v9sBuvEmx22";
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
-let me=null,users=[],logs=[],reports=[],announcements=[],conversations=[];
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+let me=null,users=[],logs=[],reports=[],announcements=[],chats=[];
+let authCheckInProgress=false;
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const svg=(name)=>`<svg><use href="#i-${name}"/></svg>`;
-function toast(s){$("toastHost").innerHTML=`<div class="toast">${esc(s)}</div>`;setTimeout(()=>$("toastHost").innerHTML="",3500)}
-function status(u){let s=String(u.accountStatus||u.status||"unknown").toLowerCase();if(s==="suspend")s="suspended";if(s==="ban"||s==="disabled")s="banned";return ["active","suspended","banned","pending"].includes(s)?s:"unknown"}
+const svg=name=>`<svg><use href="#i-${name}"/></svg>`;
+
+function toast(message){
+ $("toastHost").innerHTML=`<div class="toast">${esc(message)}</div>`;
+ setTimeout(()=>{$("toastHost").innerHTML=""},4000);
+}
+function showLoginError(message){
+ $("loginError").textContent=message;
+}
+function status(u){
+ let s=String(u.accountStatus||u.status||"unknown").toLowerCase();
+ if(s==="suspend")s="suspended";
+ if(s==="ban"||s==="disabled")s="banned";
+ return ["active","suspended","banned","pending"].includes(s)?s:"unknown";
+}
 function name(u){return u.name||u.displayName||u.username||u.fullName||"Unnamed user"}
-function date(v){if(!v)return"—";let d=v?.toDate?v.toDate():new Date(v);return isNaN(d.getTime())?"—":d.toLocaleString()}
-function millis(v){if(v?.toDate)return v.toDate().getTime();let n=new Date(v||0).getTime();return isNaN(n)?0:n}
+function date(v){
+ if(!v)return"—";
+ let d=v?.toDate?v.toDate():new Date(v);
+ return isNaN(d.getTime())?"—":d.toLocaleString();
+}
+function millis(v){
+ if(v?.toDate)return v.toDate().getTime();
+ let n=new Date(v||0).getTime();
+ return isNaN(n)?0:n;
+}
 function created(u){return u.createdAt||u.created_at||u.joinedAt||null}
-function pill(s){let cls=s==="active"?"activeStatus":s;return`<span class="pill ${esc(cls)}">${esc(s)}</span>`}
-function admin(u){return u&&u.uid===ADMIN_UID}
-function navigate(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="page-"+p));document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===p));const t={dashboard:["Dashboard","A clear view of your ChatWave community."],users:["User management","Manage access and review user profiles."],chats:["Chat overview","High-level conversation activity."],reports:["Reports","Review reports and record decisions."],announcements:["Announcements","Create notices for your community."],analytics:["Analytics","Account and registration summaries."],security:["Security & logs","Review administrative actions."],settings:["Settings","Firebase project information."]};$("pageTitle").textContent=t[p][0];$("pageSub").textContent=t[p][1];if(p==="users")renderUsers();if(p==="reports")renderReports();if(p==="security")renderLogs();if(p==="announcements")renderAnnouncements();if(p==="chats")renderChats();window.scrollTo(0,0)}
+function pill(s){
+ let cls=s==="active"?"activeStatus":s;
+ return`<span class="pill ${esc(cls)}">${esc(s)}</span>`;
+}
+
+function navigate(p){
+ document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="page-"+p));
+ document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===p));
+ const titles={
+  dashboard:["Dashboard","A clear view of your ChatWave community."],
+  users:["User management","Manage access and review user profiles."],
+  chats:["Chat overview","High-level conversation activity."],
+  reports:["Reports","Review reports and record decisions."],
+  announcements:["Announcements","Create community notices."],
+  analytics:["Analytics","Account and registration summaries."],
+  security:["Security & logs","Review administrative actions."],
+  settings:["Settings","Firebase project information."]
+ };
+ $("pageTitle").textContent=titles[p][0];
+ $("pageSub").textContent=titles[p][1];
+ if(p==="users")renderUsers();
+ if(p==="reports")renderReports();
+ if(p==="security")renderLogs();
+ if(p==="announcements")renderAnnouncements();
+ if(p==="chats")renderChats();
+ window.scrollTo(0,0);
+}
 document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>navigate(b.dataset.page));
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>navigate(b.dataset.go));
-$("loginForm").onsubmit=async e=>{e.preventDefault();$("loginError").textContent="";$("loginBtn").disabled=true;$("loginBtn").textContent="Signing in…";try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){$("loginError").textContent=err.code==="auth/invalid-credential"?"Incorrect email/password, or this account is not in the selected Firebase project.":err.message}finally{$("loginBtn").disabled=false;$("loginBtn").textContent="Sign in securely"}};
-onAuthStateChanged(auth,async u=>{if(!u){me=null;$("app").classList.add("hidden");$("mobileNav").classList.add("hidden");$("login").classList.remove("hidden");return}if(!admin(u)){await signOut(auth);$("loginError").textContent="This account is not authorized for the admin panel.";return}me=u;$("login").classList.add("hidden");$("app").classList.remove("hidden");$("mobileNav").classList.remove("hidden");$("adminEmail").textContent=u.email||u.uid;await loadAll()});
-async function getAll(c,n=300){let s=await getDocs(query(collection(db,c),limit(n)));return s.docs.map(d=>({id:d.id,...d.data()}))}
-async function loadAll(){if(!me)return;try{const r=await Promise.allSettled([getAll("users",1000),getAll("adminLogs",150),getAll("reports",300),getAll("announcements",200),getAll("conversations",100)]);users=r[0].status==="fulfilled"?r[0].value:[];logs=r[1].status==="fulfilled"?r[1].value:[];reports=r[2].status==="fulfilled"?r[2].value:[];announcements=r[3].status==="fulfilled"?r[3].value:[];conversations=r[4].status==="fulfilled"?r[4].value:[];renderDashboard();renderUsers();renderLogs();renderReports();renderAnnouncements();renderChats();renderAnalytics();toast("ChatWave data refreshed")}catch(e){toast("Could not load data: "+e.message)}}
-$("refresh").onclick=loadAll;$("reloadReports").onclick=async()=>{try{reports=await getAll("reports");renderReports();renderDashboard();renderAnalytics();toast("Reports refreshed")}catch(e){toast(e.message)}};
-$("reloadLogs").onclick=async()=>{try{logs=await getAll("adminLogs");renderLogs();renderDashboard();toast("Logs refreshed")}catch(e){toast(e.message)}};
-$("logout").onclick=()=>signOut(auth);$("logout2").onclick=()=>signOut(auth);
-$("globalSearch").oninput=e=>{$("userSearch").value=e.target.value;navigate("users");renderUsers()};
-$("userSearch").oninput=renderUsers;$("statusFilter").onchange=renderUsers;
-$("clear").onclick=()=>{$("userSearch").value="";$("globalSearch").value="";$("statusFilter").value="all";renderUsers()};
-$("reportSearch").oninput=renderReports;$("reportFilter").onchange=renderReports;
-$("export").onclick=()=>{let rows=[["id","name","email","status","created"],...users.map(u=>[u.id,name(u),u.email||"",status(u),date(created(u))])];let csv=rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="chatwave-users.csv";a.click();URL.revokeObjectURL(a.href)};
-function renderDashboard(){let c={active:0,suspended:0,banned:0,pending:0,unknown:0};users.forEach(u=>c[status(u)]++);$("total").textContent=users.length;$("active").textContent=c.active;$("suspended").textContent=c.suspended;$("banned").textContent=c.banned;$("chatTotal").textContent=conversations.length;$("chatReports").textContent=reports.filter(r=>!["resolved","dismissed"].includes(String(r.status||"open").toLowerCase())).length;$("verified").textContent=users.filter(u=>u.emailVerified===true).length;$("pending").textContent=c.pending;$("openReports").textContent=$("chatReports").textContent;$("announcementCount").textContent=announcements.length;
-$("chart").innerHTML=[["Active",c.active,"var(--green)"],["Suspended",c.suspended,"var(--yellow)"],["Banned",c.banned,"var(--red)"],["Other",c.pending+c.unknown,"var(--blue)"]].map(([label,n,color])=>`<div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px"><span>${label}</span><b>${n}</b></div><div style="height:9px;border-radius:99px;background:#ffffff0c;overflow:hidden"><div style="width:${users.length?Math.max(n?2:0,n/users.length*100):0}%;height:100%;background:${color};border-radius:99px"></div></div></div>`).join("");
-$("recentUsers").innerHTML=[...users].sort((a,b)=>millis(created(b))-millis(created(a))).slice(0,6).map(u=>userRow(u,true)).join("")||'<tr><td colspan="5" class="empty">No profiles found.</td></tr>';
-$("recentLogs").innerHTML=[...logs].sort((a,b)=>millis(b.createdAt)-millis(a.createdAt)).slice(0,6).map(l=>`<div class="activityitem"><span class="dot"></span><div><b>${esc(l.action||"Admin action")}</b> ${esc(l.targetName||l.targetId||"")}<div class="muted small">${esc(l.reason||"")} · ${esc(date(l.createdAt))}</div></div></div>`).join("")||'<div class="empty">No activity recorded yet.</div>'}
-function userRow(u,compact=false){let s=status(u),n=name(u);return`<tr><td><div class="usercell"><div class="avatar">${esc(n.slice(0,1).toUpperCase())}</div><div><b>${esc(n)}</b><div class="muted small">${u.emailVerified?"Email verified":"Email not verified"}</div></div></div></td><td>${esc(u.email||"—")}</td>${compact?"":`<td title="${esc(u.id)}">${esc(u.id.length>18?u.id.slice(0,18)+"…":u.id)}</td>`}<td>${pill(s)}</td><td>${esc(date(created(u)))}</td><td><div class="rowactions"><button class="iconbtn" title="View details" data-act="view" data-id="${esc(u.id)}">${svg("eye")}</button>${s!=="suspended"?`<button class="iconbtn" title="Suspend" data-act="suspend" data-id="${esc(u.id)}">${svg("pause")}</button>`:""}${s!=="banned"?`<button class="iconbtn" title="Ban" style="color:var(--red)" data-act="ban" data-id="${esc(u.id)}">${svg("ban")}</button>`:""}${["banned","suspended"].includes(s)?`<button class="iconbtn" title="Restore" style="color:var(--green)" data-act="restore" data-id="${esc(u.id)}">${svg("check")}</button>`:""}</div></td></tr>`}
-function renderUsers(){if(!$("usersTable"))return;let q=$("userSearch").value.toLowerCase().trim(),f=$("statusFilter").value;let list=[...users].filter(u=>(f==="all"||status(u)===f)&&(!q||[u.id,name(u),u.email,u.username].some(v=>String(v||"").toLowerCase().includes(q)))).sort((a,b)=>millis(created(b))-millis(created(a)));$("usersTable").innerHTML=list.map(u=>userRow(u)).join("")||'<tr><td colspan="6" class="empty">No matching users.</td></tr>';$("usersCount").textContent=`Showing ${list.length} of ${users.length} users`;document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>userAction(b.dataset.act,b.dataset.id))}
-function modal(html){$("modalHost").innerHTML=`<div class="modalback" id="backdrop"><div class="glass modal">${html}</div></div>`;$("backdrop").onclick=e=>{if(e.target.id==="backdrop")closeModal()}}
-function closeModal(){$("modalHost").innerHTML=""}
-function userAction(act,id){let u=users.find(x=>x.id===id);if(!u)return;if(act==="view"){modal(`<h2>User details</h2><p>Profile and account status.</p><div class="formrow"><label>Name</label><input class="field" readonly value="${esc(name(u))}"></div><div class="formrow"><label>Email</label><input class="field" readonly value="${esc(u.email||"—")}"></div><div class="formrow"><label>Document ID</label><input class="field" readonly value="${esc(u.id)}"></div><div class="formrow"><label>Status</label>${pill(status(u))}</div><div class="formrow"><label>Restriction reason</label><p>${esc(u.restrictionReason||"None recorded")}</p></div><div class="modalactions"><button class="btn" id="cancel">Close</button></div>`);$("cancel").onclick=closeModal;return}if(act==="suspend"||act==="ban"){let label=act==="ban"?"Ban account":"Suspend account";modal(`<h2>${label}?</h2><p>${act==="ban"?"The account will remain banned until an admin restores it.":"The account will remain suspended until an admin restores it."} Add a reason for the audit record.</p><div class="formrow"><label>Account</label><input class="field" readonly value="${esc(name(u)+" · "+(u.email||u.id))}"></div><div class="formrow"><label>Reason (required)</label><textarea class="field" id="reason" placeholder="Explain the reason…" required></textarea></div><div class="modalactions"><button class="btn" id="cancel">Cancel</button><button class="btn ${act==="ban"?"danger":"primary"}" id="confirm">${label}</button></div>`);$("cancel").onclick=closeModal;$("confirm").onclick=async()=>{let reason=$("reason").value.trim();if(!reason)return toast("Enter a reason first.");await restrictUser(u,act,reason)};return}if(act==="restore"){modal(`<h2>Restore account?</h2><p>This sets the Firestore status to active and records the reason.</p><div class="formrow"><label>Reason for restoration</label><textarea class="field" id="reason" placeholder="Why are you restoring this account?" required></textarea></div><div class="modalactions"><button class="btn" id="cancel">Cancel</button><button class="btn good" id="confirm">Restore access</button></div>`);$("cancel").onclick=closeModal;$("confirm").onclick=async()=>{let reason=$("reason").value.trim();if(!reason)return toast("Enter a reason first.");await restoreUser(u,reason)}}}
-async function restrictUser(u,act,reason){let b=$("confirm");b.disabled=true;b.textContent="Saving…";try{await updateDoc(doc(db,"users",u.id),{accountStatus:act==="ban"?"banned":"suspended",restrictionReason:reason,restrictedAt:serverTimestamp(),restrictedBy:me.uid,updatedAt:serverTimestamp()});await addDoc(collection(db,"adminLogs"),{action:act,targetId:u.id,targetName:name(u),targetEmail:u.email||"",reason,adminUid:me.uid,adminEmail:me.email||"",createdAt:serverTimestamp()});closeModal();await loadAll();toast(`${name(u)} ${act==="ban"?"banned":"suspended"}.`)}catch(e){b.disabled=false;b.textContent=act==="ban"?"Ban account":"Suspend account";toast("Action failed: "+e.message+" Check Firestore Rules.")}}
-async function restoreUser(u,reason){let b=$("confirm");b.disabled=true;b.textContent="Restoring…";try{await updateDoc(doc(db,"users",u.id),{accountStatus:"active",restrictionReason:"",restoredAt:serverTimestamp(),restoredBy:me.uid,updatedAt:serverTimestamp()});await addDoc(collection(db,"adminLogs"),{action:"restore",targetId:u.id,targetName:name(u),targetEmail:u.email||"",reason,adminUid:me.uid,adminEmail:me.email||"",createdAt:serverTimestamp()});closeModal();await loadAll();toast("Account restored.")}catch(e){b.disabled=false;b.textContent="Restore access";toast("Restore failed: "+e.message)}}
-function renderLogs(){$("logsTable").innerHTML=[...logs].sort((a,b)=>millis(b.createdAt)-millis(a.createdAt)).map(l=>`<tr><td>${esc(l.action||"—")}</td><td>${esc(l.targetName||l.targetId||"—")}</td><td style="white-space:normal;max-width:250px">${esc(l.reason||"—")}</td><td>${esc(l.adminUid||"—")}</td><td>${esc(date(l.createdAt))}</td></tr>`).join("")||'<tr><td colspan="5" class="empty">No audit logs yet.</td></tr>'}
-function renderReports(){let q=$("reportSearch").value.toLowerCase(),f=$("reportFilter").value;let list=[...reports].filter(r=>{let s=String(r.status||"open").toLowerCase();return(f==="all"||f==="open"?!((f==="open")&&["resolved","dismissed"].includes(s)):s===f)&&(!q||[r.id,r.reason,r.reportedUserId,r.reporterId,r.description].some(v=>String(v||"").toLowerCase().includes(q)))});$("reportsTable").innerHTML=list.map(r=>`<tr><td>${esc(r.id)}</td><td>${esc(r.reportedUserName||r.reportedUserId||r.targetId||"—")}</td><td style="white-space:normal;max-width:210px">${esc(r.reason||r.description||"—")}</td><td>${pill(String(r.status||"open"))}</td><td>${esc(date(r.createdAt))}</td><td><div class="rowactions"><button class="btn good" data-report="resolved" data-id="${esc(r.id)}">Resolve</button><button class="btn" data-report="dismissed" data-id="${esc(r.id)}">Dismiss</button></div></td></tr>`).join("")||'<tr><td colspan="6" class="empty">No reports match.</td></tr>';document.querySelectorAll("[data-report]").forEach(b=>b.onclick=()=>updateReport(b.dataset.id,b.dataset.report))}
-async function updateReport(id,s){try{let r=reports.find(x=>x.id===id);await updateDoc(doc(db,"reports",id),{status:s,reviewedAt:serverTimestamp(),reviewedBy:me.uid});await addDoc(collection(db,"adminLogs"),{action:"report_"+s,targetId:id,reason:r?.reason||"",adminUid:me.uid,createdAt:serverTimestamp()});await loadAll();toast("Report marked "+s)}catch(e){toast("Report update failed: "+e.message)}}
-$("newAnnouncement").onclick=()=>{modal(`<h2>New announcement</h2><div class="formrow"><label>Title</label><input class="field" id="annTitle" maxlength="120" required></div><div class="formrow"><label>Message</label><textarea class="field" id="annMessage" maxlength="3000" required></textarea></div><div class="formrow"><label>Status</label><select class="field" id="annStatus"><option value="published">Published</option><option value="draft">Draft</option></select></div><div class="modalactions"><button class="btn" id="cancel">Cancel</button><button class="btn primary" id="save">Save announcement</button></div>`);$("cancel").onclick=closeModal;$("save").onclick=async()=>{let title=$("annTitle").value.trim(),message=$("annMessage").value.trim();if(!title||!message)return toast("Enter a title and message.");let b=$("save");b.disabled=true;try{await addDoc(collection(db,"announcements"),{title,message,status:$("annStatus").value,createdAt:serverTimestamp(),createdBy:me.uid});closeModal();await loadAll();toast("Announcement saved.")}catch(e){b.disabled=false;toast("Could not save: "+e.message)}}};
-function renderAnnouncements(){$("announcementsTable").innerHTML=[...announcements].sort((a,b)=>millis(b.createdAt)-millis(a.createdAt)).map(a=>`<tr><td>${esc(a.title||"Untitled")}</td><td style="white-space:normal;max-width:300px">${esc(a.message||a.body||"")}</td><td>${pill(a.status||"published")}</td><td>${esc(date(a.createdAt))}</td><td><button class="iconbtn" data-del-ann="${esc(a.id)}" title="Delete">${svg("ban")}</button></td></tr>`).join("")||'<tr><td colspan="5" class="empty">No announcements yet.</td></tr>';document.querySelectorAll("[data-del-ann]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this announcement?"))return;try{await deleteDoc(doc(db,"announcements",b.dataset.delAnn));await loadAll();toast("Announcement deleted.")}catch(e){toast("Delete failed: "+e.message)}}}
-function renderChats(){$("chatsTable").innerHTML=conversations.map(c=>`<tr><td>${esc(c.id)}</td><td>${esc(Array.isArray(c.participants||c.memberIds)?(c.participants||c.memberIds).join(", "):"—")}</td><td>${esc(date(c.updatedAt||c.lastMessageAt))}</td><td>${esc(date(c.createdAt))}</td></tr>`).join("")||'<tr><td colspan="4" class="empty">No conversations found.</td></tr>'}
-function renderAnalytics(){let m={};users.forEach(u=>{let v=created(u);if(!v)return;let d=v?.toDate?v.toDate():new Date(v);if(!isNaN(d.getTime())){let k=d.toLocaleDateString("en-US",{month:"short",year:"2-digit"});m[k]=(m[k]||0)+1}});let arr=Object.entries(m).slice(-8),max=Math.max(1,...arr.map(x=>x[1]));$("timeline").innerHTML=arr.map(([k,v])=>`<div style="flex:1;min-width:0;display:grid;align-content:end;gap:7px;text-align:center;height:100%"><b style="font-size:11px">${v}</b><div style="height:${Math.max(5,v/max*125)}px;border-radius:8px 8px 3px 3px;background:linear-gradient(#67e8f9,#829cff)"></div><span class="muted" style="font-size:9px">${esc(k)}</span></div>`).join("")||'<span class="muted">No createdAt data yet.</span>'}
+
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(authCheckInProgress)return;
+
+ const email=$("email").value.trim();
+ const password=$("password").value;
+ $("loginError").textContent="";
+ $("loginBtn").disabled=true;
+ $("loginBtn").textContent="Signing in…";
+
+ try{
+  await signInWithEmailAndPassword(auth,email,password);
+ }catch(err){
+  const messages={
+   "auth/invalid-credential":"Email or password is incorrect. Check your details.",
+   "auth/invalid-email":"Please enter a valid email address.",
+   "auth/too-many-requests":"Too many attempts. Please wait before trying again.",
+   "auth/network-request-failed":"Network error. Check your internet connection.",
+   "auth/operation-not-allowed":"Email/password sign-in is not enabled in Firebase.",
+   "auth/user-disabled":"This Firebase Authentication account is disabled."
+  };
+  showLoginError(messages[err.code]||`${err.code||"Login error"}: ${err.message}`);
+ }finally{
+  $("loginBtn").disabled=false;
+  $("loginBtn").textContent="Sign in securely";
+ }
+});
+
+onAuthStateChanged(auth,async user=>{
+ if(authCheckInProgress)return;
+
+ if(!user){
+  me=null;
+  $("app").classList.add("hidden");
+  $("mobileNav").classList.add("hidden");
+  $("login").classList.remove("hidden");
+  return;
+ }
+
+ authCheckInProgress=true;
+ $("loginError").textContent="";
+ $("loginBtn").disabled=true;
+ $("loginBtn").textContent="Verifying admin…";
+
+ try{
+  if(user.uid!==ADMIN_UID){
+   await signOut(auth);
+   showLoginError("This account is not authorized for the admin panel.");
+   return;
+  }
+
+  const adminRef=doc(db,"admins",user.uid);
+  const adminSnap=await getDoc(adminRef);
+
+  if(!adminSnap.exists()){
+   await signOut(auth);
+   showLoginError("Admin document not found. Check admins/" + user.uid + " in Firestore.");
+   return;
+  }
+
+  const adminData=adminSnap.data();
+  if(adminData.role!=="admin"||adminData.active!==true){
+   await signOut(auth);
+   showLoginError("Admin verification failed. Check that role is admin and active is Boolean true.");
+   return;
+  }
+
+  me=user;
+  $("login").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  $("mobileNav").classList.remove("hidden");
+  $("adminEmail").textContent=user.email||user.uid;
+
+  await loadAll();
+ }catch(err){
+  me=null;
+  $("app").classList.add("hidden");
+  $("mobileNav").classList.add("hidden");
+  $("login").classList.remove("hidden");
+  showLoginError(`Admin verification error: ${err.code||""} ${err.message}`);
+  if(auth.currentUser)await signOut(auth);
+ }finally{
+  authCheckInProgress=false;
+  $("loginBtn").disabled=false;
+  $("loginBtn").textContent="Sign in securely";
+ }
+});
+
+async function getAll(c,n=300){
+ const snap=await getDocs(query(collection(db,c),limit(n)));
+ return snap.docs.map(d=>({id:d.id,...d.data()}));
+}
+async function loadAll(){
+ if(!me)return;
+ const results=await Promise.allSettled([
+  getAll("users",1000),
+  getAll("adminLogs",150),
+  getAll("reports",300),
+  getAll("announcements",200),
+  getAll("chats",200)
+ ]);
+ users=results[0].status==="fulfilled"?results[0].value:[];
+ logs=results[1].status==="fulfilled"?results[1].value:[];
+ reports=results[2].status==="fulfilled"?results[2].value:[];
+ announcements=results[3].status==="fulfilled"?results[3].value:[];
+ chats=results[4].status==="fulfilled"?results[4].value:[];
+
+ renderDashboard();
+ renderUsers();
+ renderLogs();
+ renderReports();
+ renderAnnouncements();
+ renderChats();
+ renderAnalytics();
+
+ const failed=results.filter(r=>r.status==="rejected");
+ if(failed.length){
+  toast("Some data could not load. Check Firestore Rules and collection permissions.");
+ }else{
+  toast("ChatWave data refreshed.");
+ }
+}
+
+$("refresh").onclick=loadAll;
+$("reloadReports").onclick=async()=>{
+ try{reports=await getAll("reports");renderReports();renderDashboard();renderAnalytics();toast("Reports refreshed");}
+ catch(e){toast("Reports error: "+e.message);}
+};
+$("reloadLogs").onclick=async()=>{
+ try{logs=await getAll("adminLogs");renderLogs();renderDashboard();toast("Logs refreshed");}
+ catch(e){toast("Logs error: "+e.message);}
+};
+$("logout").onclick=()=>signOut(auth);
+$("logout2").onclick=()=>signOut(auth);
+
+$("globalSearch").oninput=e=>{
+ $("userSearch").value=e.target.value;
+ navigate("users");
+ renderUsers();
+};
+$("userSearch").oninput=renderUsers;
+$("statusFilter").onchange=renderUsers;
+$("clear").onclick=()=>{
+ $("userSearch").value="";
+ $("globalSearch").value="";
+ $("statusFilter").value="all";
+ renderUsers();
+};
+$("reportSearch").oninput=renderReports;
+$("reportFilter").onchange=renderReports;
+
+$("export").onclick=()=>{
+ const rows=[["id","name","email","status","created"],...users.map(u=>[u.id,name(u),u.email||"",status(u),date(created(u))])];
+ const csv=rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");
+ const a=document.createElement("a");
+ const url=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+ a.href=url;
+ a.download="chatwave-users.csv";
+ a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+
+function renderDashboard(){
+ const counts={active:0,suspended:0,banned:0,pending:0,unknown:0};
+ users.forEach(u=>counts[status(u)]++);
+ $("total").textContent=users.length;
+ $("active").textContent=counts.active;
+ $("suspended").textContent=counts.suspended;
+ $("banned").textContent=counts.banned;
+ $("chatTotal").textContent=chats.length;
+ const open=reports.filter(r=>!["resolved","dismissed"].includes(String(r.status||"open").toLowerCase())).length;
+ $("chatReports").textContent=open;
+ $("verified").textContent=users.filter(u=>u.emailVerified===true).length;
+ $("pending").textContent=counts.pending;
+ $("openReports").textContent=open;
+ $("announcementCount").textContent=announcements.length;
+
+ $("chart").innerHTML=[
+  ["Active",counts.active,"var(--green)"],
+  ["Suspended",counts.suspended,"var(--yellow)"],
+  ["Banned",counts.banned,"var(--red)"],
+  ["Other",counts.pending+counts.unknown,"var(--blue)"]
+ ].map(([label,n,color])=>`<div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px"><span>${label}</span><b>${n}</b></div><div style="height:9px;border-radius:99px;background:#ffffff0c;overflow:hidden"><div style="width:${users.length?Math.max(n?2:0,n/users.length*100):0}%;height:100%;background:${color};border-radius:99px"></div></div></div>`).join("");
+
+ $("recentUsers").innerHTML=[...users]
+  .sort((a,b)=>millis(created(b))-millis(created(a)))
+  .slice(0,6).map(u=>userRow(u,true)).join("")
+  ||'<tr><td colspan="5" class="empty">No profiles found.</td></tr>';
+
+ $("recentLogs").innerHTML=[...logs]
+  .sort((a,b)=>millis(b.createdAt)-millis(a.createdAt))
+  .slice(0,6).map(l=>`<div class="activityitem"><span class="dot"></span><div><b>${esc(l.action||"Admin action")}</b> ${esc(l.targetName||l.targetId||"")}<div class="muted small">${esc(l.reason||"")} · ${esc(date(l.createdAt))}</div></div></div>`).join("")
+  ||'<div class="empty">No activity recorded yet.</div>';
+}
+
+function userRow(u,compact=false){
+ const s=status(u),n=name(u);
+ const isAdminUser=u.role==="admin"||u.uid===ADMIN_UID||u.id===ADMIN_UID;
+ return `<tr>
+ <td><div class="usercell"><div class="avatar">${esc(n.slice(0,1).toUpperCase())}</div><div><b>${esc(n)}</b><div class="muted small">${u.emailVerified?"Email verified":"Email verification unknown"}</div></div></div></td>
+ <td>${esc(u.email||"—")}</td>
+ ${compact?"":`<td title="${esc(u.id)}">${esc(u.id.length>18?u.id.slice(0,18)+"…":u.id)}</td>`}
+ <td>${pill(s)}</td>
+ <td>${esc(date(created(u)))}</td>
+ <td><div class="rowactions">
+ <button class="iconbtn" title="View details" data-act="view" data-id="${esc(u.id)}">${svg("eye")}</button>
+ ${!isAdminUser&&s!=="suspended"?`<button class="iconbtn" title="Suspend" data-act="suspend" data-id="${esc(u.id)}">${svg("pause")}</button>`:""}
+ ${!isAdminUser&&s!=="banned"?`<button class="iconbtn" title="Ban" style="color:var(--red)" data-act="ban" data-id="${esc(u.id)}">${svg("ban")}</button>`:""}
+ ${!isAdminUser&&["banned","suspended"].includes(s)?`<button class="iconbtn" title="Restore" style="color:var(--green)" data-act="restore" data-id="${esc(u.id)}">${svg("check")}</button>`:""}
+ </div></td></tr>`;
+}
+
+function renderUsers(){
+ const q=$("userSearch").value.toLowerCase().trim();
+ const filter=$("statusFilter").value;
+ const list=[...users].filter(u=>
+  (filter==="all"||status(u)===filter)&&
+  (!q||[u.id,u.uid,name(u),u.email,u.username].some(v=>String(v||"").toLowerCase().includes(q)))
+ ).sort((a,b)=>millis(created(b))-millis(created(a)));
+
+ $("usersTable").innerHTML=list.map(u=>userRow(u)).join("")||'<tr><td colspan="6" class="empty">No matching users.</td></tr>';
+ $("usersCount").textContent=`Showing ${list.length} of ${users.length} users`;
+ document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>userAction(b.dataset.act,b.dataset.id));
+}
+
+function modal(html){
+ $("modalHost").innerHTML=`<div class="modalback" id="backdrop"><div class="glass modal">${html}</div></div>`;
+ $("backdrop").onclick=e=>{if(e.target.id==="backdrop")closeModal();};
+}
+function closeModal(){$("modalHost").innerHTML="";}
+
+function userAction(act,id){
+ const u=users.find(x=>x.id===id);
+ if(!u)return;
+ if(u.role==="admin"||u.uid===ADMIN_UID||u.id===ADMIN_UID){
+  if(["suspend","ban","restore"].includes(act)){toast("Admin accounts cannot be changed from this panel.");return;}
+ }
+ if(act==="view"){
+  modal(`<h2>User details</h2>
+  <p>Profile and account status.</p>
+  <div class="formrow"><label>Name</label><input class="field" readonly value="${esc(name(u))}"></div>
+  <div class="formrow"><label>Email</label><input class="field" readonly value="${esc(u.email||"—")}"></div>
+  <div class="formrow"><label>Document ID</label><input class="field" readonly value="${esc(u.id)}"></div>
+  <div class="formrow"><label>Status</label>${pill(status(u))}</div>
+  <div class="formrow"><label>Restriction reason</label><p>${esc(u.restrictionReason||"None recorded")}</p></div>
+  <div class="modalactions"><button class="btn" id="cancel">Close</button></div>`);
+  $("cancel").onclick=closeModal;
+  return;
+ }
+ if(act==="suspend"||act==="ban"){
+  const label=act==="ban"?"Ban account":"Suspend account";
+  modal(`<h2>${label}?</h2>
+  <p>${act==="ban"?"The account will remain banned until restored.":"The account will remain suspended until restored."} Add a reason for the audit record.</p>
+  <div class="formrow"><label>Account</label><input class="field" readonly value="${esc(name(u)+" · "+(u.email||u.id))}"></div>
+  <div class="formrow"><label>Reason (required)</label><textarea class="field" id="reason" placeholder="Explain the reason…"></textarea></div>
+  <div class="modalactions"><button class="btn" id="cancel">Cancel</button><button class="btn ${act==="ban"?"danger":"primary"}" id="confirm">${label}</button></div>`);
+  $("cancel").onclick=closeModal;
+  $("confirm").onclick=async()=>{
+   const reason=$("reason").value.trim();
+   if(!reason)return toast("Enter a reason first.");
+   await restrictUser(u,act,reason);
+  };
+  return;
+ }
+ if(act==="restore"){
+  modal(`<h2>Restore account?</h2><p>This sets the Firestore status to active and records the reason.</p>
+  <div class="formrow"><label>Reason for restoration</label><textarea class="field" id="reason" placeholder="Why are you restoring this account?"></textarea></div>
+  <div class="modalactions"><button class="btn" id="cancel">Cancel</button><button class="btn good" id="confirm">Restore access</button></div>`);
+  $("cancel").onclick=closeModal;
+  $("confirm").onclick=async()=>{
+   const reason=$("reason").value.trim();
+   if(!reason)return toast("Enter a reason first.");
+   await restoreUser(u,reason);
+  };
+ }
+}
+
+async function restrictUser(u,act,reason){
+ const b=$("confirm");
+ b.disabled=true;b.textContent="Saving…";
+ try{
+  await updateDoc(doc(db,"users",u.id),{
+   accountStatus:act==="ban"?"banned":"suspended",
+   restrictionReason:reason,
+   restrictedAt:serverTimestamp(),
+   restrictedBy:me.uid,
+   updatedAt:serverTimestamp()
+  });
+  await addDoc(collection(db,"adminLogs"),{
+   action:act,targetId:u.id,targetName:name(u),targetEmail:u.email||"",
+   reason,adminUid:me.uid,adminEmail:me.email||"",createdAt:serverTimestamp()
+  });
+  closeModal();
+  await loadAll();
+  toast(`${name(u)} ${act==="ban"?"banned":"suspended"}.`);
+ }catch(e){
+  b.disabled=false;b.textContent=act==="ban"?"Ban account":"Suspend account";
+  toast("Action failed: "+e.message);
+ }
+}
+
+async function restoreUser(u,reason){
+ const b=$("confirm");
+ b.disabled=true;b.textContent="Restoring…";
+ try{
+  await updateDoc(doc(db,"users",u.id),{
+   accountStatus:"active",restrictionReason:"",
+   restoredAt:serverTimestamp(),restoredBy:me.uid,
+   updatedAt:serverTimestamp()
+  });
+  await addDoc(collection(db,"adminLogs"),{
+   action:"restore",targetId:u.id,targetName:name(u),
+   targetEmail:u.email||"",reason,adminUid:me.uid,
+   adminEmail:me.email||"",createdAt:serverTimestamp()
+  });
+  closeModal();
+  await loadAll();
+  toast("Account restored.");
+ }catch(e){
+  b.disabled=false;b.textContent="Restore access";
+  toast("Restore failed: "+e.message);
+ }
+}
+
+function renderLogs(){
+ $("logsTable").innerHTML=[...logs]
+ .sort((a,b)=>millis(b.createdAt)-millis(a.createdAt))
+ .map(l=>`<tr><td>${esc(l.action||"—")}</td><td>${esc(l.targetName||l.targetId||"—")}</td><td style="white-space:normal;max-width:250px">${esc(l.reason||"—")}</td><td>${esc(l.adminUid||"—")}</td><td>${esc(date(l.createdAt))}</td></tr>`)
+ .join("")||'<tr><td colspan="5" class="empty">No audit logs yet.</td></tr>';
+}
+
+function renderReports(){
+ const q=$("reportSearch").value.toLowerCase().trim();
+ const f=$("reportFilter").value;
+ const list=[...reports].filter(r=>{
+  const s=String(r.status||"open").toLowerCase();
+  const statusMatch=f==="all"||(f==="open"?!["resolved","dismissed"].includes(s):s===f);
+  const searchMatch=!q||[r.id,r.reason,r.reportedUserId,r.reporterId,r.description].some(v=>String(v||"").toLowerCase().includes(q));
+  return statusMatch&&searchMatch;
+ });
+ $("reportsTable").innerHTML=list.map(r=>`<tr>
+ <td>${esc(r.id)}</td>
+ <td>${esc(r.reportedUserName||r.reportedUserId||r.targetId||"—")}</td>
+ <td style="white-space:normal;max-width:210px">${esc(r.reason||r.description||"—")}</td>
+ <td>${pill(String(r.status||"open"))}</td><td>${esc(date(r.createdAt))}</td>
+ <td><div class="rowactions"><button class="btn good" data-report="resolved" data-id="${esc(r.id)}">Resolve</button><button class="btn" data-report="dismissed" data-id="${esc(r.id)}">Dismiss</button></div></td>
+ </tr>`).join("")||'<tr><td colspan="6" class="empty">No reports match.</td></tr>';
+
+ document.querySelectorAll("[data-report]").forEach(b=>b.onclick=()=>updateReport(b.dataset.id,b.dataset.report));
+}
+
+async function updateReport(id,s){
+ try{
+  const r=reports.find(x=>x.id===id);
+  await updateDoc(doc(db,"reports",id),{status:s,reviewedAt:serverTimestamp(),reviewedBy:me.uid});
+  await addDoc(collection(db,"adminLogs"),{action:"report_"+s,targetId:id,reason:r?.reason||"",adminUid:me.uid,createdAt:serverTimestamp()});
+  await loadAll();
+  toast("Report marked "+s);
+ }catch(e){toast("Report update failed: "+e.message);}
+}
+
+$("newAnnouncement").onclick=()=>{
+ modal(`<h2>New announcement</h2>
+ <div class="formrow"><label>Title</label><input class="field" id="annTitle" maxlength="120"></div>
+ <div class="formrow"><label>Message</label><textarea class="field" id="annMessage" maxlength="3000"></textarea></div>
+ <div class="formrow"><label>Status</label><select class="field" id="annStatus"><option value="published">Published</option><option value="draft">Draft</option></select></div>
+ <div class="modalactions"><button class="btn" id="cancel">Cancel</button><button class="btn primary" id="save">Save announcement</button></div>`);
+ $("cancel").onclick=closeModal;
+ $("save").onclick=async()=>{
+  const title=$("annTitle").value.trim(),message=$("annMessage").value.trim();
+  if(!title||!message)return toast("Enter a title and message.");
+  const b=$("save");b.disabled=true;
+  try{
+   await addDoc(collection(db,"announcements"),{title,message,status:$("annStatus").value,active:$("annStatus").value==="published",createdAt:serverTimestamp(),createdBy:me.uid});
+   closeModal();await loadAll();toast("Announcement saved.");
+  }catch(e){b.disabled=false;toast("Could not save: "+e.message);}
+ };
+};
+
+function renderAnnouncements(){
+ $("announcementsTable").innerHTML=[...announcements]
+ .sort((a,b)=>millis(b.createdAt)-millis(a.createdAt))
+ .map(a=>`<tr><td>${esc(a.title||"Untitled")}</td><td style="white-space:normal;max-width:300px">${esc(a.message||a.body||"")}</td><td>${pill(a.status||(a.active?"published":"draft"))}</td><td>${esc(date(a.createdAt))}</td><td><button class="iconbtn" data-del-ann="${esc(a.id)}" title="Delete">${svg("ban")}</button></td></tr>`)
+ .join("")||'<tr><td colspan="5" class="empty">No announcements yet.</td></tr>';
+
+ document.querySelectorAll("[data-del-ann]").forEach(b=>b.onclick=async()=>{
+  if(!confirm("Delete this announcement?"))return;
+  try{await deleteDoc(doc(db,"announcements",b.dataset.delAnn));await loadAll();toast("Announcement deleted.");}
+  catch(e){toast("Delete failed: "+e.message);}
+ });
+}
+
+function renderChats(){
+ $("chatsTable").innerHTML=chats.map(c=>{
+  const members=c.members||c.participants||c.memberIds||[];
+  return `<tr><td>${esc(c.id)}</td><td>${esc(Array.isArray(members)?members.join(", "):"—")}</td><td>${esc(date(c.updatedAt||c.lastMessageAt||c.lastSeen))}</td><td>${esc(date(c.createdAt))}</td></tr>`;
+ }).join("")||'<tr><td colspan="4" class="empty">No chats found.</td></tr>';
+}
+
+function renderAnalytics(){
+ const months={};
+ users.forEach(u=>{
+  const v=created(u);if(!v)return;
+  const d=v?.toDate?v.toDate():new Date(v);
+  if(!isNaN(d.getTime())){
+   const key=d.toLocaleDateString("en-US",{month:"short",year:"2-digit"});
+   months[key]=(months[key]||0)+1;
+  }
+ });
+ const arr=Object.entries(months).slice(-8);
+ const max=Math.max(1,...arr.map(x=>x[1]));
+ $("timeline").innerHTML=arr.map(([k,v])=>`<div style="flex:1;min-width:0;display:grid;align-content:end;gap:7px;text-align:center;height:100%"><b style="font-size:11px">${v}</b><div style="height:${Math.max(5,v/max*125)}px;border-radius:8px 8px 3px 3px;background:linear-gradient(#67e8f9,#829cff)"></div><span class="muted" style="font-size:9px">${esc(k)}</span></div>`).join("")||'<span class="muted">No createdAt data yet.</span>';
+}
 </script>
 </body>
 </html>
