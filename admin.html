@@ -2,168 +2,327 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07111f">
-<title>ChatWave — Admin Console</title>
+<title>ChatWave — Connect. Chat. Share.</title>
 
 <style>
 :root {
-  color-scheme:dark;
-  --bg:#07111f;
-  --panel:rgba(18,32,53,.86);
-  --line:rgba(255,255,255,.1);
-  --text:#f4f7fb;
-  --muted:#9aabc1;
-  --green:#24d98b;
-  --red:#ff737d;
+  color-scheme: dark;
+  --bg: #07111f;
+  --panel: rgba(19, 33, 53, .88);
+  --panel2: #0b1829;
+  --border: rgba(160, 180, 205, .17);
+  --text: #f4f7fc;
+  --muted: #9baec4;
+  --green: #20d995;
+  --green-dark: #05261c;
+  --danger: #ff8585;
+  --radius: 25px;
 }
-* { box-sizing:border-box; }
+* { box-sizing: border-box; }
 body {
-  margin:0; min-height:100vh; color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:radial-gradient(ellipse at top,#173451 0,#07111f 55%);
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, #163858 0%, transparent 48%),
+    var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-button,input { font:inherit; }
-button {
-  padding:10px 13px; border:0; border-radius:10px;
-  font-weight:650; cursor:pointer;
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .6; cursor: wait; }
+a { color: var(--green); }
+.topbar {
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
-.primary { background:var(--green); color:#062016; }
-.secondary { background:#263a52; color:white; }
-.danger { background:#52242d; color:#ffc4c8; }
+.logo {
+  font-size: clamp(28px, 5vw, 39px);
+  font-weight: 850;
+  letter-spacing: -1.8px;
+}
+.logo span { color: var(--green); }
+.pill {
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+main { max-width: 1100px; margin: auto; padding: 20px 22px 70px; }
+.auth-wrap { max-width: 620px; margin: 35px auto 0; }
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(22px, 5vw, 42px);
+  box-shadow: 0 20px 65px rgba(0,0,0,.18);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+.eyebrow {
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+h1 { font-size: clamp(28px, 5vw, 40px); letter-spacing: -1px; margin: 13px 0 25px; }
+h2 { margin: 0 0 16px; }
+p { line-height: 1.6; }
+.muted { color: var(--muted); }
+.field { margin: 18px 0; }
+label { display: block; margin-bottom: 9px; font-weight: 550; }
 input {
-  width:100%; padding:12px; margin:8px 0;
-  background:#091728; color:white; border:1px solid var(--line);
-  border-radius:11px;
+  width: 100%;
+  min-height: 57px;
+  border-radius: 17px;
+  border: 1px solid var(--border);
+  background: #091728;
+  color: var(--text);
+  padding: 15px 17px;
+  outline: none;
 }
-.wrap { width:min(1200px,100%); padding:20px; margin:auto; }
+input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(32,217,149,.1); }
+.primary, .secondary, .danger-btn {
+  min-height: 52px;
+  padding: 13px 17px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  font-weight: 750;
+}
+.primary { background: var(--green); color: #05241a; }
+.primary:hover { filter: brightness(1.05); }
+.secondary { background: #14253a; color: var(--text); border-color: var(--border); }
+.danger-btn { background: rgba(255,100,100,.12); color: #ffaaaa; border-color: rgba(255,100,100,.2); }
+.full { width: 100%; }
+.auth-links { margin-top: 22px; color: var(--muted); }
+.link-btn {
+  border: 0;
+  background: none;
+  color: var(--green);
+  padding: 0;
+  text-decoration: underline;
+}
+.message {
+  margin-top: 18px;
+  border-radius: 14px;
+  padding: 13px 15px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+.message:empty { display: none; }
+.message.info { background: rgba(68,146,255,.1); color: #b8d7ff; }
+.message.success { background: rgba(32,217,149,.1); color: #7ff0c3; }
+.message.error { background: rgba(255,100,100,.1); color: #ffaaaa; }
+.hidden { display: none !important; }
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
 .panel {
-  background:var(--panel); border:1px solid var(--line);
-  border-radius:20px; padding:20px; backdrop-filter:blur(22px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 20px;
+  min-width: 0;
 }
-.brand { font-size:24px; font-weight:850; letter-spacing:-1px; }
-.brand span { color:var(--green); }
-.muted { color:var(--muted); font-size:14px; }
-.hidden { display:none!important; }
-.auth { max-width:430px; margin:9vh auto; }
-.status { color:#ffbd8a; font-size:14px; margin-top:12px; overflow-wrap:anywhere; }
-.header {
-  display:flex; align-items:center; justify-content:space-between;
-  gap:12px; margin-bottom:22px;
+.profile-row { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.avatar {
+  width: 45px; height: 45px; flex: 0 0 45px;
+  display: grid; place-items: center;
+  border-radius: 15px; background: rgba(32,217,149,.15);
+  color: var(--green); font-weight: 800; font-size: 18px;
 }
-.stats {
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px; margin:18px 0;
+.profile-name { font-weight: 750; overflow-wrap: anywhere; }
+.profile-email { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; margin-top: 5px; }
+.section-title { margin: 24px 0 12px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1.2px; }
+.contact-list { display: grid; gap: 8px; }
+.contact {
+  text-align: left; width: 100%;
+  display: flex; align-items: center; gap: 11px;
+  border: 1px solid transparent; border-radius: 15px;
+  padding: 12px; color: var(--text); background: transparent;
 }
-.stat strong { display:block; font-size:30px; margin-top:10px; }
-.stat .muted { text-transform:uppercase; letter-spacing:1px; font-size:11px; }
-.toolbar { display:flex; gap:10px; align-items:center; margin-bottom:14px; }
-.toolbar input { margin:0; }
-.tablewrap { overflow-x:auto; }
-table { width:100%; border-collapse:collapse; min-width:650px; }
-th,td {
-  text-align:left; padding:14px 10px;
-  border-bottom:1px solid var(--line); font-size:14px;
+.contact:hover, .contact.active { background: rgba(32,217,149,.08); border-color: var(--border); }
+.contact .avatar { width: 38px; height: 38px; flex-basis: 38px; border-radius: 12px; font-size: 14px; }
+.contact-label { overflow-wrap: anywhere; }
+.chat-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.chat-title { font-size: 20px; font-weight: 800; overflow-wrap: anywhere; }
+.chat-subtitle { font-size: 12px; color: var(--muted); margin-top: 5px; }
+.messages {
+  height: min(52vh, 500px); min-height: 240px; overflow-y: auto;
+  padding: 18px 0; display: flex; flex-direction: column; gap: 12px;
 }
-th { color:var(--muted); font-weight:600; }
-.badge {
-  display:inline-block; padding:5px 9px; border-radius:20px;
-  background:#164735; color:#9df4c9; font-size:12px;
+.bubble {
+  max-width: 82%; padding: 12px 15px; border-radius: 17px;
+  overflow-wrap: anywhere; line-height: 1.5; white-space: pre-wrap;
 }
-.badge.suspended { background:#52242d; color:#ffc4c8; }
-.badge.pending { background:#4c3b1d; color:#ffdf9a; }
-.actions { display:flex; gap:7px; flex-wrap:wrap; }
-@media(max-width:650px) {
-  .wrap { padding:12px; }
-  .stats { grid-template-columns:1fr; }
-  .stat strong { font-size:25px; }
-  .panel { padding:15px; }
-  .header { align-items:flex-start; }
+.bubble.mine { align-self: flex-end; background: var(--green); color: #06251b; border-bottom-right-radius: 5px; }
+.bubble.theirs { align-self: flex-start; background: #17283d; border-bottom-left-radius: 5px; }
+.bubble small { display: block; margin-top: 6px; opacity: .7; font-size: 10px; }
+.composer { display: flex; gap: 10px; }
+.composer input { min-width: 0; }
+.composer button { flex: 0 0 auto; }
+.empty { color: var(--muted); text-align: center; padding: 34px 10px; line-height: 1.6; }
+.toolbar { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 18px; }
+.toolbar button { min-height: 42px; }
+.footnote { color: var(--muted); text-align: center; font-size: 12px; padding: 25px 0; }
+
+@media (max-width: 720px) {
+  .topbar { padding: 20px 18px; }
+  main { padding: 12px 16px 45px; }
+  .auth-wrap { margin-top: 20px; }
+  .app-layout { grid-template-columns: 1fr; }
+  .contacts-panel { order: 2; }
+  .chat-panel { order: 1; }
+  .messages { height: 45vh; }
+}
+@media (max-width: 390px) {
+  .pill { font-size: 10px; }
+  .card { padding: 21px 17px; }
+  .composer { flex-wrap: wrap; }
+  .composer button { width: 100%; }
 }
 </style>
 </head>
 
 <body>
-<div class="wrap">
-  <header class="header">
-    <div class="brand">Chat<span>Wave</span> <span style="color:#9aabc1;font-size:14px;letter-spacing:0">ADMIN</span></div>
-    <button id="logoutBtn" class="secondary hidden">Log out</button>
-  </header>
+<header class="topbar">
+  <div class="logo">Chat<span>Wave</span></div>
+  <div class="pill" id="topStatus">CONNECT. CHAT. SHARE.</div>
+</header>
 
-  <section id="loginPanel" class="panel auth">
-    <p class="muted">RESTRICTED ACCESS</p>
-    <h2>Admin sign in</h2>
-    <p class="muted">Sign in with your authorized administrator account.</p>
-    <form id="loginForm">
-      <label for="email">Email address</label>
-      <input id="email" type="email" autocomplete="username" required>
-      <label for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password" required>
-      <button class="primary" style="width:100%">Sign in</button>
-    </form>
-    <div id="loginStatus" class="status" role="status"></div>
-  </section>
+<main>
+  <!-- SIGN UP / SIGN IN -->
+  <section id="authView" class="auth-wrap">
+    <div class="card">
+      <div class="eyebrow" id="authEyebrow">Join the community</div>
+      <h1 id="authHeading">Create your account</h1>
 
-  <section id="dashboard" class="hidden">
-    <div class="panel">
-      <div class="muted">ADMINISTRATION</div>
-      <h2>Dashboard overview</h2>
-      <p class="muted">Manage customer accounts and monitor account status.</p>
-    </div>
-
-    <div class="stats">
-      <div class="panel stat">
-        <div class="muted">Total accounts</div>
-        <strong id="totalCount">—</strong>
-      </div>
-      <div class="panel stat">
-        <div class="muted">Active accounts</div>
-        <strong id="activeCount">—</strong>
-      </div>
-      <div class="panel stat">
-        <div class="muted">Suspended accounts</div>
-        <strong id="suspendedCount">—</strong>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div>
-          <h2 style="margin:0 0 6px">Customer accounts</h2>
-          <div class="muted">Registered ChatWave users</div>
+      <form id="authForm">
+        <div class="field" id="nameField">
+          <label for="nameInput">Your name</label>
+          <input id="nameInput" name="name" autocomplete="name"
+                 placeholder="Enter your name" maxlength="70">
         </div>
-        <button id="refreshBtn" class="secondary">Refresh</button>
+
+        <div class="field">
+          <label for="emailInput">Email</label>
+          <input id="emailInput" name="email" type="email"
+                 autocomplete="email" placeholder="you@example.com"
+                 required>
+        </div>
+
+        <div class="field">
+          <label for="passwordInput">Password (at least 6 characters)</label>
+          <input id="passwordInput" name="password" type="password"
+                 autocomplete="new-password" minlength="6"
+                 placeholder="Enter your password" required>
+        </div>
+
+        <button class="primary full" id="authSubmit" type="submit">
+          Create account
+        </button>
+      </form>
+
+      <div class="auth-links" id="authSwitch">
+        Already registered?
+        <button class="link-btn" id="switchMode" type="button">Sign in</button>
       </div>
 
-      <div class="toolbar" style="margin-top:18px">
-        <input id="search" placeholder="Search name or email" aria-label="Search users">
+      <div class="message" id="authMessage" role="status" aria-live="polite"></div>
+      <div class="toolbar hidden" id="recoveryActions">
+        <button class="secondary" id="resetPassword" type="button">Reset password</button>
+        <button class="secondary" id="trySignIn" type="button">Go to sign in</button>
       </div>
-
-      <div class="tablewrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Customer</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="userRows">
-            <tr><td colspan="4">Sign in to load accounts.</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div id="dashboardStatus" class="status" role="status"></div>
     </div>
   </section>
-</div>
 
+  <!-- CHAT APP -->
+  <section id="appView" class="hidden">
+    <div class="app-layout">
+      <aside class="panel contacts-panel">
+        <div class="profile-row">
+          <div class="avatar" id="myAvatar">C</div>
+          <div style="min-width:0">
+            <div class="profile-name" id="myName">ChatWave member</div>
+            <div class="profile-email" id="myEmail"></div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button class="secondary" id="refreshContacts" type="button">Refresh</button>
+          <button class="secondary" id="signOut" type="button">Sign out</button>
+        </div>
+
+        <div class="section-title">Find people</div>
+        <form id="searchForm">
+          <input id="searchInput" type="email" placeholder="Search by exact email"
+                 aria-label="Search by exact email">
+          <button class="primary full" style="margin-top:9px" type="submit">Find user</button>
+        </form>
+        <div class="message" id="searchMessage" role="status"></div>
+
+        <div class="section-title">Your conversations</div>
+        <div class="contact-list" id="contactList"></div>
+        <div class="muted" id="contactsEmpty" style="font-size:13px;line-height:1.6">
+          Find another member by their exact email to start a conversation.
+        </div>
+      </aside>
+
+      <section class="panel chat-panel">
+        <div id="noChat" class="empty">
+          <div style="font-size:35px;margin-bottom:10px">✦</div>
+          <h2>Welcome to ChatWave</h2>
+          Find a member by email to start chatting.
+        </div>
+
+        <div id="chatView" class="hidden">
+          <div class="chat-header">
+            <div style="min-width:0">
+              <div class="chat-title" id="chatName">Conversation</div>
+              <div class="chat-subtitle" id="chatEmail"></div>
+            </div>
+          </div>
+          <div class="messages" id="messages" aria-live="polite"></div>
+          <form class="composer" id="messageForm">
+            <input id="messageInput" maxlength="4000"
+                   placeholder="Write a message..." autocomplete="off" required>
+            <button class="primary" id="sendButton" type="submit">Send</button>
+          </form>
+          <div class="message" id="chatMessage" role="status"></div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <div class="footnote">ChatWave · A place to connect and share</div>
+</main>
+
+<!-- Firebase compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
 <script>
+"use strict";
+
+/*
+  ChatWave Firebase configuration.
+  These are web-app configuration values, not service-account secrets.
+*/
 const firebaseConfig = {
   apiKey: "AIzaSyBopjNzhIv1nk56TSxM_7vu3wAoYpJyuZk",
   authDomain: "chat-app-fe0df.firebaseapp.com",
@@ -173,202 +332,631 @@ const firebaseConfig = {
   appId: "1:255781243837:web:7154aa4a0a28e773f8e0d4"
 };
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
 const $ = id => document.getElementById(id);
-let allUsers = [];
-let usersUnsubscribe = null;
-let isAuthorizedAdmin = false;
+let auth, db;
+let isSignIn = false;
+let currentUser = null;
+let currentProfile = null;
+let selectedUser = null;
+let messagesUnsubscribe = null;
+let contactsUnsubscribe = null;
+let contacts = [];
+let busy = false;
+let authStateReady = false;
 
-function setStatus(message, target = "dashboardStatus") {
-  $(target).textContent = message || "";
+function showMessage(id, text, type = "info") {
+  const el = $(id);
+  if (!el) return;
+  el.textContent = text || "";
+  el.className = text ? `message ${type}` : "message";
 }
-function showDashboard(on) {
-  $("loginPanel").classList.toggle("hidden", on);
-  $("dashboard").classList.toggle("hidden", !on);
-  $("logoutBtn").classList.toggle("hidden", !on);
+
+function setBusy(value, text) {
+  busy = value;
+  $("authSubmit").disabled = value;
+  $("authSubmit").textContent = value
+    ? (text || "Please wait…")
+    : (isSignIn ? "Sign in" : "Create account");
 }
-function escapeText(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
+
+function friendlyError(error) {
+  const code = error && error.code ? error.code : "";
+  const messages = {
+    "auth/email-already-in-use": "This email already has an account. Please sign in instead.",
+    "auth/invalid-email": "Please enter a valid email address.",
+    "auth/weak-password": "Choose a stronger password with at least 6 characters.",
+    "auth/user-not-found": "No account was found for that email. Create an account first.",
+    "auth/wrong-password": "The email or password is incorrect.",
+    "auth/invalid-credential": "The email or password is incorrect.",
+    "auth/too-many-requests": "Too many attempts. Please wait a little and try again.",
+    "auth/network-request-failed": "Network connection failed. Check your internet and try again.",
+    "auth/operation-not-allowed": "Email/password sign-in is disabled in Firebase Authentication.",
+    "auth/permission-denied": "Firestore denied access. Check your Firestore Security Rules.",
+    "permission-denied": "Firestore denied access. Check your Firestore Security Rules.",
+    "unavailable": "Firebase is temporarily unavailable. Please try again.",
+    "deadline-exceeded": "The request timed out. Check your connection and try again."
+  };
+  return messages[code] || (error && error.message) ||
+    "Something went wrong. Please try again.";
 }
-function badgeClass(status) {
-  if (status === "suspended") return "badge suspended";
-  if (status === "pending_verification" || status === "pending") return "badge pending";
-  return "badge";
+
+function initials(name) {
+  return String(name || "?").trim().split(/\s+/).slice(0, 2)
+    .map(part => part[0] || "").join("").toUpperCase() || "?";
+}
+
+function safeText(value) {
+  return String(value == null ? "" : value);
+}
+
+function switchAuthMode(signIn) {
+  isSignIn = signIn;
+  $("authHeading").textContent = signIn ? "Welcome back" : "Create your account";
+  $("authEyebrow").textContent = signIn ? "Your community awaits" : "Join the community";
+  $("nameField").classList.toggle("hidden", signIn);
+  $("nameInput").required = !signIn;
+  $("passwordInput").autocomplete = signIn ? "current-password" : "new-password";
+  $("authSubmit").textContent = signIn ? "Sign in" : "Create account";
+  $("authSwitch").innerHTML = signIn
+    ? 'New to ChatWave? <button class="link-btn" id="switchMode" type="button">Create account</button>'
+    : 'Already registered? <button class="link-btn" id="switchMode" type="button">Sign in</button>';
+  $("switchMode").addEventListener("click", () => {
+    switchAuthMode(!isSignIn);
+    showMessage("authMessage", "");
+  });
+  $("recoveryActions").classList.add("hidden");
+  showMessage("authMessage", "");
+}
+
+async function withTimeout(promise, label, ms = 15000) {
+  let timer;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timer = setTimeout(() => {
+          const error = new Error(label + " took too long. Check your connection and Firebase settings, then try again.");
+          error.code = "deadline-exceeded";
+          reject(error);
+        }, ms);
+      })
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 /*
-  Admin authorization:
-  The signed-in user's Firestore document must contain role: "admin".
-  Firestore Security Rules must also enforce admin permissions.
+  Profile creation is deliberately separate from authentication.
+  If profile writing fails after Firebase creates the account, the user can
+  sign in again and this function will repair the missing profile.
 */
-async function checkAdmin(user) {
-  const doc = await db.collection("users").doc(user.uid).get();
-  return doc.exists && doc.data().role === "admin";
+async function ensureUserProfile(user, displayName = "") {
+  const ref = db.collection("users").doc(user.uid);
+  const snap = await withTimeout(ref.get(), "Loading your profile");
+
+  const existing = snap.exists ? (snap.data() || {}) : {};
+  const name = displayName.trim() || existing.name ||
+    user.displayName || (user.email ? user.email.split("@")[0] : "ChatWave member");
+
+  const profile = {
+    uid: user.uid,
+    email: user.email || existing.email || "",
+    name: name,
+    role: existing.role || "user",
+    accountStatus: existing.accountStatus || "active",
+    createdAt: existing.createdAt || firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  // Merge preserves any existing profile fields, including admin-managed fields.
+  await withTimeout(ref.set(profile, { merge: true }), "Saving your profile");
+  const finalSnap = await withTimeout(ref.get(), "Confirming your profile");
+  if (!finalSnap.exists) {
+    throw new Error("Your account exists, but Firestore could not confirm your profile. Check your Firestore rules.");
+  }
+
+  const finalProfile = finalSnap.data() || {};
+  if (finalProfile.accountStatus === "suspended") {
+    await auth.signOut();
+    throw new Error("This account is suspended. Please contact the administrator.");
+  }
+  return finalProfile;
 }
 
-$("loginForm").onsubmit = async e => {
-  e.preventDefault();
-  setStatus("Signing in…", "loginStatus");
-  try {
-    await auth.signInWithEmailAndPassword(
-      $("email").value.trim(),
-      $("password").value
-    );
-  } catch (err) {
-    setStatus(err.message || "Sign-in failed.", "loginStatus");
+async function handleAuthSubmit(event) {
+  event.preventDefault();
+  if (busy) return;
+
+  const email = $("emailInput").value.trim().toLowerCase();
+  const password = $("passwordInput").value;
+  const name = $("nameInput").value.trim();
+
+  if (!email || !password) {
+    showMessage("authMessage", "Enter your email and password.", "error");
+    return;
   }
-};
-
-$("logoutBtn").onclick = async () => {
-  if (usersUnsubscribe) usersUnsubscribe();
-  usersUnsubscribe = null;
-  allUsers = [];
-  isAuthorizedAdmin = false;
-  await auth.signOut();
-};
-
-auth.onAuthStateChanged(async user => {
-  if (usersUnsubscribe) usersUnsubscribe();
-  usersUnsubscribe = null;
-  allUsers = [];
-  isAuthorizedAdmin = false;
-
-  if (!user) {
-    showDashboard(false);
-    $("userRows").innerHTML = '<tr><td colspan="4">Sign in to continue.</td></tr>';
-    setStatus("", "loginStatus");
+  if (!isSignIn && !name) {
+    showMessage("authMessage", "Please enter your name.", "error");
+    return;
+  }
+  if (!isSignIn && password.length < 6) {
+    showMessage("authMessage", "Your password must contain at least 6 characters.", "error");
     return;
   }
 
-  try {
-    setStatus("Checking administrator permissions…", "loginStatus");
-    const authorized = await checkAdmin(user);
+  setBusy(true, isSignIn ? "Signing in…" : "Creating your account…");
+  showMessage("authMessage", isSignIn ? "Signing in…" : "Creating your account…", "info");
+  $("recoveryActions").classList.add("hidden");
 
-    if (!authorized) {
-      setStatus("Access denied. This account is not an administrator.", "loginStatus");
-      await auth.signOut();
+  try {
+    let credential;
+
+    if (isSignIn) {
+      credential = await withTimeout(
+        auth.signInWithEmailAndPassword(email, password),
+        "Signing in"
+      );
+    } else {
+      try {
+        credential = await withTimeout(
+          auth.createUserWithEmailAndPassword(email, password),
+          "Creating your Firebase account"
+        );
+      } catch (createError) {
+        /*
+          An account may already exist because an earlier attempt created
+          Authentication successfully but failed before finishing the page.
+          Do not silently sign in with the submitted password; ask the user
+          to switch to the sign-in form instead.
+        */
+        if (createError.code === "auth/email-already-in-use") {
+          showMessage("authMessage",
+            "This email already has a Firebase account. Tap Sign in below. Your existing account will not be deleted.",
+            "error");
+          $("recoveryActions").classList.remove("hidden");
+          return;
+        }
+        throw createError;
+      }
+
+      // Store the name in Firebase Auth too. If this fails, continue to profile save.
+      try {
+        await credential.user.updateProfile({ displayName: name });
+      } catch (profileAuthError) {
+        console.warn("Could not update Auth display name; continuing to Firestore.", profileAuthError);
+      }
+    }
+
+    const user = credential.user || auth.currentUser;
+    if (!user) throw new Error("Firebase signed in without returning a user. Please try again.");
+
+    showMessage("authMessage", "Saving your ChatWave profile…", "info");
+
+    let profile;
+    try {
+      profile = await ensureUserProfile(user, isSignIn ? "" : name);
+    } catch (profileError) {
+      console.error("ChatWave profile save failed:", profileError);
+      showMessage("authMessage",
+        "Firebase authenticated you, but your profile step failed: " +
+        friendlyError(profileError) +
+        " You can try signing in again after the database issue is fixed.",
+        "error");
+      $("recoveryActions").classList.remove("hidden");
       return;
     }
 
-    isAuthorizedAdmin = true;
-    showDashboard(true);
-    setStatus("");
-    listenForUsers();
-  } catch (err) {
-    setStatus("Could not verify admin permissions: " + err.message, "loginStatus");
-    await auth.signOut();
+    currentUser = user;
+    currentProfile = profile;
+    showMessage("authMessage", "Success! Opening ChatWave…", "success");
+    openApp(user, profile);
+  } catch (error) {
+    console.error("ChatWave authentication error:", error);
+    showMessage("authMessage", friendlyError(error), "error");
+
+    if (error && (
+      error.code === "auth/email-already-in-use" ||
+      error.code === "permission-denied" ||
+      error.code === "deadline-exceeded"
+    )) {
+      $("recoveryActions").classList.remove("hidden");
+    }
+  } finally {
+    // Critical fix: never leave the button or loading state stuck.
+    setBusy(false);
   }
-});
+}
 
-function listenForUsers() {
-  if (!isAuthorizedAdmin) return;
-  if (usersUnsubscribe) usersUnsubscribe();
+function openApp(user, profile) {
+  $("authView").classList.add("hidden");
+  $("appView").classList.remove("hidden");
+  $("topStatus").textContent = "CONNECTED";
+  $("myName").textContent = profile.name || user.displayName || "ChatWave member";
+  $("myEmail").textContent = user.email || "";
+  $("myAvatar").textContent = initials(profile.name || user.email);
+  showMessage("searchMessage", "");
+  startContactsListener();
+}
 
-  setStatus("Loading customer accounts…");
-  usersUnsubscribe = db.collection("users").onSnapshot(snapshot => {
-    allUsers = snapshot.docs.map(doc => ({
-      id:doc.id, ...doc.data()
-    }));
-    renderUsers();
-    setStatus("");
-  }, err => {
-    setStatus("Could not load users: " + err.message);
+function stopChatListener() {
+  if (messagesUnsubscribe) {
+    messagesUnsubscribe();
+    messagesUnsubscribe = null;
+  }
+}
+
+function stopContactsListener() {
+  if (contactsUnsubscribe) {
+    contactsUnsubscribe();
+    contactsUnsubscribe = null;
+  }
+}
+
+function closeApp() {
+  stopChatListener();
+  stopContactsListener();
+  currentUser = null;
+  currentProfile = null;
+  selectedUser = null;
+  contacts = [];
+  $("appView").classList.add("hidden");
+  $("authView").classList.remove("hidden");
+  $("topStatus").textContent = "CONNECT. CHAT. SHARE.";
+  $("contactList").replaceChildren();
+  $("messages").replaceChildren();
+  $("chatView").classList.add("hidden");
+  $("noChat").classList.remove("hidden");
+}
+
+function renderContacts() {
+  const list = $("contactList");
+  list.replaceChildren();
+  $("contactsEmpty").classList.toggle("hidden", contacts.length > 0);
+
+  contacts.forEach(person => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "contact" +
+      (selectedUser && selectedUser.uid === person.uid ? " active" : "");
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = initials(person.name || person.email);
+
+    const info = document.createElement("div");
+    info.className = "contact-label";
+    info.style.minWidth = "0";
+
+    const title = document.createElement("div");
+    title.style.fontWeight = "700";
+    title.textContent = person.name || "ChatWave member";
+
+    const subtitle = document.createElement("div");
+    subtitle.className = "profile-email";
+    subtitle.textContent = person.email || "";
+
+    info.append(title, subtitle);
+    button.append(avatar, info);
+    button.addEventListener("click", () => selectConversation(person));
+    list.append(button);
   });
 }
 
-function renderUsers() {
-  const query = $("search").value.trim().toLowerCase();
-  const filtered = allUsers.filter(u =>
-    (u.name || "").toLowerCase().includes(query) ||
-    (u.email || "").toLowerCase().includes(query)
-  );
+function startContactsListener() {
+  stopContactsListener();
 
-  $("totalCount").textContent = allUsers.length;
-  $("activeCount").textContent =
-    allUsers.filter(u => u.accountStatus === "active").length;
-  $("suspendedCount").textContent =
-    allUsers.filter(u => u.accountStatus === "suspended").length;
+  /*
+    This query loads only conversations where the current user is a participant.
+    It requires each chat document to contain a participants array.
+  */
+  contactsUnsubscribe = db.collection("chats")
+    .where("participants", "array-contains", currentUser.uid)
+    .onSnapshot(snapshot => {
+      const otherIds = new Set();
+      snapshot.forEach(doc => {
+        const data = doc.data() || {};
+        (data.participants || []).forEach(uid => {
+          if (uid && uid !== currentUser.uid) otherIds.add(uid);
+        });
+      });
 
-  const tbody = $("userRows");
-  tbody.innerHTML = "";
-
-  if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="4">No matching accounts found.</td></tr>';
-    return;
-  }
-
-  filtered.forEach(user => {
-    const tr = document.createElement("tr");
-    const name = escapeText(user.name || "Unnamed user");
-    const email = escapeText(user.email || "No email");
-    const status = user.accountStatus || "unknown";
-    const safeStatus = escapeText(status);
-
-    tr.innerHTML = `
-      <td>${name}</td>
-      <td>${email}</td>
-      <td><span class="${badgeClass(status)}">${safeStatus}</span></td>
-      <td>
-        <div class="actions">
-          <button class="secondary" data-action="view">Details</button>
-          <button class="${status === "suspended" ? "primary" : "danger"}"
-            data-action="toggle">
-            ${status === "suspended" ? "Reactivate" : "Suspend"}
-          </button>
-        </div>
-      </td>`;
-
-    tr.querySelector('[data-action="view"]').onclick = () => {
-      alert(
-        "Name: " + (user.name || "—") +
-        "\nEmail: " + (user.email || "—") +
-        "\nUID: " + user.id +
-        "\nAccount status: " + status +
-        "\nVerification: " + (user.kycStatus || "Not set")
-      );
-    };
-
-    tr.querySelector('[data-action="toggle"]').onclick = async () => {
-      if (!isAuthorizedAdmin) {
-        setStatus("Permission check failed. Please sign in again.");
+      if (!otherIds.size) {
+        contacts = [];
+        renderContacts();
         return;
       }
 
-      const nextStatus = status === "suspended" ? "active" : "suspended";
-      const confirmed = confirm(
-        "Change " + (user.email || user.name || "this account") +
-        " to " + nextStatus + "?"
-      );
-      if (!confirmed) return;
-
-      try {
-        setStatus("Updating account…");
-        await db.collection("users").doc(user.id).update({
-          accountStatus:nextStatus
-        });
-        setStatus("Account status updated.");
-      } catch (err) {
-        setStatus("Update failed: " + err.message);
-      }
-    };
-
-    tbody.appendChild(tr);
-  });
+      // Fetch individual profiles to avoid Firestore "in" query limits.
+      Promise.all([...otherIds].map(async uid => {
+        try {
+          const doc = await db.collection("users").doc(uid).get();
+          if (!doc.exists) return null;
+          const data = doc.data() || {};
+          if (data.accountStatus === "suspended") return null;
+          return { uid, name: data.name || "", email: data.email || "" };
+        } catch (error) {
+          console.error("Could not load contact profile:", error);
+          return null;
+        }
+      })).then(results => {
+        contacts = results.filter(Boolean).sort((a, b) =>
+          (a.name || a.email).localeCompare(b.name || b.email)
+        );
+        renderContacts();
+      });
+    }, error => {
+      console.error("ChatWave contacts listener error:", error);
+      showMessage("searchMessage",
+        "Could not load conversations: " + friendlyError(error),
+        "error");
+    });
 }
 
-$("search").addEventListener("input", renderUsers);
-$("refreshBtn").onclick = () => {
-  if (!isAuthorizedAdmin) {
-    setStatus("You are not authorized.");
+function chatIdFor(uidA, uidB) {
+  return [uidA, uidB].sort().join("_");
+}
+
+async function selectConversation(person) {
+  if (!person || !currentUser || person.uid === currentUser.uid) return;
+
+  selectedUser = person;
+  renderContacts();
+  $("noChat").classList.add("hidden");
+  $("chatView").classList.remove("hidden");
+  $("chatName").textContent = person.name || "ChatWave member";
+  $("chatEmail").textContent = person.email || "";
+  $("messages").replaceChildren();
+  showMessage("chatMessage", "Loading messages…", "info");
+  stopChatListener();
+
+  const chatId = chatIdFor(currentUser.uid, person.uid);
+  const chatRef = db.collection("chats").doc(chatId);
+
+  try {
+    await withTimeout(chatRef.set({
+      participants: [currentUser.uid, person.uid].sort(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true }), "Opening conversation");
+  } catch (error) {
+    console.error("Could not open conversation:", error);
+    showMessage("chatMessage", friendlyError(error), "error");
     return;
   }
-  listenForUsers();
-};
+
+  messagesUnsubscribe = chatRef.collection("messages")
+    .orderBy("createdAt", "asc")
+    .limit(200)
+    .onSnapshot(snapshot => {
+      const box = $("messages");
+      box.replaceChildren();
+
+      if (snapshot.empty) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "This is the beginning of your conversation. Say hello!";
+        box.append(empty);
+      } else {
+        snapshot.forEach(doc => {
+          const msg = doc.data() || {};
+          const mine = msg.senderId === currentUser.uid;
+          const bubble = document.createElement("div");
+          bubble.className = "bubble " + (mine ? "mine" : "theirs");
+
+          const body = document.createElement("div");
+          body.textContent = safeText(msg.text);
+          bubble.append(body);
+
+          if (msg.createdAt && typeof msg.createdAt.toDate === "function") {
+            const time = document.createElement("small");
+            time.textContent = msg.createdAt.toDate().toLocaleString();
+            bubble.append(time);
+          }
+          box.append(bubble);
+        });
+      }
+      box.scrollTop = box.scrollHeight;
+      showMessage("chatMessage", "");
+    }, error => {
+      console.error("Message listener error:", error);
+      showMessage("chatMessage", "Could not load messages: " + friendlyError(error), "error");
+    });
+}
+
+async function sendMessage(event) {
+  event.preventDefault();
+  if (!currentUser || !selectedUser) {
+    showMessage("chatMessage", "Choose a conversation first.", "error");
+    return;
+  }
+
+  const text = $("messageInput").value.trim();
+  if (!text) return;
+
+  const button = $("sendButton");
+  button.disabled = true;
+  button.textContent = "Sending…";
+  showMessage("chatMessage", "");
+
+  try {
+    const chatId = chatIdFor(currentUser.uid, selectedUser.uid);
+    const chatRef = db.collection("chats").doc(chatId);
+
+    await withTimeout(chatRef.set({
+      participants: [currentUser.uid, selectedUser.uid].sort(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true }), "Preparing message");
+
+    await withTimeout(chatRef.collection("messages").add({
+      text,
+      senderId: currentUser.uid,
+      receiverId: selectedUser.uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }), "Sending message");
+
+    $("messageInput").value = "";
+  } catch (error) {
+    console.error("Send message failed:", error);
+    showMessage("chatMessage", "Message was not sent: " + friendlyError(error), "error");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Send";
+  }
+}
+
+async function findUser(event) {
+  event.preventDefault();
+  if (!currentUser) return;
+
+  const email = $("searchInput").value.trim().toLowerCase();
+  if (!email) {
+    showMessage("searchMessage", "Enter the member's exact email address.", "error");
+    return;
+  }
+
+  showMessage("searchMessage", "Searching…", "info");
+  const button = $("searchForm").querySelector("button");
+  button.disabled = true;
+
+  try {
+    /*
+      This looks up a profile by email. Firestore rules must permit the intended
+      lookup safely. For larger apps, use a trusted server/search function instead.
+    */
+    const result = await withTimeout(
+      db.collection("users").where("email", "==", email).limit(2).get(),
+      "Searching for member"
+    );
+
+    if (result.empty) {
+      showMessage("searchMessage", "No ChatWave profile was found for that email.", "error");
+      return;
+    }
+
+    const doc = result.docs.find(d => d.id !== currentUser.uid);
+    if (!doc) {
+      showMessage("searchMessage", "That's your own account. Try another member's email.", "error");
+      return;
+    }
+
+    const data = doc.data() || {};
+    if (data.accountStatus === "suspended") {
+      showMessage("searchMessage", "This account is not available.", "error");
+      return;
+    }
+
+    const person = {
+      uid: doc.id,
+      name: data.name || "",
+      email: data.email || ""
+    };
+
+    if (!contacts.some(c => c.uid === person.uid)) {
+      contacts.push(person);
+    }
+    renderContacts();
+    showMessage("searchMessage", "Member found. Opening conversation…", "success");
+    await selectConversation(person);
+  } catch (error) {
+    console.error("Find user failed:", error);
+    showMessage("searchMessage",
+      "Could not search users: " + friendlyError(error) +
+      " If this is a permissions error, your Firestore rules need to allow a safe member lookup.",
+      "error");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function resetPassword() {
+  const email = $("emailInput").value.trim().toLowerCase();
+  if (!email) {
+    showMessage("authMessage", "Enter your email address first.", "error");
+    return;
+  }
+  try {
+    await withTimeout(auth.sendPasswordResetEmail(email), "Sending password reset");
+    showMessage("authMessage", "If an account exists for that email, Firebase will send a password-reset email.", "success");
+  } catch (error) {
+    showMessage("authMessage", friendlyError(error), "error");
+  }
+}
+
+async function signOut() {
+  try {
+    await auth.signOut();
+  } catch (error) {
+    showMessage("searchMessage", friendlyError(error), "error");
+  }
+}
+
+function init() {
+  if (!window.firebase) {
+    showMessage("authMessage",
+      "Firebase did not load. Check your internet connection and the Firebase script URLs.",
+      "error");
+    return;
+  }
+
+  try {
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db = firebase.firestore();
+
+    $("authForm").addEventListener("submit", handleAuthSubmit);
+    $("switchMode").addEventListener("click", () => switchAuthMode(!isSignIn));
+    $("resetPassword").addEventListener("click", resetPassword);
+    $("trySignIn").addEventListener("click", () => {
+      switchAuthMode(true);
+      showMessage("authMessage", "Sign in using the account you already created.", "info");
+    });
+    $("searchForm").addEventListener("submit", findUser);
+    $("messageForm").addEventListener("submit", sendMessage);
+    $("signOut").addEventListener("click", signOut);
+    $("refreshContacts").addEventListener("click", () => {
+      startContactsListener();
+      showMessage("searchMessage", "Refreshing conversations…", "info");
+    });
+
+    // Auth observer is the source of truth for whether the user is signed in.
+    auth.onAuthStateChanged(async user => {
+      authStateReady = true;
+      if (!user) {
+        closeApp();
+        return;
+      }
+
+      currentUser = user;
+      $("authView").classList.remove("hidden");
+      $("appView").classList.add("hidden");
+      showMessage("authMessage", "Checking your ChatWave profile…", "info");
+
+      try {
+        const profile = await ensureUserProfile(user);
+        currentProfile = profile;
+        openApp(user, profile);
+      } catch (error) {
+        console.error("Profile check failed:", error);
+        showMessage("authMessage",
+          "You're signed in to Firebase, but ChatWave could not finish loading your profile: " +
+          friendlyError(error),
+          "error");
+        $("recoveryActions").classList.remove("hidden");
+      }
+    }, error => {
+      console.error("Firebase auth observer error:", error);
+      showMessage("authMessage", friendlyError(error), "error");
+    });
+  } catch (error) {
+    console.error("ChatWave initialization failed:", error);
+    showMessage("authMessage",
+      "ChatWave could not initialize Firebase: " + friendlyError(error),
+      "error");
+  }
+}
+
+switchAuthMode(false);
+init();
 </script>
 </body>
 </html>
