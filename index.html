@@ -1,52 +1,344 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102432">
 <title>ChatWave</title>
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<style>
+:root {
+  --mint:#62f5cf;
+  --glass:rgba(14,34,48,.58);
+  --line:rgba(255,255,255,.17);
+}
+* { box-sizing:border-box }
+html,body {
+  margin:0;width:100%;height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:#f4f8ff;
+}
+body { overflow:hidden;background:#07151e }
+.wall {
+  position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(ellipse at 15% 12%,#236a8e 0,transparent 38%),
+    radial-gradient(ellipse at 85% 85%,#176c68 0,transparent 35%),
+    linear-gradient(135deg,#102b45,#081925 55%,#173b49);
+}
+.glass {
+  background:var(--glass);
+  border:1px solid var(--line);
+  box-shadow:0 18px 60px #0003,inset 0 1px #ffffff18;
+  backdrop-filter:blur(28px) saturate(155%);
+  -webkit-backdrop-filter:blur(28px) saturate(155%);
+}
+.field {
+  width:100%;color:#f4f8ff;background:#ffffff0e;
+  border:1px solid #ffffff25;border-radius:15px;
+  padding:14px;outline:none;
+}
+.field::placeholder { color:#bdcedc99 }
+.field:focus { border-color:#62f5cfaa;box-shadow:0 0 0 3px #62f5cf1a }
+.primary {
+  background:linear-gradient(135deg,#62f5cf,#5bc1e7);
+  color:#08262d;font-weight:750;border-radius:15px;padding:13px;
+}
+.secondary {
+  background:#ffffff12;border:1px solid var(--line);
+  border-radius:15px;padding:13px;color:#f4f8ff;
+}
+#authPage,#verifyPage {
+  position:fixed;inset:0;display:flex;align-items:center;
+  justify-content:center;padding:18px;overflow:auto;
+}
+.auth-card { width:min(100%,420px);padding:28px;border-radius:28px }
+#chatPage {
+  height:100dvh;width:100%;padding:12px;
+  display:grid;grid-template-columns:68px minmax(255px,330px) minmax(0,1fr);
+  gap:10px;min-height:0;
+}
+.rail,.contacts,.conversation {
+  min-height:0;min-width:0;border-radius:24px;overflow:hidden;
+}
+.rail {
+  display:flex;flex-direction:column;align-items:center;
+  padding:14px 8px;gap:10px;
+}
+.mark {
+  width:43px;height:43px;border-radius:15px;display:grid;
+  place-items:center;background:linear-gradient(140deg,#72f6d0,#68aaff);
+  color:#082a34;font-weight:900;font-size:23px;
+}
+.rail-btn,.icon-btn {
+  display:grid;place-items:center;color:#e6f5ff;
+  background:#ffffff0c;border:1px solid #ffffff12;
+  border-radius:15px;width:43px;height:43px;
+}
+.rail-btn.active,.rail-btn:hover,.icon-btn:hover {
+  background:#62f5cf20;color:var(--mint);
+}
+.push { flex:1 }
+.contacts { display:flex;flex-direction:column }
+.contacts-head {
+  padding:18px 15px 12px;border-bottom:1px solid #ffffff12;
+}
+.headline { display:flex;justify-content:space-between;align-items:center;gap:10px }
+.search { position:relative;margin-top:14px }
+.search span { position:absolute;left:13px;top:11px;opacity:.7 }
+.search input { padding-left:39px }
+.tabs { display:flex;gap:5px;margin-top:10px }
+.tab {
+  border:1px solid transparent;background:transparent;color:#c5d8e5;
+  border-radius:11px;padding:7px 9px;font-size:12px;
+}
+.tab.active { background:#62f5cf1e;color:var(--mint);border-color:#62f5cf22 }
+#userList { overflow:auto;flex:1;padding:7px }
+.user-row {
+  display:flex;align-items:center;gap:10px;padding:11px 9px;
+  border-radius:16px;border:1px solid transparent;cursor:pointer;
+  width:100%;text-align:left;color:inherit;background:transparent;
+}
+.user-row:hover { background:#ffffff0d }
+.user-row.selected {
+  background:linear-gradient(110deg,#48d7ba2e,#64a6ff17);
+  border-color:#82e6e233;
+}
+.avatar {
+  width:43px;height:43px;flex:0 0 43px;border-radius:50%;
+  display:grid;place-items:center;background:linear-gradient(140deg,#4e9db1,#766fc5);
+  border:1px solid #ffffff55;font-weight:750;position:relative;
+}
+.dot {
+  width:10px;height:10px;border-radius:50%;background:#55edb6;
+  border:2px solid #153041;position:absolute;right:0;bottom:0;
+}
+.ucopy { min-width:0;flex:1 }
+.uname { font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+.upreview { font-size:12px;color:#b5c9d9;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+.conversation { display:flex;flex-direction:column }
+.chat-top {
+  display:flex;align-items:center;gap:11px;padding:13px 16px;
+  min-height:72px;border-bottom:1px solid #ffffff17;background:#04131d22;
+}
+.chat-person { min-width:0;flex:1 }
+.chat-actions { display:flex;gap:6px }
+#messages {
+  flex:1;overflow:auto;padding:22px clamp(12px,3vw,30px);
+  display:flex;flex-direction:column;gap:11px;scroll-behavior:smooth;
+}
+.empty-state { margin:auto;text-align:center;max-width:340px;color:#d6e6f3 }
+.bubble {
+  max-width:min(78%,520px);padding:11px 14px 8px;
+  border-radius:18px;font-size:14px;line-height:1.45;
+  overflow-wrap:anywhere;white-space:pre-wrap;box-shadow:0 6px 18px #0002;
+}
+.incoming {
+  align-self:flex-start;background:#e1f0ff20;
+  border:1px solid #ffffff20;border-bottom-left-radius:6px;
+}
+.outgoing {
+  align-self:flex-end;background:linear-gradient(135deg,#15b197e8,#1f8bb1e8);
+  border:1px solid #ffffff2e;border-bottom-right-radius:6px;
+}
+.bubble img {
+  display:block;max-width:min(100%,300px);max-height:300px;
+  border-radius:12px;margin-bottom:5px;
+}
+.meta { font-size:10px;color:#eff9ffad;text-align:right;margin-top:5px }
+.composer-wrap {
+  padding:11px 14px 14px;border-top:1px solid #ffffff15;background:#04111a33;
+}
+.composer {
+  display:flex;align-items:center;gap:7px;padding:7px;
+  border-radius:21px;background:#ffffff13;border:1px solid #ffffff25;
+}
+.composer input[type=text] {
+  min-width:0;flex:1;background:transparent;border:0;
+  outline:0;color:white;padding:10px 4px;
+}
+.composer input::placeholder { color:#adc4d6 }
+.send {
+  width:43px;height:43px;border-radius:15px;
+  background:linear-gradient(135deg,#63f0c9,#3cbbd4);
+  color:#062b31;font-size:18px;border:0;font-weight:900;
+}
+.note { font-size:11px;color:#aac0d0 }
+.hidden { display:none!important }
+#status { font-size:12px;color:#c5d9e7;min-height:17px;padding:0 4px 4px }
+#toast {
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:50;background:#071722ed;border:1px solid var(--line);
+  border-radius:14px;padding:12px 17px;max-width:90vw;font-size:13px;
+}
+.mobile-back { display:none }
+
+@media(max-width:850px) {
+  #chatPage { grid-template-columns:54px minmax(230px,285px) minmax(0,1fr);padding:7px;gap:7px }
+  .rail { padding:10px 4px }
+  .rail-btn { width:41px;height:41px }
+  .optional { display:none }
+}
+@media(max-width:640px) {
+  #chatPage { display:block;padding:0;height:100dvh }
+  .rail { display:none }
+  .contacts,.conversation { position:absolute;inset:7px;border-radius:22px }
+  .contacts { display:flex }
+  .conversation { display:none }
+  #chatPage.mobile-chat .contacts { display:none }
+  #chatPage.mobile-chat .conversation { display:flex }
+  .mobile-back { display:grid }
+  .chat-top { padding:10px }
+  .bubble { max-width:89% }
+  #messages { padding:16px 11px }
+  .composer-wrap { padding:9px 8px calc(9px + env(safe-area-inset-bottom)) }
+  .auth-card { padding:23px }
+}
+</style>
 </head>
-<body class="bg-[#111b21] h-screen flex flex-col items-center justify-center p-4">
 
-<div id="auth" class="bg-white rounded-2xl p-8 w-full max-w-[380px]">
-  <h1 class="text-3xl font-bold text-[#00a884]">ChatWave</h1>
-  <p class="text-sm text-gray-500 mb-6">Simple & Secure Chat</p>
-  <input id="email" placeholder="Email" class="w-full border p-3 rounded-xl mb-3">
-  <input id="password" type="password" placeholder="Password" class="w-full border p-3 rounded-xl mb-4">
-  <button onclick="signup()" class="w-full bg-[#00a884] text-white p-3 rounded-xl font-bold">Create & Send Code</button>
-  <button onclick="login()" class="w-full mt-2 bg-black text-white p-3 rounded-xl">Login</button>
-</div>
+<body>
+<div class="wall"></div>
 
-<div id="verify" class="hidden bg-white rounded-2xl p-8 w-full max-w-[380px] text-center">
-  <h2 class="text-xl font-bold">Enter 6-digit code</h2>
-  <p id="vEmail" class="text-sm text-gray-500 my-2"></p>
-  <input id="code" maxlength="6" placeholder="000000" class="w-full text-center text-3xl tracking-[0.7em] border-2 border-green-500 p-3 rounded-xl my-5">
-  <button onclick="verify()" class="w-full bg-[#00a884] text-white p-3 rounded-xl font-bold">Verify</button>
-  <button onclick="resend()" class="mt-3 text-sm text-green-600">Resend Code</button>
-</div>
-
-<div id="chat" class="hidden w-full h-screen bg-[#efeae2] flex">
-  <div class="w-[35%] bg-white border-r flex flex-col">
-    <div class="p-3 bg-[#f0f2f5] flex justify-between"><b id="me" class="text-sm truncate"></b><button onclick="logout()" class="text-red-500 text-sm">Logout</button></div>
-    <div id="users" class="flex-1 overflow-y-auto"></div>
-  </div>
-  <div class="w-[65%] flex flex-col">
-    <div id="chatHead" class="p-3 bg-[#f0f2f5] font-bold">Select user</div>
-    <div id="msgs" class="flex-1 overflow-y-auto p-4 flex flex-col gap-2"></div>
-    <div class="p-3 bg-[#f0f2f5] flex gap-2">
-      <input type="file" id="img" hidden accept="image/*" onchange="sendImg(event)">
-      <button onclick="document.getElementById('img').click()">📷</button>
-      <input id="msg" class="flex-1 p-3 rounded-full" placeholder="Type a message" onkeypress="if(event.key==='Enter')sendMsg()">
-      <button onclick="sendMsg()" class="bg-[#00a884] text-white px-5 rounded-full">Send</button>
+<section id="authPage">
+  <div class="auth-card glass">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="mark">〰</div>
+      <div>
+        <h1 class="text-3xl font-bold">ChatWave</h1>
+        <p class="text-sm text-slate-300 mt-1">Your people. Your conversations.</p>
+      </div>
     </div>
+    <p class="text-sm text-slate-300 mb-5">A calmer place to chat, share and stay close.</p>
+
+    <label class="block text-xs text-slate-300 mb-2" for="email">Email address</label>
+    <input id="email" type="email" autocomplete="email" placeholder="you@example.com" class="field mb-3">
+
+    <label class="block text-xs text-slate-300 mb-2" for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters" class="field mb-4">
+
+    <button id="signupBtn" onclick="handleSignup()" class="primary w-full">Create account</button>
+    <button id="loginBtn" onclick="handleLogin()" class="secondary w-full mt-3">Log in</button>
+    <button onclick="resetPassword()" class="block mx-auto mt-4 text-sm text-cyan-200">Forgot password?</button>
+    <p class="text-xs text-center text-slate-400 mt-6">Email and password only · No Google sign-in</p>
+    <p id="authStatus" role="status" class="text-sm text-rose-200 mt-3 text-center"></p>
   </div>
-</div>
+</section>
+
+<section id="verifyPage" class="hidden">
+  <div class="auth-card glass text-center">
+    <div class="mark mx-auto mb-5">〰</div>
+    <h2 class="text-2xl font-bold">Check your email</h2>
+    <p class="text-sm text-slate-300 mt-2">Enter the six-digit code sent to</p>
+    <p id="verifyEmailText" class="text-sm text-cyan-200 mt-1 break-all"></p>
+    <input id="codeInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" class="field text-center text-2xl tracking-[.5em] my-5">
+    <button id="verifyBtn" onclick="verifyCode()" class="primary w-full">Verify and create account</button>
+    <button onclick="resendCode()" class="block mx-auto mt-4 text-sm text-cyan-200">Resend code</button>
+    <button onclick="showLogin()" class="block mx-auto mt-4 text-sm text-slate-300">Back to login</button>
+    <p id="verifyStatus" class="text-sm text-rose-200 mt-3"></p>
+  </div>
+</section>
+
+<section id="chatPage" class="hidden">
+  <aside class="rail glass">
+    <div class="mark mb-4">〰</div>
+    <button class="rail-btn active" title="Chats">◉</button>
+    <button class="rail-btn" title="Contacts" onclick="toast('Contacts are listed here.')">♙</button>
+    <button class="rail-btn" title="Calls" onclick="toast('Calling needs a calling service to be connected.')">☎</button>
+    <button class="rail-btn" title="Share image" onclick="document.getElementById('imgInput').click()">▧</button>
+    <div class="push"></div>
+    <button class="rail-btn" title="Settings" onclick="toast('More settings can be added next.')">⚙</button>
+    <button class="rail-btn" title="Log out" onclick="logout()">⇥</button>
+  </aside>
+
+  <aside class="contacts glass">
+    <div class="contacts-head">
+      <div class="headline">
+        <div>
+          <h2 class="text-xl font-bold">Messages</h2>
+          <p class="text-xs text-slate-300 mt-1">Stay in the loop</p>
+        </div>
+        <button class="icon-btn" title="New chat" onclick="toast('Choose a contact to start chatting.')">＋</button>
+      </div>
+      <div class="search">
+        <span>⌕</span>
+        <input id="searchInput" class="field" type="search" placeholder="Search people..." oninput="filterUsers()">
+      </div>
+      <div class="tabs">
+        <button class="tab active" onclick="setFilter('all',this)">All chats</button>
+        <button class="tab" onclick="setFilter('online',this)">Online</button>
+        <button class="tab" onclick="setFilter('unread',this)">Unread</button>
+      </div>
+    </div>
+
+    <div id="userList">
+      <div class="p-5 text-sm text-slate-300">Sign in to load contacts.</div>
+    </div>
+
+    <div class="p-4 border-t border-white/10 flex items-center gap-3">
+      <div class="avatar" id="myAvatar">CW</div>
+      <div class="min-w-0 flex-1">
+        <p id="myEmail" class="text-sm font-semibold truncate">Your account</p>
+        <p class="text-xs text-emerald-200">● Signed in</p>
+      </div>
+      <button class="icon-btn" onclick="logout()" title="Log out">↗</button>
+    </div>
+  </aside>
+
+  <main class="conversation glass">
+    <header class="chat-top">
+      <button class="icon-btn mobile-back" onclick="backToContacts()" aria-label="Back">‹</button>
+      <div class="avatar" id="chatAvatar">CW</div>
+      <div class="chat-person">
+        <div id="chatHeader" class="font-semibold truncate">Welcome to ChatWave</div>
+        <div id="chatPresence" class="text-xs text-emerald-200 mt-1">Choose a contact to start chatting</div>
+      </div>
+      <div class="chat-actions">
+        <button class="icon-btn optional" title="Voice call" onclick="toast('Voice calling is not connected yet.')">☎</button>
+        <button class="icon-btn optional" title="Video call" onclick="toast('Video calling is not connected yet.')">▣</button>
+        <button class="icon-btn" title="More" onclick="toast('More chat tools can be added next.')">···</button>
+      </div>
+    </header>
+
+    <div id="messages">
+      <div class="empty-state">
+        <div class="text-4xl mb-3">✦</div>
+        <h3 class="text-xl font-semibold">Welcome to ChatWave</h3>
+        <p class="text-sm mt-2 leading-6">Pick someone from your contacts, say hello, and keep the conversation flowing.</p>
+      </div>
+    </div>
+
+    <div class="composer-wrap">
+      <div id="status" role="status"></div>
+      <div class="composer">
+        <input type="file" id="imgInput" accept="image/*" class="hidden" onchange="sendImage(event)">
+        <button class="icon-btn" title="Attach image" onclick="document.getElementById('imgInput').click()">＋</button>
+        <input id="msgInput" type="text" placeholder="Write a message..." autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();sendMessage()}">
+        <button class="icon-btn optional" title="Emoji" onclick="insertEmoji()">☺</button>
+        <button class="send" title="Send" onclick="sendMessage()">➤</button>
+      </div>
+      <p class="note mt-2 text-center">Private conversations · Be kind to each other</p>
+    </div>
+  </main>
+</section>
+
+<div id="toast" class="hidden" role="status"></div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,
+  onAuthStateChanged,signOut,setPersistence,browserLocalPersistence,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,doc,setDoc,collection,addDoc,query,orderBy,
+  onSnapshot,serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
@@ -56,43 +348,422 @@ const firebaseConfig = {
   messagingSenderId: "74313204354",
   appId: "1:74313204354:web:c735269d502b88a39eea9b"
 };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
 
-const SERVICE_ID = "service_1h2qcyj";
-const TEMPLATE_ID = "template_7r6apmq"; // <- Replace if you get real one
-const PUBLIC_KEY = "3T5o3Kz1j5XxXxXxX"; // <- Replace if you get real one
-emailjs.init(PUBLIC_KEY);
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+await setPersistence(auth,browserLocalPersistence).catch(()=>{});
 
-let cur=null, sel=null;
-window.signup = async()=>{
-  const email=document.getElementById('email').value, pass=document.getElementById('password').value;
-  if(!email||!pass) return alert("Fill form");
-  const code=Math.floor(100000+Math.random()*900000).toString();
-  try{ await emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:email,code:code}); alert("Code sent to "+email); }catch(e){ alert("Your code: "+code); }
-  localStorage.setItem('code',code); localStorage.setItem('pemail',email); localStorage.setItem('ppass',pass);
-  document.getElementById('auth').classList.add('hidden'); document.getElementById('verify').classList.remove('hidden'); document.getElementById('vEmail').innerText=email;
+const SERVICE_ID="service_1h2qcyj";
+const TEMPLATE_ID="template_g5knl87";
+const PUBLIC_KEY="OxtLjZnoiYd3ih6cm";
+
+if(window.emailjs && PUBLIC_KEY && !PUBLIC_KEY.includes("YOUR_")){
+  try { emailjs.init({publicKey:PUBLIC_KEY}); }
+  catch(e) { console.warn(e); }
 }
-window.verify=async()=>{
-  if(document.getElementById('code').value!==localStorage.getItem('code')) return alert("Wrong! Code: "+localStorage.getItem('code'));
-  try{ await createUserWithEmailAndPassword(auth, localStorage.getItem('pemail'), localStorage.getItem('ppass')); }catch(e){alert(e.message)}
-}
-window.resend=async()=>{ const email=localStorage.getItem('pemail'), code=localStorage.getItem('code'); try{await emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:email,code:code});alert("Resent")}catch(e){alert("Code: "+code)} }
-window.login=async()=>{ try{await signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);}catch(e){alert(e.message)} }
-window.logout=async()=>{await signOut(auth); localStorage.clear(); location.reload();}
 
-onAuthStateChanged(auth, async u=>{
-  if(u){ cur=u; await setDoc(doc(db,"users",u.uid),{uid:u.uid,email:u.email,online:true,lastSeen:serverTimestamp()},{merge:true});
-    document.getElementById('auth').classList.add('hidden'); document.getElementById('verify').classList.add('hidden'); document.getElementById('chat').classList.remove('hidden'); document.getElementById('me').innerText=u.email;
-    onSnapshot(collection(db,"users"),s=>{ const box=document.getElementById('users'); box.innerHTML=""; s.forEach(d=>{ if(d.id===cur.uid) return; const x=d.data(); const div=document.createElement('div'); div.className="p-3 border-b cursor-pointer hover:bg-gray-100"; div.innerHTML=`<b class="text-sm">${x.email}</b>`; div.onclick=()=>openChat(x); box.appendChild(div); }); });
+let currentUser=null;
+let selectedUser=null;
+let usersCache=[];
+let activeFilter="all";
+let stopUsers=null;
+let stopMessages=null;
+let toastTimer;
+
+const el=id=>document.getElementById(id);
+const status=(id,msg)=>el(id).textContent=msg||"";
+
+function err(e){
+  const messages={
+    "auth/invalid-email":"Enter a valid email address.",
+    "auth/weak-password":"Password must have at least 6 characters.",
+    "auth/email-already-in-use":"This email already has an account. Try logging in.",
+    "auth/invalid-credential":"Email or password is incorrect.",
+    "auth/too-many-requests":"Too many attempts. Wait a little and try again.",
+    "auth/network-request-failed":"Network error. Check your connection.",
+    "permission-denied":"Firestore blocked this action. Check Firestore rules.",
+    "firestore/permission-denied":"Firestore blocked this action. Check Firestore rules."
+  };
+  return messages[e?.code]||e?.message||"Something went wrong.";
+}
+
+window.toast=msg=>{
+  const t=el("toast");
+  t.textContent=msg;
+  t.classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.add("hidden"),3200);
+};
+
+function page(id){
+  ["authPage","verifyPage","chatPage"].forEach(x=>{
+    el(x).classList.toggle("hidden",x!==id);
+  });
+}
+
+window.showLogin=()=>{
+  page("authPage");
+  status("authStatus","");
+  status("verifyStatus","");
+};
+
+window.handleSignup=async()=>{
+  const email=el("email").value.trim().toLowerCase();
+  const pass=el("password").value;
+  status("authStatus","");
+
+  if(!email||!pass) return status("authStatus","Enter your email and password.");
+  if(pass.length<6) return status("authStatus","Password must have at least 6 characters.");
+  if(!window.emailjs) return status("authStatus","Email service did not load. Refresh and try again.");
+
+  const b=el("signupBtn");
+  b.disabled=true;
+  b.textContent="Sending code…";
+  const code=String(Math.floor(100000+Math.random()*900000));
+
+  try{
+    await emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:email,code});
+    sessionStorage.setItem("chatwave_pending_verification",JSON.stringify({
+      email,pass,code,expires:Date.now()+600000
+    }));
+    el("verifyEmailText").textContent=email;
+    el("codeInput").value="";
+    status("verifyStatus","");
+    page("verifyPage");
+  }catch(e){
+    console.error(e);
+    status("authStatus","Couldn't send verification email. Check your EmailJS service, template and public key.");
+  }finally{
+    b.disabled=false;
+    b.textContent="Create account";
+  }
+};
+
+window.verifyCode=async()=>{
+  let p;
+  try{p=JSON.parse(sessionStorage.getItem("chatwave_pending_verification")||"null")}catch{}
+  const input=el("codeInput").value.trim();
+
+  if(!p) return status("verifyStatus","Verification session expired. Start again.");
+  if(Date.now()>p.expires){
+    sessionStorage.removeItem("chatwave_pending_verification");
+    return status("verifyStatus","Code expired. Start registration again.");
+  }
+  if(input!==p.code) return status("verifyStatus","Incorrect code. Try again.");
+
+  const b=el("verifyBtn");
+  b.disabled=true;
+  b.textContent="Creating account…";
+  try{
+    await createUserWithEmailAndPassword(auth,p.email,p.pass);
+    sessionStorage.removeItem("chatwave_pending_verification");
+    el("password").value="";
+  }catch(e){
+    status("verifyStatus",err(e));
+  }finally{
+    b.disabled=false;
+    b.textContent="Verify and create account";
+  }
+};
+
+window.resendCode=async()=>{
+  let p;
+  try{p=JSON.parse(sessionStorage.getItem("chatwave_pending_verification")||"null")}catch{}
+  if(!p) return status("verifyStatus","Start registration again.");
+
+  const code=String(Math.floor(100000+Math.random()*900000));
+  try{
+    await emailjs.send(SERVICE_ID,TEMPLATE_ID,{to_email:p.email,code});
+    p.code=code;
+    p.expires=Date.now()+600000;
+    sessionStorage.setItem("chatwave_pending_verification",JSON.stringify(p));
+    status("verifyStatus","A new code has been sent.");
+  }catch(e){
+    status("verifyStatus","Couldn't resend code. Check EmailJS settings.");
+  }
+};
+
+window.handleLogin=async()=>{
+  const email=el("email").value.trim().toLowerCase();
+  const pass=el("password").value;
+  status("authStatus","");
+  if(!email||!pass) return status("authStatus","Enter email and password.");
+
+  const b=el("loginBtn");
+  b.disabled=true;
+  b.textContent="Logging in…";
+  try{
+    await signInWithEmailAndPassword(auth,email,pass);
+  }catch(e){
+    status("authStatus",err(e));
+  }finally{
+    b.disabled=false;
+    b.textContent="Log in";
+  }
+};
+
+window.resetPassword=async()=>{
+  const email=el("email").value.trim().toLowerCase();
+  if(!email) return status("authStatus","Enter your email first.");
+  try{
+    await sendPasswordResetEmail(auth,email);
+    status("authStatus","Password reset email sent. Check your inbox.");
+  }catch(e){
+    status("authStatus",err(e));
+  }
+};
+
+window.logout=async()=>{
+  try{
+    if(currentUser){
+      await setDoc(doc(db,"users",currentUser.uid),{
+        online:false,lastSeen:serverTimestamp()
+      },{merge:true}).catch(()=>{});
+    }
+    if(stopUsers) stopUsers();
+    if(stopMessages) stopMessages();
+    stopUsers=stopMessages=null;
+    await signOut(auth);
+    currentUser=selectedUser=null;
+    page("authPage");
+  }catch(e){toast(err(e))}
+};
+
+onAuthStateChanged(auth,async user=>{
+  if(!user){
+    currentUser=null;
+    page("authPage");
+    return;
+  }
+
+  currentUser=user;
+  try{
+    await setDoc(doc(db,"users",user.uid),{
+      uid:user.uid,
+      email:user.email||"",
+      displayName:user.displayName||user.email?.split("@")[0]||"ChatWave user",
+      lastSeen:serverTimestamp(),
+      online:true
+    },{merge:true});
+
+    el("myEmail").textContent=user.email||"ChatWave user";
+    el("myAvatar").textContent=initials(user.displayName||user.email);
+    page("chatPage");
+    loadUsers();
+  }catch(e){
+    console.error(e);
+    page("authPage");
+    status("authStatus","Signed in, but Firestore blocked your profile. Check Firestore rules. "+err(e));
   }
 });
 
-window.openChat=x=>{ sel=x; document.getElementById('chatHead').innerText=x.email; const id=[cur.uid,x.uid].sort().join("_"); onSnapshot(query(collection(db,"chats",id,"messages"),orderBy("timestamp")),s=>{ const b=document.getElementById('msgs'); b.innerHTML=""; s.forEach(d=>{ const m=d.data(); const isMe=m.senderId===cur.uid; const div=document.createElement('div'); div.className=`max-w-[70%] p-2 rounded-lg text-sm ${isMe?'bg-[#d9fdd3] self-end':'bg-white self-start'}`; div.innerHTML=m.imageUrl?`<img src="${m.imageUrl}" class="max-w-[200px] rounded"> ${m.text||''}`:m.text; b.appendChild(div); }); b.scrollTop=b.scrollHeight; }); }
+function initials(s){
+  return String(s||"CW").split("@")[0].split(/[ ._-]/)
+    .filter(Boolean).slice(0,2).map(x=>x[0].toUpperCase()).join("")||"CW";
+}
 
-window.sendMsg=async()=>{ const t=document.getElementById('msg').value.trim(); if(!t||!sel) return; const id=[cur.uid,sel.uid].sort().join("_"); await addDoc(collection(db,"chats",id,"messages"),{text:t,senderId:cur.uid,timestamp:serverTimestamp()}); document.getElementById('msg').value=""; }
-window.sendImg=e=>{ const f=e.target.files[0]; if(!f||f.size>2*1024*1024) return alert("Max 2MB"); const r=new FileReader(); r.onload=async ev=>{ const id=[cur.uid,sel.uid].sort().join("_"); await addDoc(collection(db,"chats",id,"messages"),{text:"",imageUrl:ev.target.result,senderId:cur.uid,timestamp:serverTimestamp()}); }; r.readAsDataURL(f); }
+function loadUsers(){
+  if(stopUsers) stopUsers();
+  stopUsers=onSnapshot(collection(db,"users"),snap=>{
+    usersCache=[];
+    snap.forEach(d=>{
+      if(d.id!==currentUser?.uid){
+        const u=d.data();
+        usersCache.push({...u,uid:u.uid||d.id});
+      }
+    });
+    renderUsers();
+  },e=>{
+    console.error(e);
+    toast("Couldn't load contacts. Check Firestore rules.");
+  });
+}
+
+function renderUsers(){
+  const list=el("userList");
+  list.innerHTML="";
+  const s=el("searchInput").value.trim().toLowerCase();
+
+  const found=usersCache.filter(u=>{
+    const n=(u.displayName||u.email||"ChatWave user").toLowerCase();
+    const mail=(u.email||"").toLowerCase();
+    return (!s||n.includes(s)||mail.includes(s)) &&
+      (activeFilter==="all"||(activeFilter==="online"&&u.online===true));
+  });
+
+  if(!found.length){
+    list.innerHTML=`<div class="p-5 text-sm text-slate-300">${
+      s?"No matching contacts.":"No contacts yet. Ask a friend to create an account."
+    }</div>`;
+    return;
+  }
+
+  found.forEach(u=>{
+    const name=u.displayName||u.email||"ChatWave user";
+    const row=document.createElement("button");
+    row.type="button";
+    row.className="user-row"+(selectedUser?.uid===u.uid?" selected":"");
+
+    const av=document.createElement("div");
+    av.className="avatar";
+    av.textContent=initials(name);
+
+    if(u.online){
+      const dot=document.createElement("span");
+      dot.className="dot";
+      av.appendChild(dot);
+    }
+
+    const cp=document.createElement("div");
+    cp.className="ucopy";
+
+    const nm=document.createElement("div");
+    nm.className="uname";
+    nm.textContent=name;
+
+    const pr=document.createElement("div");
+    pr.className="upreview";
+    pr.textContent=u.online?"● Online":(u.email||"Tap to chat");
+
+    cp.append(nm,pr);
+    row.append(av,cp);
+    row.onclick=()=>openChat(u);
+    list.appendChild(row);
+  });
+}
+
+window.filterUsers=renderUsers;
+
+window.setFilter=(f,b)=>{
+  activeFilter=f;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  renderUsers();
+};
+
+window.backToContacts=()=>el("chatPage").classList.remove("mobile-chat");
+
+window.openChat=u=>{
+  if(!currentUser||!u?.uid) return;
+
+  selectedUser=u;
+  el("chatPage").classList.add("mobile-chat");
+  el("chatHeader").textContent=u.displayName||u.email||"ChatWave user";
+  el("chatPresence").textContent=u.online?"● Online":"ChatWave contact";
+  el("chatAvatar").textContent=initials(u.displayName||u.email);
+  el("messages").innerHTML="";
+
+  if(stopMessages) stopMessages();
+
+  const id=[currentUser.uid,u.uid].sort().join("_");
+  const q=query(collection(db,"chats",id,"messages"),orderBy("timestamp","asc"));
+
+  stopMessages=onSnapshot(q,snap=>{
+    const box=el("messages");
+    box.innerHTML="";
+
+    if(snap.empty){
+      box.innerHTML='<div class="empty-state"><div class="text-4xl mb-3">✧</div><h3 class="text-lg font-semibold">Say hello</h3><p class="text-sm mt-2">This is the beginning of your conversation.</p></div>';
+      return;
+    }
+
+    snap.forEach(d=>{
+      const m=d.data();
+      const mine=m.senderId===currentUser.uid;
+      const b=document.createElement("div");
+      b.className="bubble "+(mine?"outgoing":"incoming");
+
+      if(m.imageUrl){
+        const img=document.createElement("img");
+        img.src=m.imageUrl;
+        img.alt="Shared image";
+        img.loading="lazy";
+        b.appendChild(img);
+      }
+
+      if(m.text){
+        const body=document.createElement("div");
+        body.textContent=m.text;
+        b.appendChild(body);
+      }
+
+      const meta=document.createElement("div");
+      meta.className="meta";
+      meta.textContent=labelTime(m.timestamp)+(mine?" ✓✓":"");
+      b.appendChild(meta);
+      box.appendChild(b);
+    });
+
+    box.scrollTop=box.scrollHeight;
+  },e=>{
+    console.error(e);
+    toast("Couldn't load messages. Check Firestore rules.");
+  });
+
+  renderUsers();
+};
+
+function labelTime(ts){
+  try{
+    if(ts?.toDate) return ts.toDate().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+  }catch{}
+  return "Just now";
+}
+
+window.sendMessage=async()=>{
+  const input=el("msgInput");
+  const text=input.value.trim();
+
+  if(!currentUser) return toast("Please log in.");
+  if(!selectedUser) return toast("Choose a contact first.");
+  if(!text) return;
+
+  input.value="";
+  const id=[currentUser.uid,selectedUser.uid].sort().join("_");
+
+  try{
+    await addDoc(collection(db,"chats",id,"messages"),{
+      text,senderId:currentUser.uid,timestamp:serverTimestamp()
+    });
+  }catch(e){
+    input.value=text;
+    toast(err(e));
+  }
+};
+
+window.sendImage=event=>{
+  const f=event.target.files?.[0];
+  event.target.value="";
+  if(!f) return;
+  if(!currentUser||!selectedUser) return toast("Choose a contact before sharing an image.");
+  if(!f.type.startsWith("image/")) return toast("Choose an image file.");
+  if(f.size>2*1024*1024) return toast("Images must be 2 MB or smaller in this demo.");
+
+  const r=new FileReader();
+  r.onload=async e=>{
+    const id=[currentUser.uid,selectedUser.uid].sort().join("_");
+    try{
+      await addDoc(collection(db,"chats",id,"messages"),{
+        text:"",
+        imageUrl:e.target.result,
+        senderId:currentUser.uid,
+        timestamp:serverTimestamp()
+      });
+    }catch(x){toast(err(x))}
+  };
+  r.onerror=()=>toast("Could not read that image.");
+  r.readAsDataURL(f);
+};
+
+window.insertEmoji=()=>{
+  const i=el("msgInput");
+  const s=i.selectionStart??i.value.length;
+  const e=i.selectionEnd??i.value.length;
+  i.value=i.value.slice(0,s)+" 😊 "+i.value.slice(e);
+  i.focus();
+  i.setSelectionRange(s+4,s+4);
+};
 </script>
 </body>
 </html>
