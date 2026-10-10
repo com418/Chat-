@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,177 +9,100 @@
 <style>
 :root {
   color-scheme: dark;
-  --bg: #07111f;
-  --panel: rgba(17, 31, 51, .88);
-  --panel2: #14243a;
-  --text: #f3f7ff;
-  --muted: #93a6c1;
-  --line: rgba(255,255,255,.10);
-  --accent: #6c7cff;
-  --accent2: #8d68ff;
-  --danger: #ff647c;
-  --radius: 20px;
+  --bg:#07111f; --panel:rgba(17,31,51,.88); --panel2:#14243a;
+  --text:#f3f7ff; --muted:#93a6c1; --line:rgba(255,255,255,.10);
+  --accent:#6c7cff; --accent2:#8d68ff; --danger:#ff647c;
+  --radius:20px;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  min-height: 100dvh;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background:
-    radial-gradient(ellipse at top left, #1c3155 0, transparent 42%),
-    var(--bg);
-  color: var(--text);
-}
-button, input, textarea { font: inherit; }
-button { cursor: pointer; }
-button:disabled { opacity: .5; cursor: not-allowed; }
-.hidden { display: none !important; }
-.muted { color: var(--muted); }
-.small { font-size: 12px; }
-.brand {
-  display: flex; align-items: center; gap: 10px;
-  font-size: 22px; font-weight: 850; letter-spacing: -.7px;
-}
-.brand-icon {
-  width: 42px; height: 42px; display: grid; place-items: center;
-  border-radius: 15px;
-  background: linear-gradient(135deg,var(--accent),var(--accent2));
-  box-shadow: 0 8px 28px #6c7cff35;
-}
-.brand-icon svg { width: 25px; height: 25px; }
-.card {
-  border: 1px solid var(--line);
-  background: var(--panel);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-radius: var(--radius);
-}
-button.primary {
-  color: white; border: 0; border-radius: 13px; padding: 13px 18px;
-  background: linear-gradient(135deg,var(--accent),var(--accent2));
-  font-weight: 750;
-}
-button.secondary, .icon-btn {
-  background: var(--panel2); color: var(--text);
-  border: 1px solid var(--line); border-radius: 12px; padding: 10px 13px;
-}
-button.danger { color: var(--danger); }
-input, textarea {
-  width: 100%; color: var(--text);
-  background: rgba(4,12,24,.65);
-  border: 1px solid var(--line); border-radius: 13px;
-  padding: 13px 14px; outline: none;
-}
-input:focus, textarea:focus { border-color: var(--accent); }
-label { display: block; font-size: 13px; margin: 15px 0 7px; color: var(--muted); }
-#authScreen {
-  min-height: 100dvh; display: grid; place-items: center;
-  padding: 24px 16px;
-}
-.auth-card { width: min(100%, 420px); padding: 27px; }
-.auth-card h1 { margin: 27px 0 8px; font-size: 30px; letter-spacing: -1px; }
-.auth-card .primary { width: 100%; margin-top: 18px; }
-.auth-switch { text-align: center; margin-top: 20px; font-size: 14px; }
-.link-btn { border: 0; background: transparent; color: #a9b4ff; padding: 4px; }
-#authMessage { margin-top: 13px; font-size: 13px; line-height: 1.5; }
-#appScreen { min-height: 100dvh; padding: 16px; }
-.app-shell {
-  width: min(1400px, 100%); margin: auto;
-  display: grid; grid-template-columns: 320px minmax(0,1fr);
-  gap: 16px; height: calc(100dvh - 32px); min-height: 570px;
-}
-.sidebar { display: flex; flex-direction: column; overflow: hidden; }
-.side-head { padding: 20px; border-bottom: 1px solid var(--line); }
-.side-user { display: flex; align-items: center; gap: 10px; margin-top: 22px; }
-.avatar {
-  flex: 0 0 43px; width: 43px; height: 43px; border-radius: 50%;
-  display: grid; place-items: center; font-weight: 800;
-  background: linear-gradient(135deg,#697bff,#b26bff);
-  color: white; overflow: hidden;
-}
-.avatar img { width: 100%; height: 100%; object-fit: cover; }
-.side-tools { display: flex; gap: 8px; margin-top: 17px; }
-.side-tools button { flex: 1; font-size: 12px; }
-.people-heading { padding: 17px 18px 9px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-#peopleList { overflow-y: auto; padding: 0 9px 12px; }
-.person {
-  width: 100%; display: flex; align-items: center; gap: 11px;
-  text-align: left; padding: 12px 10px; border: 0;
-  background: transparent; color: var(--text); border-radius: 14px;
-}
-.person.active, .person:hover { background: var(--panel2); }
-.person-info { min-width: 0; flex: 1; }
-.person-name { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.person-email { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 4px; }
-.chat-panel { min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
-.chat-head {
-  display: flex; align-items: center; gap: 12px; padding: 17px 20px;
-  border-bottom: 1px solid var(--line); min-height: 80px;
-}
-.chat-head-info { flex: 1; min-width: 0; }
-.chat-head-info strong { display: block; overflow-wrap: anywhere; }
-.chat-head-info span { font-size: 12px; color: var(--muted); }
-#messages {
-  flex: 1; min-height: 0; overflow-y: auto; padding: 20px;
-  display: flex; flex-direction: column; gap: 13px;
-}
-.empty-state { margin: auto; text-align: center; padding: 24px; color: var(--muted); }
-.message-row { display: flex; flex-direction: column; max-width: min(82%, 560px); align-self: flex-start; }
-.message-row.mine { align-self: flex-end; }
-.bubble {
-  border: 1px solid var(--line); background: var(--panel2);
-  border-radius: 17px 17px 17px 5px; padding: 11px 13px;
-  overflow-wrap: anywhere; white-space: pre-wrap; line-height: 1.45;
-}
-.mine .bubble {
-  background: linear-gradient(135deg,#4859d9,#7651c8);
-  border-color: transparent; border-radius: 17px 17px 5px 17px;
-}
-.bubble img { display: block; max-width: 100%; max-height: 330px; object-fit: contain; border-radius: 10px; margin-bottom: 7px; }
-.reply-preview { border-left: 3px solid #b9bfff; padding: 5px 8px; margin-bottom: 7px; background: #00000020; border-radius: 5px; font-size: 12px; }
-.msg-meta { color: var(--muted); font-size: 10px; margin-top: 5px; padding: 0 4px; }
-.msg-actions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
-.msg-actions button { font-size: 11px; padding: 4px 7px; border: 0; background: transparent; color: #b7c2ff; }
-.composer-wrap { border-top: 1px solid var(--line); padding: 14px; }
-#replyBar { font-size: 12px; color: #c3c9ff; margin: 0 0 10px; display: flex; justify-content: space-between; gap: 8px; }
-.composer { display: flex; gap: 9px; align-items: flex-end; }
-.composer textarea { resize: none; min-height: 46px; max-height: 130px; }
-.composer button { flex-shrink: 0; }
-#typingStatus { min-height: 17px; padding: 0 20px; font-size: 11px; color: var(--muted); }
-#notice {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  z-index: 50; padding: 12px 16px; border-radius: 13px;
-  background: #1b2c43; border: 1px solid var(--line);
-  box-shadow: 0 10px 35px #0006; max-width: calc(100% - 30px);
-  font-size: 13px;
-}
-#imagePreview { max-width: 120px; max-height: 80px; border-radius: 10px; margin: 8px 0; }
-#mobileBack { display: none; }
-body.light {
-  color-scheme: light; --bg: #eef3fb; --panel: rgba(255,255,255,.88);
-  --panel2: #e8eef8; --text: #17233b; --muted: #64728a;
-  --line: rgba(20,40,80,.13);
-}
-body.light input, body.light textarea { background: #f8faff; }
-body.light .mine .bubble { color: white; }
-@media(max-width:760px) {
-  #appScreen { padding: 0; }
-  .app-shell { height: 100dvh; min-height: 0; display: block; }
-  .sidebar, .chat-panel { height: 100dvh; border-radius: 0; }
-  .chat-panel { display: none; }
-  body.chat-open .sidebar { display: none; }
-  body.chat-open .chat-panel { display: flex; }
-  #mobileBack { display: inline-block; }
-  .chat-head { padding: 12px; }
-  #messages { padding: 15px 12px; }
-  .composer-wrap { padding: 10px; }
-  .message-row { max-width: 90%; }
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse at top left,#1c3155 0,transparent 42%),var(--bg);color:var(--text)}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:850;letter-spacing:-.7px}
+.brand-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 8px 28px #6c7cff35}
+.brand-icon svg{width:25px;height:25px}
+.card{border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:var(--radius)}
+button.primary{color:white;border:0;border-radius:13px;padding:13px 18px;background:linear-gradient(135deg,var(--accent),var(--accent2));font-weight:750}
+button.secondary,.icon-btn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px 13px}
+button.danger{color:var(--danger)}
+input,textarea{width:100%;color:var(--text);background:rgba(4,12,24,.65);border:1px solid var(--line);border-radius:13px;padding:13px 14px;outline:none}
+input:focus,textarea:focus{border-color:var(--accent)}
+label{display:block;font-size:13px;margin:15px 0 7px;color:var(--muted)}
+#authScreen{min-height:100dvh;display:grid;place-items:center;padding:24px 16px}
+.auth-card{width:min(100%,420px);padding:27px}
+.auth-card h1{margin:27px 0 8px;font-size:30px;letter-spacing:-1px}
+.auth-card .primary{width:100%;margin-top:18px}
+.auth-switch{text-align:center;margin-top:20px;font-size:14px}
+.link-btn{border:0;background:transparent;color:#a9b4ff;padding:4px}
+#authMessage{margin-top:13px;font-size:13px;line-height:1.5}
+#appScreen{min-height:100dvh;padding:16px}
+.app-shell{width:min(1400px,100%);margin:auto;display:grid;grid-template-columns:320px minmax(0,1fr);gap:16px;height:calc(100dvh - 32px);min-height:570px}
+.sidebar{display:flex;flex-direction:column;overflow:hidden}
+.side-head{padding:20px;border-bottom:1px solid var(--line)}
+.side-user{display:flex;align-items:center;gap:10px;margin-top:22px}
+.avatar{flex:0 0 43px;width:43px;height:43px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#697bff,#b26bff);color:white;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.side-tools{display:flex;gap:8px;margin-top:17px}
+.side-tools button{flex:1;font-size:12px}
+.people-heading{padding:17px 18px 9px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+#peopleList{overflow-y:auto;padding:0 9px 12px}
+.person{width:100%;display:flex;align-items:center;gap:11px;text-align:left;padding:12px 10px;border:0;background:transparent;color:var(--text);border-radius:14px}
+.person.active,.person:hover{background:var(--panel2)}
+.person-info{min-width:0;flex:1}
+.person-name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.person-email{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:4px}
+.chat-panel{min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.chat-head{display:flex;align-items:center;gap:12px;padding:17px 20px;border-bottom:1px solid var(--line);min-height:80px}
+.chat-head-info{flex:1;min-width:0}
+.chat-head-info strong{display:block;overflow-wrap:anywhere}
+.chat-head-info span{font-size:12px;color:var(--muted)}
+#messages{flex:1;min-height:0;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:13px}
+.empty-state{margin:auto;text-align:center;padding:24px;color:var(--muted)}
+.message-row{display:flex;flex-direction:column;max-width:min(82%,560px);align-self:flex-start}
+.message-row.mine{align-self:flex-end}
+.bubble{border:1px solid var(--line);background:var(--panel2);border-radius:17px 17px 17px 5px;padding:11px 13px;overflow-wrap:anywhere;white-space:pre-wrap;line-height:1.45}
+.mine .bubble{background:linear-gradient(135deg,#4859d9,#7651c8);border-color:transparent;border-radius:17px 17px 5px 17px}
+.bubble img{display:block;max-width:100%;max-height:330px;object-fit:contain;border-radius:10px;margin-bottom:7px}
+.reply-preview{border-left:3px solid #b9bfff;padding:5px 8px;margin-bottom:7px;background:#00000020;border-radius:5px;font-size:12px}
+.msg-meta{color:var(--muted);font-size:10px;margin-top:5px;padding:0 4px}
+.msg-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.msg-actions button{font-size:11px;padding:5px 7px;border:0;background:transparent;color:#b7c2ff;border-radius:7px}
+.msg-actions button:hover{background:#ffffff12}
+.msg-actions .delete-action{color:var(--danger)}
+.composer-wrap{border-top:1px solid var(--line);padding:14px}
+#replyBar{font-size:12px;color:#c3c9ff;margin:0 0 10px;display:flex;justify-content:space-between;gap:8px}
+.composer{display:flex;gap:9px;align-items:flex-end}
+.composer textarea{resize:none;min-height:46px;max-height:130px}
+.composer button{flex-shrink:0}
+#typingStatus{min-height:17px;padding:0 20px;font-size:11px;color:var(--muted)}
+#notice{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:50;padding:12px 16px;border-radius:13px;background:#1b2c43;border:1px solid var(--line);box-shadow:0 10px 35px #0006;max-width:calc(100% - 30px);font-size:13px}
+#imagePreview{max-width:120px;max-height:80px;border-radius:10px;margin:8px 0}
+#mobileBack{display:none}
+body.light{color-scheme:light;--bg:#eef3fb;--panel:rgba(255,255,255,.88);--panel2:#e8eef8;--text:#17233b;--muted:#64728a;--line:rgba(20,40,80,.13)}
+body.light input,body.light textarea{background:#f8faff}
+body.light .mine .bubble{color:white}
+@media(max-width:760px){
+  #appScreen{padding:0}
+  .app-shell{height:100dvh;min-height:0;display:block}
+  .sidebar,.chat-panel{height:100dvh;border-radius:0}
+  .chat-panel{display:none}
+  body.chat-open .sidebar{display:none}
+  body.chat-open .chat-panel{display:flex}
+  #mobileBack{display:inline-block}
+  .chat-head{padding:12px}
+  #messages{padding:15px 12px}
+  .composer-wrap{padding:10px}
+  .message-row{max-width:90%}
+  .msg-actions button{font-size:10px;padding:6px 5px}
 }
 </style>
 </head>
 
 <body>
-
 <section id="authScreen">
   <div class="auth-card card">
     <div class="brand">
@@ -251,9 +173,7 @@ body.light .mine .bubble { color: white; }
         <input id="peopleSearch" placeholder="Search by name or email">
       </div>
       <div class="people-heading">People</div>
-      <div id="peopleList">
-        <div class="empty-state">Loading people…</div>
-      </div>
+      <div id="peopleList"><div class="empty-state">Loading people…</div></div>
     </aside>
 
     <main class="chat-panel card">
@@ -294,681 +214,551 @@ body.light .mine .bubble { color: white; }
     </main>
   </div>
 </section>
-
 <div id="notice" class="hidden" role="status"></div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import {
-  getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, signOut, setPersistence,
-  browserLocalPersistence
+  getAuth,onAuthStateChanged,createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,signOut,setPersistence,browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import {
-  getFirestore, collection, doc, setDoc, addDoc, updateDoc,
-  deleteDoc, getDoc, getDocs, query, where, onSnapshot,
-  serverTimestamp
+  getFirestore,collection,doc,setDoc,addDoc,updateDoc,deleteDoc,
+  getDoc,getDocs,query,where,onSnapshot,serverTimestamp,arrayUnion
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 import emailjs from "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/+esm";
 
-/* YOUR FIREBASE CONFIGURATION */
 const firebaseConfig = {
-  apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
-  authDomain: "chat-2c557.firebaseapp.com",
-  databaseURL: "https://chat-2c557-default-rtdb.firebaseio.com",
-  projectId: "chat-2c557",
-  storageBucket: "chat-2c557.firebasestorage.app",
-  messagingSenderId: "74313204354",
-  appId: "1:74313204354:web:c735269d502b88a39eea9b"
+  apiKey:"AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
+  authDomain:"chat-2c557.firebaseapp.com",
+  databaseURL:"https://chat-2c557-default-rtdb.firebaseio.com",
+  projectId:"chat-2c557",
+  storageBucket:"chat-2c557.firebasestorage.app",
+  messagingSenderId:"74313204354",
+  appId:"1:74313204354:web:c735269d502b88a39eea9b"
 };
 
-/* YOUR EMAILJS CONFIGURATION */
-const EMAILJS_SERVICE_ID = "service_1h2qcyj";
-const EMAILJS_TEMPLATE_ID = "template_g5knl87";
-const EMAILJS_PUBLIC_KEY = "OxtLjZnoiYd3ih6cm";
+const EMAILJS_SERVICE_ID="service_1h2qcyj";
+const EMAILJS_TEMPLATE_ID="template_g5knl87";
+const EMAILJS_PUBLIC_KEY="OxtLjZnoiYd3ih6cm";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const authScreen=$("authScreen");
+const appScreen=$("appScreen");
+const authForm=$("authForm");
+const verifyForm=$("verifyForm");
 
-const $ = id => document.getElementById(id);
-const authScreen = $("authScreen");
-const appScreen = $("appScreen");
-const authForm = $("authForm");
-const verifyForm = $("verifyForm");
+let isRegisterMode=false,pendingRegistration=null,currentUser=null;
+let activePerson=null,allPeople=[],messageUnsubscribers=[];
+let peopleUnsubscribe=null,messagesCache=[],selectedImage=null;
+let replyTarget=null,editingMessageId=null,noticeTimer=null,authBusy=false;
 
-let isRegisterMode = false;
-let pendingRegistration = null;
-let currentUser = null;
-let activePerson = null;
-let allPeople = [];
-let messageUnsubscribers = [];
-let peopleUnsubscribe = null;
-let messagesCache = [];
-let selectedImage = null;
-let replyTarget = null;
-let editingMessageId = null;
-let noticeTimer = null;
-let authBusy = false;
-
-/* ---------- GENERAL HELPERS ---------- */
-function notice(message) {
-  const el = $("notice");
-  el.textContent = message;
+function notice(message){
+  const el=$("notice");
+  el.textContent=message;
   el.classList.remove("hidden");
   clearTimeout(noticeTimer);
-  noticeTimer = setTimeout(() => el.classList.add("hidden"), 3500);
+  noticeTimer=setTimeout(()=>el.classList.add("hidden"),3500);
 }
-function authMessage(message, error = false) {
-  $("authMessage").textContent = message;
-  $("authMessage").style.color = error ? "#ff8495" : "#a9b4ff";
+function authMessage(message,error=false){
+  $("authMessage").textContent=message;
+  $("authMessage").style.color=error?"#ff8495":"#a9b4ff";
 }
-function escapeHTML(value = "") {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+function escapeHTML(value=""){
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   })[char]);
 }
-function initials(name = "User") {
-  return name.trim().split(/\s+/).slice(0,2).map(x => x[0] || "").join("").toUpperCase() || "U";
+function initials(name="User"){
+  return name.trim().split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"U";
 }
-function timeText(timestamp) {
-  if (!timestamp) return "Just now";
-  const date = typeof timestamp.toDate === "function" ? timestamp.toDate() : new Date(timestamp);
-  return Number.isNaN(date.getTime()) ? "Just now" :
-    date.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+function timeText(timestamp){
+  if(!timestamp)return "Just now";
+  const date=typeof timestamp.toDate==="function"?timestamp.toDate():new Date(timestamp);
+  return Number.isNaN(date.getTime())?"Just now":date.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
 }
-function dateSortValue(message) {
-  const t = message.createdAt;
-  if (!t) return 0;
-  return typeof t.toMillis === "function" ? t.toMillis() :
-    (typeof t === "number" ? t : new Date(t).getTime()) || 0;
+function dateSortValue(message){
+  const t=message.createdAt;
+  if(!t)return 0;
+  return typeof t.toMillis==="function"?t.toMillis():(typeof t==="number"?t:new Date(t).getTime())||0;
 }
-function showAuth() {
+function showAuth(){
   appScreen.classList.add("hidden");
   authScreen.classList.remove("hidden");
   document.body.classList.remove("chat-open");
 }
-function showApp() {
+function showApp(){
   authScreen.classList.add("hidden");
   appScreen.classList.remove("hidden");
 }
-function stopListeners() {
-  messageUnsubscribers.forEach(fn => fn());
-  messageUnsubscribers = [];
-  if (peopleUnsubscribe) peopleUnsubscribe();
-  peopleUnsubscribe = null;
+function stopListeners(){
+  messageUnsubscribers.forEach(fn=>fn());
+  messageUnsubscribers=[];
+  if(peopleUnsubscribe)peopleUnsubscribe();
+  peopleUnsubscribe=null;
 }
-function resetChat() {
-  activePerson = null;
-  messagesCache = [];
-  selectedImage = null;
-  replyTarget = null;
-  editingMessageId = null;
-  stopListeners();
-  $("peopleList").innerHTML = "";
-  $("messages").innerHTML = '<div class="empty-state">Select someone from the people list to start chatting.</div>';
-  $("chatName").textContent = "Choose a conversation";
-  $("chatEmail").textContent = "Select someone to start chatting";
-  $("messageInput").disabled = true;
-  $("sendBtn").disabled = true;
-  $("typingStatus").textContent = "";
-  renderSelectedImage();
-  renderReplyBar();
+function resetChat(){
+  activePerson=null;messagesCache=[];selectedImage=null;
+  replyTarget=null;editingMessageId=null;stopListeners();
+  $("peopleList").innerHTML="";
+  $("messages").innerHTML='<div class="empty-state">Select someone from the people list to start chatting.</div>';
+  $("chatName").textContent="Choose a conversation";
+  $("chatEmail").textContent="Select someone to start chatting";
+  $("messageInput").disabled=true;
+  $("sendBtn").disabled=true;
+  $("typingStatus").textContent="";
+  renderSelectedImage();renderReplyBar();
 }
 
-/* ---------- LOCAL IMAGE DATABASE: NO FIREBASE STORAGE ---------- */
-const LOCAL_DB_NAME = "ChatWaveLocalImages";
-const LOCAL_STORE = "images";
-
-function openLocalDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(LOCAL_DB_NAME, 1);
-    request.onupgradeneeded = () => {
-      const database = request.result;
-      if (!database.objectStoreNames.contains(LOCAL_STORE)) {
-        database.createObjectStore(LOCAL_STORE, {keyPath:"id"});
-      }
+/* Local image database */
+const LOCAL_DB_NAME="ChatWaveLocalImages";
+const LOCAL_STORE="images";
+function openLocalDB(){
+  return new Promise((resolve,reject)=>{
+    const request=indexedDB.open(LOCAL_DB_NAME,1);
+    request.onupgradeneeded=()=>{
+      const database=request.result;
+      if(!database.objectStoreNames.contains(LOCAL_STORE))database.createObjectStore(LOCAL_STORE,{keyPath:"id"});
     };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
+    request.onsuccess=()=>resolve(request.result);
+    request.onerror=()=>reject(request.error);
   });
 }
-async function saveLocalImage(file) {
-  if (!file || !file.type.startsWith("image/")) throw new Error("Choose an image file.");
-  if (file.size > 4 * 1024 * 1024) {
-    throw new Error("Choose an image smaller than 4 MB.");
-  }
-  const database = await openLocalDB();
-  const id = crypto.randomUUID();
-  await new Promise((resolve, reject) => {
-    const transaction = database.transaction(LOCAL_STORE, "readwrite");
-    transaction.objectStore(LOCAL_STORE).put({
-      id, blob:file, type:file.type, name:file.name, createdAt:Date.now()
-    });
-    transaction.oncomplete = resolve;
-    transaction.onerror = () => reject(transaction.error);
+async function saveLocalImage(file){
+  if(!file||!file.type.startsWith("image/"))throw new Error("Choose an image file.");
+  if(file.size>4*1024*1024)throw new Error("Choose an image smaller than 4 MB.");
+  const database=await openLocalDB();
+  const id=crypto.randomUUID();
+  await new Promise((resolve,reject)=>{
+    const transaction=database.transaction(LOCAL_STORE,"readwrite");
+    transaction.objectStore(LOCAL_STORE).put({id,blob:file,type:file.type,name:file.name,createdAt:Date.now()});
+    transaction.oncomplete=resolve;
+    transaction.onerror=()=>reject(transaction.error);
   });
   database.close();
   return id;
 }
-async function getLocalImage(id) {
-  if (!id) return null;
-  const database = await openLocalDB();
-  const record = await new Promise((resolve, reject) => {
-    const transaction = database.transaction(LOCAL_STORE, "readonly");
-    const request = transaction.objectStore(LOCAL_STORE).get(id);
-    request.onsuccess = () => resolve(request.result || null);
-    request.onerror = () => reject(request.error);
+async function getLocalImage(id){
+  if(!id)return null;
+  const database=await openLocalDB();
+  const record=await new Promise((resolve,reject)=>{
+    const transaction=database.transaction(LOCAL_STORE,"readonly");
+    const request=transaction.objectStore(LOCAL_STORE).get(id);
+    request.onsuccess=()=>resolve(request.result||null);
+    request.onerror=()=>reject(request.error);
   });
   database.close();
   return record;
 }
-async function deleteLocalImage(id) {
-  if (!id) return;
-  const database = await openLocalDB();
-  await new Promise(resolve => {
-    const transaction = database.transaction(LOCAL_STORE, "readwrite");
+async function deleteLocalImage(id){
+  if(!id)return;
+  const database=await openLocalDB();
+  await new Promise(resolve=>{
+    const transaction=database.transaction(LOCAL_STORE,"readwrite");
     transaction.objectStore(LOCAL_STORE).delete(id);
-    transaction.oncomplete = resolve;
-    transaction.onerror = resolve;
+    transaction.oncomplete=resolve;
+    transaction.onerror=resolve;
   });
   database.close();
 }
-function renderSelectedImage() {
-  const area = $("selectedImageArea");
-  if (!selectedImage) {
+function renderSelectedImage(){
+  const area=$("selectedImageArea");
+  if(!selectedImage){
     area.classList.add("hidden");
     $("imagePreview").removeAttribute("src");
     return;
   }
   area.classList.remove("hidden");
-  $("imagePreview").src = selectedImage.preview;
+  $("imagePreview").src=selectedImage.preview;
 }
-function renderReplyBar() {
-  const bar = $("replyBar");
-  if (!replyTarget) {
-    bar.classList.add("hidden");
-    return;
-  }
+function renderReplyBar(){
+  const bar=$("replyBar");
+  if(!replyTarget){bar.classList.add("hidden");return;}
   bar.classList.remove("hidden");
-  $("replyText").textContent = "Replying to: " + (replyTarget.text || "Image");
+  $("replyText").textContent="Replying to: "+(replyTarget.text||"Image");
 }
 
-/* ---------- EMAIL VERIFICATION ---------- */
-function makeCode() {
-  return String(Math.floor(100000 + Math.random() * 900000));
+/* Email verification */
+function makeCode(){return String(Math.floor(100000+Math.random()*900000));}
+async function sendVerificationEmail(email,code){
+  await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,
+    {to_email:email,passcode:code},{publicKey:EMAILJS_PUBLIC_KEY});
 }
-async function sendVerificationEmail(email, code) {
-  await emailjs.send(
-    EMAILJS_SERVICE_ID,
-    EMAILJS_TEMPLATE_ID,
-    { to_email: email, passcode: code },
-    { publicKey: EMAILJS_PUBLIC_KEY }
-  );
-}
-function setAuthMode(register) {
-  isRegisterMode = register;
-  pendingRegistration = null;
-  authForm.classList.remove("hidden");
-  verifyForm.classList.add("hidden");
-  $("nameField").classList.toggle("hidden", !register);
-  $("authTitle").textContent = register ? "Create your account." : "Connect with people.";
-  $("authSubtitle").textContent = register
-    ? "Join ChatWave and start a conversation."
-    : "Your conversations, all in one place.";
-  $("authSubmit").textContent = register ? "Send verification code" : "Sign in";
-  $("switchText").textContent = register ? "Already have an account?" : "New to ChatWave?";
-  $("switchAuth").textContent = register ? "Sign in" : "Create account";
-  $("password").autocomplete = register ? "new-password" : "current-password";
+function setAuthMode(register){
+  isRegisterMode=register;pendingRegistration=null;
+  authForm.classList.remove("hidden");verifyForm.classList.add("hidden");
+  $("nameField").classList.toggle("hidden",!register);
+  $("authTitle").textContent=register?"Create your account.":"Connect with people.";
+  $("authSubtitle").textContent=register?"Join ChatWave and start a conversation.":"Your conversations, all in one place.";
+  $("authSubmit").textContent=register?"Send verification code":"Sign in";
+  $("switchText").textContent=register?"Already have an account?":"New to ChatWave?";
+  $("switchAuth").textContent=register?"Sign in":"Create account";
+  $("password").autocomplete=register?"new-password":"current-password";
   authMessage("");
 }
-$("switchAuth").addEventListener("click", () => setAuthMode(!isRegisterMode));
-$("cancelVerify").addEventListener("click", () => {
-  pendingRegistration = null;
+$("switchAuth").addEventListener("click",()=>setAuthMode(!isRegisterMode));
+$("cancelVerify").addEventListener("click",()=>{
+  pendingRegistration=null;
   sessionStorage.removeItem("chatwavePendingCode");
   setAuthMode(false);
 });
 
-authForm.addEventListener("submit", async event => {
+authForm.addEventListener("submit",async event=>{
   event.preventDefault();
-  if (authBusy) return;
-  authBusy = true;
-  $("authSubmit").disabled = true;
-
-  const email = $("email").value.trim().toLowerCase();
-  const password = $("password").value;
-  const name = $("displayName").value.trim();
-
-  try {
-    if (isRegisterMode) {
-      if (!name) throw new Error("Enter your name.");
-      if (password.length < 6) throw new Error("Your password must contain at least 6 characters.");
-
-      const code = makeCode();
+  if(authBusy)return;
+  authBusy=true;$("authSubmit").disabled=true;
+  const email=$("email").value.trim().toLowerCase();
+  const password=$("password").value;
+  const name=$("displayName").value.trim();
+  try{
+    if(isRegisterMode){
+      if(!name)throw new Error("Enter your name.");
+      if(password.length<6)throw new Error("Your password must contain at least 6 characters.");
+      const code=makeCode();
       authMessage("Sending your verification code…");
-      await sendVerificationEmail(email, code);
-
-      pendingRegistration = {email, password, name};
-      sessionStorage.setItem("chatwavePendingCode", JSON.stringify({
-        email, code, expiresAt:Date.now() + 10 * 60 * 1000
-      }));
-      authForm.classList.add("hidden");
-      verifyForm.classList.remove("hidden");
+      await sendVerificationEmail(email,code);
+      pendingRegistration={email,password,name};
+      sessionStorage.setItem("chatwavePendingCode",JSON.stringify({email,code,expiresAt:Date.now()+10*60*1000}));
+      authForm.classList.add("hidden");verifyForm.classList.remove("hidden");
       authMessage("Check your email for the 6-digit code.");
-    } else {
+    }else{
       authMessage("Signing in…");
-      const credential = await signInWithEmailAndPassword(auth, email, password);
-      const profile = await getDoc(doc(db, "users", credential.user.uid));
-
-      if (!profile.exists() || profile.data().emailVerifiedApp !== true) {
+      const credential=await signInWithEmailAndPassword(auth,email,password);
+      const profile=await getDoc(doc(db,"users",credential.user.uid));
+      if(!profile.exists()||profile.data().emailVerifiedApp!==true){
         await signOut(auth);
         throw new Error("This account is not fully registered. Please create an account and verify your email.");
       }
-      await openApp(credential.user, profile.data());
+      await openApp(credential.user,profile.data());
     }
-  } catch (error) {
-    authMessage(friendlyError(error), true);
-  } finally {
-    authBusy = false;
-    $("authSubmit").disabled = false;
-  }
+  }catch(error){authMessage(friendlyError(error),true);}
+  finally{authBusy=false;$("authSubmit").disabled=false;}
 });
 
-verifyForm.addEventListener("submit", async event => {
+verifyForm.addEventListener("submit",async event=>{
   event.preventDefault();
-  if (authBusy) return;
-  authBusy = true;
-  $("verifySubmit").disabled = true;
-
-  try {
-    const pending = JSON.parse(sessionStorage.getItem("chatwavePendingCode") || "null");
-    const enteredCode = $("verificationCode").value.trim();
-
-    if (!pending || !pendingRegistration) {
-      throw new Error("Your registration session expired. Start registration again.");
-    }
-    if (Date.now() > pending.expiresAt) {
+  if(authBusy)return;
+  authBusy=true;$("verifySubmit").disabled=true;
+  try{
+    const pending=JSON.parse(sessionStorage.getItem("chatwavePendingCode")||"null");
+    const enteredCode=$("verificationCode").value.trim();
+    if(!pending||!pendingRegistration)throw new Error("Your registration session expired. Start registration again.");
+    if(Date.now()>pending.expiresAt){
       sessionStorage.removeItem("chatwavePendingCode");
       throw new Error("Your code expired. Please request a new one.");
     }
-    if (pending.email !== pendingRegistration.email || enteredCode !== pending.code) {
-      throw new Error("That verification code is incorrect.");
-    }
-
+    if(pending.email!==pendingRegistration.email||enteredCode!==pending.code)throw new Error("That verification code is incorrect.");
     authMessage("Creating your account…");
-    const {email, password, name} = pendingRegistration;
-    const credential = await createUserWithEmailAndPassword(auth, email, password);
-
-    await setDoc(doc(db, "users", credential.user.uid), {
-      uid: credential.user.uid,
-      name,
-      email,
-      emailVerifiedApp: true,
-      createdAt: serverTimestamp()
+    const {email,password,name}=pendingRegistration;
+    const credential=await createUserWithEmailAndPassword(auth,email,password);
+    await setDoc(doc(db,"users",credential.user.uid),{
+      uid:credential.user.uid,name,email,emailVerifiedApp:true,createdAt:serverTimestamp()
     });
-
     sessionStorage.removeItem("chatwavePendingCode");
-    pendingRegistration = null;
-    await openApp(credential.user, {name, email, emailVerifiedApp:true});
-  } catch (error) {
-    authMessage(friendlyError(error), true);
-  } finally {
-    authBusy = false;
-    $("verifySubmit").disabled = false;
-  }
+    pendingRegistration=null;
+    await openApp(credential.user,{name,email,emailVerifiedApp:true});
+  }catch(error){authMessage(friendlyError(error),true);}
+  finally{authBusy=false;$("verifySubmit").disabled=false;}
 });
 
-function friendlyError(error) {
-  const code = error?.code || "";
-  if (code.includes("auth/email-already-in-use")) return "That email already has an account. Sign in instead.";
-  if (code.includes("auth/invalid-email")) return "Enter a valid email address.";
-  if (code.includes("auth/weak-password")) return "Choose a stronger password with at least 6 characters.";
-  if (code.includes("auth/invalid-credential") || code.includes("auth/invalid-login-credentials")) return "Your email or password is incorrect.";
-  if (code.includes("auth/network-request-failed")) return "Network error. Check your internet connection.";
-  if (code.includes("permission-denied")) return "Firebase blocked this action. Check your Firestore security rules.";
-  if (code.includes("unavailable")) return "Firebase is temporarily unavailable. Try again.";
-  return error?.message || "Something went wrong. Please try again.";
+function friendlyError(error){
+  const code=error?.code||"";
+  if(code.includes("auth/email-already-in-use"))return "That email already has an account. Sign in instead.";
+  if(code.includes("auth/invalid-email"))return "Enter a valid email address.";
+  if(code.includes("auth/weak-password"))return "Choose a stronger password with at least 6 characters.";
+  if(code.includes("auth/invalid-credential")||code.includes("auth/invalid-login-credentials"))return "Your email or password is incorrect.";
+  if(code.includes("auth/network-request-failed"))return "Network error. Check your internet connection.";
+  if(code.includes("permission-denied"))return "Firebase blocked this action. Check your Firestore security rules.";
+  if(code.includes("unavailable"))return "Firebase is temporarily unavailable. Try again.";
+  return error?.message||"Something went wrong. Please try again.";
 }
 
-/* ---------- OPEN CHATWAVE ---------- */
-async function openApp(user, profile) {
-  currentUser = user;
-  showApp();
-  $("myName").textContent = profile?.name || user.email || "ChatWave User";
-  $("myEmail").textContent = user.email || "";
-  $("myAvatar").textContent = initials(profile?.name || user.email || "U");
+/* App startup and authentication */
+async function openApp(user,profile){
+  currentUser=user;showApp();
+  $("myName").textContent=profile?.name||user.email||"ChatWave User";
+  $("myEmail").textContent=user.email||"";
+  $("myAvatar").textContent=initials(profile?.name||user.email||"U");
   resetChat();
   await loadPeople();
 }
-onAuthStateChanged(auth, async user => {
-  if (!user) {
-    currentUser = null;
-    stopListeners();
-    showAuth();
-    return;
+onAuthStateChanged(auth,async user=>{
+  if(!user){
+    currentUser=null;stopListeners();showAuth();return;
   }
-  if (authBusy) return;
-  try {
-    const profile = await getDoc(doc(db, "users", user.uid));
-    if (profile.exists() && profile.data().emailVerifiedApp === true) {
-      await openApp(user, profile.data());
-    } else {
-      await signOut(auth);
-      showAuth();
-    }
-  } catch (error) {
+  if(authBusy)return;
+  try{
+    const profile=await getDoc(doc(db,"users",user.uid));
+    if(profile.exists()&&profile.data().emailVerifiedApp===true)await openApp(user,profile.data());
+    else{await signOut(auth);showAuth();}
+  }catch(error){
     console.error(error);
-    authMessage("Could not check your account. Check your internet and Firestore rules.", true);
+    authMessage("Could not check your account. Check your internet and Firestore rules.",true);
   }
 });
-
-$("logoutBtn").addEventListener("click", async () => {
-  stopListeners();
-  await signOut(auth);
-  resetChat();
-  setAuthMode(false);
-  showAuth();
+$("logoutBtn").addEventListener("click",async()=>{
+  stopListeners();await signOut(auth);resetChat();setAuthMode(false);showAuth();
 });
-$("themeBtn").addEventListener("click", () => {
+$("themeBtn").addEventListener("click",()=>{
   document.body.classList.toggle("light");
-  localStorage.setItem("chatwaveTheme", document.body.classList.contains("light") ? "light" : "dark");
+  localStorage.setItem("chatwaveTheme",document.body.classList.contains("light")?"light":"dark");
 });
-if (localStorage.getItem("chatwaveTheme") === "light") document.body.classList.add("light");
+if(localStorage.getItem("chatwaveTheme")==="light")document.body.classList.add("light");
 
-/* ---------- PEOPLE ---------- */
-async function loadPeople() {
-  if (!currentUser) return;
-  try {
-    if (peopleUnsubscribe) peopleUnsubscribe();
-    const usersQuery = query(collection(db, "users"));
-    peopleUnsubscribe = onSnapshot(usersQuery, snapshot => {
-      allPeople = snapshot.docs
-        .map(item => ({id:item.id, ...item.data()}))
-        .filter(person => person.id !== currentUser.uid && person.emailVerifiedApp === true);
+/* People */
+async function loadPeople(){
+  if(!currentUser)return;
+  try{
+    if(peopleUnsubscribe)peopleUnsubscribe();
+    peopleUnsubscribe=onSnapshot(query(collection(db,"users")),snapshot=>{
+      allPeople=snapshot.docs.map(item=>({id:item.id,...item.data()}))
+        .filter(person=>person.id!==currentUser.uid&&person.emailVerifiedApp===true);
       renderPeople();
-    }, error => {
+    },error=>{
       console.error(error);
-      $("peopleList").innerHTML = '<div class="empty-state">Could not load people. Check Firestore rules.</div>';
+      $("peopleList").innerHTML='<div class="empty-state">Could not load people. Check Firestore rules.</div>';
     });
-  } catch (error) {
-    notice(friendlyError(error));
-  }
+  }catch(error){notice(friendlyError(error));}
 }
-function renderPeople() {
-  const search = $("peopleSearch").value.trim().toLowerCase();
-  const filtered = allPeople.filter(person =>
-    (person.name || "").toLowerCase().includes(search) ||
-    (person.email || "").toLowerCase().includes(search)
-  );
-
-  if (!filtered.length) {
-    $("peopleList").innerHTML = '<div class="empty-state">No people found yet.</div>';
-    return;
-  }
-  $("peopleList").innerHTML = filtered.map(person => `
-    <button class="person ${activePerson?.id === person.id ? "active" : ""}" data-person="${escapeHTML(person.id)}">
-      <div class="avatar">${escapeHTML(initials(person.name || person.email))}</div>
+function renderPeople(){
+  const search=$("peopleSearch").value.trim().toLowerCase();
+  const filtered=allPeople.filter(person=>(person.name||"").toLowerCase().includes(search)||(person.email||"").toLowerCase().includes(search));
+  if(!filtered.length){$("peopleList").innerHTML='<div class="empty-state">No people found yet.</div>';return;}
+  $("peopleList").innerHTML=filtered.map(person=>`
+    <button class="person ${activePerson?.id===person.id?"active":""}" data-person="${escapeHTML(person.id)}">
+      <div class="avatar">${escapeHTML(initials(person.name||person.email))}</div>
       <div class="person-info">
-        <div class="person-name">${escapeHTML(person.name || "ChatWave User")}</div>
-        <div class="person-email">${escapeHTML(person.email || "")}</div>
+        <div class="person-name">${escapeHTML(person.name||"ChatWave User")}</div>
+        <div class="person-email">${escapeHTML(person.email||"")}</div>
       </div>
-    </button>
-  `).join("");
+    </button>`).join("");
 }
-$("peopleList").addEventListener("click", event => {
-  const button = event.target.closest("[data-person]");
-  if (!button) return;
-  const person = allPeople.find(item => item.id === button.dataset.person);
-  if (person) openConversation(person);
+$("peopleList").addEventListener("click",event=>{
+  const button=event.target.closest("[data-person]");
+  if(!button)return;
+  const person=allPeople.find(item=>item.id===button.dataset.person);
+  if(person)openConversation(person);
 });
-$("peopleSearch").addEventListener("input", renderPeople);
-$("refreshPeople").addEventListener("click", loadPeople);
-$("mobileBack").addEventListener("click", () => document.body.classList.remove("chat-open"));
+$("peopleSearch").addEventListener("input",renderPeople);
+$("refreshPeople").addEventListener("click",loadPeople);
+$("mobileBack").addEventListener("click",()=>document.body.classList.remove("chat-open"));
 
-/* ---------- MESSAGES ---------- */
-function openConversation(person) {
-  if (!currentUser) return;
-  messageUnsubscribers.forEach(fn => fn());
-  messageUnsubscribers = [];
-  activePerson = person;
-  messagesCache = [];
-  replyTarget = null;
-  editingMessageId = null;
-  selectedImage = null;
-  renderSelectedImage();
-  renderReplyBar();
-
-  $("chatName").textContent = person.name || "ChatWave User";
-  $("chatEmail").textContent = person.email || "";
-  $("chatAvatar").textContent = initials(person.name || person.email);
-  $("messageInput").disabled = false;
-  $("sendBtn").disabled = false;
-  $("messageInput").placeholder = "Message " + (person.name || "this person") + "…";
-  $("peopleList").querySelectorAll(".person").forEach(button => {
-    button.classList.toggle("active", button.dataset.person === person.id);
+/* Messages */
+function openConversation(person){
+  if(!currentUser)return;
+  messageUnsubscribers.forEach(fn=>fn());
+  messageUnsubscribers=[];
+  activePerson=person;messagesCache=[];
+  replyTarget=null;editingMessageId=null;selectedImage=null;
+  renderSelectedImage();renderReplyBar();
+  $("chatName").textContent=person.name||"ChatWave User";
+  $("chatEmail").textContent=person.email||"";
+  $("chatAvatar").textContent=initials(person.name||person.email);
+  $("messageInput").disabled=false;$("sendBtn").disabled=false;
+  $("messageInput").placeholder="Message "+(person.name||"this person")+"…";
+  $("peopleList").querySelectorAll(".person").forEach(button=>{
+    button.classList.toggle("active",button.dataset.person===person.id);
   });
   document.body.classList.add("chat-open");
-  $("messages").innerHTML = '<div class="empty-state">Loading messages…</div>';
+  $("messages").innerHTML='<div class="empty-state">Loading messages…</div>';
 
-  const base = collection(db, "messages");
-  const receiveQuery = query(base, where("receiverId", "==", currentUser.uid));
-  const sendQuery = query(base, where("senderId", "==", currentUser.uid));
+  const base=collection(db,"messages");
+  const receiveQuery=query(base,where("receiverId","==",currentUser.uid));
+  const sendQuery=query(base,where("senderId","==",currentUser.uid));
 
-  const refresh = () => {
-    if (!activePerson || activePerson.id !== person.id) return;
-    const relevant = messagesCache
-      .filter(message =>
-        (message.senderId === currentUser.uid && message.receiverId === person.id) ||
-        (message.senderId === person.id && message.receiverId === currentUser.uid)
-      )
-      .sort((a,b) => dateSortValue(a) - dateSortValue(b));
+  const refresh=()=>{
+    if(!activePerson||activePerson.id!==person.id)return;
+    const relevant=messagesCache.filter(message=>
+      ((message.senderId===currentUser.uid&&message.receiverId===person.id)||
+       (message.senderId===person.id&&message.receiverId===currentUser.uid))&&
+      !(Array.isArray(message.hiddenFor)&&message.hiddenFor.includes(currentUser.uid))
+    ).sort((a,b)=>dateSortValue(a)-dateSortValue(b));
     renderMessages(relevant);
   };
-
-  const receiveUnsub = onSnapshot(receiveQuery, snapshot => {
-    const received = snapshot.docs.map(item => ({id:item.id, ...item.data()}));
-    const sent = messagesCache.filter(item => item.senderId === currentUser.uid);
-    messagesCache = [...sent, ...received.filter(item => !sent.some(s => s.id === item.id))];
+  const receiveUnsub=onSnapshot(receiveQuery,snapshot=>{
+    const received=snapshot.docs.map(item=>({id:item.id,...item.data()}));
+    const sent=messagesCache.filter(item=>item.senderId===currentUser.uid);
+    messagesCache=[...sent,...received.filter(item=>!sent.some(s=>s.id===item.id))];
     refresh();
-  }, error => {
-    console.error(error);
-    notice("Could not load received messages. Check Firestore rules.");
+  },error=>{
+    console.error(error);notice("Could not load received messages. Check Firestore rules.");
   });
-
-  const sendUnsub = onSnapshot(sendQuery, snapshot => {
-    const sent = snapshot.docs.map(item => ({id:item.id, ...item.data()}));
-    const received = messagesCache.filter(item => item.receiverId === currentUser.uid);
-    messagesCache = [...received, ...sent.filter(item => !received.some(r => r.id === item.id))];
+  const sendUnsub=onSnapshot(sendQuery,snapshot=>{
+    const sent=snapshot.docs.map(item=>({id:item.id,...item.data()}));
+    const received=messagesCache.filter(item=>item.receiverId===currentUser.uid);
+    messagesCache=[...received,...sent.filter(item=>!received.some(r=>r.id===item.id))];
     refresh();
-  }, error => {
-    console.error(error);
-    notice("Could not load sent messages. Check Firestore rules.");
+  },error=>{
+    console.error(error);notice("Could not load sent messages. Check Firestore rules.");
   });
-
-  messageUnsubscribers = [receiveUnsub, sendUnsub];
+  messageUnsubscribers=[receiveUnsub,sendUnsub];
 }
-function renderMessages(messages) {
-  const container = $("messages");
-  if (!messages.length) {
-    container.innerHTML = '<div class="empty-state"><div style="font-size:36px">👋</div><h3>Say hello!</h3><p>Your messages will appear here.</p></div>';
+
+function renderMessages(messages){
+  const container=$("messages");
+  if(!messages.length){
+    container.innerHTML='<div class="empty-state"><div style="font-size:36px">👋</div><h3>Say hello!</h3><p>Your messages will appear here.</p></div>';
     return;
   }
-  container.innerHTML = messages.map(message => {
-    const mine = message.senderId === currentUser.uid;
-    const deleted = message.deletedForEveryone === true;
-    const reply = message.replyText ? `
-      <div class="reply-preview">${escapeHTML(message.replyText)}</div>` : "";
-    let content = deleted
-      ? '<i>This message was deleted</i>'
-      : escapeHTML(message.text || "");
-
-    if (!deleted && message.localImageId) {
-      content = `<div class="local-image" data-image-id="${escapeHTML(message.localImageId)}">Loading local image…</div>` + content;
+  container.innerHTML=messages.map(message=>{
+    const mine=message.senderId===currentUser.uid;
+    const deleted=message.deletedForEveryone===true;
+    const reply=message.replyText?`<div class="reply-preview">${escapeHTML(message.replyText)}</div>`:"";
+    let content=deleted?"<i>This message was deleted</i>":escapeHTML(message.text||"");
+    if(!deleted&&message.localImageId){
+      content=`<div class="local-image" data-image-id="${escapeHTML(message.localImageId)}">Loading local image…</div>`+content;
     }
-    const editLabel = message.edited ? " · edited" : "";
-    const actions = deleted ? "" : `
+    const editLabel=message.edited?" · edited":"";
+    const actions=deleted?"":`
       <div class="msg-actions">
         <button data-action="reply" data-id="${escapeHTML(message.id)}">Reply</button>
-        ${mine && message.text ? `<button data-action="edit" data-id="${escapeHTML(message.id)}">Edit</button>` : ""}
-        ${mine ? `<button data-action="delete" data-id="${escapeHTML(message.id)}">Delete for everyone</button>` : ""}
+        ${mine&&message.text?`<button data-action="edit" data-id="${escapeHTML(message.id)}">Edit</button>`:""}
+        <button class="delete-action" data-action="delete-me" data-id="${escapeHTML(message.id)}">Delete for me</button>
+        ${mine?`<button class="delete-action" data-action="delete-everyone" data-id="${escapeHTML(message.id)}">Delete for everyone</button>`:""}
       </div>`;
     return `
-      <div class="message-row ${mine ? "mine" : ""}" data-message="${escapeHTML(message.id)}">
+      <div class="message-row ${mine?"mine":""}" data-message="${escapeHTML(message.id)}">
         <div class="bubble">${reply}${content}</div>
-        <div class="msg-meta">${mine ? "You" : escapeHTML(activePerson?.name || "User")} · ${escapeHTML(timeText(message.createdAt))}${editLabel}</div>
+        <div class="msg-meta">${mine?"You":escapeHTML(activePerson?.name||"User")} · ${escapeHTML(timeText(message.createdAt))}${editLabel}</div>
         ${actions}
       </div>`;
   }).join("");
 
-  container.querySelectorAll("[data-image-id]").forEach(async el => {
-    try {
-      const record = await getLocalImage(el.dataset.imageId);
-      if (!record) {
-        el.textContent = "Image is saved on the device where it was uploaded.";
+  container.querySelectorAll("[data-image-id]").forEach(async el=>{
+    try{
+      const record=await getLocalImage(el.dataset.imageId);
+      if(!record){el.textContent="Image is saved on the device where it was uploaded.";return;}
+      const url=URL.createObjectURL(record.blob);
+      const img=document.createElement("img");
+      img.src=url;img.alt="Message attachment";
+      img.onload=()=>URL.revokeObjectURL(url);
+      el.replaceChildren(img);
+    }catch{el.textContent="This local image is unavailable.";}
+  });
+  container.scrollTop=container.scrollHeight;
+}
+
+$("messages").addEventListener("click",async event=>{
+  const button=event.target.closest("[data-action]");
+  if(!button||!activePerson||!currentUser)return;
+  const message=messagesCache.find(item=>item.id===button.dataset.id);
+  if(!message)return;
+  button.disabled=true;
+
+  try{
+    if(button.dataset.action==="reply"){
+      replyTarget={id:message.id,text:message.text||"Image"};
+      renderReplyBar();$("messageInput").focus();
+    }else if(button.dataset.action==="edit"){
+      if(message.senderId!==currentUser.uid){notice("You can only edit your own messages.");return;}
+      editingMessageId=message.id;
+      $("messageInput").value=message.text||"";
+      $("sendBtn").textContent="Save";
+      $("messageInput").focus();
+      notice("Edit your message, then tap Save.");
+    }else if(button.dataset.action==="delete-me"){
+      if(!confirm("Hide this message from your account? The other person will still see it."))return;
+      await updateDoc(doc(db,"messages",message.id),{
+        hiddenFor:arrayUnion(currentUser.uid)
+      });
+      notice("Message deleted for you.");
+    }else if(button.dataset.action==="delete-everyone"){
+      if(message.senderId!==currentUser.uid){
+        notice("You can only delete your own message for everyone.");
         return;
       }
-      const url = URL.createObjectURL(record.blob);
-      const img = document.createElement("img");
-      img.src = url;
-      img.alt = "Message attachment";
-      img.onload = () => URL.revokeObjectURL(url);
-      el.replaceChildren(img);
-    } catch {
-      el.textContent = "This local image is unavailable.";
-    }
-  });
-
-  container.scrollTop = container.scrollHeight;
-}
-$("messages").addEventListener("click", async event => {
-  const button = event.target.closest("[data-action]");
-  if (!button || !activePerson) return;
-  const message = messagesCache.find(item => item.id === button.dataset.id);
-  if (!message) return;
-
-  if (button.dataset.action === "reply") {
-    replyTarget = {id:message.id, text:message.text || "Image"};
-    renderReplyBar();
-    $("messageInput").focus();
-  } else if (button.dataset.action === "edit") {
-    if (message.senderId !== currentUser.uid) return;
-    editingMessageId = message.id;
-    $("messageInput").value = message.text || "";
-    $("sendBtn").textContent = "Save";
-    $("messageInput").focus();
-    notice("Edit your message, then tap Save.");
-  } else if (button.dataset.action === "delete") {
-    if (message.senderId !== currentUser.uid) return;
-    if (!confirm("Delete this message for everyone?")) return;
-    try {
-      await updateDoc(doc(db, "messages", message.id), {
-        text: "", deletedForEveryone:true, edited:false
+      if(!confirm("Delete this message for everyone? This cannot be undone."))return;
+      await updateDoc(doc(db,"messages",message.id),{
+        text:"",deletedForEveryone:true,edited:false
       });
-      if (message.localImageId) await deleteLocalImage(message.localImageId);
-      notice("Message deleted.");
-    } catch (error) {
-      notice(friendlyError(error));
+      notice("Message deleted for everyone.");
     }
+  }catch(error){
+    console.error("Message action error:",error);
+    notice(friendlyError(error));
+  }finally{
+    button.disabled=false;
   }
 });
 
-/* ---------- SEND TEXT AND LOCAL IMAGES ---------- */
-async function sendMessage() {
-  if (!currentUser || !activePerson) {
-    notice("Choose a person first.");
-    return;
-  }
-  const text = $("messageInput").value.trim();
-  if (!text && !selectedImage && !editingMessageId) return;
-
-  const target = activePerson;
-  $("sendBtn").disabled = true;
-
-  try {
-    if (editingMessageId) {
-      const message = messagesCache.find(item => item.id === editingMessageId);
-      if (!message || message.senderId !== currentUser.uid) throw new Error("You cannot edit this message.");
-      await updateDoc(doc(db, "messages", editingMessageId), {
-        text, edited:true
-      });
-      editingMessageId = null;
-      $("sendBtn").textContent = "Send";
-    } else {
-      let localImageId = null;
-      if (selectedImage) {
-        localImageId = await saveLocalImage(selectedImage.file);
-      }
-      await addDoc(collection(db, "messages"), {
+/* Send and edit messages */
+async function sendMessage(){
+  if(!currentUser||!activePerson){notice("Choose a person first.");return;}
+  const text=$("messageInput").value.trim();
+  if(!text&&!selectedImage&&!editingMessageId)return;
+  const target=activePerson;
+  $("sendBtn").disabled=true;
+  try{
+    if(editingMessageId){
+      const message=messagesCache.find(item=>item.id===editingMessageId);
+      if(!message||message.senderId!==currentUser.uid)throw new Error("You cannot edit this message.");
+      await updateDoc(doc(db,"messages",editingMessageId),{text,edited:true});
+      editingMessageId=null;
+      $("sendBtn").textContent="Send";
+    }else{
+      let localImageId=null;
+      if(selectedImage)localImageId=await saveLocalImage(selectedImage.file);
+      await addDoc(collection(db,"messages"),{
         senderId:currentUser.uid,
         receiverId:target.id,
         text,
         localImageId,
-        replyTo:replyTarget?.id || null,
-        replyText:replyTarget?.text || null,
+        replyTo:replyTarget?.id||null,
+        replyText:replyTarget?.text||null,
         deletedForEveryone:false,
+        hiddenFor:[],
         edited:false,
         createdAt:serverTimestamp()
       });
     }
-    $("messageInput").value = "";
-    $("messageInput").style.height = "auto";
-    selectedImage = null;
-    replyTarget = null;
-    renderSelectedImage();
-    renderReplyBar();
-  } catch (error) {
-    console.error(error);
-    notice(friendlyError(error));
-  } finally {
-    $("sendBtn").disabled = false;
+    $("messageInput").value="";
+    $("messageInput").style.height="auto";
+    if(selectedImage?.preview)URL.revokeObjectURL(selectedImage.preview);
+    selectedImage=null;
+    $("imageInput").value="";
+    replyTarget=null;
+    renderSelectedImage();renderReplyBar();
+  }catch(error){
+    console.error(error);notice(friendlyError(error));
+  }finally{
+    $("sendBtn").disabled=false;
   }
 }
-$("sendBtn").addEventListener("click", sendMessage);
-$("messageInput").addEventListener("keydown", event => {
-  if (event.key === "Enter" && !event.shiftKey) {
-    event.preventDefault();
-    sendMessage();
-  }
+$("sendBtn").addEventListener("click",sendMessage);
+$("messageInput").addEventListener("keydown",event=>{
+  if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();sendMessage();}
 });
-$("messageInput").addEventListener("input", () => {
-  const field = $("messageInput");
-  field.style.height = "auto";
-  field.style.height = Math.min(field.scrollHeight, 130) + "px";
+$("messageInput").addEventListener("input",()=>{
+  const field=$("messageInput");
+  field.style.height="auto";
+  field.style.height=Math.min(field.scrollHeight,130)+"px";
 });
-$("cancelReply").addEventListener("click", () => {
-  replyTarget = null;
-  renderReplyBar();
-});
-$("attachBtn").addEventListener("click", () => $("imageInput").click());
-$("imageInput").addEventListener("change", event => {
-  const file = event.target.files?.[0];
-  if (!file) return;
-  if (!file.type.startsWith("image/")) {
-    notice("Please choose an image.");
-    event.target.value = "";
-    return;
-  }
-  if (file.size > 4 * 1024 * 1024) {
-    notice("Image must be smaller than 4 MB.");
-    event.target.value = "";
-    return;
-  }
-  if (selectedImage?.preview) URL.revokeObjectURL(selectedImage.preview);
-  selectedImage = {file, preview:URL.createObjectURL(file)};
+$("cancelReply").addEventListener("click",()=>{replyTarget=null;renderReplyBar();});
+$("attachBtn").addEventListener("click",()=>$("imageInput").click());
+$("imageInput").addEventListener("change",event=>{
+  const file=event.target.files?.[0];
+  if(!file)return;
+  if(!file.type.startsWith("image/")){notice("Please choose an image.");event.target.value="";return;}
+  if(file.size>4*1024*1024){notice("Image must be smaller than 4 MB.");event.target.value="";return;}
+  if(selectedImage?.preview)URL.revokeObjectURL(selectedImage.preview);
+  selectedImage={file,preview:URL.createObjectURL(file)};
   renderSelectedImage();
 });
-$("removeImage").addEventListener("click", () => {
-  if (selectedImage?.preview) URL.revokeObjectURL(selectedImage.preview);
-  selectedImage = null;
-  $("imageInput").value = "";
+$("removeImage").addEventListener("click",()=>{
+  if(selectedImage?.preview)URL.revokeObjectURL(selectedImage.preview);
+  selectedImage=null;
+  $("imageInput").value="";
   renderSelectedImage();
 });
 
-/* ---------- STARTUP ---------- */
-try {
-  await setPersistence(auth, browserLocalPersistence);
-} catch (error) {
-  console.warn("Could not set auth persistence:", error);
+/* Startup */
+try{
+  await setPersistence(auth,browserLocalPersistence);
+}catch(error){
+  console.warn("Could not set auth persistence:",error);
 }
 setAuthMode(false);
 </script>
