@@ -1,1653 +1,270 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#07111f">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e9f7f2">
 <title>ChatWave — Connect. Chat. Share.</title>
-
 <style>
-:root{
-  color-scheme:dark;
-  --bg:#07111f;
-  --panel:rgba(17,31,51,.88);
-  --panel2:#14243a;
-  --text:#f3f7ff;
-  --muted:#93a6c1;
-  --line:rgba(255,255,255,.10);
-  --accent:#6c7cff;
-  --accent2:#8d68ff;
-  --danger:#ff647c;
-  --radius:20px;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;min-height:100dvh;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:radial-gradient(ellipse at top left,#1c3155 0,transparent 42%),var(--bg);
-  color:var(--text)
-}
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.5;cursor:not-allowed}
-.hidden{display:none!important}
-.muted{color:var(--muted)}
-.small{font-size:12px}
-.brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:850;letter-spacing:-.7px}
-.brand-icon{
-  width:42px;height:42px;display:grid;place-items:center;border-radius:15px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  box-shadow:0 8px 28px #6c7cff35
-}
-.brand-icon svg{width:25px;height:25px}
-.card{
-  border:1px solid var(--line);background:var(--panel);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-radius:var(--radius)
-}
-button.primary{
-  color:white;border:0;border-radius:13px;padding:13px 18px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  font-weight:750
-}
-button.secondary,.icon-btn{
-  background:var(--panel2);color:var(--text);
-  border:1px solid var(--line);border-radius:12px;padding:10px 13px
-}
-button.danger{color:var(--danger)}
-input,textarea{
-  width:100%;color:var(--text);background:rgba(4,12,24,.65);
-  border:1px solid var(--line);border-radius:13px;padding:13px 14px;outline:none
-}
-input:focus,textarea:focus{border-color:var(--accent)}
-label{display:block;font-size:13px;margin:15px 0 7px;color:var(--muted)}
-#authScreen{min-height:100dvh;display:grid;place-items:center;padding:24px 16px}
-.auth-card{width:min(100%,420px);padding:27px}
-.auth-card h1{margin:27px 0 8px;font-size:30px;letter-spacing:-1px}
-.auth-card .primary{width:100%;margin-top:18px}
-.auth-switch{text-align:center;margin-top:20px;font-size:14px}
-.link-btn{border:0;background:transparent;color:#a9b4ff;padding:4px}
-#authMessage{margin-top:13px;font-size:13px;line-height:1.5}
-#appScreen{min-height:100dvh;padding:16px}
-.app-shell{
-  width:min(1400px,100%);margin:auto;display:grid;
-  grid-template-columns:320px minmax(0,1fr);gap:16px;
-  height:calc(100dvh - 32px);min-height:570px
-}
-.sidebar{display:flex;flex-direction:column;overflow:hidden}
-.side-head{padding:20px;border-bottom:1px solid var(--line)}
-.side-user{display:flex;align-items:center;gap:10px;margin-top:22px}
-.avatar{
-  position:relative;flex:0 0 43px;width:43px;height:43px;border-radius:50%;
-  display:grid;place-items:center;font-weight:800;
-  background:linear-gradient(135deg,#697bff,#b26bff);
-  color:white;overflow:hidden
-}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.side-tools{display:flex;gap:8px;margin-top:17px}
-.side-tools button{flex:1;font-size:12px}
-.people-heading{
-  padding:17px 18px 9px;font-size:12px;color:var(--muted);
-  text-transform:uppercase;letter-spacing:1px
-}
-#peopleList{overflow-y:auto;padding:0 9px 12px}
-.person{
-  width:100%;display:flex;align-items:center;gap:11px;text-align:left;
-  padding:12px 10px;border:0;background:transparent;color:var(--text);
-  border-radius:14px
-}
-.person.active,.person:hover{background:var(--panel2)}
-.person-info{min-width:0;flex:1}
-.person-name{font-weight:700;overflow-wrap:anywhere}
-.person-email{
-  font-size:12px;color:var(--muted);overflow-wrap:anywhere;margin-top:4px
-}
-.online-dot{
-  display:inline-block;width:8px;height:8px;margin-left:6px;
-  border-radius:50%;background:#32d583;box-shadow:0 0 8px #32d58380;
-  vertical-align:middle
-}
-.status-line{font-size:12px;color:var(--muted);margin-top:4px}
-.status-line.online{color:#32d583}
-.chat-panel{min-width:0;display:flex;flex-direction:column;overflow:hidden}
-.chat-head{
-  display:flex;align-items:center;gap:12px;padding:17px 20px;
-  border-bottom:1px solid var(--line);min-height:80px
-}
-.chat-head-info{flex:1;min-width:0}
-.chat-head-info strong{display:block;overflow-wrap:anywhere}
-.chat-head-info span{font-size:12px;color:var(--muted)}
-#messages{
-  flex:1;min-height:0;overflow-y:auto;padding:20px;
-  display:flex;flex-direction:column;gap:13px
-}
-.empty-state{margin:auto;text-align:center;padding:24px;color:var(--muted)}
-.message-row{
-  display:flex;flex-direction:column;max-width:min(82%,560px);
-  align-self:flex-start
-}
-.message-row.mine{align-self:flex-end}
-.bubble{
-  border:1px solid var(--line);background:var(--panel2);
-  border-radius:17px 17px 17px 5px;padding:11px 13px;
-  overflow-wrap:anywhere;white-space:pre-wrap;line-height:1.45
-}
-.mine .bubble{
-  background:linear-gradient(135deg,#4859d9,#7651c8);
-  border-color:transparent;border-radius:17px 17px 5px 17px
-}
-.bubble img{
-  display:block;max-width:100%;max-height:330px;object-fit:contain;
-  border-radius:10px;margin-bottom:7px
-}
-.reply-preview{
-  border-left:3px solid #b9bfff;padding:5px 8px;margin-bottom:7px;
-  background:#00000020;border-radius:5px;font-size:12px
-}
-.msg-meta{
-  color:var(--muted);font-size:10px;margin-top:5px;padding:0 4px;
-  display:flex;align-items:center;gap:5px;flex-wrap:wrap
-}
-.receipt{font-weight:650;white-space:nowrap}
-.receipt.read{color:#70e6bd}
-.receipt.delivered{color:#d2d9ff}
-.msg-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
-.msg-actions button{
-  font-size:11px;padding:5px 7px;border:0;background:transparent;
-  color:#b7c2ff;border-radius:7px
-}
-.msg-actions button:hover{background:#ffffff12}
-.msg-actions .delete-action{color:var(--danger)}
-.composer-wrap{border-top:1px solid var(--line);padding:14px}
-#replyBar{
-  font-size:12px;color:#c3c9ff;margin:0 0 10px;
-  display:flex;justify-content:space-between;gap:8px
-}
-.composer{display:flex;gap:9px;align-items:flex-end}
-.composer textarea{resize:none;min-height:46px;max-height:130px}
-.composer button{flex-shrink:0}
-#typingStatus{min-height:17px;padding:0 20px;font-size:11px;color:var(--muted)}
-#notice{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-  z-index:50;padding:12px 16px;border-radius:13px;background:#1b2c43;
-  border:1px solid var(--line);box-shadow:0 10px 35px #0006;
-  max-width:calc(100% - 30px);font-size:13px
-}
-#imagePreview{max-width:120px;max-height:80px;border-radius:10px;margin:8px 0}
-#mobileBack{display:none}
-body.light{
-  color-scheme:light;--bg:#eef3fb;--panel:rgba(255,255,255,.88);
-  --panel2:#e8eef8;--text:#17233b;--muted:#64728a;
-  --line:rgba(20,40,80,.13)
-}
-body.light input,body.light textarea{background:#f8faff}
-body.light .mine .bubble{color:white}
-@media(max-width:760px){
-  #appScreen{padding:0}
-  .app-shell{height:100dvh;min-height:0;display:block}
-  .sidebar,.chat-panel{height:100dvh;border-radius:0}
-  .chat-panel{display:none}
-  body.chat-open .sidebar{display:none}
-  body.chat-open .chat-panel{display:flex}
-  #mobileBack{display:inline-block}
-  .chat-head{padding:12px}
-  #messages{padding:15px 12px}
-  .composer-wrap{padding:10px}
-  .message-row{max-width:90%}
-  .msg-actions button{font-size:10px;padding:6px 5px}
-}
+:root{--accent:#16a085;--ink:#172b2b;--muted:#718381;--glass:rgba(255,255,255,.68);--line:rgba(255,255,255,.82);--shadow:0 18px 55px #17443a18}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ink);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 15% 8%,#c8f4e4,transparent 35%),radial-gradient(circle at 90% 80%,#d8e6ff,transparent 34%),linear-gradient(135deg,#edf9f5,#f4f6ff);background-attachment:fixed}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}.hidden{display:none!important}.app{max-width:1440px;margin:auto;padding:18px;min-height:100vh}.glass{background:var(--glass);border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:24px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;margin-bottom:16px;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;letter-spacing:-.6px}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,var(--accent),#69d8bd);color:white;font-size:22px;box-shadow:0 8px 20px #16a08535}.top-actions{display:flex;align-items:center;gap:8px}.btn{border-radius:14px;padding:11px 15px;background:var(--accent);color:#fff;font-weight:650;transition:.2s}.btn:hover{filter:brightness(.96);transform:translateY(-1px)}.btn.secondary{background:#ffffffa6;color:var(--ink);border:1px solid #ffffffd9}.btn.ghost{background:transparent;color:var(--ink)}.iconbtn{display:inline-grid;place-items:center;flex-shrink:0;width:42px;height:42px;border-radius:14px;background:#ffffffa6;color:var(--ink);font-size:18px;border:1px solid #ffffffd9}.layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;min-height:calc(100vh - 112px)}.sidebar{padding:16px;display:flex;flex-direction:column;gap:14px}.side-title{display:flex;justify-content:space-between;align-items:center;font-size:19px;font-weight:800}.search{width:100%;border:1px solid #dce9e5;background:#ffffffa8;border-radius:14px;padding:12px 14px;outline:none}.search:focus,input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent)}.nav{display:flex;gap:7px;flex-wrap:wrap}.nav button{flex:1;padding:10px 9px;border-radius:12px;background:#ffffff80;color:var(--muted);font-weight:700}.nav button.active{background:var(--accent);color:#fff}.chatlist{display:flex;flex-direction:column;gap:6px;overflow:auto}.chatitem{display:flex;align-items:center;gap:11px;text-align:left;padding:11px;border-radius:16px;background:transparent;color:var(--ink);width:100%}.chatitem:hover,.chatitem.active{background:#ffffffb8}.avatar{width:45px;height:45px;border-radius:50%;background:linear-gradient(135deg,#b9eadb,#d8e3ff);display:grid;place-items:center;font-weight:800;color:#21665b;flex-shrink:0;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}.chatmeta{min-width:0;flex:1}.chatname{font-weight:750}.preview{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.main{min-width:0;display:flex;flex-direction:column;overflow:hidden}.panelhead{padding:18px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffffb8;gap:10px}.panelhead h2{margin:0;font-size:19px}.sub{font-size:12px;color:var(--muted);margin-top:4px}.content{padding:22px;overflow:auto;flex:1}.empty{min-height:350px;display:grid;place-items:center;text-align:center;color:var(--muted)}.empty .big{font-size:48px;margin-bottom:12px}.messages{display:flex;flex-direction:column;gap:10px;min-height:300px}.typing-indicator{min-height:22px;padding:7px 2px 0;color:var(--accent);font-size:12px;font-weight:650}.typing-dots{display:inline-flex;gap:3px;margin-left:5px;vertical-align:middle}.typing-dots i{width:4px;height:4px;border-radius:50%;background:currentColor;animation:typingPulse 1s infinite ease-in-out}.typing-dots i:nth-child(2){animation-delay:.15s}.typing-dots i:nth-child(3){animation-delay:.3s}@keyframes typingPulse{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}.bubble{max-width:min(78%,620px);padding:11px 14px;border-radius:18px;background:#ffffffd9;align-self:flex-start;box-shadow:0 4px 14px #23443a0a;overflow-wrap:anywhere}.bubble.mine{align-self:flex-end;background:color-mix(in srgb,var(--accent) 18%,white);border-bottom-right-radius:6px}.bubble:not(.mine){border-bottom-left-radius:6px}.reply-quote{padding:6px 9px;margin-bottom:6px;border-left:3px solid var(--accent);background:#ffffff80;border-radius:7px;font-size:11px;color:var(--muted)}.bubble-actions{display:flex;gap:6px;justify-content:flex-end;margin-top:7px}.bubble-action{font-size:11px;padding:5px 8px;border-radius:8px;background:#ffffffa8;color:var(--ink);border:1px solid #dce9e5}.bubble-action.danger{color:#b42318}.deleted-message{font-style:italic;color:var(--muted)}.bubble time{display:block;text-align:right;font-size:10px;color:var(--muted);margin-top:5px}.reply-bar{padding:8px 14px;background:#ffffff80;border-top:1px solid #ffffffb8;font-size:12px;color:var(--muted)}.reply-bar button{float:right;background:transparent;color:var(--ink)}.composer{display:flex;gap:8px;padding:14px;border-top:1px solid #ffffffb8}.attach-btn{position:relative}.composer input[type="text"],.composer input:not([type]){flex:1;min-width:0}.composer input[type="file"]{display:none}.composer input{flex:1;min-width:0;border:1px solid #dce9e5;background:#ffffffbd;border-radius:15px;padding:13px;outline:none}.section-title{font-size:22px;font-weight:800;margin:0 0 5px}.muted{color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{padding:18px;border:1px solid #ffffffdb;border-radius:20px;background:#ffffff80}.card h3{margin:0 0 8px}.setting-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid #e4eeeb}.setting-row:last-child{border-bottom:0}.setting-row small{display:block;color:var(--muted);margin-top:4px;line-height:1.45}.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}.field label{font-size:13px;font-weight:700;color:#4b6661}.field input,.field textarea,.field select{width:100%;border:1px solid #dce9e5;background:#ffffffc7;border-radius:13px;padding:12px;outline:none}.field textarea{min-height:90px;resize:vertical}.authwrap{min-height:100vh;display:grid;place-items:center;padding:20px}.authcard{width:min(100%,440px);padding:28px}.authcard h1{margin:20px 0 6px;font-size:28px;letter-spacing:-.8px}.authcard p{color:var(--muted);line-height:1.5}.authswitch{display:flex;gap:8px;margin:18px 0}.authswitch button{flex:1}.note{font-size:12px;color:var(--muted);line-height:1.5}.statusstrip{display:flex;gap:12px;overflow:auto;padding:3px 0 14px}.statusperson{background:transparent;min-width:70px;text-align:center;color:var(--ink)}.ring{width:58px;height:58px;border-radius:50%;padding:3px;border:2px solid var(--accent);margin:0 auto 6px;display:grid;place-items:center}.ring .avatar{width:100%;height:100%}.statusgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}.statuscard{padding:12px;border-radius:18px;background:#ffffffad;border:1px solid white}.statusmedia{width:100%;height:150px;object-fit:cover;border-radius:12px;background:#e4efeb}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#172b2b;color:white;padding:12px 18px;border-radius:14px;box-shadow:var(--shadow);z-index:20;max-width:90vw}.modal{position:fixed;inset:0;background:#142c2a55;display:grid;place-items:center;padding:16px;z-index:30}.modalbox{width:min(100%,460px);padding:22px;max-height:90vh;overflow:auto}.modalhead{display:flex;justify-content:space-between;align-items:center}.modalhead h2{margin:0}.footer-note{text-align:center;padding:14px;color:var(--muted);font-size:11px}
+body.dark{--ink:#e8f5f1;--muted:#9cb6b0;--glass:rgba(19,35,36,.72);--line:rgba(255,255,255,.12);background:radial-gradient(circle at 15% 8%,#173e38,transparent 35%),radial-gradient(circle at 90% 80%,#1d2947,transparent 34%),#0d171b}
+body.dark .search,body.dark .chatitem:hover,body.dark .chatitem.active,body.dark .btn.secondary,body.dark .iconbtn,body.dark .nav button,body.dark .card,body.dark .statuscard,body.dark .composer input,body.dark .field input,body.dark .field textarea,body.dark .field select,body.dark .bubble{background:#1c3030d9;color:var(--ink);border-color:#314846}body.dark .bubble.mine{background:#245b50}body.dark .setting-row{border-color:#314846}body.dark .nav button.active{background:var(--accent)}
+@media(max-width:820px){.app{padding:10px}.layout{grid-template-columns:1fr;min-height:0}.sidebar{padding:12px}.chatlist{max-height:210px}.main{min-height:55vh}.cards{grid-template-columns:1fr}.topbar{padding:11px}.brand{font-size:18px}.content{padding:15px}.panelhead{padding:15px}.bubble{max-width:88%}}
+@media(max-width:440px){.top-actions .hide-small{display:none}.authcard{padding:22px}.btn{padding:10px 12px}.app{padding:7px}.glass{border-radius:19px}}
 </style>
 </head>
-
 <body>
-<section id="authScreen">
-  <div class="auth-card card">
-    <div class="brand">
-      <div class="brand-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-6.5A2.5 2.5 0 0 1 4 11z"/>
-          <path d="M8 8h8M8 11h5"/>
-        </svg>
-      </div>
-      ChatWave
-    </div>
-
-    <h1 id="authTitle">Connect with people.</h1>
-    <p id="authSubtitle" class="muted">Your conversations, all in one place.</p>
-
+<div id="authView" class="authwrap">
+  <div class="authcard glass">
+    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2 1-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11h8M8 14h5"/></svg></div>ChatWave</div>
+    <h1 id="authTitle">Welcome back</h1><p id="authSubtitle">Sign in and pick up where your conversations left off.</p>
+    <div class="authswitch"><button class="btn" id="showLogin">Sign in</button><button class="btn secondary" id="showSignup">Create account</button></div>
     <form id="authForm">
-      <div id="nameField" class="hidden">
-        <label for="displayName">Your name</label>
-        <input id="displayName" autocomplete="name" maxlength="60" placeholder="Enter your name">
-      </div>
-      <label for="email">Email address</label>
-      <input id="email" type="email" autocomplete="email" required placeholder="you@example.com">
-      <label for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters">
-      <button class="primary" id="authSubmit" type="submit">Sign in</button>
+      <div class="field" id="nameField" hidden><label for="fullName">Your name</label><input id="fullName" autocomplete="name" placeholder="Your display name"></div>
+      <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></div>
+      <button class="btn" id="authSubmit" type="submit" style="width:100%">Sign in</button>
     </form>
-
-    <form id="verifyForm" class="hidden">
-      <label for="verificationCode">6-digit email verification code</label>
-      <input id="verificationCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required placeholder="000000">
-      <button class="primary" id="verifySubmit" type="submit">Verify and create account</button>
-      <button type="button" class="secondary" id="cancelVerify" style="width:100%;margin-top:9px">Cancel</button>
-    </form>
-
-    <div id="authMessage" role="status" aria-live="polite"></div>
-    <div class="auth-switch">
-      <span id="switchText">New to ChatWave?</span>
-      <button class="link-btn" id="switchAuth" type="button">Create account</button>
-    </div>
-    <p class="small muted" style="text-align:center;margin-top:20px">
-      Messages sync online. Image attachments are stored locally in this browser.
-    </p>
+    <button class="btn ghost" id="forgotBtn" style="width:100%;margin-top:8px">Forgot password?</button>
+    <p class="note">For email verification, enable Email/Password and email verification in your Firebase project. EmailJS credentials are configured below for optional welcome/verification emails; the app does not falsely mark accounts verified based on a browser-only code.</p>
+    <div id="authMessage" class="note" role="status"></div>
   </div>
-</section>
+</div>
 
-<section id="appScreen" class="hidden">
-  <div class="app-shell">
-    <aside class="sidebar card">
-      <div class="side-head">
-        <div class="brand">
-          <div class="brand-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-              <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-6.5A2.5 2.5 0 0 1 4 11z"/>
-            </svg>
-          </div>
-          ChatWave
-        </div>
-
-        <div class="side-user">
-          <div class="avatar" id="myAvatar">C</div>
-          <div class="person-info">
-            <div class="person-name" id="myName">ChatWave User</div>
-            <div class="person-email" id="myEmail"></div>
-          </div>
-        </div>
-
-        <div class="side-tools">
-          <button class="secondary" id="themeBtn" type="button">☼ Theme</button>
-          <button class="secondary" id="refreshPeople" type="button">↻ Refresh</button>
-          <button class="secondary danger" id="logoutBtn" type="button">Log out</button>
-        </div>
-
-        <label for="peopleSearch">Find people</label>
-        <input id="peopleSearch" placeholder="Search by name or email">
-      </div>
-
-      <div class="people-heading">People</div>
-      <div id="peopleList">
-        <div class="empty-state">Loading people…</div>
-      </div>
+<div id="appView" class="app hidden">
+  <header class="topbar glass">
+    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2 1-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11h8M8 14h5"/></svg></div>ChatWave</div>
+    <div class="top-actions"><span class="muted hide-small" id="topUser"></span><button class="iconbtn" id="newChatBtn" title="Start chat"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="iconbtn" id="topSettingsBtn" title="Settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.6.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.6-.9l-1.7.6-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.9L6.1 12l1.4-2.4 1.7.6a8 8 0 0 1 1.6-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.6.9l1.7-.6 1.4 2.4-1.4 1.1a7 7 0 0 1-.1 1.9Z" transform="translate(-1 -1)"/></svg></button><button class="iconbtn" id="signoutBtn" title="Sign out"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg></button></div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar glass">
+      <div class="side-title"><span>Messages</span><button class="iconbtn" id="sideNewBtn" title="New chat"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+      <input id="searchChats" class="search" placeholder="Search conversations…">
+      <div class="nav"><button class="active" data-view="chats">Chats</button><button data-view="status">Status</button><button data-view="settings">Settings</button></div>
+      <div id="chatList" class="chatlist"></div>
+      <div class="footer-note">Connect. Chat. Share.</div>
     </aside>
-
-    <main class="chat-panel card">
-      <header class="chat-head">
-        <button id="mobileBack" class="icon-btn" type="button" aria-label="Back">←</button>
-        <div class="avatar" id="chatAvatar">C</div>
-        <div class="chat-head-info">
-          <strong id="chatName">Choose a conversation</strong>
-          <span id="chatEmail">Select someone to start chatting</span>
-        </div>
-      </header>
-
-      <div id="messages">
-        <div class="empty-state">
-          <div style="font-size:40px">💬</div>
-          <h3>Your conversations start here</h3>
-          <p>Select someone from the people list.</p>
-        </div>
-      </div>
-
-      <div id="typingStatus"></div>
-
-      <div class="composer-wrap">
-        <div id="replyBar" class="hidden">
-          <span id="replyText"></span>
-          <button id="cancelReply" class="link-btn" type="button">Cancel</button>
-        </div>
-
-        <div id="selectedImageArea" class="hidden">
-          <img id="imagePreview" alt="Selected attachment preview">
-          <button id="removeImage" class="link-btn" type="button">Remove image</button>
-        </div>
-
-        <div class="composer">
-          <input id="imageInput" type="file" accept="image/*" class="hidden">
-          <button id="attachBtn" class="icon-btn" type="button" title="Attach image" aria-label="Attach image">＋</button>
-          <textarea id="messageInput" rows="1" placeholder="Write a message…" disabled></textarea>
-          <button id="sendBtn" class="primary" type="button" disabled>Send</button>
-        </div>
-
-        <div class="small muted" style="margin-top:8px">
-          Images are saved only in this browser. Keep the browser's site data to retain them.
-        </div>
-      </div>
+    <main class="main glass">
+      <div id="mainHeader" class="panelhead"><div><h2>Welcome to ChatWave</h2><div class="sub">Choose a conversation or start a new one</div></div></div>
+      <div id="mainContent" class="content"><div class="empty"><div><div class="big">✦</div><strong>Your conversations, in one place</strong><p>Start a chat to connect with someone.</p><button class="btn" id="emptyNewBtn">Start a chat</button></div></div></div>
+      <div id="replyBar" class="reply-bar hidden"></div><form id="composer" class="composer hidden"><label class="iconbtn attach-btn" title="Attach image">＋<input id="messageImage" type="file" accept="image/*" hidden></label><input id="messageInput" autocomplete="off" placeholder="Write a message…"><button class="btn" type="submit">Send</button></form>
     </main>
   </div>
-</section>
-
-<div id="notice" class="hidden" role="status"></div>
+</div>
+<div id="modal" class="modal hidden"><div class="modalbox glass"><div class="modalhead"><h2 id="modalTitle">Start a chat</h2><button class="iconbtn" id="modalClose" aria-label="Close dialog"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div id="modalBody"></div></div></div>
+<div id="toast" class="toast hidden" role="status"></div>
 
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, getDocs, limit, deleteDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
+import { getDatabase, ref as rtdbRef, set as rtdbSet, onValue, onDisconnect, remove as rtdbRemove, serverTimestamp as rtdbServerTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
-import {
-  getAuth,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  setPersistence,
-  browserLocalPersistence
-} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
-import {
-  getFirestore,
-  collection,
-  doc,
-  setDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-  onSnapshot,
-  serverTimestamp,
-  arrayUnion
-} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-
-import {
-  getDatabase,
-  ref as dbRef,
-  onValue as onDBValue,
-  onDisconnect,
-  set as dbSet,
-  serverTimestamp as dbTimestamp
-} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
-
-import emailjs from "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/+esm";
-
+/* 1) Replace these values with the Web App config from Firebase Console > Project settings > Your apps.
+   Keep your existing Firebase project config; the project ID alone is not enough. */
 const firebaseConfig = {
   apiKey: "AIzaSyCOfNfS3DMUMSRHJpyW_tpSIjwFymrTt7w",
   authDomain: "chat-2c557.firebaseapp.com",
-  databaseURL: "https://chat-2c557-default-rtdb.firebaseio.com",
   projectId: "chat-2c557",
   storageBucket: "chat-2c557.firebasestorage.app",
   messagingSenderId: "74313204354",
-  appId: "1:74313204354:web:c735269d502b88a39eea9b"
+  appId: "1:74313204354:web:c735269d502b88a39eea9b",
+  databaseURL: "https://chat-2c557-default-rtdb.firebaseio.com"
 };
 
+/* 2) Your EmailJS public browser credentials. Set your EmailJS template to accept
+   to_email, to_name, app_name, and message variables. Never put a private key here. */
 const EMAILJS_SERVICE_ID = "service_1h2qcyj";
 const EMAILJS_TEMPLATE_ID = "template_g5knl87";
 const EMAILJS_PUBLIC_KEY = "OxtLjZnoiYd3ih6cm";
 
+const $ = (id) => document.getElementById(id);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const realtimeDB = getDatabase(app);
+const storage = getStorage(app);
+const realtimeDb = getDatabase(app, "https://chat-2c557-default-rtdb.firebaseio.com");
+let stopTyping = null, typingTimer = null, typingChatId = null, stopPresence = null, replyingTo = null;
+let authMode = "login", currentUser = null, profile = {}, activeChat = null;
+let stopChats = null, stopMessages = null, stopStatus = null, cachedChats = [], cachedMessages = [];
+let activeView = "chats", accent = localStorage.getItem("cw_accent") || "#16a085";
+document.documentElement.style.setProperty("--accent", accent);
 
-const $ = id => document.getElementById(id);
+function toast(msg){$("toast").textContent=msg;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),3200)}
+function safe(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function initials(s="User"){return s.trim().split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"U"}
+function avatarHTML(p,name){return `<div class="avatar">${p?.photoURL?`<img src="${safe(p.photoURL)}" alt="">`:safe(initials(name))}</div>`}
+function timeLabel(t){try{return t?.toDate?t.toDate().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}):""}catch{return""}}
+function showAuthMessage(m){$("authMessage").textContent=m}
+function setAuthMode(mode){authMode=mode;const signup=mode==="signup";$("authTitle").textContent=signup?"Create your account":"Welcome back";$("authSubtitle").textContent=signup?"Join ChatWave and start a conversation.":"Sign in and pick up where your conversations left off.";$("nameField").hidden=!signup;$("fullName").required=signup;$("authSubmit").textContent=signup?"Create account":"Sign in";$("forgotBtn").classList.toggle("hidden",signup);$("showSignup").classList.toggle("active",signup);$("showLogin").classList.toggle("active",!signup);showAuthMessage("")}
+$("showLogin").onclick=()=>setAuthMode("login");$("showSignup").onclick=()=>setAuthMode("signup");
+async function sendWelcomeEmail(email,name){try{if(!window.emailjs){await new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";s.onload=resolve;s.onerror=reject;document.head.appendChild(s)})}window.emailjs.init({publicKey:EMAILJS_PUBLIC_KEY});await window.emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:email,to_name:name,app_name:"ChatWave",message:`Welcome to ChatWave, ${name}! Your account was created. Please use the verification email sent by Firebase to verify your email address.`});}catch(e){console.warn("EmailJS welcome email not sent:",e)}}
+$("authForm").addEventListener("submit",async e=>{e.preventDefault();$("authSubmit").disabled=true;$("authSubmit").textContent=authMode==="signup"?"Creating account…":"Signing in…";showAuthMessage("");
+try{
+ const email=$("email").value.trim(), password=$("password").value;
+ if(authMode==="signup"){
+   const name=$("fullName").value.trim();if(!name)throw new Error("Enter your name.");
+   const cred=await createUserWithEmailAndPassword(auth,email,password);
+   await updateProfile(cred.user,{displayName:name});
+   await setDoc(doc(db,"users",cred.user.uid),{uid:cred.user.uid,name,email,photoURL:"",bio:"",createdAt:serverTimestamp(),lastSeen:serverTimestamp()},{merge:true});
+   await sendEmailVerification(cred.user);
+   await sendWelcomeEmail(email,name);
+   showAuthMessage("Account created. A Firebase verification email has been sent. Check your inbox and spam folder.");
+ }else{await signInWithEmailAndPassword(auth,email,password)}
+}catch(err){showAuthMessage(friendlyError(err))}finally{$("authSubmit").disabled=false;$("authSubmit").textContent=authMode==="signup"?"Create account":"Sign in"}});
+function friendlyError(e){const map={"auth/email-already-in-use":"That email already has an account.","auth/invalid-email":"Enter a valid email address.","auth/weak-password":"Use a password with at least 6 characters.","auth/invalid-credential":"Email or password is incorrect.","auth/user-not-found":"No account was found for that email.","auth/network-request-failed":"Network problem. Check your internet and try again.","permission-denied":"Firebase permission denied. Check your Firestore/Storage rules."};return map[e?.code]||e?.message||"Something went wrong. Try again."}
+$("forgotBtn").onclick=async()=>{const email=$("email").value.trim();if(!email)return showAuthMessage("Enter your email address first.");try{await sendPasswordResetEmail(auth,email);showAuthMessage("Password reset email sent. Check your inbox.")}catch(e){showAuthMessage(friendlyError(e))}};
+$("signoutBtn").onclick=async()=>{try{if(currentUser){await rtdbSet(rtdbRef(realtimeDb,`status/${currentUser.uid}`),{state:"offline",lastChanged:rtdbServerTimestamp()});await setDoc(doc(db,"users",currentUser.uid),{isOnline:false,lastSeen:serverTimestamp()},{merge:true})}}catch(e){console.warn(e)}await signOut(auth)};
+$("topSettingsBtn").onclick=()=>renderView("settings");document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>renderView(b.dataset.view));
+$("newChatBtn").onclick=$("sideNewBtn").onclick=$("emptyNewBtn").onclick=()=>openNewChat();
 
-const authScreen = $("authScreen");
-const appScreen = $("appScreen");
-const authForm = $("authForm");
-const verifyForm = $("verifyForm");
-
-let isRegisterMode = false;
-let pendingRegistration = null;
-let currentUser = null;
-let activePerson = null;
-let allPeople = [];
-let messageUnsubscribers = [];
-let peopleUnsubscribe = null;
-let deliveryUnsubscribe = null;
-let connectionUnsubscribe = null;
-let myDisconnectHandler = null;
-let messagesCache = [];
-let selectedImage = null;
-let replyTarget = null;
-let editingMessageId = null;
-let noticeTimer = null;
-let authBusy = false;
-
-const deliveryMarkingIds = new Set();
-const readMarkingIds = new Set();
-const presenceCache = new Map();
-const presenceUnsubscribers = new Map();
-
-/* General helpers */
-
-function notice(message) {
-  const el = $("notice");
-  el.textContent = message;
-  el.classList.remove("hidden");
-  clearTimeout(noticeTimer);
-  noticeTimer = setTimeout(() => el.classList.add("hidden"), 3500);
-}
-
-function authMessage(message, error = false) {
-  $("authMessage").textContent = message;
-  $("authMessage").style.color = error ? "#ff8495" : "#a9b4ff";
-}
-
-function escapeHTML(value = "") {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  }[char]));
-}
-
-function initials(name = "User") {
-  return name.trim().split(/\s+/).slice(0, 2)
-    .map(x => x[0] || "").join("").toUpperCase() || "U";
-}
-
-function timeText(timestamp) {
-  if (!timestamp) return "Just now";
-  const date = typeof timestamp.toDate === "function"
-    ? timestamp.toDate()
-    : new Date(timestamp);
-  return Number.isNaN(date.getTime())
-    ? "Just now"
-    : date.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
-}
-
-function dateSortValue(message) {
-  const t = message.createdAt;
-  if (!t) return 0;
-  return typeof t.toMillis === "function"
-    ? t.toMillis()
-    : (typeof t === "number" ? t : new Date(t).getTime()) || 0;
-}
-
-function showAuth() {
-  appScreen.classList.add("hidden");
-  authScreen.classList.remove("hidden");
-  document.body.classList.remove("chat-open");
-}
-
-function showApp() {
-  authScreen.classList.add("hidden");
-  appScreen.classList.remove("hidden");
-}
-
-/* Listener cleanup */
-
-function stopListeners() {
-  messageUnsubscribers.forEach(fn => fn());
-  messageUnsubscribers = [];
-
-  if (peopleUnsubscribe) peopleUnsubscribe();
-  peopleUnsubscribe = null;
-
-  if (deliveryUnsubscribe) deliveryUnsubscribe();
-  deliveryUnsubscribe = null;
-
-  deliveryMarkingIds.clear();
-  readMarkingIds.clear();
-}
-
-function resetChat() {
-  activePerson = null;
-  messagesCache = [];
-  selectedImage = null;
-  replyTarget = null;
-  editingMessageId = null;
-
-  stopListeners();
-
-  $("peopleList").innerHTML = "";
-  $("messages").innerHTML =
-    '<div class="empty-state">Select someone from the people list to start chatting.</div>';
-
-  $("chatName").textContent = "Choose a conversation";
-  $("chatEmail").textContent = "Select someone to start chatting";
-  $("messageInput").disabled = true;
-  $("sendBtn").disabled = true;
-  $("typingStatus").textContent = "";
-
-  renderSelectedImage();
-  renderReplyBar();
-}
-
-/* Local image database */
-
-const LOCAL_DB_NAME = "ChatWaveLocalImages";
-const LOCAL_STORE = "images";
-
-function openLocalDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(LOCAL_DB_NAME, 1);
-
-    request.onupgradeneeded = () => {
-      const database = request.result;
-      if (!database.objectStoreNames.contains(LOCAL_STORE)) {
-        database.createObjectStore(LOCAL_STORE, {keyPath:"id"});
-      }
-    };
-
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
-  });
-}
-
-async function saveLocalImage(file) {
-  if (!file || !file.type.startsWith("image/")) {
-    throw new Error("Choose an image file.");
-  }
-  if (file.size > 4 * 1024 * 1024) {
-    throw new Error("Choose an image smaller than 4 MB.");
-  }
-
-  const database = await openLocalDB();
-  const id = crypto.randomUUID();
-
-  await new Promise((resolve, reject) => {
-    const transaction = database.transaction(LOCAL_STORE, "readwrite");
-    transaction.objectStore(LOCAL_STORE).put({
-      id,
-      blob: file,
-      type: file.type,
-      name: file.name,
-      createdAt: Date.now()
-    });
-    transaction.oncomplete = resolve;
-    transaction.onerror = () => reject(transaction.error);
-  });
-
-  database.close();
-  return id;
-}
-
-async function getLocalImage(id) {
-  if (!id) return null;
-
-  const database = await openLocalDB();
-  const record = await new Promise((resolve, reject) => {
-    const transaction = database.transaction(LOCAL_STORE, "readonly");
-    const request = transaction.objectStore(LOCAL_STORE).get(id);
-    request.onsuccess = () => resolve(request.result || null);
-    request.onerror = () => reject(request.error);
-  });
-
-  database.close();
-  return record;
-}
-
-async function deleteLocalImage(id) {
-  if (!id) return;
-
-  const database = await openLocalDB();
-  await new Promise(resolve => {
-    const transaction = database.transaction(LOCAL_STORE, "readwrite");
-    transaction.objectStore(LOCAL_STORE).delete(id);
-    transaction.oncomplete = resolve;
-    transaction.onerror = resolve;
-  });
-  database.close();
-}
-
-function renderSelectedImage() {
-  const area = $("selectedImageArea");
-
-  if (!selectedImage) {
-    area.classList.add("hidden");
-    $("imagePreview").removeAttribute("src");
-    return;
-  }
-
-  area.classList.remove("hidden");
-  $("imagePreview").src = selectedImage.preview;
-}
-
-function renderReplyBar() {
-  const bar = $("replyBar");
-
-  if (!replyTarget) {
-    bar.classList.add("hidden");
-    return;
-  }
-
-  bar.classList.remove("hidden");
-  $("replyText").textContent =
-    "Replying to: " + (replyTarget.text || "Image");
-}
-
-/* Email verification */
-
-function makeCode() {
-  return String(Math.floor(100000 + Math.random() * 900000));
-}
-
-async function sendVerificationEmail(email, code) {
-  await emailjs.send(
-    EMAILJS_SERVICE_ID,
-    EMAILJS_TEMPLATE_ID,
-    {to_email:email, passcode:code},
-    {publicKey:EMAILJS_PUBLIC_KEY}
-  );
-}
-
-function setAuthMode(register) {
-  isRegisterMode = register;
-  pendingRegistration = null;
-
-  authForm.classList.remove("hidden");
-  verifyForm.classList.add("hidden");
-  $("nameField").classList.toggle("hidden", !register);
-
-  $("authTitle").textContent = register
-    ? "Create your account."
-    : "Connect with people.";
-
-  $("authSubtitle").textContent = register
-    ? "Join ChatWave and start a conversation."
-    : "Your conversations, all in one place.";
-
-  $("authSubmit").textContent = register
-    ? "Send verification code"
-    : "Sign in";
-
-  $("switchText").textContent = register
-    ? "Already have an account?"
-    : "New to ChatWave?";
-
-  $("switchAuth").textContent = register ? "Sign in" : "Create account";
-  $("password").autocomplete = register ? "new-password" : "current-password";
-
-  authMessage("");
-}
-
-$("switchAuth").addEventListener("click", () => {
-  setAuthMode(!isRegisterMode);
+onAuthStateChanged(auth,async user=>{
+ currentUser=user;
+ if(!user){if(activeChat)stopMyTyping(activeChat.id);if(stopTyping){stopTyping();stopTyping=null}if(stopPresence){stopPresence();stopPresence=null}if(stopChats)stopChats();if(stopMessages)stopMessages();if(stopStatus)stopStatus();$("appView").classList.add("hidden");$("authView").classList.remove("hidden");return}
+ $("authView").classList.add("hidden");$("appView").classList.remove("hidden");$("topUser").textContent=user.displayName||user.email;
+ try{const snap=await getDoc(doc(db,"users",user.uid));profile=snap.exists()?snap.data():{name:user.displayName||"User",email:user.email,photoURL:"",bio:""};await setDoc(doc(db,"users",user.uid),{uid:user.uid,name:profile.name||user.displayName||"User",email:user.email,lastSeen:serverTimestamp()},{merge:true});}catch(e){toast(friendlyError(e))}
+ startPresenceTracking(user);subscribeChats();renderView("chats");
 });
-
-$("cancelVerify").addEventListener("click", () => {
-  pendingRegistration = null;
-  sessionStorage.removeItem("chatwavePendingCode");
-  setAuthMode(false);
-});
-
-authForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  if (authBusy) return;
-
-  authBusy = true;
-  $("authSubmit").disabled = true;
-
-  const email = $("email").value.trim().toLowerCase();
-  const password = $("password").value;
-  const name = $("displayName").value.trim();
-
-  try {
-    if (isRegisterMode) {
-      if (!name) throw new Error("Enter your name.");
-      if (password.length < 6) {
-        throw new Error("Your password must contain at least 6 characters.");
-      }
-
-      const code = makeCode();
-      authMessage("Sending your verification code…");
-
-      await sendVerificationEmail(email, code);
-
-      pendingRegistration = {email, password, name};
-
-      sessionStorage.setItem("chatwavePendingCode", JSON.stringify({
-        email,
-        code,
-        expiresAt: Date.now() + 10 * 60 * 1000
-      }));
-
-      authForm.classList.add("hidden");
-      verifyForm.classList.remove("hidden");
-      authMessage("Check your email for the 6-digit code.");
-    } else {
-      authMessage("Signing in…");
-
-      const credential = await signInWithEmailAndPassword(auth, email, password);
-      const profile = await getDoc(doc(db, "users", credential.user.uid));
-
-      if (!profile.exists() || profile.data().emailVerifiedApp !== true) {
-        await signOut(auth);
-        throw new Error(
-          "This account is not fully registered. Please create an account and verify your email."
-        );
-      }
-
-      await openApp(credential.user, profile.data());
-    }
-  } catch (error) {
-    authMessage(friendlyError(error), true);
-  } finally {
-    authBusy = false;
-    $("authSubmit").disabled = false;
-  }
-});
-
-verifyForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  if (authBusy) return;
-
-  authBusy = true;
-  $("verifySubmit").disabled = true;
-
-  try {
-    const pending = JSON.parse(
-      sessionStorage.getItem("chatwavePendingCode") || "null"
-    );
-    const enteredCode = $("verificationCode").value.trim();
-
-    if (!pending || !pendingRegistration) {
-      throw new Error("Your registration session expired. Start registration again.");
-    }
-
-    if (Date.now() > pending.expiresAt) {
-      sessionStorage.removeItem("chatwavePendingCode");
-      throw new Error("Your code expired. Please request a new one.");
-    }
-
-    if (
-      pending.email !== pendingRegistration.email ||
-      enteredCode !== pending.code
-    ) {
-      throw new Error("That verification code is incorrect.");
-    }
-
-    authMessage("Creating your account…");
-
-    const {email, password, name} = pendingRegistration;
-    const credential = await createUserWithEmailAndPassword(auth, email, password);
-
-    await setDoc(doc(db, "users", credential.user.uid), {
-      uid: credential.user.uid,
-      name,
-      email,
-      emailVerifiedApp: true,
-      createdAt: serverTimestamp()
-    });
-
-    sessionStorage.removeItem("chatwavePendingCode");
-    pendingRegistration = null;
-
-    await openApp(credential.user, {
-      name,
-      email,
-      emailVerifiedApp: true
-    });
-  } catch (error) {
-    authMessage(friendlyError(error), true);
-  } finally {
-    authBusy = false;
-    $("verifySubmit").disabled = false;
-  }
-});
-
-function friendlyError(error) {
-  const code = error?.code || "";
-
-  if (code.includes("auth/email-already-in-use")) {
-    return "That email already has an account. Sign in instead.";
-  }
-  if (code.includes("auth/invalid-email")) {
-    return "Enter a valid email address.";
-  }
-  if (code.includes("auth/weak-password")) {
-    return "Choose a stronger password with at least 6 characters.";
-  }
-  if (
-    code.includes("auth/invalid-credential") ||
-    code.includes("auth/invalid-login-credentials")
-  ) {
-    return "Your email or password is incorrect.";
-  }
-  if (code.includes("auth/network-request-failed")) {
-    return "Network error. Check your internet connection.";
-  }
-  if (
-    code.includes("permission-denied") ||
-    code.includes("PERMISSION_DENIED")
-  ) {
-    return "Firebase blocked this action. Check your Firebase security rules.";
-  }
-  if (code.includes("unavailable")) {
-    return "Firebase is temporarily unavailable. Try again.";
-  }
-
-  return error?.message || "Something went wrong. Please try again.";
+function startPresenceTracking(user){
+ if(stopPresence){stopPresence();stopPresence=null}
+ const connectedRef=rtdbRef(realtimeDb,".info/connected");
+ stopPresence=onValue(connectedRef,async snap=>{
+   if(snap.val()!==true)return;
+   const statusRef=rtdbRef(realtimeDb,`status/${user.uid}`);
+   try{
+     await onDisconnect(statusRef).set({state:"offline",lastChanged:rtdbServerTimestamp()});
+     await rtdbSet(statusRef,{state:"online",lastChanged:rtdbServerTimestamp()});
+     await setDoc(doc(db,"users",user.uid),{isOnline:true,lastSeen:serverTimestamp()},{merge:true});
+   }catch(e){console.warn("Presence setup failed:",e)}
+ });
+ document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&currentUser){const r=rtdbRef(realtimeDb,`status/${currentUser.uid}`);rtdbSet(r,{state:"online",lastChanged:rtdbServerTimestamp()}).catch(()=>{});setDoc(doc(db,"users",currentUser.uid),{isOnline:true,lastSeen:serverTimestamp()},{merge:true}).catch(()=>{})}});
 }
-
-/* Online status and last seen */
-
-function presenceLabel(userId) {
-  const status = presenceCache.get(userId);
-
-  if (!status) return "Offline";
-
-  if (status.state === "online") return "🟢 Online";
-
-  if (status.last_changed) {
-    const lastSeen = new Date(status.last_changed);
-
-    if (!Number.isNaN(lastSeen.getTime())) {
-      return "Last seen " + lastSeen.toLocaleString([], {
-        month:"short",
-        day:"numeric",
-        hour:"2-digit",
-        minute:"2-digit"
-      });
-    }
-  }
-
-  return "Offline";
+async function markConversationRead(chatIdValue){
+ if(!currentUser)return;
+ try{for(const m of cachedMessages){if(m.senderId!==currentUser.uid&&!(m.readBy||[]).includes(currentUser.uid)){await updateDoc(doc(db,"chats",chatIdValue,"messages",m.id),{readBy:arrayUnion(currentUser.uid)}).catch(()=>{})}}}catch(e){console.warn("Read receipt update failed:",e)}
 }
-
-function startPresenceTracking() {
-  if (!currentUser) return;
-
-  if (connectionUnsubscribe) {
-    connectionUnsubscribe();
-    connectionUnsubscribe = null;
-  }
-
-  const connectedRef = dbRef(realtimeDB, ".info/connected");
-
-  connectionUnsubscribe = onDBValue(
-    connectedRef,
-    async snapshot => {
-      if (!snapshot.val() || !currentUser) return;
-
-      const userId = currentUser.uid;
-      const statusRef = dbRef(realtimeDB, "status/" + userId);
-
-      try {
-        const disconnectHandler = onDisconnect(statusRef);
-        myDisconnectHandler = disconnectHandler;
-
-        await disconnectHandler.set({
-          state: "offline",
-          last_changed: dbTimestamp()
-        });
-
-        if (!currentUser || currentUser.uid !== userId) {
-          await disconnectHandler.cancel();
-          return;
-        }
-
-        await dbSet(statusRef, {
-          state: "online",
-          last_changed: dbTimestamp()
-        });
-      } catch (error) {
-        console.error("Presence update failed:", error);
-      }
-    },
-    error => {
-      console.error("Realtime Database connection error:", error);
-      notice("Online status could not connect. Check Realtime Database rules.");
-    }
-  );
+function formatLastSeen(user){if(user?.isOnline)return "Online";const t=user?.lastSeen?.toDate?user.lastSeen.toDate():user?.lastSeen?new Date(user.lastSeen):null;return t&&!Number.isNaN(t.getTime())?`Last seen ${t.toLocaleString([], {dateStyle:"short",timeStyle:"short"})}`:"Offline"}
+function subscribeChats(){
+ if(stopChats)stopChats();
+ const q=query(collection(db,"chats"),where("members","array-contains",currentUser.uid));
+ stopChats=onSnapshot(q,async snap=>{const list=[];for(const d of snap.docs){const data=d.data();const other=(data.members||[]).find(x=>x!==currentUser.uid);let user={name:"Chat",email:""};try{const u=await getDoc(doc(db,"users",other));if(u.exists())user=u.data()}catch{}list.push({id:d.id,other,user,...data})}cachedChats=list;renderChatList()},err=>toast(friendlyError(err)));
 }
-
-function syncPresenceListeners() {
-  if (!currentUser) return;
-
-  const wantedIds = new Set(allPeople.map(person => person.id));
-
-  for (const [userId, unsubscribe] of presenceUnsubscribers) {
-    if (!wantedIds.has(userId)) {
-      unsubscribe();
-      presenceUnsubscribers.delete(userId);
-      presenceCache.delete(userId);
-    }
-  }
-
-  for (const person of allPeople) {
-    if (presenceUnsubscribers.has(person.id)) continue;
-
-    const statusRef = dbRef(realtimeDB, "status/" + person.id);
-
-    const unsubscribe = onDBValue(
-      statusRef,
-      snapshot => {
-        presenceCache.set(
-          person.id,
-          snapshot.val() || {state:"offline"}
-        );
-
-        renderPeople();
-
-        if (activePerson?.id === person.id) {
-          $("chatEmail").textContent = presenceLabel(person.id);
-        }
-      },
-      error => {
-        console.warn("Could not load online status:", error);
-      }
-    );
-
-    presenceUnsubscribers.set(person.id, unsubscribe);
-  }
+function renderChatList(){const term=$("searchChats").value.toLowerCase();$("chatList").innerHTML="";const list=cachedChats.filter(c=>(c.user.name||"").toLowerCase().includes(term)||(c.user.email||"").toLowerCase().includes(term));if(!list.length){$("chatList").innerHTML='<div class="muted" style="padding:12px;font-size:13px">No chats yet. Tap ＋ to start one.</div>';return}
+ list.forEach(c=>{const b=document.createElement("button");b.className="chatitem"+(activeChat?.id===c.id?" active":"");b.innerHTML=`${avatarHTML(c.user,c.user.name)}<div class="chatmeta"><div class="chatname">${safe(c.user.name||c.user.email||"Chat")}</div><div class="preview">${safe(c.lastMessage||c.user.email||"Start a conversation")}</div></div>`;b.onclick=()=>openChat(c);$("chatList").appendChild(b)})}
+$("searchChats").oninput=renderChatList;
+function chatId(a,b){return[a,b].sort().join("_")}
+async function openNewChat(){showModal("Start a chat",`<p class="muted">Enter the email address of a registered ChatWave user.</p><form id="newChatForm"><div class="field"><label>Email address</label><input id="newChatEmail" type="email" required placeholder="friend@example.com"></div><button class="btn" style="width:100%">Find user</button></form><div id="newChatResult"></div>`);
+$("newChatForm").onsubmit=async e=>{e.preventDefault();const email=$("newChatEmail").value.trim().toLowerCase(),result=$("newChatResult");result.textContent="Searching…";try{const q=query(collection(db,"users"),where("email","==",email),limit(1));const s=await getDocs(q);if(s.empty){result.textContent="No registered user found with that email.";return}const u=s.docs[0].data();if(u.uid===currentUser.uid){result.textContent="That is your own email address.";return}const id=chatId(currentUser.uid,u.uid);await setDoc(doc(db,"chats",id),{members:[currentUser.uid,u.uid],updatedAt:serverTimestamp()},{merge:true});closeModal();const found={id,other:u.uid,user:u,members:[currentUser.uid,u.uid]};openChat(found)}catch(err){result.textContent=friendlyError(err)}}}
+function typingPath(chatIdValue, uid){return rtdbRef(realtimeDb, `typing/${chatIdValue}/${uid}`)}
+async function stopMyTyping(chatIdValue=typingChatId){
+ if(typingTimer){clearTimeout(typingTimer);typingTimer=null}
+ if(!currentUser||!chatIdValue)return;
+ try{await rtdbRemove(typingPath(chatIdValue,currentUser.uid))}catch(e){console.warn("Could not clear typing state:",e)}
 }
-
-async function stopPresenceTracking() {
-  if (connectionUnsubscribe) {
-    connectionUnsubscribe();
-    connectionUnsubscribe = null;
-  }
-
-  for (const unsubscribe of presenceUnsubscribers.values()) {
-    unsubscribe();
-  }
-
-  presenceUnsubscribers.clear();
-  presenceCache.clear();
-
-  try {
-    if (currentUser) {
-      await dbSet(
-        dbRef(realtimeDB, "status/" + currentUser.uid),
-        {
-          state:"offline",
-          last_changed:dbTimestamp()
-        }
-      );
-    }
-
-    if (myDisconnectHandler) {
-      await myDisconnectHandler.cancel();
-      myDisconnectHandler = null;
-    }
-  } catch (error) {
-    console.warn("Could not update offline status:", error);
-  }
+async function markTyping(){
+ if(!currentUser||!activeChat||activeView!=="chats")return;
+ const chatIdValue=activeChat.id;
+ try{
+   const myRef=typingPath(chatIdValue,currentUser.uid);
+   await rtdbSet(myRef,{isTyping:true,name:profile.name||currentUser.displayName||"Someone",updatedAt:Date.now()});
+   await onDisconnect(myRef).remove();
+   typingChatId=chatIdValue;
+   if(typingTimer)clearTimeout(typingTimer);
+   typingTimer=setTimeout(()=>{if(typingChatId===chatIdValue)stopMyTyping(chatIdValue)},2200);
+ }catch(e){console.warn("Typing indicator update failed:",e);}
 }
-
-/* Delivery and read receipts */
-
-async function markDelivered(message) {
-  if (
-    !currentUser ||
-    message.receiverId !== currentUser.uid ||
-    message.deliveredAt ||
-    deliveryMarkingIds.has(message.id)
-  ) return;
-
-  deliveryMarkingIds.add(message.id);
-
-  try {
-    await updateDoc(doc(db, "messages", message.id), {
-      deliveredAt: serverTimestamp()
-    });
-  } catch (error) {
-    console.warn("Could not mark message delivered:", error);
-  } finally {
-    deliveryMarkingIds.delete(message.id);
-  }
+async function subscribeTyping(chat){
+ try{await rtdbSet(rtdbRef(realtimeDb,`chatMembers/${chat.id}/${currentUser.uid}`),true)}catch(e){console.warn("Could not register chat membership for typing:",e)}
+ if(stopTyping){stopTyping();stopTyping=null}
+ if(typingTimer){clearTimeout(typingTimer);typingTimer=null}
+ typingChatId=chat.id;
+ const typingRoot=rtdbRef(realtimeDb,`typing/${chat.id}`);
+ stopTyping=onValue(typingRoot,snap=>{
+   const now=Date.now();let otherTyping=false;
+   snap.forEach(child=>{const v=child.val();if(child.key!==currentUser?.uid&&v?.isTyping&&now-(v.updatedAt||0)<6000)otherTyping=true});
+   const el=$("typingIndicator");
+   if(el){el.innerHTML=otherTyping?`${safe(chat.user.name||"They")} is typing<span class="typing-dots" aria-label="typing"><i></i><i></i><i></i></span>`:"";el.setAttribute("aria-live","polite")}
+ },err=>{console.warn("Typing listener failed:",err)});
 }
-
-async function markRead(message) {
-  if (
-    !currentUser ||
-    !activePerson ||
-    message.receiverId !== currentUser.uid ||
-    message.senderId !== activePerson.id ||
-    message.readAt ||
-    readMarkingIds.has(message.id)
-  ) return;
-
-  readMarkingIds.add(message.id);
-
-  try {
-    const updates = {readAt:serverTimestamp()};
-
-    if (!message.deliveredAt) {
-      updates.deliveredAt = serverTimestamp();
-    }
-
-    await updateDoc(doc(db, "messages", message.id), updates);
-  } catch (error) {
-    console.warn("Could not mark message read:", error);
-  } finally {
-    readMarkingIds.delete(message.id);
-  }
+function subscribePeerPresence(chat){
+ const elId="chatPresence";const peerRef=rtdbRef(realtimeDb,`status/${chat.other}`);
+ onValue(peerRef,snap=>{const el=$(elId);if(!el)return;const v=snap.val();if(v?.state==="online"){el.textContent="Online";return}const ts=v?.lastChanged;const date=typeof ts==="number"?new Date(ts):null;el.textContent=date?`Last seen ${date.toLocaleString([], {dateStyle:"short",timeStyle:"short"})}`:"Offline"},()=>{});
 }
-
-function startDeliveryListener() {
-  if (!currentUser) return;
-
-  if (deliveryUnsubscribe) deliveryUnsubscribe();
-
-  const incoming = query(
-    collection(db, "messages"),
-    where("receiverId", "==", currentUser.uid)
-  );
-
-  deliveryUnsubscribe = onSnapshot(
-    incoming,
-    snapshot => {
-      snapshot.docChanges().forEach(change => {
-        if (change.type === "added" || change.type === "modified") {
-          const message = {
-            id:change.doc.id,
-            ...change.doc.data()
-          };
-
-          if (!message.deliveredAt) markDelivered(message);
-        }
-      });
-    },
-    error => console.warn("Delivery listener error:", error)
-  );
+function openChat(chat){if(activeChat&&activeChat.id!==chat.id)stopMyTyping(activeChat.id);activeChat=chat;activeView="chats";$("composer").classList.remove("hidden");$("mainHeader").innerHTML=`<div style="display:flex;align-items:center;gap:12px">${avatarHTML(chat.user,chat.user.name)}<div><h2>${safe(chat.user.name||"ChatWave user")}</h2><div class="sub" id="chatPresence">${safe(formatLastSeen(chat.user))}</div></div></div><button class="iconbtn" id="chatInfoBtn" title="Conversation info">ⓘ</button>`;$("chatInfoBtn").onclick=()=>showModal("Conversation details",`<div class="setting-row"><div><b>${safe(chat.user.name||"ChatWave user")}</b><small>${safe(chat.user.email||"")}</small></div></div><p class="muted">Messages are saved in your ChatWave conversation. Voice and video calling are not available yet.</p><button class="btn secondary" id="closeChatInfo" style="width:100%">Close</button>`);setTimeout(()=>{const b=$("closeChatInfo");if(b)b.onclick=closeModal},0);if(stopMessages)stopMessages();const q=query(collection(db,"chats",chat.id,"messages"),orderBy("createdAt","asc"));stopMessages=onSnapshot(q,s=>{cachedMessages=s.docs.map(d=>({id:d.id,...d.data()}));renderMessages()},err=>toast(friendlyError(err)));subscribeTyping(chat);subscribePeerPresence(chat);markConversationRead(chat.id);renderChatList()}
+function renderMessages(){
+ $("mainContent").innerHTML='<div id="messages" class="messages"></div><div id="typingIndicator" class="typing-indicator" aria-live="polite"></div>';
+ const box=$("messages");
+ cachedMessages.forEach(m=>{
+   if((m.deletedFor||[]).includes(currentUser.uid)) return;
+   const d=document.createElement("div");
+   d.className="bubble"+(m.senderId===currentUser.uid?" mine":"");
+   const gone=!!m.deletedForEveryone;
+   d.innerHTML=`${m.replyText?`<div class="reply-quote">↪ ${safe(m.replyText)}</div>`:""}${m.imageURL?`<a href="${safe(m.imageURL)}" target="_blank" rel="noopener"><img src="${safe(m.imageURL)}" alt="Message attachment" style="display:block;max-width:min(100%,320px);max-height:320px;border-radius:12px;margin:5px 0;object-fit:contain"></a>`:""}<div class="message-text ${gone?"deleted-message":""}">${gone?"This message was deleted":safe(m.text||"")}</div><time>${timeLabel(m.createdAt)}${m.senderId===currentUser.uid?(m.readBy?.length?" · Seen":" · Sent"):""}</time>`;
+   if(!gone){
+     const actions=document.createElement("div");actions.className="bubble-actions";
+     const mine=m.senderId===currentUser.uid;
+     const localBtn=document.createElement("button");localBtn.className="bubble-action";localBtn.type="button";localBtn.textContent="Delete for me";
+     localBtn.onclick=()=>deleteMessageForMe(m);
+     actions.appendChild(localBtn);
+     const replyBtn=document.createElement("button");replyBtn.className="bubble-action";replyBtn.type="button";replyBtn.textContent="Reply";replyBtn.onclick=()=>setReply(m);actions.appendChild(replyBtn);
+     if(mine){const everyoneBtn=document.createElement("button");everyoneBtn.className="bubble-action danger";everyoneBtn.type="button";everyoneBtn.textContent="Delete for everyone";everyoneBtn.onclick=()=>deleteMessageForEveryone(m);actions.appendChild(everyoneBtn)}
+     d.appendChild(actions);
+   }
+   box.appendChild(d);
+ });
+ if(activeChat)markConversationRead(activeChat.id);
+ requestAnimationFrame(()=>{const last=box.lastElementChild;if(last)last.scrollIntoView({block:"end",behavior:"smooth"});else box.scrollTop=box.scrollHeight});
 }
-
-function receiptMarkup(message) {
-  if (message.senderId !== currentUser.uid) return "";
-
-  if (message.readAt) {
-    return '<span class="receipt read" title="Read">✓✓ Read</span>';
-  }
-
-  if (message.deliveredAt) {
-    return '<span class="receipt delivered" title="Delivered">✓✓ Delivered</span>';
-  }
-
-  return '<span class="receipt" title="Sent">✓ Sent</span>';
+function setReply(message){replyingTo=message;const bar=$("replyBar");bar.classList.remove("hidden");bar.innerHTML=`Replying to: ${safe((message.text||"Photo attachment").slice(0,100))}<button type="button" id="cancelReply">✕</button>`;$("cancelReply").onclick=()=>{replyingTo=null;bar.classList.add("hidden");bar.innerHTML=""};$("messageInput").focus()}
+async function deleteMessageForMe(message){
+ if(!currentUser||!activeChat)return;
+ if(!confirm("Delete this message from your view? Other participants will still see it."))return;
+ try{await updateDoc(doc(db,"chats",activeChat.id,"messages",message.id),{deletedFor:arrayUnion(currentUser.uid)});toast("Message deleted for you.")}
+ catch(err){toast(friendlyError(err))}
 }
-
-/* App startup and authentication */
-
-async function openApp(user, profile) {
-  currentUser = user;
-
-  showApp();
-
-  $("myName").textContent = profile?.name || user.email || "ChatWave User";
-  $("myEmail").textContent = user.email || "";
-  $("myAvatar").textContent = initials(profile?.name || user.email || "U");
-
-  resetChat();
-  startPresenceTracking();
-  await loadPeople();
-  startDeliveryListener();
+async function deleteMessageForEveryone(message){
+ if(!currentUser||!activeChat)return;
+ if(message.senderId!==currentUser.uid){toast("You can only delete your own message for everyone.");return}
+ if(!confirm("Delete this message for everyone in the conversation? This cannot be undone."))return;
+ try{await updateDoc(doc(db,"chats",activeChat.id,"messages",message.id),{text:"",deletedForEveryone:true,deletedAt:serverTimestamp()});toast("Message deleted for everyone.")}
+ catch(err){toast(friendlyError(err))}
 }
-
-onAuthStateChanged(auth, async user => {
-  if (!user) {
-    await stopPresenceTracking();
-    currentUser = null;
-    stopListeners();
-    showAuth();
-    return;
-  }
-
-  if (authBusy) return;
-
-  try {
-    const profile = await getDoc(doc(db, "users", user.uid));
-
-    if (profile.exists() && profile.data().emailVerifiedApp === true) {
-      if (currentUser?.uid !== user.uid) {
-        await openApp(user, profile.data());
-      }
-    } else {
-      await signOut(auth);
-      showAuth();
-    }
-  } catch (error) {
-    console.error(error);
-    authMessage(
-      "Could not check your account. Check your internet and Firestore rules.",
-      true
-    );
-  }
-});
-
-$("logoutBtn").addEventListener("click", async () => {
-  $("logoutBtn").disabled = true;
-
-  try {
-    await stopPresenceTracking();
-    stopListeners();
-    await signOut(auth);
-    currentUser = null;
-    resetChat();
-    setAuthMode(false);
-    showAuth();
-  } catch (error) {
-    notice(friendlyError(error));
-  } finally {
-    $("logoutBtn").disabled = false;
-  }
-});
-
-$("themeBtn").addEventListener("click", () => {
-  document.body.classList.toggle("light");
-  localStorage.setItem(
-    "chatwaveTheme",
-    document.body.classList.contains("light") ? "light" : "dark"
-  );
-});
-
-if (localStorage.getItem("chatwaveTheme") === "light") {
-  document.body.classList.add("light");
-}
-
-/* People */
-
-async function loadPeople() {
-  if (!currentUser) return;
-
-  try {
-    if (peopleUnsubscribe) peopleUnsubscribe();
-
-    peopleUnsubscribe = onSnapshot(
-      query(collection(db, "users")),
-      snapshot => {
-        allPeople = snapshot.docs
-          .map(item => ({id:item.id, ...item.data()}))
-          .filter(person =>
-            person.id !== currentUser.uid &&
-            person.emailVerifiedApp === true
-          );
-
-        syncPresenceListeners();
-        renderPeople();
-      },
-      error => {
-        console.error(error);
-        $("peopleList").innerHTML =
-          '<div class="empty-state">Could not load people. Check Firestore rules.</div>';
-      }
-    );
-  } catch (error) {
-    notice(friendlyError(error));
-  }
-}
-
-function renderPeople() {
-  const search = $("peopleSearch").value.trim().toLowerCase();
-
-  const filtered = allPeople.filter(person =>
-    (person.name || "").toLowerCase().includes(search) ||
-    (person.email || "").toLowerCase().includes(search)
-  );
-
-  if (!filtered.length) {
-    $("peopleList").innerHTML =
-      '<div class="empty-state">No people found yet.</div>';
-    return;
-  }
-
-  $("peopleList").innerHTML = filtered.map(person => {
-    const status = presenceCache.get(person.id);
-    const online = status?.state === "online";
-
-    return `
-      <button class="person ${
-        activePerson?.id === person.id ? "active" : ""
-      }" data-person="${escapeHTML(person.id)}">
-
-        <div class="avatar">
-          ${escapeHTML(initials(person.name || person.email))}
-        </div>
-
-        <div class="person-info">
-          <div class="person-name">
-            ${escapeHTML(person.name || "ChatWave User")}
-            ${online
-              ? '<span class="online-dot" aria-label="Online"></span>'
-              : ""}
-          </div>
-
-          <div class="status-line ${online ? "online" : ""}">
-            ${escapeHTML(presenceLabel(person.id))}
-          </div>
-
-          <div class="person-email">
-            ${escapeHTML(person.email || "")}
-          </div>
-        </div>
-      </button>
-    `;
-  }).join("");
-}
-
-$("peopleList").addEventListener("click", event => {
-  const button = event.target.closest("[data-person]");
-  if (!button) return;
-
-  const person = allPeople.find(item => item.id === button.dataset.person);
-  if (person) openConversation(person);
-});
-
-$("peopleSearch").addEventListener("input", renderPeople);
-$("refreshPeople").addEventListener("click", loadPeople);
-$("mobileBack").addEventListener("click", () => {
-  document.body.classList.remove("chat-open");
-});
-
-/* Messages */
-
-function openConversation(person) {
-  if (!currentUser) return;
-
-  messageUnsubscribers.forEach(fn => fn());
-  messageUnsubscribers = [];
-
-  activePerson = person;
-  messagesCache = [];
-  replyTarget = null;
-  editingMessageId = null;
-  selectedImage = null;
-
-  renderSelectedImage();
-  renderReplyBar();
-
-  $("chatName").textContent = person.name || "ChatWave User";
-  $("chatEmail").textContent = presenceLabel(person.id);
-  $("chatAvatar").textContent = initials(person.name || person.email);
-  $("messageInput").disabled = false;
-  $("sendBtn").disabled = false;
-  $("messageInput").placeholder = "Message " + (person.name || "this person") + "…";
-
-  $("peopleList").querySelectorAll(".person").forEach(button => {
-    button.classList.toggle("active", button.dataset.person === person.id);
-  });
-
-  document.body.classList.add("chat-open");
-  $("messages").innerHTML = '<div class="empty-state">Loading messages…</div>';
-
-  const base = collection(db, "messages");
-  const receiveQuery = query(
-    base,
-    where("receiverId", "==", currentUser.uid)
-  );
-  const sendQuery = query(
-    base,
-    where("senderId", "==", currentUser.uid)
-  );
-
-  const refresh = () => {
-    if (!activePerson || activePerson.id !== person.id) return;
-
-    const relevant = messagesCache.filter(message =>
-      (
-        (message.senderId === currentUser.uid && message.receiverId === person.id) ||
-        (message.senderId === person.id && message.receiverId === currentUser.uid)
-      ) &&
-      !(Array.isArray(message.hiddenFor) &&
-        message.hiddenFor.includes(currentUser.uid))
-    ).sort((a, b) => dateSortValue(a) - dateSortValue(b));
-
-    renderMessages(relevant);
-
-    relevant.forEach(message => {
-      if (
-        message.receiverId === currentUser.uid &&
-        message.senderId === person.id
-      ) {
-        if (!message.deliveredAt) markDelivered(message);
-        if (!message.readAt) markRead(message);
-      }
-    });
-  };
-
-  const receiveUnsub = onSnapshot(
-    receiveQuery,
-    snapshot => {
-      const received = snapshot.docs.map(item => ({
-        id:item.id,
-        ...item.data()
-      }));
-
-      const sent = messagesCache.filter(item =>
-        item.senderId === currentUser.uid
-      );
-
-      messagesCache = [
-        ...sent,
-        ...received.filter(item => !sent.some(s => s.id === item.id))
-      ];
-
-      refresh();
-    },
-    error => {
-      console.error(error);
-      notice("Could not load received messages. Check Firestore rules.");
-    }
-  );
-
-  const sendUnsub = onSnapshot(
-    sendQuery,
-    snapshot => {
-      const sent = snapshot.docs.map(item => ({
-        id:item.id,
-        ...item.data()
-      }));
-
-      const received = messagesCache.filter(item =>
-        item.receiverId === currentUser.uid
-      );
-
-      messagesCache = [
-        ...received,
-        ...sent.filter(item => !received.some(r => r.id === item.id))
-      ];
-
-      refresh();
-    },
-    error => {
-      console.error(error);
-      notice("Could not load sent messages. Check Firestore rules.");
-    }
-  );
-
-  messageUnsubscribers = [receiveUnsub, sendUnsub];
-}
-
-function renderMessages(messages) {
-  const container = $("messages");
-
-  if (!messages.length) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div style="font-size:36px">👋</div>
-        <h3>Say hello!</h3>
-        <p>Your messages will appear here.</p>
-      </div>`;
-    return;
-  }
-
-  container.innerHTML = messages.map(message => {
-    const mine = message.senderId === currentUser.uid;
-    const deleted = message.deletedForEveryone === true;
-
-    const reply = message.replyText
-      ? `<div class="reply-preview">${escapeHTML(message.replyText)}</div>`
-      : "";
-
-    let content = deleted
-      ? "<i>This message was deleted</i>"
-      : escapeHTML(message.text || "");
-
-    if (!deleted && message.localImageId) {
-      content =
-        `<div class="local-image" data-image-id="${escapeHTML(message.localImageId)}">Loading local image…</div>` +
-        content;
-    }
-
-    const editLabel = message.edited ? " · edited" : "";
-
-    const actions = deleted ? "" : `
-      <div class="msg-actions">
-        <button data-action="reply" data-id="${escapeHTML(message.id)}">Reply</button>
-        ${
-          mine && message.text
-            ? `<button data-action="edit" data-id="${escapeHTML(message.id)}">Edit</button>`
-            : ""
-        }
-        <button class="delete-action" data-action="delete-me" data-id="${escapeHTML(message.id)}">Delete for me</button>
-        ${
-          mine
-            ? `<button class="delete-action" data-action="delete-everyone" data-id="${escapeHTML(message.id)}">Delete for everyone</button>`
-            : ""
-        }
-      </div>`;
-
-    return `
-      <div class="message-row ${mine ? "mine" : ""}" data-message="${escapeHTML(message.id)}">
-        <div class="bubble">${reply}${content}</div>
-        <div class="msg-meta">
-          <span>
-            ${mine ? "You" : escapeHTML(activePerson?.name || "User")}
-            · ${escapeHTML(timeText(message.createdAt))}${editLabel}
-          </span>
-          ${receiptMarkup(message)}
-        </div>
-        ${actions}
-      </div>`;
-  }).join("");
-
-  container.querySelectorAll("[data-image-id]").forEach(async el => {
-    try {
-      const record = await getLocalImage(el.dataset.imageId);
-
-      if (!record) {
-        el.textContent = "Image is saved on the device where it was uploaded.";
-        return;
-      }
-
-      const url = URL.createObjectURL(record.blob);
-      const img = document.createElement("img");
-
-      img.src = url;
-      img.alt = "Message attachment";
-      img.onload = () => URL.revokeObjectURL(url);
-      el.replaceChildren(img);
-    } catch {
-      el.textContent = "This local image is unavailable.";
-    }
-  });
-
-  container.scrollTop = container.scrollHeight;
-}
-
-$("messages").addEventListener("click", async event => {
-  const button = event.target.closest("[data-action]");
-  if (!button || !activePerson || !currentUser) return;
-
-  const message = messagesCache.find(item => item.id === button.dataset.id);
-  if (!message) return;
-
-  button.disabled = true;
-
-  try {
-    if (button.dataset.action === "reply") {
-      replyTarget = {
-        id:message.id,
-        text:message.text || "Image"
-      };
-      renderReplyBar();
-      $("messageInput").focus();
-    } else if (button.dataset.action === "edit") {
-      if (message.senderId !== currentUser.uid) {
-        notice("You can only edit your own messages.");
-        return;
-      }
-
-      editingMessageId = message.id;
-      $("messageInput").value = message.text || "";
-      $("sendBtn").textContent = "Save";
-      $("messageInput").focus();
-      notice("Edit your message, then tap Save.");
-    } else if (button.dataset.action === "delete-me") {
-      if (!confirm("Hide this message from your account? The other person will still see it.")) {
-        return;
-      }
-
-      await updateDoc(doc(db, "messages", message.id), {
-        hiddenFor:arrayUnion(currentUser.uid)
-      });
-
-      notice("Message deleted for you.");
-    } else if (button.dataset.action === "delete-everyone") {
-      if (message.senderId !== currentUser.uid) {
-        notice("You can only delete your own message for everyone.");
-        return;
-      }
-
-      if (!confirm("Delete this message for everyone? This cannot be undone.")) {
-        return;
-      }
-
-      await updateDoc(doc(db, "messages", message.id), {
-        text:"",
-        deletedForEveryone:true,
-        edited:false
-      });
-
-      notice("Message deleted for everyone.");
-    }
-  } catch (error) {
-    console.error("Message action error:", error);
-    notice(friendlyError(error));
-  } finally {
-    button.disabled = false;
-  }
-});
-
-/* Send and edit messages */
-
-async function sendMessage() {
-  if (!currentUser || !activePerson) {
-    notice("Choose a person first.");
-    return;
-  }
-
-  const text = $("messageInput").value.trim();
-
-  if (!text && !selectedImage && !editingMessageId) return;
-
-  const target = activePerson;
-  $("sendBtn").disabled = true;
-
-  try {
-    if (editingMessageId) {
-      const message = messagesCache.find(item => item.id === editingMessageId);
-
-      if (!message || message.senderId !== currentUser.uid) {
-        throw new Error("You cannot edit this message.");
-      }
-
-      await updateDoc(doc(db, "messages", editingMessageId), {
-        text,
-        edited:true
-      });
-
-      editingMessageId = null;
-      $("sendBtn").textContent = "Send";
-    } else {
-      let localImageId = null;
-
-      if (selectedImage) {
-        localImageId = await saveLocalImage(selectedImage.file);
-      }
-
-      await addDoc(collection(db, "messages"), {
-        senderId:currentUser.uid,
-        receiverId:target.id,
-        text,
-        localImageId,
-        replyTo:replyTarget?.id || null,
-        replyText:replyTarget?.text || null,
-        deletedForEveryone:false,
-        hiddenFor:[],
-        edited:false,
-        deliveredAt:null,
-        readAt:null,
-        createdAt:serverTimestamp()
-      });
-    }
-
-    $("messageInput").value = "";
-    $("messageInput").style.height = "auto";
-
-    if (selectedImage?.preview) {
-      URL.revokeObjectURL(selectedImage.preview);
-    }
-
-    selectedImage = null;
-    $("imageInput").value = "";
-    replyTarget = null;
-
-    renderSelectedImage();
-    renderReplyBar();
-  } catch (error) {
-    console.error(error);
-    notice(friendlyError(error));
-  } finally {
-    $("sendBtn").disabled = false;
-  }
-}
-
-$("sendBtn").addEventListener("click", sendMessage);
-
-$("messageInput").addEventListener("keydown", event => {
-  if (event.key === "Enter" && !event.shiftKey) {
-    event.preventDefault();
-    sendMessage();
-  }
-});
-
-$("messageInput").addEventListener("input", () => {
-  const field = $("messageInput");
-  field.style.height = "auto";
-  field.style.height = Math.min(field.scrollHeight, 130) + "px";
-});
-
-$("cancelReply").addEventListener("click", () => {
-  replyTarget = null;
-  renderReplyBar();
-});
-
-$("attachBtn").addEventListener("click", () => $("imageInput").click());
-
-$("imageInput").addEventListener("change", event => {
-  const file = event.target.files?.[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    notice("Please choose an image.");
-    event.target.value = "";
-    return;
-  }
-
-  if (file.size > 4 * 1024 * 1024) {
-    notice("Image must be smaller than 4 MB.");
-    event.target.value = "";
-    return;
-  }
-
-  if (selectedImage?.preview) {
-    URL.revokeObjectURL(selectedImage.preview);
-  }
-
-  selectedImage = {
-    file,
-    preview:URL.createObjectURL(file)
-  };
-
-  renderSelectedImage();
-});
-
-$("removeImage").addEventListener("click", () => {
-  if (selectedImage?.preview) {
-    URL.revokeObjectURL(selectedImage.preview);
-  }
-
-  selectedImage = null;
-  $("imageInput").value = "";
-  renderSelectedImage();
-});
-
-/* Startup */
-
-try {
-  await setPersistence(auth, browserLocalPersistence);
-} catch (error) {
-  console.warn("Could not set auth persistence:", error);
-}
-
-setAuthMode(false);
+$("messageInput").addEventListener("input",()=>{if($("messageInput").value.trim())markTyping();else stopMyTyping(activeChat?.id)});
+$("composer").onsubmit=async e=>{e.preventDefault();const text=$("messageInput").value.trim(),file=$("messageImage").files[0];if((!text&&!file)||!activeChat)return;const sendingChatId=activeChat.id;$("messageInput").value="";await stopMyTyping(sendingChatId);try{let imageURL="";if(file){if(file.size>10*1024*1024)throw new Error("Choose an image smaller than 10 MB.");if(!file.type.startsWith("image/"))throw new Error("Only image attachments are supported.");const path=ref(storage,`messageMedia/${sendingChatId}/${currentUser.uid}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,"_")}`);await uploadBytes(path,file);imageURL=await getDownloadURL(path)}await addDoc(collection(db,"chats",sendingChatId,"messages"),{text,senderId:currentUser.uid,createdAt:serverTimestamp(),...(imageURL?{imageURL}:{}),...(replyingTo?{replyTo:replyingTo.id,replyText:(replyingTo.text||"Photo attachment").slice(0,150)}:{})});await setDoc(doc(db,"chats",sendingChatId),{lastMessage:(text||"📷 Photo").slice(0,120),updatedAt:serverTimestamp()},{merge:true});replyingTo=null;$("replyBar").classList.add("hidden");$("replyBar").innerHTML="";$("messageImage").value=""}catch(err){toast(friendlyError(err))}};
+
+function renderView(view){if(view!=="chats"&&activeChat)stopMyTyping(activeChat.id);activeView=view;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));$("composer").classList.add("hidden");if(stopMessages){stopMessages();stopMessages=null}if(view==="chats"){if(activeChat){openChat(activeChat)}else{$("mainHeader").innerHTML="<div><h2>Messages</h2><div class='sub'>Choose a conversation or start a new one</div></div>";$("mainContent").innerHTML='<div class="empty"><div><div class="big">✦</div><strong>Your conversations, in one place</strong><p>Start a chat to connect with someone.</p><button class="btn" id="emptyStart">Start a chat</button></div></div>';$("emptyStart").onclick=openNewChat}}else if(view==="settings")renderSettings();else if(view==="status")renderStatus()}
+function renderSettings(){$("mainHeader").innerHTML="<div><h2>Settings</h2><div class='sub'>Make ChatWave feel like yours</div></div>";$("mainContent").innerHTML=`
+<h2 class="section-title">Settings</h2><p class="muted">Profile, appearance, privacy and account controls.</p>
+<div class="cards">
+<section class="card"><h3>👤 Profile</h3><div class="field"><label>Display name</label><input id="profileName" value="${safe(profile.name||currentUser.displayName||"")}"></div><div class="field"><label>About</label><textarea id="profileBio" placeholder="A little about you…">${safe(profile.bio||"")}</textarea></div><div class="field"><label>Profile picture</label><input id="profilePhoto" type="file" accept="image/*"></div><button class="btn" id="saveProfile">Save profile</button></section>
+<section class="card"><h3>🎨 Appearance</h3><div class="setting-row"><div><b>Dark appearance</b><small>Switch between light and dark glass.</small></div><input type="checkbox" id="darkMode" ${localStorage.getItem("cw_dark")==="1"?"checked":""}></div><div class="field"><label>Accent color</label><input id="accentColor" type="color" value="${safe(accent)}"></div><button class="btn secondary" id="saveAppearance">Apply appearance</button></section>
+<section class="card"><h3>🔒 Privacy</h3><div class="setting-row"><div><b>Read receipts</b><small>Local preference only; not yet enforced on messages.</small></div><input type="checkbox" id="readReceipts" ${localStorage.getItem("cw_receipts")!=="0"?"checked":""}></div><div class="setting-row"><div><b>Show online status</b><small>Local preference only; presence controls need backend rules.</small></div><input type="checkbox" id="onlineStatus" ${localStorage.getItem("cw_online")!=="0"?"checked":""}></div><div class="setting-row"><div><b>Blocked users</b><small>Blocking is not yet enforced server-side.</small></div><button class="btn secondary" id="blockInfo">Details</button></div></section>
+<section class="card"><h3>🛡️ Security</h3><div class="setting-row"><div><b>Email verification</b><small>${currentUser.emailVerified?"Your email is verified.":"Your email is not verified yet."}</small></div><button class="btn secondary" id="verifyEmail">${currentUser.emailVerified?"Verified":"Send email"}</button></div><div class="setting-row"><div><b>Password</b><small>Send a secure reset link to your email.</small></div><button class="btn secondary" id="resetPassword">Reset</button></div><p class="note">End-to-end encryption, linked devices, passkeys and two-step verification are not implemented in this prototype.</p></section>
+<section class="card"><h3>💬 Chats</h3><div class="setting-row"><div><b>Enter key to send</b><small>Use the Send button to send messages.</small></div><span>✓</span></div><div class="setting-row"><div><b>Chat history</b><small>Messages are stored in Firestore.</small></div><button class="btn secondary" id="chatInfo">Info</button></div></section>
+<section class="card"><h3>🔔 Notifications</h3><p class="muted">Browser notifications depend on device and browser permissions. Background push notifications need additional Firebase setup.</p><button class="btn secondary" id="testNotify">Test notification</button></section>
+<section class="card"><h3>🗂️ Storage & data</h3><p class="muted">Message images, profile photos and status media upload to Firebase Storage; Storage rules must allow only signed-in conversation members.</p><button class="btn secondary" id="storageInfo">Storage info</button></section>
+<section class="card"><h3>❔ Help</h3><p class="muted">If registration or messages fail, check Firebase Console → Authentication, Firestore Database, Storage, and authorized domains.</p><button class="btn secondary" id="helpInfo">Troubleshooting</button></section>
+</div>`;
+$("saveProfile").onclick=async()=>{try{const name=$("profileName").value.trim();if(!name)throw new Error("Display name cannot be empty.");let photoURL=profile.photoURL||"";const file=$("profilePhoto").files[0];if(file){if(file.size>5*1024*1024)throw new Error("Choose a profile image smaller than 5 MB.");const r=ref(storage,`profilePhotos/${currentUser.uid}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,"_")}`);await uploadBytes(r,file);photoURL=await getDownloadURL(r)}profile={...profile,name,bio:$("profileBio").value.trim(),photoURL,email:currentUser.email};await updateProfile(currentUser,{displayName:name,photoURL});await setDoc(doc(db,"users",currentUser.uid),{...profile,uid:currentUser.uid,lastSeen:serverTimestamp()},{merge:true});$("topUser").textContent=name;toast("Profile saved.")}catch(e){toast(friendlyError(e))}};
+$("saveAppearance").onclick=()=>{accent=$("accentColor").value;localStorage.setItem("cw_accent",accent);document.documentElement.style.setProperty("--accent",accent);document.body.classList.toggle("dark",$("darkMode").checked);localStorage.setItem("cw_dark",$("darkMode").checked?"1":"0");localStorage.setItem("cw_receipts",$("readReceipts").checked?"1":"0");localStorage.setItem("cw_online",$("onlineStatus").checked?"1":"0");toast("Appearance and local preferences saved.")};
+$("verifyEmail").onclick=async()=>{try{if(!currentUser.emailVerified){await sendEmailVerification(currentUser);toast("Verification email sent.")}}catch(e){toast(friendlyError(e))}};
+$("resetPassword").onclick=async()=>{try{await sendPasswordResetEmail(auth,currentUser.email);toast("Password reset email sent.")}catch(e){toast(friendlyError(e))}};
+$("blockInfo").onclick=()=>toast("Blocking needs a server-enforced blocked-users collection and security rules.");$("chatInfo").onclick=()=>toast("Messages are stored in Firestore under chats/{chatId}/messages.");$("storageInfo").onclick=()=>toast("Enable Firebase Storage and configure rules for messageMedia/{chatId}/{uid}/..., profilePhotos/{uid}/..., and statuses/{uid}/....");$("helpInfo").onclick=()=>toast("Check the browser console and Firebase Console for the exact error.");
+$("testNotify").onclick=async()=>{if(!("Notification"in window)){toast("This browser does not support notifications.");return}try{const p=await Notification.requestPermission();if(p==="granted")new Notification("ChatWave",{body:"Notifications are enabled for this browser."});else toast("Notification permission was not granted.")}catch{toast("Notifications are not available here.")}};
+if(localStorage.getItem("cw_dark")==="1")document.body.classList.add("dark")}
+function renderStatus(){if(stopStatus){stopStatus();stopStatus=null} $("mainHeader").innerHTML="<div><h2>Status</h2><div class='sub'>Share a moment that disappears after 24 hours</div></div><button class='btn' id='addStatusBtn'>＋ Add status</button>";$("mainContent").innerHTML='<div class="statusstrip" id="statusPeople"></div><h3>Recent updates</h3><div class="statusgrid" id="statusGrid"></div><p class="note">Status audience settings and automated deletion of expired media require additional backend rules/cleanup.</p>';$("addStatusBtn").onclick=openAddStatus;
+const q=query(collection(db,"statuses"),orderBy("createdAt","desc"),limit(80));stopStatus=onSnapshot(q,s=>{const now=Date.now(),items=s.docs.map(d=>({id:d.id,...d.data()})).filter(x=>!x.expiresAt?.toDate||x.expiresAt.toDate().getTime()>now);const mine=items.filter(x=>x.uid===currentUser.uid);$("statusPeople").innerHTML=`<button class="statusperson" id="ownStatus">${avatarHTML(profile,profile.name||"You")}<small>Your status</small></button>`;$("ownStatus").onclick=openAddStatus;$("statusGrid").innerHTML="";if(!items.length){$("statusGrid").innerHTML='<p class="muted">No recent updates. Be the first to share one.</p>';return}items.forEach(st=>{const card=document.createElement("div");card.className="statuscard";const media=st.mediaURL?`<img class="statusmedia" src="${safe(st.mediaURL)}" alt="Status media">`:"";card.innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">${avatarHTML({photoURL:st.photoURL},st.name)}<div><b>${safe(st.name||"ChatWave user")}</b><div class="sub">${st.createdAt?.toDate?st.createdAt.toDate().toLocaleString():"Just now"}</div></div></div>${media}<p>${safe(st.text||"")}</p><div style="display:flex;gap:8px;flex-wrap:wrap">${st.uid===currentUser.uid?'<button class="btn secondary deleteStatus">Delete</button>':'<button class="btn secondary replyStatus">Reply</button>'}</div>`;card.querySelector(".deleteStatus")?.addEventListener("click",async()=>{if(!confirm("Delete this status?"))return;try{await deleteDoc(doc(db,"statuses",st.id));if(st.mediaURL){try{const u=new URL(st.mediaURL);const match=u.pathname.match(/\/o\/(.+)$/);if(match)await deleteObject(ref(storage,decodeURIComponent(match[1])))}catch(err){console.warn("Status removed; media cleanup may need Storage rules.",err)}}toast("Status deleted.")}catch(err){toast(friendlyError(err))}});card.querySelector(".replyStatus")?.addEventListener("click",()=>startReply(st));$("statusGrid").appendChild(card)})},err=>toast(friendlyError(err)))}
+function openAddStatus(){showModal("Add a status",`<form id="statusForm"><div class="field"><label>Text</label><textarea id="statusText" maxlength="500" placeholder="What's happening?"></textarea></div><div class="field"><label>Photo or video (optional, max 20 MB)</label><input id="statusFile" type="file" accept="image/*,video/*"></div><button class="btn" style="width:100%">Post status</button></form>`);$("statusForm").onsubmit=async e=>{e.preventDefault();const text=$("statusText").value.trim(),file=$("statusFile").files[0];if(!text&&!file){toast("Write something or choose media.");return}try{let mediaURL="",mediaType="";if(file){if(file.size>20*1024*1024)throw new Error("Choose media smaller than 20 MB.");mediaType=file.type.startsWith("video/")?"video":"image";const r=ref(storage,`statuses/${currentUser.uid}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,"_")}`);await uploadBytes(r,file);mediaURL=await getDownloadURL(r)}await addDoc(collection(db,"statuses"),{uid:currentUser.uid,name:profile.name||currentUser.displayName||"User",photoURL:profile.photoURL||"",text,mediaURL,mediaType,createdAt:serverTimestamp(),expiresAt:new Date(Date.now()+24*60*60*1000)});closeModal();toast("Status posted.")}catch(err){toast(friendlyError(err))}}}
+async function startReply(st){try{const uSnap=await getDoc(doc(db,"users",st.uid));if(!uSnap.exists()){toast("This user profile is no longer available.");return}const u=uSnap.data();const id=chatId(currentUser.uid,st.uid);await setDoc(doc(db,"chats",id),{members:[currentUser.uid,st.uid],updatedAt:serverTimestamp()},{merge:true});const chat=cachedChats.find(c=>c.id===id)||{id,other:st.uid,user:u,members:[currentUser.uid,st.uid]};closeModal();openChat(chat);$("messageInput").value="";$("messageInput").focus();toast("Chat opened. Write your reply below.")}catch(err){toast(friendlyError(err))}}
+function showModal(title,body){$("modalTitle").textContent=title;$("modalBody").innerHTML=body;$("modal").classList.remove("hidden")}
+function closeModal(){$("modal").classList.add("hidden");$("modalBody").innerHTML=""}
+$("modalClose").onclick=closeModal;$("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
+// Browser back: dismiss an open dialog first, otherwise return to the chats view.
+let backStatePushed=false;function pushChatWaveHistory(){if(!backStatePushed){history.pushState({chatwave:true},"");backStatePushed=true}}pushChatWaveHistory();window.addEventListener("popstate",()=>{backStatePushed=false;if(!$("modal").classList.contains("hidden")){closeModal()}else if(activeView!=="chats"){renderView("chats")}pushChatWaveHistory()});
 </script>
 </body>
 </html>
