@@ -26,6 +26,29 @@ body.dark .search,body.dark .chatitem:hover,body.dark .chatitem.active,body.dark
 @media(max-width:820px){body{background:#08090a}.app{padding:0 0 calc(12px + env(safe-area-inset-bottom));max-width:none}.topbar{margin:0;padding:12px 16px;border-radius:0 0 20px 20px;border-top:0;border-left:0;border-right:0}.layout{display:flex;flex-direction:column;gap:8px;min-height:0}.sidebar{border-radius:0;border-left:0;border-right:0;padding:17px 16px 8px;gap:13px}.side-title{font-size:29px}.chatlist{max-height:none;overflow:visible}.chatitem{padding:14px 2px;min-height:78px}.avatar{width:55px;height:55px}.chatname{font-size:15px}.preview{font-size:12px}.main{margin:0 9px;border-radius:22px;min-height:54vh}.content{padding:14px}.panelhead{padding:14px 16px}.cards{grid-template-columns:1fr}.footer-note{display:none}.nav{order:3}.search{order:2}.side-title{order:1}.chatlist{order:4}.bubble{max-width:88%}.composer{padding:11px}.main:has(.empty){min-height:210px}}
 @media(max-width:440px){.top-actions{gap:7px}.top-actions .iconbtn{width:43px;height:43px}.brand{font-size:20px}.app{padding-bottom:env(safe-area-inset-bottom)}.sidebar{padding-top:14px}.chatitem:after{left:68px}.authcard{border-radius:24px}}
 
+
+/* ChatWave email-first sign-in screen */
+#authView{min-height:100dvh;min-height:100vh;display:flex;align-items:stretch;justify-content:center;padding:0;background:#08090a;color:#f7f7f8}
+#authView .authcard{position:relative;width:100%;max-width:560px;min-height:100dvh;min-height:100vh;padding:clamp(28px,6vh,62px) clamp(22px,5vw,36px) 34px;border:0!important;border-radius:0!important;background:#08090a!important;box-shadow:none!important;display:flex;flex-direction:column;backdrop-filter:none;-webkit-backdrop-filter:none}
+#authView .brand{font-size:21px;color:#f7f7f8;gap:10px}
+#authView .logo{width:38px;height:38px;border-radius:13px}
+#authView h1{margin:44px 0 12px;text-align:center;font-size:clamp(25px,6vw,31px);line-height:1.2;letter-spacing:-.7px;color:#f8f8f8}
+#authView #authSubtitle{text-align:center;margin:16px 0 42px;color:#c4c5c8;font-size:16px;line-height:1.5}
+#authView .authswitch{display:flex;gap:8px;margin:0 0 24px;padding:5px;border-radius:18px;background:#17181a;border:1px solid #2b2c2f}
+#authView .authswitch button{min-height:44px;border-radius:14px;background:transparent;color:#c5c6c9;border:1px solid transparent}
+#authView .authswitch button.active{background:#21d17c;color:#062214}
+#authView #authForm{display:flex;flex-direction:column;gap:14px}
+#authView .field{margin:0;gap:0}
+#authView .field label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#authView .field input{height:60px;padding:0 20px;border-radius:17px!important;background:#242527!important;border:1px solid #242527!important;color:#fff!important;font-size:17px;box-shadow:none!important}
+#authView .field input::placeholder{color:#999a9e}
+#authView .field input:focus{border-color:#21d17c!important;box-shadow:0 0 0 2px #21d17c30!important}
+#authView #authSubmit{margin-top:auto;min-height:58px;border-radius:18px;background:#21d17c;color:#062214;font-size:17px;font-weight:750}
+#authView #authSubmit:disabled{opacity:.65}
+#authView #forgotBtn{margin-top:10px!important;color:#e6e7e8;background:transparent;border:1px solid #303135;border-radius:16px;min-height:48px}
+#authView .note{margin-top:12px;text-align:center;color:#b7b8bc;font-size:13px}
+@media(max-width:600px){#authView .authcard{padding-top:34px;padding-bottom:calc(24px + env(safe-area-inset-bottom))}#authView h1{margin-top:46px}#authView #authSubtitle{margin-bottom:36px}#authView #authSubmit{margin-top:auto}}
+
 </style>
 
 /* ChatWave mobile-first messaging refresh: familiar, clean, and original */
@@ -61,13 +84,13 @@ html{background:#08090b}body{background:radial-gradient(ellipse at 10% 0%,rgba(3
 <div id="authView" class="authwrap">
   <div class="authcard glass">
     <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2 1-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11h8M8 14h5"/></svg></div>ChatWave</div>
-    <h1 id="authTitle">Welcome back</h1><p id="authSubtitle">Sign in and pick up where your conversations left off.</p>
+    <h1 id="authTitle">Enter your email</h1><p id="authSubtitle">Use your email to sign in to ChatWave. Your account details stay private.</p>
     <div class="authswitch"><button class="btn" id="showLogin">Sign in</button><button class="btn secondary" id="showSignup">Create account</button></div>
     <form id="authForm">
       <div class="field" id="nameField" hidden><label for="fullName">Your name</label><input id="fullName" autocomplete="name" placeholder="Your display name"></div>
-      <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
-      <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></div>
-      <button class="btn" id="authSubmit" type="submit" style="width:100%">Sign in</button>
+      <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" required placeholder="Enter your email address"></div>
+      <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="Password"></div>
+      <button class="btn" id="authSubmit" type="submit" style="width:100%">Continue to ChatWave</button>
     </form>
     <button class="btn ghost" id="forgotBtn" style="width:100%;margin-top:8px">Forgot password?</button>
     <div id="authMessage" class="note" role="status"></div>
@@ -139,7 +162,7 @@ function initials(s="User"){return s.trim().split(/\s+/).slice(0,2).map(x=>x[0]|
 function avatarHTML(p,name){return `<div class="avatar">${p?.photoURL?`<img src="${safe(p.photoURL)}" alt="">`:safe(initials(name))}</div>`}
 function timeLabel(t){try{return t?.toDate?t.toDate().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}):""}catch{return""}}
 function showAuthMessage(m){$("authMessage").textContent=m}
-function setAuthMode(mode){authMode=mode;const signup=mode==="signup";$("authTitle").textContent=signup?"Create your account":"Welcome back";$("authSubtitle").textContent=signup?"Join ChatWave and start a conversation.":"Sign in and pick up where your conversations left off.";$("nameField").hidden=!signup;$("fullName").required=signup;$("authSubmit").textContent=signup?"Create account":"Sign in";$("forgotBtn").classList.toggle("hidden",signup);$("showSignup").classList.toggle("active",signup);$("showLogin").classList.toggle("active",!signup);showAuthMessage("")}
+function setAuthMode(mode){authMode=mode;const signup=mode==="signup";$("authTitle").textContent=signup?"Create your account":"Enter your email";$("authSubtitle").textContent=signup?"Create your ChatWave account with your email address.":"Use your email to sign in to ChatWave. Your account details stay private.";$("nameField").hidden=!signup;$("fullName").required=signup;$("email").placeholder="Enter your email address";$("password").placeholder=signup?"Create a password (6+ characters)":"Enter your password";$("password").autocomplete=signup?"new-password":"current-password";$("authSubmit").textContent=signup?"Create account":"Continue to ChatWave";$("forgotBtn").classList.toggle("hidden",signup);$("showSignup").classList.toggle("active",signup);$("showLogin").classList.toggle("active",!signup);showAuthMessage("")}
 $("showLogin").onclick=()=>setAuthMode("login");$("showSignup").onclick=()=>setAuthMode("signup");
 async function sendWelcomeEmail(email,name){try{if(!window.emailjs){await new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";s.onload=resolve;s.onerror=reject;document.head.appendChild(s)})}window.emailjs.init({publicKey:EMAILJS_PUBLIC_KEY});await window.emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:email,to_name:name,app_name:"ChatWave",message:`Welcome to ChatWave, ${name}! Your account was created. Please use the verification email sent by Firebase to verify your email address.`});}catch(e){console.warn("EmailJS welcome email not sent:",e)}}
 $("authForm").addEventListener("submit",async e=>{e.preventDefault();$("authSubmit").disabled=true;$("authSubmit").textContent=authMode==="signup"?"Creating account…":"Signing in…";showAuthMessage("");
@@ -154,7 +177,7 @@ try{
    await sendWelcomeEmail(email,name);
    showAuthMessage("Account created. A Firebase verification email has been sent. Check your inbox and spam folder.");
  }else{await signInWithEmailAndPassword(auth,email,password)}
-}catch(err){showAuthMessage(friendlyError(err))}finally{$("authSubmit").disabled=false;$("authSubmit").textContent=authMode==="signup"?"Create account":"Sign in"}});
+}catch(err){showAuthMessage(friendlyError(err))}finally{$("authSubmit").disabled=false;$("authSubmit").textContent=authMode==="signup"?"Create account":"Continue to ChatWave"}});
 function friendlyError(e){const map={"auth/email-already-in-use":"That email already has an account.","auth/invalid-email":"Enter a valid email address.","auth/weak-password":"Use a password with at least 6 characters.","auth/invalid-credential":"Email or password is incorrect.","auth/user-not-found":"No account was found for that email.","auth/network-request-failed":"Network problem. Check your internet and try again.","permission-denied":"Firebase permission denied. Check your Firestore/Storage rules."};return map[e?.code]||e?.message||"Something went wrong. Try again."}
 $("forgotBtn").onclick=async()=>{const email=$("email").value.trim();if(!email)return showAuthMessage("Enter your email address first.");try{await sendPasswordResetEmail(auth,email);showAuthMessage("Password reset email sent. Check your inbox.")}catch(e){showAuthMessage(friendlyError(e))}};
 $("signoutBtn").onclick=async()=>{try{if(currentUser){await rtdbSet(rtdbRef(realtimeDb,`status/${currentUser.uid}`),{state:"offline",lastChanged:rtdbServerTimestamp()});await setDoc(doc(db,"users",currentUser.uid),{isOnline:false,lastSeen:serverTimestamp()},{merge:true})}}catch(e){console.warn(e)}await signOut(auth)};
